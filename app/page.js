@@ -14,13 +14,21 @@ export default function LingoSpacePro() {
   const [isFlipped, setIsFlipped] = useState(false);
   const [bookmarks, setBookmarks] = useState([]);
   const [loading, setLoading] = useState(true);
-  
+  const [stats, setStats] = useState({
+    totalWords: 0,
+    mastered: 0,
+    learning: 0,
+    newWords: 0,
+    accuracy: 0,
+    bookmarks: 0
+  });
+
   // Quiz State
   const [quizData, setQuizData] = useState([]);
   const [quizIndex, setQuizIndex] = useState(0);
   const [quizScore, setQuizScore] = useState(0);
   const [quizAnswered, setQuizAnswered] = useState(false);
-  
+
   // Listen State
   const [listenLang, setListenLang] = useState('en');
   const [listenData, setListenData] = useState([]);
@@ -39,6 +47,39 @@ export default function LingoSpacePro() {
     }
   }, [categoryFilter, searchInput, allData]);
 
+  // Hitung Stats (Hanya di Client-Side)
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const srsData = JSON.parse(localStorage.getItem('lingospace_srs') || '{}');
+      let mastered = 0, learning = 0, newWords = 0;
+      let totalCorrect = 0, totalWrong = 0;
+
+      Object.values(srsData).forEach(srs => {
+        const level = srs.level || 0;
+        if (level >= 4) mastered++;
+        else if (level > 0) learning++;
+        else newWords++;
+        totalCorrect += (srs.correct || 0);
+        totalWrong += (srs.wrong || 0);
+      });
+
+      if (mastered === 0 && learning === 0) newWords = allData.length;
+
+      const accuracy = (totalCorrect + totalWrong) > 0
+        ? Math.round((totalCorrect / (totalCorrect + totalWrong)) * 100)
+        : 0;
+
+      setStats({
+        totalWords: allData.length,
+        mastered,
+        learning,
+        newWords,
+        accuracy,
+        bookmarks: bookmarks.length
+      });
+    }
+  }, [allData, bookmarks]);
+
   const loadData = async () => {
     setLoading(true);
     try {
@@ -46,10 +87,10 @@ export default function LingoSpacePro() {
         fetch('/api/vocabulary'),
         fetch('/api/categories')
       ]);
-      
+
       const vocabData = await vocabRes.json();
       const categoriesData = await categoriesRes.json();
-      
+
       setAllData(vocabData);
       setFilteredData(vocabData);
       setCategories(categoriesData);
@@ -62,28 +103,30 @@ export default function LingoSpacePro() {
 
   const filterData = () => {
     let filtered = [...allData];
-    
+
     if (categoryFilter !== 'all') {
       filtered = filtered.filter(item => item.category === categoryFilter);
     }
-    
+
     if (searchInput.trim()) {
       const search = searchInput.toLowerCase();
-      filtered = filtered.filter(item => 
+      filtered = filtered.filter(item =>
         (item.en && item.en.toLowerCase().includes(search)) ||
         (item.ar && item.ar.includes(search)) ||
         (item.id_lang && item.id_lang.toLowerCase().includes(search))
       );
     }
-    
+
     setFilteredData(filtered);
     setCurrentIndex(0);
   };
 
   const loadBookmarks = () => {
-    const saved = localStorage.getItem('lingospace_bookmarks');
-    if (saved) {
-      setBookmarks(JSON.parse(saved));
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('lingospace_bookmarks');
+      if (saved) {
+        setBookmarks(JSON.parse(saved));
+      }
     }
   };
 
@@ -95,13 +138,13 @@ export default function LingoSpacePro() {
 
   // Flashcard Functions
   const flipCard = () => setIsFlipped(!isFlipped);
-  
+
   const nextCard = () => {
     if (filteredData.length === 0) return;
     setCurrentIndex((prev) => (prev + 1) % filteredData.length);
     setIsFlipped(false);
   };
-  
+
   const prevCard = () => {
     if (filteredData.length === 0) return;
     setCurrentIndex((prev) => (prev - 1 + filteredData.length) % filteredData.length);
@@ -116,39 +159,32 @@ export default function LingoSpacePro() {
       newBookmarks = [...bookmarks, wordId];
     }
     setBookmarks(newBookmarks);
-    localStorage.setItem('lingospace_bookmarks', JSON.stringify(newBookmarks));
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('lingospace_bookmarks', JSON.stringify(newBookmarks));
+    }
   };
 
-  const rateCard = async (isCorrect) => {
+  const rateCard = (isCorrect) => {
     if (filteredData.length === 0) return;
     const item = filteredData[currentIndex];
-    
+
     // Update SRS di LocalStorage
-    const srsData = JSON.parse(localStorage.getItem('lingospace_srs') || '{}');
-    const current = srsData[item.id] || { level: 0, correct: 0, wrong: 0 };
-    
-    if (isCorrect) {
-      current.level = Math.min(current.level + 1, 5);
-      current.correct = (current.correct || 0) + 1;
-    } else {
-      current.level = 0;
-      current.wrong = (current.wrong || 0) + 1;
+    if (typeof window !== 'undefined') {
+      const srsData = JSON.parse(localStorage.getItem('lingospace_srs') || '{}');
+      const current = srsData[item.id] || { level: 0, correct: 0, wrong: 0 };
+
+      if (isCorrect) {
+        current.level = Math.min(current.level + 1, 5);
+        current.correct = (current.correct || 0) + 1;
+      } else {
+        current.level = 0;
+        current.wrong = (current.wrong || 0) + 1;
+      }
+
+      srsData[item.id] = current;
+      localStorage.setItem('lingospace_srs', JSON.stringify(srsData));
     }
-    
-    srsData[item.id] = current;
-    localStorage.setItem('lingospace_srs', JSON.stringify(srsData));
-    
-    // Sync ke API (background)
-    try {
-      await fetch('/api/srs', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ wordId: item.id, isCorrect })
-      });
-    } catch (error) {
-      console.error('Error updating SRS:', error);
-    }
-    
+
     nextCard();
   };
 
@@ -158,10 +194,10 @@ export default function LingoSpacePro() {
       alert('Minimal 4 kosakata diperlukan untuk kuis');
       return;
     }
-    
+
     const shuffled = [...filteredData].sort(() => 0.5 - Math.random());
     const selected = shuffled.slice(0, Math.min(10, shuffled.length));
-    
+
     const quiz = selected.map(item => {
       const others = filteredData.filter(v => v.id !== item.id);
       const wrongOptions = others.sort(() => 0.5 - Math.random()).slice(0, 3);
@@ -169,7 +205,7 @@ export default function LingoSpacePro() {
         { text: item.id_lang, correct: true },
         ...wrongOptions.map(w => ({ text: w.id_lang, correct: false }))
       ].sort(() => 0.5 - Math.random());
-      
+
       return {
         wordId: item.id,
         question: item.en,
@@ -177,7 +213,7 @@ export default function LingoSpacePro() {
         options: options
       };
     });
-    
+
     setQuizData(quiz);
     setQuizIndex(0);
     setQuizScore(0);
@@ -187,14 +223,14 @@ export default function LingoSpacePro() {
   const answerQuiz = (selectedIndex) => {
     if (quizAnswered) return;
     setQuizAnswered(true);
-    
+
     const q = quizData[quizIndex];
     const isCorrect = q.options[selectedIndex].correct;
-    
+
     if (isCorrect) {
       setQuizScore(prev => prev + 1);
     }
-    
+
     setTimeout(() => {
       if (quizIndex < quizData.length - 1) {
         setQuizIndex(prev => prev + 1);
@@ -209,7 +245,7 @@ export default function LingoSpacePro() {
       alert('Minimal 4 kosakata diperlukan');
       return;
     }
-    
+
     const shuffled = [...filteredData].sort(() => 0.5 - Math.random()).slice(0, 4);
     setListenData(shuffled);
     setListenIndex(Math.floor(Math.random() * 4));
@@ -219,7 +255,7 @@ export default function LingoSpacePro() {
   const answerListen = (selectedIndex) => {
     if (listenAnswered) return;
     setListenAnswered(true);
-    
+
     setTimeout(() => {
       setListenIndex(Math.floor(Math.random() * 4));
       setListenAnswered(false);
@@ -229,7 +265,7 @@ export default function LingoSpacePro() {
   // Audio Functions
   const playAudio = (text, lang) => {
     if (!text || text === '-') return;
-    
+
     const url = `https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=${lang}&q=${encodeURIComponent(text)}`;
     const audio = new Audio(url);
     audio.play().catch(() => {
@@ -239,32 +275,6 @@ export default function LingoSpacePro() {
       window.speechSynthesis.speak(utterance);
     });
   };
-
-  // Stats Calculation
-  const getStats = () => {
-    const srsData = JSON.parse(localStorage.getItem('lingospace_srs') || '{}');
-    let mastered = 0, learning = 0, newWords = 0;
-    let totalCorrect = 0, totalWrong = 0;
-    
-    Object.values(srsData).forEach(srs => {
-      const level = srs.level || 0;
-      if (level >= 4) mastered++;
-      else if (level > 0) learning++;
-      else newWords++;
-      totalCorrect += (srs.correct || 0);
-      totalWrong += (srs.wrong || 0);
-    });
-    
-    if (mastered === 0 && learning === 0) newWords = allData.length;
-    
-    const accuracy = (totalCorrect + totalWrong) > 0 
-      ? Math.round((totalCorrect / (totalCorrect + totalWrong)) * 100) 
-      : 0;
-    
-    return { totalWords: allData.length, mastered, learning, newWords, accuracy, bookmarks: bookmarks.length };
-  };
-
-  const stats = getStats();
 
   // Render Functions
   const renderDashboard = () => (
@@ -300,7 +310,7 @@ export default function LingoSpacePro() {
             const total = stats.totalWords || 1;
             const pct = Math.round((values[idx] / total) * 100);
             const colors = ['from-green-400 to-emerald-500', 'from-yellow-400 to-orange-500', 'from-blue-400 to-purple-500'];
-            
+
             return (
               <div key={idx}>
                 <div className="flex justify-between text-sm mb-1">
@@ -338,7 +348,7 @@ export default function LingoSpacePro() {
   const renderFlashcard = () => {
     const item = filteredData[currentIndex] || {};
     const isBookmarked = bookmarks.includes(item.id);
-    
+
     return (
       <div className="animate-fade-in">
         <div className="flex justify-between items-center mb-6 flex-wrap gap-3">
@@ -361,7 +371,7 @@ export default function LingoSpacePro() {
               <h2 className="text-4xl md:text-5xl font-bold text-center">{item.id_lang || '-'}</h2>
               <p className="text-sm mt-8 opacity-60">Tap untuk melihat jawaban</p>
             </div>
-            
+
             {/* Back */}
             <div className="absolute inset-0 backface-hidden bg-gradient-to-br from-pink-600 to-red-600 rounded-2xl flex flex-col items-center justify-center p-8 shadow-2xl rotate-y-180">
               <div className="text-center w-full">
@@ -435,7 +445,7 @@ export default function LingoSpacePro() {
     }
 
     const q = quizData[quizIndex];
-    
+
     return (
       <div className="max-w-2xl mx-auto">
         <div className="glass rounded-2xl p-8 text-center">
@@ -443,14 +453,14 @@ export default function LingoSpacePro() {
             <span className="text-sm text-gray-400">Soal {quizIndex + 1}/{quizData.length}</span>
             <span className="text-sm font-semibold">Skor: <span className="text-green-400">{quizScore}</span></span>
           </div>
-          
+
           <div className="mb-8">
             <p className="text-sm text-gray-400 mb-2">Apa arti dari:</p>
             <h2 className="text-4xl font-bold mb-2">{q.question}</h2>
             {q.questionAr && <p className="text-3xl text-purple-300 mb-4 text-right" dir="rtl">{q.questionAr}</p>}
             <button onClick={() => playAudio(q.question, 'en')} className="speaker-btn px-4 py-2 rounded-full glass text-sm hover:scale-105 transition">🔊 Dengarkan</button>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             {q.options.map((opt, i) => (
               <button
@@ -486,22 +496,22 @@ export default function LingoSpacePro() {
     }
 
     const item = listenData[listenIndex];
-    
+
     return (
       <div className="max-w-2xl mx-auto">
         <div className="glass rounded-2xl p-8 text-center">
           <h2 className="text-2xl font-bold mb-2">🎧 Listen & Learn</h2>
           <p className="text-gray-400 text-sm mb-8">Dengarkan dan tebak artinya</p>
-          
+
           <button onClick={() => playAudio(listenLang === 'en' ? item.en : item.ar, listenLang)} className="big-play-btn mx-auto mb-8 w-32 h-32 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 text-5xl hover:scale-110 transition shadow-2xl">
             🔊
           </button>
-          
+
           <div className="flex gap-2 mb-6 justify-center">
             <button onClick={() => setListenLang('en')} className={`px-4 py-2 rounded-full glass text-sm transition ${listenLang === 'en' ? 'bg-purple-500/40' : ''}`}>English</button>
             <button onClick={() => setListenLang('ar')} className={`px-4 py-2 rounded-full glass text-sm transition ${listenLang === 'ar' ? 'bg-purple-500/40' : ''}`}>العربية</button>
           </div>
-          
+
           <div className="grid grid-cols-2 gap-3">
             {listenData.map((opt, i) => (
               <button
@@ -523,7 +533,7 @@ export default function LingoSpacePro() {
 
   const renderBookmarks = () => {
     const bookmarkedData = allData.filter(item => bookmarks.includes(item.id));
-    
+
     return (
       <div className="animate-fade-in">
         <h2 className="text-2xl font-bold mb-6">⭐ Kosakata Favorit</h2>
@@ -577,6 +587,7 @@ export default function LingoSpacePro() {
         .rotate-y-180 { transform: rotateY(180deg); }
         .animate-fade-in { animation: fadeIn 0.5s ease-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .glass { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
       `}</style>
 
       {/* Navigation */}
@@ -589,7 +600,7 @@ export default function LingoSpacePro() {
               <p className="text-xs text-gray-400">Premium Learning</p>
             </div>
           </div>
-          <button onClick={() => { localStorage.clear(); alert('Cache dibersihkan!'); }} className="px-3 py-2 rounded-full glass text-xs hover:scale-105 transition">
+          <button onClick={() => { if (typeof window !== 'undefined') { localStorage.clear(); alert('Cache dibersihkan!'); } }} className="px-3 py-2 rounded-full glass text-xs hover:scale-105 transition">
             🗑️ Cache
           </button>
         </div>

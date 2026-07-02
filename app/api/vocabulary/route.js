@@ -15,13 +15,13 @@ export async function GET(request) {
 
     const rows = response.data.values;
     if (!rows || rows.length === 0) {
-      return NextResponse.json({ error: 'Data tidak ditemukan' }, { status: 404 });
+      return NextResponse.json([]);
     }
 
     rows.shift(); // Hapus header
 
     let vocabList = rows.map((row) => ({
-      id: row[0],
+      id: row[0] || '',
       en: row[1] || '',
       ar: row[2] || '',
       id_lang: row[3] || '',
@@ -30,15 +30,18 @@ export async function GET(request) {
       category: row[6] || 'Umum',
     }));
 
+    // Filter category
     if (category && category !== 'all') {
       vocabList = vocabList.filter((item) => item.category === category);
     }
 
+    // Filter search
     if (search) {
       const searchLower = search.toLowerCase();
       vocabList = vocabList.filter(
         (item) =>
           item.en.toLowerCase().includes(searchLower) ||
+          item.ar.includes(search) ||
           item.id_lang.toLowerCase().includes(searchLower)
       );
     }
