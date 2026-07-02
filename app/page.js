@@ -2,8 +2,15 @@
 
 import { useState, useEffect } from 'react';
 
+// PENTING: Force dynamic rendering untuk menghindari prerendering
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export default function LingoSpacePro() {
-  // State Management - SEMUA diinisialisasi dengan nilai default, BUKAN localStorage
+  // State untuk tracking apakah sudah mounted di client
+  const [mounted, setMounted] = useState(false);
+  
+  // State Management
   const [currentMode, setCurrentMode] = useState('dashboard');
   const [allData, setAllData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
@@ -35,8 +42,15 @@ export default function LingoSpacePro() {
   const [listenIndex, setListenIndex] = useState(0);
   const [listenAnswered, setListenAnswered] = useState(false);
 
+  // PENTING: Set mounted ke true HANYA di client-side
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   // Load Data dari API - HANYA di client-side
   useEffect(() => {
+    if (!mounted) return;
+    
     const loadData = async () => {
       setLoading(true);
       try {
@@ -58,48 +72,50 @@ export default function LingoSpacePro() {
     };
 
     loadData();
-  }, []);
+  }, [mounted]);
 
   // Load Bookmarks dari localStorage - HANYA di client-side
   useEffect(() => {
-    if (typeof window !== 'undefined') {
+    if (!mounted) return;
+    
+    try {
       const saved = localStorage.getItem('lingospace_bookmarks');
       if (saved) {
-        try {
-          setBookmarks(JSON.parse(saved));
-        } catch (e) {
-          console.error('Error parsing bookmarks:', e);
-        }
+        setBookmarks(JSON.parse(saved));
       }
+    } catch (e) {
+      console.error('Error parsing bookmarks:', e);
     }
-  }, []);
+  }, [mounted]);
 
   // Filter Data
   useEffect(() => {
-    if (allData.length > 0) {
-      let filtered = [...allData];
+    if (!mounted || allData.length === 0) return;
+    
+    let filtered = [...allData];
 
-      if (categoryFilter !== 'all') {
-        filtered = filtered.filter(item => item.category === categoryFilter);
-      }
-
-      if (searchInput.trim()) {
-        const search = searchInput.toLowerCase();
-        filtered = filtered.filter(item =>
-          (item.en && item.en.toLowerCase().includes(search)) ||
-          (item.ar && item.ar.includes(search)) ||
-          (item.id_lang && item.id_lang.toLowerCase().includes(search))
-        );
-      }
-
-      setFilteredData(filtered);
-      setCurrentIndex(0);
+    if (categoryFilter !== 'all') {
+      filtered = filtered.filter(item => item.category === categoryFilter);
     }
-  }, [categoryFilter, searchInput, allData]);
+
+    if (searchInput.trim()) {
+      const search = searchInput.toLowerCase();
+      filtered = filtered.filter(item =>
+        (item.en && item.en.toLowerCase().includes(search)) ||
+        (item.ar && item.ar.includes(search)) ||
+        (item.id_lang && item.id_lang.toLowerCase().includes(search))
+      );
+    }
+
+    setFilteredData(filtered);
+    setCurrentIndex(0);
+  }, [categoryFilter, searchInput, allData, mounted]);
 
   // Hitung Stats - HANYA di client-side
   useEffect(() => {
-    if (typeof window !== 'undefined' && allData.length > 0) {
+    if (!mounted || allData.length === 0) return;
+    
+    try {
       const srsData = JSON.parse(localStorage.getItem('lingospace_srs') || '{}');
       let mastered = 0, learning = 0, newWords = 0;
       let totalCorrect = 0, totalWrong = 0;
@@ -127,8 +143,10 @@ export default function LingoSpacePro() {
         accuracy,
         bookmarks: bookmarks.length
       });
+    } catch (e) {
+      console.error('Error calculating stats:', e);
     }
-  }, [allData, bookmarks]);
+  }, [allData, bookmarks, mounted]);
 
   const switchMode = (mode) => {
     setCurrentMode(mode);
@@ -159,8 +177,14 @@ export default function LingoSpacePro() {
       newBookmarks = [...bookmarks, wordId];
     }
     setBookmarks(newBookmarks);
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('lingospace_bookmarks', JSON.stringify(newBookmarks));
+    
+    // PENTING: Simpan ke localStorage dengan try-catch
+    try {
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('lingospace_bookmarks', JSON.stringify(newBookmarks));
+      }
+    } catch (e) {
+      console.error('Error saving bookmarks:', e);
     }
   };
 
@@ -168,20 +192,25 @@ export default function LingoSpacePro() {
     if (filteredData.length === 0) return;
     const item = filteredData[currentIndex];
 
-    if (typeof window !== 'undefined') {
-      const srsData = JSON.parse(localStorage.getItem('lingospace_srs') || '{}');
-      const current = srsData[item.id] || { level: 0, correct: 0, wrong: 0 };
+    // PENTING: Update localStorage dengan try-catch
+    try {
+      if (typeof window !== 'undefined') {
+        const srsData = JSON.parse(localStorage.getItem('lingospace_srs') || '{}');
+        const current = srsData[item.id] || { level: 0, correct: 0, wrong: 0 };
 
-      if (isCorrect) {
-        current.level = Math.min(current.level + 1, 5);
-        current.correct = (current.correct || 0) + 1;
-      } else {
-        current.level = 0;
-        current.wrong = (current.wrong || 0) + 1;
+        if (isCorrect) {
+          current.level = Math.min(current.level + 1, 5);
+          current.correct = (current.correct || 0) + 1;
+        } else {
+          current.level = 0;
+          current.wrong = (current.wrong || 0) + 1;
+        }
+
+        srsData[item.id] = current;
+        localStorage.setItem('lingospace_srs', JSON.stringify(srsData));
       }
-
-      srsData[item.id] = current;
-      localStorage.setItem('lingospace_srs', JSON.stringify(srsData));
+    } catch (e) {
+      console.error('Error saving SRS data:', e);
     }
 
     nextCard();
@@ -264,7 +293,6 @@ export default function LingoSpacePro() {
   // Audio Functions
   const playAudio = (text, lang) => {
     if (!text || text === '-') return;
-
     if (typeof window === 'undefined') return;
 
     const url = `https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=${lang}&q=${encodeURIComponent(text)}`;
@@ -277,6 +305,18 @@ export default function LingoSpacePro() {
       }
     });
   };
+
+  // PENTING: Jika belum mounted, return loading screen
+  if (!mounted) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-16 h-16 border-4 border-white/20 border-t-purple-500 rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-lg font-semibold">Memuat LingoSpace Pro...</p>
+        </div>
+      </div>
+    );
+  }
 
   // Render Functions
   const renderDashboard = () => (
@@ -598,7 +638,7 @@ export default function LingoSpacePro() {
               <p className="text-xs text-gray-400">Premium Learning</p>
             </div>
           </div>
-          <button onClick={() => { if (typeof window !== 'undefined') { localStorage.clear(); alert('Cache dibersihkan!'); } }} className="px-3 py-2 rounded-full glass text-xs hover:scale-105 transition">
+          <button onClick={() => { try { localStorage.clear(); alert('Cache dibersihkan!'); } catch(e) {} }} className="px-3 py-2 rounded-full glass text-xs hover:scale-105 transition">
             🗑️ Cache
           </button>
         </div>
