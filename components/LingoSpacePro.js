@@ -15,6 +15,8 @@ export default function LingoSpacePro() {
   const [isFlipped, setIsFlipped] = useState(false);
   const [bookmarks, setBookmarks] = useState([]);
   const [loading, setLoading] = useState(true);
+  
+  // Stats State
   const [stats, setStats] = useState({
     totalWords: 0,
     mastered: 0,
@@ -36,12 +38,20 @@ export default function LingoSpacePro() {
   const [listenIndex, setListenIndex] = useState(0);
   const [listenAnswered, setListenAnswered] = useState(false);
 
-  // Set mounted ke true HANYA di client
+  // Roadmap State
+  const [roadmapLang, setRoadmapLang] = useState('English');
+  const [roadmapData, setRoadmapData] = useState([]);
+
+  // Nahwu & English Lessons State
+  const [nahwuLessons, setNahwuLessons] = useState([]);
+  const [englishLessons, setEnglishLessons] = useState([]);
+
+  // Set mounted
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  // Load Data dari API
+  // Load Data
   useEffect(() => {
     if (!mounted) return;
     
@@ -56,9 +66,9 @@ export default function LingoSpacePro() {
         const vocabData = await vocabRes.json();
         const categoriesData = await categoriesRes.json();
 
-        setAllData(vocabData);
-        setFilteredData(vocabData);
-        setCategories(categoriesData);
+        setAllData(vocabData || []);
+        setFilteredData(vocabData || []);
+        setCategories(categoriesData || []);
       } catch (error) {
         console.error('Error loading data:', error);
       }
@@ -66,20 +76,7 @@ export default function LingoSpacePro() {
     };
 
     loadData();
-  }, [mounted]);
-
-  // Load Bookmarks dari localStorage
-  useEffect(() => {
-    if (!mounted) return;
-    
-    try {
-      const saved = localStorage.getItem('lingospace_bookmarks');
-      if (saved) {
-        setBookmarks(JSON.parse(saved));
-      }
-    } catch (e) {
-      console.error('Error parsing bookmarks:', e);
-    }
+    loadBookmarks();
   }, [mounted]);
 
   // Filter Data
@@ -105,7 +102,7 @@ export default function LingoSpacePro() {
     setCurrentIndex(0);
   }, [categoryFilter, searchInput, allData, mounted]);
 
-  // Hitung Stats
+  // Calculate Stats
   useEffect(() => {
     if (!mounted || allData.length === 0) return;
     
@@ -142,13 +139,26 @@ export default function LingoSpacePro() {
     }
   }, [allData, bookmarks, mounted]);
 
+  const loadBookmarks = () => {
+    try {
+      const saved = localStorage.getItem('lingospace_bookmarks');
+      if (saved) {
+        setBookmarks(JSON.parse(saved));
+      }
+    } catch (e) {
+      console.error('Error loading bookmarks:', e);
+    }
+  };
+
   const switchMode = (mode) => {
     setCurrentMode(mode);
     setCurrentIndex(0);
     setIsFlipped(false);
   };
 
-  const flipCard = () => setIsFlipped(!isFlipped);
+  const flipCard = () => {
+    setIsFlipped(!isFlipped);
+  };
 
   const nextCard = () => {
     if (filteredData.length === 0) return;
@@ -170,26 +180,34 @@ export default function LingoSpacePro() {
       newBookmarks = [...bookmarks, wordId];
     }
     setBookmarks(newBookmarks);
-    localStorage.setItem('lingospace_bookmarks', JSON.stringify(newBookmarks));
+    try {
+      localStorage.setItem('lingospace_bookmarks', JSON.stringify(newBookmarks));
+    } catch (e) {
+      console.error('Error saving bookmarks:', e);
+    }
   };
 
   const rateCard = (isCorrect) => {
     if (filteredData.length === 0) return;
     const item = filteredData[currentIndex];
 
-    const srsData = JSON.parse(localStorage.getItem('lingospace_srs') || '{}');
-    const current = srsData[item.id] || { level: 0, correct: 0, wrong: 0 };
+    try {
+      const srsData = JSON.parse(localStorage.getItem('lingospace_srs') || '{}');
+      const current = srsData[item.id] || { level: 0, correct: 0, wrong: 0 };
 
-    if (isCorrect) {
-      current.level = Math.min(current.level + 1, 5);
-      current.correct = (current.correct || 0) + 1;
-    } else {
-      current.level = 0;
-      current.wrong = (current.wrong || 0) + 1;
+      if (isCorrect) {
+        current.level = Math.min(current.level + 1, 5);
+        current.correct = (current.correct || 0) + 1;
+      } else {
+        current.level = 0;
+        current.wrong = (current.wrong || 0) + 1;
+      }
+
+      srsData[item.id] = current;
+      localStorage.setItem('lingospace_srs', JSON.stringify(srsData));
+    } catch (e) {
+      console.error('Error saving SRS:', e);
     }
-
-    srsData[item.id] = current;
-    localStorage.setItem('lingospace_srs', JSON.stringify(srsData));
 
     nextCard();
   };
@@ -280,37 +298,26 @@ export default function LingoSpacePro() {
     });
   };
 
-  // Jika belum mounted, return loading
-  if (!mounted) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center justify-center">
-        <div className="text-center">
-          <div className="w-16 h-16 border-4 border-white/20 border-t-purple-500 rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-lg font-semibold text-white">Memuat LingoSpace Pro...</p>
-        </div>
-      </div>
-    );
-  }
-
+  // Render Functions
   const renderDashboard = () => (
     <div className="animate-fade-in">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-        <div className="glass rounded-2xl p-6 hover:scale-105 transition">
+        <div className="glass rounded-2xl p-6 hover:scale-105 transition-transform">
           <div className="text-3xl mb-2">📚</div>
           <div className="text-3xl font-bold">{stats.totalWords}</div>
           <div className="text-sm text-gray-400">Total Kosakata</div>
         </div>
-        <div className="glass rounded-2xl p-6 hover:scale-105 transition">
+        <div className="glass rounded-2xl p-6 hover:scale-105 transition-transform">
           <div className="text-3xl mb-2">✅</div>
           <div className="text-3xl font-bold text-green-400">{stats.mastered}</div>
           <div className="text-sm text-gray-400">Dikuasai</div>
         </div>
-        <div className="glass rounded-2xl p-6 hover:scale-105 transition">
+        <div className="glass rounded-2xl p-6 hover:scale-105 transition-transform">
           <div className="text-3xl mb-2">📖</div>
           <div className="text-3xl font-bold text-yellow-400">{stats.learning}</div>
           <div className="text-sm text-gray-400">Sedang Dipelajari</div>
         </div>
-        <div className="glass rounded-2xl p-6 hover:scale-105 transition">
+        <div className="glass rounded-2xl p-6 hover:scale-105 transition-transform">
           <div className="text-3xl mb-2">🎯</div>
           <div className="text-3xl font-bold text-purple-400">{stats.accuracy}%</div>
           <div className="text-sm text-gray-400">Akurasi</div>
@@ -333,7 +340,7 @@ export default function LingoSpacePro() {
                   <span>{pct}%</span>
                 </div>
                 <div className="h-3 bg-gray-700 rounded-full overflow-hidden">
-                  <div className={`h-full bg-gradient-to-r ${colors[idx]} transition-all`} style={{ width: `${pct}%` }}></div>
+                  <div className={`h-full bg-gradient-to-r ${colors[idx]} transition-all duration-500`} style={{ width: `${pct}%` }}></div>
                 </div>
               </div>
             );
@@ -350,7 +357,7 @@ export default function LingoSpacePro() {
             { icon: '🎯', name: 'Tepat', req: stats.accuracy >= 80 },
             { icon: '⭐', name: 'Kolektor', req: stats.bookmarks >= 5 }
           ].map((ach, idx) => (
-            <div key={idx} className={`p-4 rounded-xl border ${ach.req ? 'bg-gradient-to-br from-yellow-500/20 to-orange-500/20 border-yellow-500/30' : 'glass opacity-40'}`}>
+            <div key={idx} className={`p-4 rounded-xl border transition-all ${ach.req ? 'bg-gradient-to-br from-yellow-500/20 to-orange-500/20 border-yellow-500/30' : 'glass opacity-40'}`}>
               <div className="text-3xl mb-2">{ach.icon}</div>
               <div className="font-semibold text-sm">{ach.name}</div>
             </div>
@@ -372,13 +379,13 @@ export default function LingoSpacePro() {
             <p className="text-gray-400 text-sm">Klik kartu untuk membalik</p>
           </div>
           <div className="flex items-center gap-3">
-            <button onClick={prevCard} className="p-3 rounded-full glass hover:scale-110 transition">←</button>
+            <button onClick={prevCard} className="p-3 rounded-full glass hover:scale-110 transition-transform">←</button>
             <span className="text-sm font-semibold">{currentIndex + 1} / {filteredData.length}</span>
-            <button onClick={nextCard} className="p-3 rounded-full glass hover:scale-110 transition">→</button>
+            <button onClick={nextCard} className="p-3 rounded-full glass hover:scale-110 transition-transform">→</button>
           </div>
         </div>
 
-        <div className="card-container perspective-1000 w-full max-w-2xl mx-auto h-96 cursor-pointer" onClick={flipCard}>
+        <div className="perspective-1000 w-full max-w-2xl mx-auto h-96 cursor-pointer" onClick={flipCard}>
           <div className={`relative w-full h-full transition-transform duration-600 transform-style-3d ${isFlipped ? 'rotate-y-180' : ''}`}>
             <div className="absolute inset-0 backface-hidden bg-gradient-to-br from-purple-600 to-pink-600 rounded-2xl flex flex-col items-center justify-center p-8 shadow-2xl">
               <p className="text-sm uppercase tracking-widest mb-4 opacity-80">Bahasa Indonesia</p>
@@ -399,16 +406,16 @@ export default function LingoSpacePro() {
         </div>
 
         <div className="flex justify-center gap-3 mt-8 flex-wrap">
-          <button onClick={() => playAudio(item.en, 'en')} className="speaker-btn px-5 py-3 rounded-full glass hover:scale-105 transition flex items-center gap-2">🔊 English</button>
-          <button onClick={() => playAudio(item.ar, 'ar')} className="speaker-btn px-5 py-3 rounded-full glass hover:scale-105 transition flex items-center gap-2">🔊 العربية</button>
-          <button onClick={() => toggleBookmark(item.id)} className="px-5 py-3 rounded-full glass hover:scale-105 transition flex items-center gap-2">
+          <button onClick={() => playAudio(item.en, 'en')} className="speaker-btn px-5 py-3 rounded-full glass hover:scale-105 transition-transform flex items-center gap-2">🔊 English</button>
+          <button onClick={() => playAudio(item.ar, 'ar')} className="speaker-btn px-5 py-3 rounded-full glass hover:scale-105 transition-transform flex items-center gap-2">🔊 العربية</button>
+          <button onClick={() => toggleBookmark(item.id)} className="px-5 py-3 rounded-full glass hover:scale-105 transition-transform flex items-center gap-2">
             {isBookmarked ? '⭐ Tersimpan' : '☆ Favorit'}
           </button>
         </div>
 
         <div className="flex justify-center gap-3 mt-4">
-          <button onClick={() => rateCard(false)} className="px-6 py-3 rounded-full bg-red-500/20 border border-red-500/50 hover:bg-red-500/40 transition">😓 Sulit</button>
-          <button onClick={() => rateCard(true)} className="px-6 py-3 rounded-full bg-green-500/20 border border-green-500/50 hover:bg-green-500/40 transition">😊 Mudah</button>
+          <button onClick={() => rateCard(false)} className="px-6 py-3 rounded-full bg-red-500/20 border border-red-500/50 hover:bg-red-500/40 transition-colors">😓 Sulit</button>
+          <button onClick={() => rateCard(true)} className="px-6 py-3 rounded-full bg-green-500/20 border border-green-500/50 hover:bg-green-500/40 transition-colors">😊 Mudah</button>
         </div>
 
         {(item.ex_en || item.ex_ar) && (
@@ -417,8 +424,8 @@ export default function LingoSpacePro() {
             <p className="text-lg mb-2 text-blue-200">{item.ex_en}</p>
             <p className="text-2xl text-pink-200 text-right" dir="rtl">{item.ex_ar}</p>
             <div className="flex justify-center gap-2 mt-4">
-              <button onClick={() => playAudio(item.ex_en, 'en')} className="speaker-btn px-4 py-2 rounded-lg glass text-sm hover:scale-105 transition">🔊 EN</button>
-              <button onClick={() => playAudio(item.ex_ar, 'ar')} className="speaker-btn px-4 py-2 rounded-lg glass text-sm hover:scale-105 transition">🔊 AR</button>
+              <button onClick={() => playAudio(item.ex_en, 'en')} className="speaker-btn px-4 py-2 rounded-lg glass text-sm hover:scale-105 transition-transform">🔊 EN</button>
+              <button onClick={() => playAudio(item.ex_ar, 'ar')} className="speaker-btn px-4 py-2 rounded-lg glass text-sm hover:scale-105 transition-transform">🔊 AR</button>
             </div>
           </div>
         )}
@@ -433,7 +440,7 @@ export default function LingoSpacePro() {
           <div className="glass rounded-2xl p-8">
             <div className="text-6xl mb-4">🎯</div>
             <h2 className="text-2xl font-bold mb-4">Quiz Mode</h2>
-            <button onClick={startQuiz} className="px-6 py-3 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 font-semibold hover:scale-105 transition">
+            <button onClick={startQuiz} className="px-6 py-3 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 font-semibold hover:scale-105 transition-transform">
               🚀 Mulai Kuis
             </button>
           </div>
@@ -449,7 +456,7 @@ export default function LingoSpacePro() {
             <div className="text-6xl mb-4">{pct >= 80 ? '🏆' : pct >= 60 ? '🎉' : '📚'}</div>
             <h2 className="text-3xl font-bold mb-2">{pct >= 80 ? 'Luar Biasa!' : pct >= 60 ? 'Bagus!' : 'Terus Berlatih!'}</h2>
             <p className="text-gray-400 mb-6">Skor Anda: {quizScore}/{quizData.length} ({pct}%)</p>
-            <button onClick={startQuiz} className="px-6 py-3 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 font-semibold hover:scale-105 transition">
+            <button onClick={startQuiz} className="px-6 py-3 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 font-semibold hover:scale-105 transition-transform">
               🔄 Coba Lagi
             </button>
           </div>
@@ -471,7 +478,7 @@ export default function LingoSpacePro() {
             <p className="text-sm text-gray-400 mb-2">Apa arti dari:</p>
             <h2 className="text-4xl font-bold mb-2">{q.question}</h2>
             {q.questionAr && <p className="text-3xl text-purple-300 mb-4 text-right" dir="rtl">{q.questionAr}</p>}
-            <button onClick={() => playAudio(q.question, 'en')} className="speaker-btn px-4 py-2 rounded-full glass text-sm hover:scale-105 transition">🔊 Dengarkan</button>
+            <button onClick={() => playAudio(q.question, 'en')} className="speaker-btn px-4 py-2 rounded-full glass text-sm hover:scale-105 transition-transform">🔊 Dengarkan</button>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -480,9 +487,9 @@ export default function LingoSpacePro() {
                 key={i}
                 onClick={() => answerQuiz(i)}
                 disabled={quizAnswered}
-                className={`p-4 rounded-xl glass hover:scale-105 transition text-left font-medium ${
-                  quizAnswered && opt.correct ? 'bg-green-500/40 border-green-500' : ''
-                } ${quizAnswered && !opt.correct && i === q.options.findIndex(o => o.correct) ? 'bg-red-500/40 border-red-500' : ''}`}
+                className={`p-4 rounded-xl glass hover:scale-105 transition-transform text-left font-medium ${
+                  quizAnswered && opt.correct ? 'bg-green-500/40 border-2 border-green-500' : ''
+                } ${quizAnswered && !opt.correct && i === q.options.findIndex(o => o.correct) ? 'bg-red-500/40 border-2 border-red-500' : ''}`}
               >
                 {String.fromCharCode(65 + i)}. {opt.text}
               </button>
@@ -500,7 +507,7 @@ export default function LingoSpacePro() {
           <div className="glass rounded-2xl p-8">
             <h2 className="text-2xl font-bold mb-2">🎧 Listen & Learn</h2>
             <p className="text-gray-400 text-sm mb-8">Dengarkan dan tebak artinya</p>
-            <button onClick={startListen} className="px-6 py-3 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 font-semibold hover:scale-105 transition">
+            <button onClick={startListen} className="px-6 py-3 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 font-semibold hover:scale-105 transition-transform">
               🎧 Mulai
             </button>
           </div>
@@ -516,13 +523,13 @@ export default function LingoSpacePro() {
           <h2 className="text-2xl font-bold mb-2">🎧 Listen & Learn</h2>
           <p className="text-gray-400 text-sm mb-8">Dengarkan dan tebak artinya</p>
 
-          <button onClick={() => playAudio(listenLang === 'en' ? item.en : item.ar, listenLang)} className="big-play-btn mx-auto mb-8 w-32 h-32 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 text-5xl hover:scale-110 transition shadow-2xl">
+          <button onClick={() => playAudio(listenLang === 'en' ? item.en : item.ar, listenLang)} className="big-play-btn mx-auto mb-8 w-32 h-32 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 text-5xl hover:scale-110 transition-transform shadow-2xl">
             🔊
           </button>
 
           <div className="flex gap-2 mb-6 justify-center">
-            <button onClick={() => setListenLang('en')} className={`px-4 py-2 rounded-full glass text-sm transition ${listenLang === 'en' ? 'bg-purple-500/40' : ''}`}>English</button>
-            <button onClick={() => setListenLang('ar')} className={`px-4 py-2 rounded-full glass text-sm transition ${listenLang === 'ar' ? 'bg-purple-500/40' : ''}`}>العربية</button>
+            <button onClick={() => setListenLang('en')} className={`px-4 py-2 rounded-full glass text-sm transition-all ${listenLang === 'en' ? 'bg-purple-500/40' : ''}`}>English</button>
+            <button onClick={() => setListenLang('ar')} className={`px-4 py-2 rounded-full glass text-sm transition-all ${listenLang === 'ar' ? 'bg-purple-500/40' : ''}`}>العربية</button>
           </div>
 
           <div className="grid grid-cols-2 gap-3">
@@ -531,7 +538,7 @@ export default function LingoSpacePro() {
                 key={i}
                 onClick={() => answerListen(i)}
                 disabled={listenAnswered}
-                className={`p-4 rounded-xl glass hover:scale-105 transition font-medium ${
+                className={`p-4 rounded-xl glass hover:scale-105 transition-transform font-medium ${
                   listenAnswered && i === listenIndex ? 'bg-green-500/40' : ''
                 }`}
               >
@@ -559,17 +566,17 @@ export default function LingoSpacePro() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {bookmarkedData.map((item) => (
-              <div key={item.id} className="glass rounded-2xl p-6 hover:scale-105 transition">
+              <div key={item.id} className="glass rounded-2xl p-6 hover:scale-105 transition-transform">
                 <div className="flex justify-between items-start mb-3">
                   <span className="text-xs px-2 py-1 rounded-full bg-purple-500/20 text-purple-300">{item.category}</span>
-                  <button onClick={() => toggleBookmark(item.id)} className="text-yellow-400 hover:scale-110">⭐</button>
+                  <button onClick={() => toggleBookmark(item.id)} className="text-yellow-400 hover:scale-110 transition-transform">⭐</button>
                 </div>
                 <h3 className="text-xl font-bold mb-1">{item.en}</h3>
                 <p className="text-2xl text-purple-300 mb-2 text-right" dir="rtl">{item.ar}</p>
                 <p className="text-gray-400 text-sm">{item.id_lang}</p>
                 <div className="flex gap-2 mt-4">
-                  <button onClick={() => playAudio(item.en, 'en')} className="flex-1 py-2 rounded-lg glass text-sm hover:scale-105 transition">🔊 EN</button>
-                  <button onClick={() => playAudio(item.ar, 'ar')} className="flex-1 py-2 rounded-lg glass text-sm hover:scale-105 transition">🔊 AR</button>
+                  <button onClick={() => playAudio(item.en, 'en')} className="flex-1 py-2 rounded-lg glass text-sm hover:scale-105 transition-transform">🔊 EN</button>
+                  <button onClick={() => playAudio(item.ar, 'ar')} className="flex-1 py-2 rounded-lg glass text-sm hover:scale-105 transition-transform">🔊 AR</button>
                 </div>
               </div>
             ))}
@@ -579,7 +586,56 @@ export default function LingoSpacePro() {
     );
   };
 
-  if (loading) {
+  const renderRoadmap = () => (
+    <div className="animate-fade-in text-center py-12">
+      <div className="text-6xl mb-4">🗺️</div>
+      <h2 className="text-2xl font-bold mb-4">Roadmap Pembelajaran</h2>
+      <p className="text-gray-400 mb-8">Fitur roadmap akan segera hadir!</p>
+      <div className="max-w-2xl mx-auto glass rounded-2xl p-6">
+        <h3 className="font-semibold mb-4">Pilih Bahasa:</h3>
+        <div className="flex gap-4 justify-center">
+          <button 
+            onClick={() => setRoadmapLang('English')}
+            className={`px-6 py-3 rounded-full font-semibold transition-all ${roadmapLang === 'English' ? 'bg-purple-500 text-white' : 'glass hover:scale-105'}`}
+          >
+            🇬🇧 English
+          </button>
+          <button 
+            onClick={() => setRoadmapLang('Arabic')}
+            className={`px-6 py-3 rounded-full font-semibold transition-all ${roadmapLang === 'Arabic' ? 'bg-purple-500 text-white' : 'glass hover:scale-105'}`}
+          >
+            🇸🇦 Arabic
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+
+  const renderNahwu = () => (
+    <div className="animate-fade-in text-center py-12">
+      <div className="text-6xl mb-4">📖</div>
+      <h2 className="text-2xl font-bold mb-4">Belajar Nahwu</h2>
+      <p className="text-gray-400 mb-8">Pelajari tata bahasa Arab secara sistematis</p>
+      <div className="max-w-2xl mx-auto glass rounded-2xl p-6">
+        <p className="text-lg">Fitur ini akan segera hadir!</p>
+        <p className="text-sm text-gray-400 mt-2">Anda akan belajar nahwu dari dasar hingga mahir</p>
+      </div>
+    </div>
+  );
+
+  const renderEnglish = () => (
+    <div className="animate-fade-in text-center py-12">
+      <div className="text-6xl mb-4">📚</div>
+      <h2 className="text-2xl font-bold mb-4">Belajar Bahasa Inggris</h2>
+      <p className="text-gray-400 mb-8">Pelajari grammar dan kosakata Inggris secara sistematis</p>
+      <div className="max-w-2xl mx-auto glass rounded-2xl p-6">
+        <p className="text-lg">Fitur ini akan segera hadir!</p>
+        <p className="text-sm text-gray-400 mt-2">Dari level pemula hingga advanced</p>
+      </div>
+    </div>
+  );
+
+  if (!mounted || loading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center justify-center">
         <div className="text-center">
@@ -611,7 +667,7 @@ export default function LingoSpacePro() {
               <p className="text-xs text-gray-400">Premium Learning</p>
             </div>
           </div>
-          <button onClick={() => { localStorage.clear(); alert('Cache dibersihkan!'); }} className="px-3 py-2 rounded-full glass text-xs hover:scale-105 transition">
+          <button onClick={() => { try { localStorage.clear(); alert('Cache dibersihkan!'); } catch(e) {} }} className="px-3 py-2 rounded-full glass text-xs hover:scale-105 transition-transform">
             🗑️ Cache
           </button>
         </div>
@@ -624,12 +680,15 @@ export default function LingoSpacePro() {
             { id: 'flashcard', label: '🎴 Flashcard' },
             { id: 'quiz', label: '🎯 Quiz' },
             { id: 'listen', label: '🎧 Listen' },
-            { id: 'bookmarks', label: '⭐ Favorit' }
+            { id: 'bookmarks', label: '⭐ Favorit' },
+            { id: 'roadmap', label: '🗺️ Roadmap' },
+            { id: 'nahwu', label: '📖 Nahwu' },
+            { id: 'english', label: '📚 English' }
           ].map((mode) => (
             <button
               key={mode.id}
               onClick={() => switchMode(mode.id)}
-              className={`px-5 py-2.5 rounded-full glass text-sm font-medium whitespace-nowrap transition hover:scale-105 ${
+              className={`px-5 py-2.5 rounded-full glass text-sm font-medium whitespace-nowrap transition-all hover:scale-105 ${
                 currentMode === mode.id ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white' : ''
               }`}
             >
@@ -639,7 +698,7 @@ export default function LingoSpacePro() {
         </div>
       </div>
 
-      {currentMode !== 'dashboard' && currentMode !== 'bookmarks' && (
+      {currentMode !== 'dashboard' && currentMode !== 'bookmarks' && currentMode !== 'roadmap' && currentMode !== 'nahwu' && currentMode !== 'english' && (
         <div className="max-w-7xl mx-auto px-6 mt-4">
           <div className="flex flex-wrap gap-3">
             <select
@@ -669,6 +728,9 @@ export default function LingoSpacePro() {
         {currentMode === 'quiz' && renderQuiz()}
         {currentMode === 'listen' && renderListen()}
         {currentMode === 'bookmarks' && renderBookmarks()}
+        {currentMode === 'roadmap' && renderRoadmap()}
+        {currentMode === 'nahwu' && renderNahwu()}
+        {currentMode === 'english' && renderEnglish()}
       </main>
     </div>
   );
