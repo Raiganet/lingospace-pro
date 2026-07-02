@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 
 export default function LingoSpacePro() {
-  // State Management
+  // State Management - SEMUA diinisialisasi dengan nilai default, BUKAN localStorage
   const [currentMode, setCurrentMode] = useState('dashboard');
   const [allData, setAllData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
@@ -35,21 +35,71 @@ export default function LingoSpacePro() {
   const [listenIndex, setListenIndex] = useState(0);
   const [listenAnswered, setListenAnswered] = useState(false);
 
-  // Load Data dari API
+  // Load Data dari API - HANYA di client-side
   useEffect(() => {
+    const loadData = async () => {
+      setLoading(true);
+      try {
+        const [vocabRes, categoriesRes] = await Promise.all([
+          fetch('/api/vocabulary'),
+          fetch('/api/categories')
+        ]);
+
+        const vocabData = await vocabRes.json();
+        const categoriesData = await categoriesRes.json();
+
+        setAllData(vocabData);
+        setFilteredData(vocabData);
+        setCategories(categoriesData);
+      } catch (error) {
+        console.error('Error loading data:', error);
+      }
+      setLoading(false);
+    };
+
     loadData();
-    loadBookmarks();
   }, []);
 
+  // Load Bookmarks dari localStorage - HANYA di client-side
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('lingospace_bookmarks');
+      if (saved) {
+        try {
+          setBookmarks(JSON.parse(saved));
+        } catch (e) {
+          console.error('Error parsing bookmarks:', e);
+        }
+      }
+    }
+  }, []);
+
+  // Filter Data
   useEffect(() => {
     if (allData.length > 0) {
-      filterData();
+      let filtered = [...allData];
+
+      if (categoryFilter !== 'all') {
+        filtered = filtered.filter(item => item.category === categoryFilter);
+      }
+
+      if (searchInput.trim()) {
+        const search = searchInput.toLowerCase();
+        filtered = filtered.filter(item =>
+          (item.en && item.en.toLowerCase().includes(search)) ||
+          (item.ar && item.ar.includes(search)) ||
+          (item.id_lang && item.id_lang.toLowerCase().includes(search))
+        );
+      }
+
+      setFilteredData(filtered);
+      setCurrentIndex(0);
     }
   }, [categoryFilter, searchInput, allData]);
 
-  // Hitung Stats (Hanya di Client-Side)
+  // Hitung Stats - HANYA di client-side
   useEffect(() => {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== 'undefined' && allData.length > 0) {
       const srsData = JSON.parse(localStorage.getItem('lingospace_srs') || '{}');
       let mastered = 0, learning = 0, newWords = 0;
       let totalCorrect = 0, totalWrong = 0;
@@ -79,56 +129,6 @@ export default function LingoSpacePro() {
       });
     }
   }, [allData, bookmarks]);
-
-  const loadData = async () => {
-    setLoading(true);
-    try {
-      const [vocabRes, categoriesRes] = await Promise.all([
-        fetch('/api/vocabulary'),
-        fetch('/api/categories')
-      ]);
-
-      const vocabData = await vocabRes.json();
-      const categoriesData = await categoriesRes.json();
-
-      setAllData(vocabData);
-      setFilteredData(vocabData);
-      setCategories(categoriesData);
-    } catch (error) {
-      console.error('Error loading data:', error);
-      alert('Error loading data: ' + error.message);
-    }
-    setLoading(false);
-  };
-
-  const filterData = () => {
-    let filtered = [...allData];
-
-    if (categoryFilter !== 'all') {
-      filtered = filtered.filter(item => item.category === categoryFilter);
-    }
-
-    if (searchInput.trim()) {
-      const search = searchInput.toLowerCase();
-      filtered = filtered.filter(item =>
-        (item.en && item.en.toLowerCase().includes(search)) ||
-        (item.ar && item.ar.includes(search)) ||
-        (item.id_lang && item.id_lang.toLowerCase().includes(search))
-      );
-    }
-
-    setFilteredData(filtered);
-    setCurrentIndex(0);
-  };
-
-  const loadBookmarks = () => {
-    if (typeof window !== 'undefined') {
-      const saved = localStorage.getItem('lingospace_bookmarks');
-      if (saved) {
-        setBookmarks(JSON.parse(saved));
-      }
-    }
-  };
 
   const switchMode = (mode) => {
     setCurrentMode(mode);
@@ -168,7 +168,6 @@ export default function LingoSpacePro() {
     if (filteredData.length === 0) return;
     const item = filteredData[currentIndex];
 
-    // Update SRS di LocalStorage
     if (typeof window !== 'undefined') {
       const srsData = JSON.parse(localStorage.getItem('lingospace_srs') || '{}');
       const current = srsData[item.id] || { level: 0, correct: 0, wrong: 0 };
@@ -266,13 +265,16 @@ export default function LingoSpacePro() {
   const playAudio = (text, lang) => {
     if (!text || text === '-') return;
 
+    if (typeof window === 'undefined') return;
+
     const url = `https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=${lang}&q=${encodeURIComponent(text)}`;
     const audio = new Audio(url);
     audio.play().catch(() => {
-      // Fallback ke Web Speech API
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = lang === 'ar' ? 'ar-SA' : lang === 'en' ? 'en-US' : 'id-ID';
-      window.speechSynthesis.speak(utterance);
+      if ('speechSynthesis' in window) {
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = lang === 'ar' ? 'ar-SA' : lang === 'en' ? 'en-US' : 'id-ID';
+        window.speechSynthesis.speak(utterance);
+      }
     });
   };
 
@@ -365,14 +367,12 @@ export default function LingoSpacePro() {
 
         <div className="card-container perspective-1000 w-full max-w-2xl mx-auto h-96 cursor-pointer" onClick={flipCard}>
           <div className={`relative w-full h-full transition-transform duration-600 transform-style-3d ${isFlipped ? 'rotate-y-180' : ''}`}>
-            {/* Front */}
             <div className="absolute inset-0 backface-hidden bg-gradient-to-br from-purple-600 to-pink-600 rounded-2xl flex flex-col items-center justify-center p-8 shadow-2xl">
               <p className="text-sm uppercase tracking-widest mb-4 opacity-80">Bahasa Indonesia</p>
               <h2 className="text-4xl md:text-5xl font-bold text-center">{item.id_lang || '-'}</h2>
               <p className="text-sm mt-8 opacity-60">Tap untuk melihat jawaban</p>
             </div>
 
-            {/* Back */}
             <div className="absolute inset-0 backface-hidden bg-gradient-to-br from-pink-600 to-red-600 rounded-2xl flex flex-col items-center justify-center p-8 shadow-2xl rotate-y-180">
               <div className="text-center w-full">
                 <p className="text-xs uppercase tracking-widest mb-2 opacity-80">English</p>
@@ -579,7 +579,6 @@ export default function LingoSpacePro() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white">
-      {/* Custom CSS for 3D transforms */}
       <style>{`
         .perspective-1000 { perspective: 1000px; }
         .transform-style-3d { transform-style: preserve-3d; }
@@ -590,7 +589,6 @@ export default function LingoSpacePro() {
         .glass { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
       `}</style>
 
-      {/* Navigation */}
       <nav className="glass sticky top-0 z-50 px-6 py-4">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
           <div className="flex items-center gap-3">
@@ -606,7 +604,6 @@ export default function LingoSpacePro() {
         </div>
       </nav>
 
-      {/* Mode Buttons */}
       <div className="max-w-7xl mx-auto px-6 mt-6">
         <div className="flex gap-2 overflow-x-auto pb-2">
           {[
@@ -629,7 +626,6 @@ export default function LingoSpacePro() {
         </div>
       </div>
 
-      {/* Filter Bar */}
       {currentMode !== 'dashboard' && currentMode !== 'bookmarks' && (
         <div className="max-w-7xl mx-auto px-6 mt-4">
           <div className="flex flex-wrap gap-3">
@@ -654,7 +650,6 @@ export default function LingoSpacePro() {
         </div>
       )}
 
-      {/* Main Content */}
       <main className="max-w-7xl mx-auto px-6 py-8">
         {currentMode === 'dashboard' && renderDashboard()}
         {currentMode === 'flashcard' && renderFlashcard()}
