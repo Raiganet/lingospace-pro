@@ -191,7 +191,6 @@ export default function Blog() {
 
   const categories = ['Semua', 'Bahasa Arab', 'Bahasa Inggris', 'Tips Belajar', 'Nahwu'];
 
-  // Filter articles berdasarkan kategori aktif
   const filteredArticles = activeCategory === 'Semua' 
     ? articles 
     : articles.filter(article => article.category === activeCategory);
@@ -199,6 +198,18 @@ export default function Blog() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white py-12">
       <div className="max-w-6xl mx-auto px-6">
+        
+        {/* Tombol Kembali */}
+        <div className="mb-8">
+          <Link 
+            href="/"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full glass text-sm font-semibold hover:scale-105 transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/30 border border-white/10 hover:border-purple-500/50 group"
+          >
+            <span className="transform group-hover:-translate-x-1 transition-transform duration-300">←</span>
+            Kembali ke Beranda
+          </Link>
+        </div>
+
         {/* Header */}
         <div className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
@@ -210,7 +221,7 @@ export default function Blog() {
           </p>
         </div>
 
-        {/* Filter Categories dengan Animasi */}
+        {/* Filter Categories */}
         <div className="flex justify-center gap-3 mb-12 flex-wrap">
           {categories.map((category) => (
             <button
@@ -227,7 +238,7 @@ export default function Blog() {
           ))}
         </div>
 
-        {/* Grid Artikel dengan Animasi */}
+        {/* Grid Artikel */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredArticles.map((article) => (
             <Link 
@@ -236,7 +247,6 @@ export default function Blog() {
               className="group block"
             >
               <div className="glass rounded-2xl p-6 h-full transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-2xl hover:shadow-purple-500/20 border border-white/10 hover:border-purple-500/50">
-                {/* Category Badge */}
                 <div className="flex items-center gap-2 mb-4">
                   <span className={`px-3 py-1 rounded-full text-xs font-semibold transition-all duration-300 ${
                     article.category === 'Bahasa Arab' ? 'bg-green-500/20 text-green-300' :
@@ -249,17 +259,14 @@ export default function Blog() {
                   <span className="text-xs text-gray-400">{article.readTime}</span>
                 </div>
 
-                {/* Title */}
                 <h2 className="text-xl font-bold mb-3 line-clamp-2 group-hover:text-purple-300 transition-colors duration-300">
                   {article.title}
                 </h2>
 
-                {/* Excerpt */}
                 <p className="text-gray-400 text-sm mb-4 line-clamp-3">
                   {article.excerpt}
                 </p>
 
-                {/* Footer */}
                 <div className="flex items-center justify-between text-sm text-gray-500 pt-4 border-t border-white/5">
                   <span>{new Date(article.date).toLocaleDateString('id-ID', { 
                     day: 'numeric', 
@@ -276,7 +283,6 @@ export default function Blog() {
           ))}
         </div>
 
-        {/* Empty State */}
         {filteredArticles.length === 0 && (
           <div className="text-center py-16">
             <div className="text-6xl mb-4">📝</div>
@@ -284,7 +290,6 @@ export default function Blog() {
           </div>
         )}
 
-        {/* Footer Info */}
         <div className="text-center mt-12 pt-8 border-t border-white/10">
           <p className="text-gray-400">
             💡 Klik tombol kategori di atas untuk memfilter artikel
