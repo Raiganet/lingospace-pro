@@ -706,157 +706,289 @@ export default function LingoSpacePro() {
     );
   };
 
-  const renderNahwu = () => {
-    const nahwuTopics = [
-      {
-        title: 'Isim (Kata Benda)',
-        description: 'Pelajari tentang isim, jenis-jenisnya, dan tanda-tandanya',
-        icon: '📖',
-        content: 'Isim adalah kata yang menunjukkan makna benda, orang, tempat, atau konsep. Contoh: كتاب (kitab = buku), معلم (muallim = guru), مسجد (masjid = masjid)'
-      },
-      {
-        title: "Fi'il (Kata Kerja)",
-        description: 'Pelajari fi\'il madhi, mudhari, dan amar',
-        icon: '✍️',
-        content: "Fi'il adalah kata kerja. Fi'il Madhi (lampau): كَتَبَ (kataba = telah menulis), Fi'il Mudhari (sekarang): يَكْتُبُ (yaktubu = sedang menulis), Fi'il Amar (perintah): اُكْتُبْ (uktub = tulislah!)"
-      },
-      {
-        title: 'Huruf (Kata Tugas)',
-        description: 'Pelajari huruf-huruf dalam bahasa Arab',
-        icon: '🔤',
-        content: 'Huruf adalah kata yang tidak memiliki makna sempurna kecuali bersama isim atau fi\'il. Contoh: في (fi = di), على (ala = di atas), من (min = dari)'
-      },
-      {
-        title: 'Jumlah Ismiyah',
-        description: 'Kalimat yang diawali dengan isim',
-        icon: '📝',
-        content: 'Jumlah Ismiyah terdiri dari Mubtada (subjek) dan Khabar (predikat). Contoh: الكتابُ جديدٌ (Al-kitabu jadiidun = Buku itu baru)'
-      },
-      {
-        title: "Jumlah Fi'liyah",
-        description: "Kalimat yang diawali dengan fi'il",
-        icon: '📜',
-        content: "Jumlah Fi'liyah terdiri dari Fi'il (kata kerja), Fa'il (pelaku), dan Maf'ul Bih (objek). Contoh: كَتَبَ الطالبُ الدرسَ (Kataba ath-thalibu ad-darsa = Siswa menulis pelajaran)"
+  const renderEnglish = () => {
+  const englishTopics = [
+    {
+      level: 'Basic',
+      title: 'Parts of Speech',
+      description: 'Noun, Verb, Adjective, Adverb',
+      icon: '📚',
+      content: 'Parts of Speech adalah kelas kata dalam bahasa Inggris.',
+      examples: [
+        { text: 'Book', type: 'Noun', meaning: 'Buku' },
+        { text: 'Read', type: 'Verb', meaning: 'Membaca' },
+        { text: 'Beautiful', type: 'Adjective', meaning: 'Indah' }
+      ]
+    },
+    {
+      level: 'Basic',
+      title: 'Tenses - Present',
+      description: 'Simple Present, Present Continuous',
+      icon: '⏰',
+      content: 'Simple Present untuk kebiasaan, Present Continuous untuk aktivitas sekarang.',
+      examples: [
+        { text: 'I eat breakfast every day', type: 'Simple Present', meaning: 'Saya sarapan setiap hari' },
+        { text: 'She is reading a book', type: 'Present Continuous', meaning: 'Dia sedang membaca buku' }
+      ]
+    },
+    {
+      level: 'Intermediate',
+      title: 'Tenses - Past',
+      description: 'Simple Past, Past Continuous',
+      icon: '⏮️',
+      content: 'Simple Past untuk kejadian lampau, Past Continuous untuk aktivitas yang sedang berlangsung di masa lalu.',
+      examples: [
+        { text: 'I ate breakfast yesterday', type: 'Simple Past', meaning: 'Saya sarapan kemarin' },
+        { text: 'She was reading when I called', type: 'Past Continuous', meaning: 'Dia sedang membaca ketika saya menelepon' }
+      ]
+    },
+    {
+      level: 'Intermediate',
+      title: 'Tenses - Future',
+      description: 'Simple Future, Future Continuous',
+      icon: '⏭️',
+      content: 'Simple Future untuk rencana, Future Continuous untuk aktivitas yang akan sedang berlangsung.',
+      examples: [
+        { text: 'I will eat tomorrow', type: 'Simple Future', meaning: 'Saya akan makan besok' },
+        { text: 'I will be studying at 8 PM', type: 'Future Continuous', meaning: 'Saya akan sedang belajar jam 8 malam' }
+      ]
+    },
+    {
+      level: 'Advanced',
+      title: 'Perfect Tenses',
+      description: 'Present Perfect, Past Perfect',
+      icon: '✅',
+      content: 'Present Perfect untuk pengalaman, Past Perfect untuk kejadian sebelum kejadian lain di masa lalu.',
+      examples: [
+        { text: 'I have eaten', type: 'Present Perfect', meaning: 'Saya sudah makan' },
+        { text: 'I had eaten before she arrived', type: 'Past Perfect', meaning: 'Saya sudah makan sebelum dia tiba' }
+      ]
+    },
+    {
+      level: 'Advanced',
+      title: 'Conditionals',
+      description: 'If clauses dan conditional sentences',
+      icon: '🤔',
+      content: 'Conditional sentences untuk menyatakan pengandaian.',
+      examples: [
+        { text: 'If it rains, I will stay home', type: 'Type 1', meaning: 'Jika hujan, saya akan tinggal di rumah' },
+        { text: 'If I were you, I would study', type: 'Type 2', meaning: 'Jika saya menjadi kamu, saya akan belajar' }
+      ]
+    }
+  ];
+
+  const playEnglishAudio = (text) => {
+    if (!text) return;
+    const url = `https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=en&q=${encodeURIComponent(text)}`;
+    const audio = new Audio(url);
+    audio.play().catch(() => {
+      if ('speechSynthesis' in window) {
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'en-US';
+        window.speechSynthesis.speak(utterance);
       }
-    ];
-
-    return (
-      <div className="animate-fade-in max-w-4xl mx-auto">
-        <div className="text-center mb-8">
-          <h2 className="text-3xl font-bold mb-2">📖 Belajar Nahwu</h2>
-          <p className="text-gray-400">Pelajari tata bahasa Arab secara sistematis</p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {nahwuTopics.map((topic, idx) => (
-            <div 
-              key={idx}
-              onClick={() => setSelectedNahwuTopic(selectedNahwuTopic === idx ? null : idx)}
-              className="glass rounded-2xl p-6 cursor-pointer hover:scale-105 transition-transform"
-            >
-              <div className="text-4xl mb-3">{topic.icon}</div>
-              <h3 className="text-xl font-bold mb-2">{topic.title}</h3>
-              <p className="text-gray-400 text-sm">{topic.description}</p>
-              
-              {selectedNahwuTopic === idx && (
-                <div className="mt-4 pt-4 border-t border-white/10 animate-fade-in">
-                  <p className="text-gray-300">{topic.content}</p>
-                </div>
-              )}
-            </div>
-          ))}
-        </div>
-      </div>
-    );
+    });
   };
+
+  return (
+    <div className="animate-fade-in max-w-6xl mx-auto">
+      <div className="text-center mb-8">
+        <h2 className="text-3xl font-bold mb-2">📚 Belajar Bahasa Inggris</h2>
+        <p className="text-gray-400">Pelajari grammar dan kosakata Inggris secara sistematis</p>
+      </div>
+
+      <div className="space-y-6">
+        {englishTopics.map((topic, idx) => (
+          <div key={idx} className="glass rounded-2xl p-6">
+            <div className="flex items-start gap-4 mb-4">
+              <div className="text-4xl">{topic.icon}</div>
+              <div className="flex-1">
+                <div className="flex items-center gap-3 mb-2">
+                  <span className={`text-xs px-3 py-1 rounded-full font-semibold ${
+                    topic.level === 'Basic' ? 'bg-green-500/20 text-green-300' :
+                    topic.level === 'Intermediate' ? 'bg-yellow-500/20 text-yellow-300' :
+                    'bg-red-500/20 text-red-300'
+                  }`}>
+                    {topic.level}
+                  </span>
+                  <h3 className="text-xl font-bold">{topic.title}</h3>
+                </div>
+                <p className="text-gray-400">{topic.description}</p>
+              </div>
+            </div>
+
+            <div className="mb-4">
+              <p className="text-gray-300">{topic.content}</p>
+            </div>
+
+            {topic.examples && topic.examples.length > 0 && (
+              <div className="space-y-3">
+                <h4 className="text-sm font-semibold text-purple-300 mb-2">Contoh:</h4>
+                {topic.examples.map((ex, exIdx) => (
+                  <div key={exIdx} className="bg-white/5 rounded-lg p-4">
+                    <div className="flex items-center justify-between mb-2">
+                      <p className="text-lg font-semibold flex-1">{ex.text}</p>
+                      <button 
+                        onClick={() => playEnglishAudio(ex.text)}
+                        className="ml-3 px-3 py-1 rounded-full bg-purple-500/20 hover:bg-purple-500/40 transition-colors flex items-center gap-2"
+                      >
+                        🔊
+                      </button>
+                    </div>
+                    <p className="text-sm text-purple-300 mb-1">{ex.type}</p>
+                    <p className="text-sm text-green-300">{ex.meaning}</p>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
 
   const renderEnglish = () => {
-    const englishTopics = [
-      {
-        level: 'Basic',
-        title: 'Parts of Speech',
-        description: 'Noun, Verb, Adjective, Adverb',
-        icon: '📚',
-        content: 'Parts of Speech adalah kelas kata dalam bahasa Inggris: Noun (kata benda), Verb (kata kerja), Adjective (kata sifat), Adverb (kata keterangan)'
-      },
-      {
-        level: 'Basic',
-        title: 'Tenses - Present',
-        description: 'Simple Present, Present Continuous',
-        icon: '⏰',
-        content: 'Simple Present: I eat, She eats. Present Continuous: I am eating, She is eating'
-      },
-      {
-        level: 'Intermediate',
-        title: 'Tenses - Past',
-        description: 'Simple Past, Past Continuous',
-        icon: '⏮️',
-        content: 'Simple Past: I ate, She went. Past Continuous: I was eating, She was going'
-      },
-      {
-        level: 'Intermediate',
-        title: 'Tenses - Future',
-        description: 'Simple Future, Future Continuous',
-        icon: '⏭️',
-        content: 'Simple Future: I will eat, I am going to eat. Future Continuous: I will be eating'
-      },
-      {
-        level: 'Advanced',
-        title: 'Perfect Tenses',
-        description: 'Present Perfect, Past Perfect',
-        icon: '✅',
-        content: 'Present Perfect: I have eaten. Past Perfect: I had eaten'
-      },
-      {
-        level: 'Advanced',
-        title: 'Conditionals',
-        description: 'If clauses dan conditional sentences',
-        icon: '🤔',
-        content: 'Type 1: If it rains, I will stay home. Type 2: If I were you, I would study. Type 3: If I had studied, I would have passed'
+  const englishTopics = [
+    {
+      level: 'Basic',
+      title: 'Parts of Speech',
+      description: 'Noun, Verb, Adjective, Adverb',
+      icon: '📚',
+      content: 'Parts of Speech adalah kelas kata dalam bahasa Inggris.',
+      examples: [
+        { text: 'Book', type: 'Noun', meaning: 'Buku' },
+        { text: 'Read', type: 'Verb', meaning: 'Membaca' },
+        { text: 'Beautiful', type: 'Adjective', meaning: 'Indah' }
+      ]
+    },
+    {
+      level: 'Basic',
+      title: 'Tenses - Present',
+      description: 'Simple Present, Present Continuous',
+      icon: '⏰',
+      content: 'Simple Present untuk kebiasaan, Present Continuous untuk aktivitas sekarang.',
+      examples: [
+        { text: 'I eat breakfast every day', type: 'Simple Present', meaning: 'Saya sarapan setiap hari' },
+        { text: 'She is reading a book', type: 'Present Continuous', meaning: 'Dia sedang membaca buku' }
+      ]
+    },
+    {
+      level: 'Intermediate',
+      title: 'Tenses - Past',
+      description: 'Simple Past, Past Continuous',
+      icon: '⏮️',
+      content: 'Simple Past untuk kejadian lampau, Past Continuous untuk aktivitas yang sedang berlangsung di masa lalu.',
+      examples: [
+        { text: 'I ate breakfast yesterday', type: 'Simple Past', meaning: 'Saya sarapan kemarin' },
+        { text: 'She was reading when I called', type: 'Past Continuous', meaning: 'Dia sedang membaca ketika saya menelepon' }
+      ]
+    },
+    {
+      level: 'Intermediate',
+      title: 'Tenses - Future',
+      description: 'Simple Future, Future Continuous',
+      icon: '⏭️',
+      content: 'Simple Future untuk rencana, Future Continuous untuk aktivitas yang akan sedang berlangsung.',
+      examples: [
+        { text: 'I will eat tomorrow', type: 'Simple Future', meaning: 'Saya akan makan besok' },
+        { text: 'I will be studying at 8 PM', type: 'Future Continuous', meaning: 'Saya akan sedang belajar jam 8 malam' }
+      ]
+    },
+    {
+      level: 'Advanced',
+      title: 'Perfect Tenses',
+      description: 'Present Perfect, Past Perfect',
+      icon: '✅',
+      content: 'Present Perfect untuk pengalaman, Past Perfect untuk kejadian sebelum kejadian lain di masa lalu.',
+      examples: [
+        { text: 'I have eaten', type: 'Present Perfect', meaning: 'Saya sudah makan' },
+        { text: 'I had eaten before she arrived', type: 'Past Perfect', meaning: 'Saya sudah makan sebelum dia tiba' }
+      ]
+    },
+    {
+      level: 'Advanced',
+      title: 'Conditionals',
+      description: 'If clauses dan conditional sentences',
+      icon: '🤔',
+      content: 'Conditional sentences untuk menyatakan pengandaian.',
+      examples: [
+        { text: 'If it rains, I will stay home', type: 'Type 1', meaning: 'Jika hujan, saya akan tinggal di rumah' },
+        { text: 'If I were you, I would study', type: 'Type 2', meaning: 'Jika saya menjadi kamu, saya akan belajar' }
+      ]
+    }
+  ];
+
+  const playEnglishAudio = (text) => {
+    if (!text) return;
+    const url = `https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=en&q=${encodeURIComponent(text)}`;
+    const audio = new Audio(url);
+    audio.play().catch(() => {
+      if ('speechSynthesis' in window) {
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'en-US';
+        window.speechSynthesis.speak(utterance);
       }
-    ];
-
-    return (
-      <div className="animate-fade-in max-w-4xl mx-auto">
-        <div className="text-center mb-8">
-          <h2 className="text-3xl font-bold mb-2">📚 Belajar Bahasa Inggris</h2>
-          <p className="text-gray-400">Pelajari grammar dan kosakata Inggris secara sistematis</p>
-        </div>
-
-        <div className="space-y-4">
-          {englishTopics.map((topic, idx) => (
-            <div key={idx} className="glass rounded-2xl p-6">
-              <div 
-                onClick={() => setSelectedEnglishTopic(selectedEnglishTopic === idx ? null : idx)}
-                className="cursor-pointer flex items-start gap-4"
-              >
-                <div className="text-4xl">{topic.icon}</div>
-                <div className="flex-1">
-                  <div className="flex items-center gap-3 mb-2">
-                    <span className={`text-xs px-2 py-1 rounded-full ${
-                      topic.level === 'Basic' ? 'bg-green-500/20 text-green-300' :
-                      topic.level === 'Intermediate' ? 'bg-yellow-500/20 text-yellow-300' :
-                      'bg-red-500/20 text-red-300'
-                    }`}>
-                      {topic.level}
-                    </span>
-                    <h3 className="text-xl font-bold">{topic.title}</h3>
-                  </div>
-                  <p className="text-gray-400">{topic.description}</p>
-                </div>
-              </div>
-              
-              {selectedEnglishTopic === idx && (
-                <div className="mt-4 pt-4 border-t border-white/10 animate-fade-in">
-                  <p className="text-gray-300">{topic.content}</p>
-                </div>
-              )}
-            </div>
-          ))}
-        </div>
-      </div>
-    );
+    });
   };
+
+  return (
+    <div className="animate-fade-in max-w-6xl mx-auto">
+      <div className="text-center mb-8">
+        <h2 className="text-3xl font-bold mb-2">📚 Belajar Bahasa Inggris</h2>
+        <p className="text-gray-400">Pelajari grammar dan kosakata Inggris secara sistematis</p>
+      </div>
+
+      <div className="space-y-6">
+        {englishTopics.map((topic, idx) => (
+          <div key={idx} className="glass rounded-2xl p-6">
+            <div className="flex items-start gap-4 mb-4">
+              <div className="text-4xl">{topic.icon}</div>
+              <div className="flex-1">
+                <div className="flex items-center gap-3 mb-2">
+                  <span className={`text-xs px-3 py-1 rounded-full font-semibold ${
+                    topic.level === 'Basic' ? 'bg-green-500/20 text-green-300' :
+                    topic.level === 'Intermediate' ? 'bg-yellow-500/20 text-yellow-300' :
+                    'bg-red-500/20 text-red-300'
+                  }`}>
+                    {topic.level}
+                  </span>
+                  <h3 className="text-xl font-bold">{topic.title}</h3>
+                </div>
+                <p className="text-gray-400">{topic.description}</p>
+              </div>
+            </div>
+
+            <div className="mb-4">
+              <p className="text-gray-300">{topic.content}</p>
+            </div>
+
+            {topic.examples && topic.examples.length > 0 && (
+              <div className="space-y-3">
+                <h4 className="text-sm font-semibold text-purple-300 mb-2">Contoh:</h4>
+                {topic.examples.map((ex, exIdx) => (
+                  <div key={exIdx} className="bg-white/5 rounded-lg p-4">
+                    <div className="flex items-center justify-between mb-2">
+                      <p className="text-lg font-semibold flex-1">{ex.text}</p>
+                      <button 
+                        onClick={() => playEnglishAudio(ex.text)}
+                        className="ml-3 px-3 py-1 rounded-full bg-purple-500/20 hover:bg-purple-500/40 transition-colors flex items-center gap-2"
+                      >
+                        🔊
+                      </button>
+                    </div>
+                    <p className="text-sm text-purple-300 mb-1">{ex.type}</p>
+                    <p className="text-sm text-green-300">{ex.meaning}</p>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
 
   if (!mounted || loading) {
     return (
