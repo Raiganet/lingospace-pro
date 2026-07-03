@@ -53,14 +53,13 @@ export default function LingoSpacePro() {
     setMounted(true);
   }, []);
 
-  // Load Data - Setiap fetch independen agar satu error tidak merusak semua
+  // Load Data
   useEffect(() => {
     if (!mounted) return;
     
     const loadData = async () => {
       setLoading(true);
       
-      // Fetch vocabulary (WAJIB)
       try {
         const vocabRes = await fetch('/api/vocabulary');
         const vocabData = await vocabRes.json();
@@ -72,7 +71,6 @@ export default function LingoSpacePro() {
         setFilteredData([]);
       }
       
-      // Fetch categories
       try {
         const categoriesRes = await fetch('/api/categories');
         const categoriesData = await categoriesRes.json();
@@ -82,7 +80,6 @@ export default function LingoSpacePro() {
         setCategories([]);
       }
       
-      // Fetch english lessons (opsional)
       try {
         const englishRes = await fetch('/api/english-lessons');
         if (englishRes.ok) {
@@ -96,7 +93,6 @@ export default function LingoSpacePro() {
         setEnglishLessons([]);
       }
       
-      // Fetch nahwu lessons (opsional)
       try {
         const nahwuRes = await fetch('/api/nahwu-lessons');
         if (nahwuRes.ok) {
@@ -110,7 +106,6 @@ export default function LingoSpacePro() {
         setNahwuLessons([]);
       }
       
-      // Fetch roadmap (opsional)
       try {
         const roadmapRes = await fetch('/api/roadmap');
         if (roadmapRes.ok) {
@@ -378,7 +373,7 @@ export default function LingoSpacePro() {
     });
   };
 
-  // Render Functions
+  // Render Functions (Dashboard, Flashcard, Quiz, Listen, Bookmarks, Roadmap, Nahwu, English)
   const renderDashboard = () => (
     <div className="animate-fade-in">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
@@ -769,7 +764,6 @@ export default function LingoSpacePro() {
                   </div>
                 </div>
 
-                {/* Expanded Lessons */}
                 {isExpanded && lessons.length > 0 && (
                   <div className="mt-6 pt-6 border-t border-white/10 animate-fade-in">
                     <h4 className="text-lg font-semibold mb-4 text-purple-300">
@@ -790,7 +784,6 @@ export default function LingoSpacePro() {
                             </div>
                           </div>
 
-                          {/* Arabic Content */}
                           {roadmapLang === 'Arabic' && lesson.content_ar && (
                             <div className="mb-3 ml-8">
                               <div className="flex items-center justify-between mb-2">
@@ -805,7 +798,6 @@ export default function LingoSpacePro() {
                             </div>
                           )}
 
-                          {/* English Content */}
                           {roadmapLang === 'English' && lesson.content_en && (
                             <div className="mb-3 ml-8">
                               <div className="flex items-center justify-between mb-2">
@@ -820,7 +812,6 @@ export default function LingoSpacePro() {
                             </div>
                           )}
 
-                          {/* Example */}
                           {(roadmapLang === 'Arabic' ? lesson.example_ar : lesson.example_en) && (
                             <div className="ml-8 bg-white/5 rounded-lg p-3">
                               <p className="text-sm text-gray-400 mb-2">Contoh:</p>
@@ -1022,29 +1013,20 @@ export default function LingoSpacePro() {
       `}</style>
 
       <nav className="glass sticky top-0 z-50 px-6 py-4">
-        <div className="max-w-7xl mx-auto flex justify-between items-center flex-wrap gap-3">
+        <div className="max-w-7xl mx-auto flex justify-between items-center">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center font-bold text-xl">L</div>
             <div>
-              <h1 className="text-xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">LingoSpace Pro</h1>
+              <h1 className="text-xl font-bold">LingoSpace Pro</h1>
               <p className="text-xs text-gray-400">Premium Learning</p>
             </div>
           </div>
           
-          {/* Tombol Blog dan Cache */}
-          <div className="flex gap-2 items-center">
-            <Link href="/blog" className="px-4 py-2 rounded-full glass text-sm font-semibold hover:scale-105 transition-transform flex items-center gap-2">
+          <div className="flex gap-2">
+            <Link href="/blog" className="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 text-sm">
               📝 Blog
             </Link>
-            <button 
-              onClick={() => { 
-                try { 
-                  localStorage.clear(); 
-                  alert('Cache dibersihkan!'); 
-                } catch(e) {} 
-              }} 
-              className="px-3 py-2 rounded-full glass text-xs hover:scale-105 transition-transform"
-            >
+            <button onClick={() => { localStorage.clear(); alert('Cache dibersihkan!'); }} className="px-3 py-2 rounded-full bg-white/10 text-xs">
                Cache
             </button>
           </div>
@@ -1110,6 +1092,48 @@ export default function LingoSpacePro() {
         {currentMode === 'nahwu' && renderNahwu()}
         {currentMode === 'english' && renderEnglish()}
       </main>
+
+      {/* Footer */}
+      <footer className="glass border-t border-white/10 mt-16">
+        <div className="max-w-7xl mx-auto px-6 py-12">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+            <div>
+              <h3 className="font-bold text-lg mb-4">LingoSpace Pro</h3>
+              <p className="text-gray-400 text-sm">Platform pembelajaran bahasa premium untuk Bahasa Arab dan Inggris.</p>
+            </div>
+
+            <div>
+              <h4 className="font-bold mb-4 text-purple-300">Menu</h4>
+              <ul className="space-y-2 text-sm">
+                <li><Link href="/" className="text-gray-400 hover:text-white"> Dashboard</Link></li>
+                <li><Link href="/blog" className="text-gray-400 hover:text-white">📝 Blog</Link></li>
+                <li><Link href="/about" className="text-gray-400 hover:text-white">ℹ️ Tentang</Link></li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 className="font-bold mb-4 text-purple-300">Legal</h4>
+              <ul className="space-y-2 text-sm">
+                <li><Link href="/privacy-policy" className="text-gray-400 hover:text-white">🔒 Privacy Policy</Link></li>
+                <li><Link href="/terms" className="text-gray-400 hover:text-white">📄 Terms of Service</Link></li>
+                <li><Link href="/contact" className="text-gray-400 hover:text-white">📧 Contact</Link></li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 className="font-bold mb-4 text-purple-300">Kontak</h4>
+              <ul className="space-y-2 text-sm text-gray-400">
+                <li>📧 contact@raiganet.my.id</li>
+                <li>🌐 www.raiganet.my.id</li>
+              </ul>
+            </div>
+          </div>
+
+          <div className="border-t border-white/10 pt-6 text-center text-sm text-gray-400">
+            <p>© {new Date().getFullYear()} LingoSpace Pro. All rights reserved.</p>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
