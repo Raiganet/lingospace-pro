@@ -887,7 +887,7 @@ export default function LingoSpacePro() {
                           <button 
                             onClick={() => playArabicAudio(lesson.content_ar)}
                             className="ml-3 px-3 py-1 rounded-full bg-purple-500/20 hover:bg-purple-500/40 transition-colors"
-                          >
+                          > 
                             🔊
                           </button>
                         </div>
