@@ -38,12 +38,13 @@ export default function LingoSpacePro() {
   const [listenIndex, setListenIndex] = useState(0);
   const [listenAnswered, setListenAnswered] = useState(false);
 
-  // Roadmap State
-  const [roadmapLang, setRoadmapLang] = useState('English');
-
-  // Nahwu & English State
+  // Lessons & Roadmap State
+  const [englishLessons, setEnglishLessons] = useState([]);
+  const [nahwuLessons, setNahwuLessons] = useState([]);
+  const [roadmapData, setRoadmapData] = useState([]);
   const [selectedNahwuTopic, setSelectedNahwuTopic] = useState(null);
   const [selectedEnglishTopic, setSelectedEnglishTopic] = useState(null);
+  const [roadmapLang, setRoadmapLang] = useState('English');
 
   // Set mounted
   useEffect(() => {
@@ -57,17 +58,26 @@ export default function LingoSpacePro() {
     const loadData = async () => {
       setLoading(true);
       try {
-        const [vocabRes, categoriesRes] = await Promise.all([
+        const [vocabRes, categoriesRes, englishRes, nahwuRes, roadmapRes] = await Promise.all([
           fetch('/api/vocabulary'),
-          fetch('/api/categories')
+          fetch('/api/categories'),
+          fetch('/api/english-lessons'),
+          fetch('/api/nahwu-lessons'),
+          fetch('/api/roadmap')
         ]);
 
         const vocabData = await vocabRes.json();
         const categoriesData = await categoriesRes.json();
+        const englishData = await englishRes.json();
+        const nahwuData = await nahwuRes.json();
+        const roadmapData = await roadmapRes.json();
 
         setAllData(vocabData || []);
         setFilteredData(vocabData || []);
         setCategories(categoriesData || []);
+        setEnglishLessons(englishData || []);
+        setNahwuLessons(nahwuData || []);
+        setRoadmapData(roadmapData || []);
       } catch (error) {
         console.error('Error loading data:', error);
       }
@@ -299,6 +309,32 @@ export default function LingoSpacePro() {
     });
   };
 
+  const playArabicAudio = (text) => {
+    if (!text) return;
+    const url = `https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=ar&q=${encodeURIComponent(text)}`;
+    const audio = new Audio(url);
+    audio.play().catch(() => {
+      if ('speechSynthesis' in window) {
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'ar-SA';
+        window.speechSynthesis.speak(utterance);
+      }
+    });
+  };
+
+  const playEnglishAudio = (text) => {
+    if (!text) return;
+    const url = `https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=en&q=${encodeURIComponent(text)}`;
+    const audio = new Audio(url);
+    audio.play().catch(() => {
+      if ('speechSynthesis' in window) {
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'en-US';
+        window.speechSynthesis.speak(utterance);
+      }
+    });
+  };
+
   // Render Functions
   const renderDashboard = () => (
     <div className="animate-fade-in">
@@ -425,8 +461,8 @@ export default function LingoSpacePro() {
             <p className="text-lg mb-2 text-blue-200">{item.ex_en}</p>
             <p className="text-2xl text-pink-200 text-right" dir="rtl">{item.ex_ar}</p>
             <div className="flex justify-center gap-2 mt-4">
-              <button onClick={() => playAudio(item.ex_en, 'en')} className="speaker-btn px-4 py-2 rounded-lg glass text-sm hover:scale-105 transition-transform">🔊 EN</button>
-              <button onClick={() => playAudio(item.ex_ar, 'ar')} className="speaker-btn px-4 py-2 rounded-lg glass text-sm hover:scale-105 transition-transform">🔊 AR</button>
+              <button onClick={() => playAudio(item.ex_en, 'en')} className="speaker-btn px-4 py-2 rounded-lg glass text-sm hover:scale-105 transition-transform"> EN</button>
+              <button onClick={() => playAudio(item.ex_ar, 'ar')} className="speaker-btn px-4 py-2 rounded-lg glass text-sm hover:scale-105 transition-transform"> AR</button>
             </div>
           </div>
         )}
@@ -442,7 +478,7 @@ export default function LingoSpacePro() {
             <div className="text-6xl mb-4">🎯</div>
             <h2 className="text-2xl font-bold mb-4">Quiz Mode</h2>
             <button onClick={startQuiz} className="px-6 py-3 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 font-semibold hover:scale-105 transition-transform">
-              🚀 Mulai Kuis
+               Mulai Kuis
             </button>
           </div>
         </div>
@@ -506,7 +542,7 @@ export default function LingoSpacePro() {
       return (
         <div className="max-w-2xl mx-auto text-center">
           <div className="glass rounded-2xl p-8">
-            <h2 className="text-2xl font-bold mb-2">🎧 Listen & Learn</h2>
+            <h2 className="text-2xl font-bold mb-2"> Listen & Learn</h2>
             <p className="text-gray-400 text-sm mb-8">Dengarkan dan tebak artinya</p>
             <button onClick={startListen} className="px-6 py-3 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 font-semibold hover:scale-105 transition-transform">
               🎧 Mulai
@@ -588,36 +624,7 @@ export default function LingoSpacePro() {
   };
 
   const renderRoadmap = () => {
-    const roadmapLevels = [
-      { 
-        level: 1, 
-        title: 'Dasar', 
-        category: 'Kata Kerja',
-        requiredWords: 50,
-        description: 'Pelajari kata kerja dasar dalam bahasa Arab/Inggris'
-      },
-      { 
-        level: 2, 
-        title: 'Menengah', 
-        category: 'Kata Benda',
-        requiredWords: 100,
-        description: 'Pelajari nama-nama benda sehari-hari'
-      },
-      { 
-        level: 3, 
-        title: 'Lanjut', 
-        category: 'Keluarga',
-        requiredWords: 150,
-        description: 'Pelajari kosakata tentang keluarga dan rumah'
-      },
-      { 
-        level: 4, 
-        title: 'Mahir', 
-        category: 'Hewan',
-        requiredWords: 200,
-        description: 'Pelajari kosakata tentang hewan dan alam'
-      }
-    ];
+    const filteredRoadmap = roadmapData.filter(item => item.language === roadmapLang);
 
     return (
       <div className="animate-fade-in max-w-4xl mx-auto">
@@ -650,13 +657,13 @@ export default function LingoSpacePro() {
         </div>
 
         <div className="space-y-4">
-          {roadmapLevels.map((level, idx) => {
+          {filteredRoadmap.map((level, idx) => {
             const wordsInCategory = allData.filter(item => item.category === level.category).length;
-            const progress = Math.min((wordsInCategory / level.requiredWords) * 100, 100);
+            const progress = Math.min((wordsInCategory / parseInt(level.requiredWords || 100)) * 100, 100);
             const isCompleted = progress >= 100;
 
             return (
-              <div key={idx} className={`glass rounded-2xl p-6 transition-all ${idx > 0 && !roadmapLevels[idx - 1] ? 'opacity-50' : 'hover:scale-105'}`}>
+              <div key={idx} className={`glass rounded-2xl p-6 transition-all ${idx > 0 && !isCompleted ? 'opacity-50' : 'hover:scale-105'}`}>
                 <div className="flex items-start gap-4">
                   <div className={`flex-shrink-0 w-16 h-16 rounded-full flex items-center justify-center text-2xl ${
                     isCompleted ? 'bg-gradient-to-br from-green-400 to-emerald-500' :
@@ -706,289 +713,145 @@ export default function LingoSpacePro() {
     );
   };
 
-  const renderEnglish = () => {
-  const englishTopics = [
-    {
-      level: 'Basic',
-      title: 'Parts of Speech',
-      description: 'Noun, Verb, Adjective, Adverb',
-      icon: '📚',
-      content: 'Parts of Speech adalah kelas kata dalam bahasa Inggris.',
-      examples: [
-        { text: 'Book', type: 'Noun', meaning: 'Buku' },
-        { text: 'Read', type: 'Verb', meaning: 'Membaca' },
-        { text: 'Beautiful', type: 'Adjective', meaning: 'Indah' }
-      ]
-    },
-    {
-      level: 'Basic',
-      title: 'Tenses - Present',
-      description: 'Simple Present, Present Continuous',
-      icon: '⏰',
-      content: 'Simple Present untuk kebiasaan, Present Continuous untuk aktivitas sekarang.',
-      examples: [
-        { text: 'I eat breakfast every day', type: 'Simple Present', meaning: 'Saya sarapan setiap hari' },
-        { text: 'She is reading a book', type: 'Present Continuous', meaning: 'Dia sedang membaca buku' }
-      ]
-    },
-    {
-      level: 'Intermediate',
-      title: 'Tenses - Past',
-      description: 'Simple Past, Past Continuous',
-      icon: '⏮️',
-      content: 'Simple Past untuk kejadian lampau, Past Continuous untuk aktivitas yang sedang berlangsung di masa lalu.',
-      examples: [
-        { text: 'I ate breakfast yesterday', type: 'Simple Past', meaning: 'Saya sarapan kemarin' },
-        { text: 'She was reading when I called', type: 'Past Continuous', meaning: 'Dia sedang membaca ketika saya menelepon' }
-      ]
-    },
-    {
-      level: 'Intermediate',
-      title: 'Tenses - Future',
-      description: 'Simple Future, Future Continuous',
-      icon: '⏭️',
-      content: 'Simple Future untuk rencana, Future Continuous untuk aktivitas yang akan sedang berlangsung.',
-      examples: [
-        { text: 'I will eat tomorrow', type: 'Simple Future', meaning: 'Saya akan makan besok' },
-        { text: 'I will be studying at 8 PM', type: 'Future Continuous', meaning: 'Saya akan sedang belajar jam 8 malam' }
-      ]
-    },
-    {
-      level: 'Advanced',
-      title: 'Perfect Tenses',
-      description: 'Present Perfect, Past Perfect',
-      icon: '✅',
-      content: 'Present Perfect untuk pengalaman, Past Perfect untuk kejadian sebelum kejadian lain di masa lalu.',
-      examples: [
-        { text: 'I have eaten', type: 'Present Perfect', meaning: 'Saya sudah makan' },
-        { text: 'I had eaten before she arrived', type: 'Past Perfect', meaning: 'Saya sudah makan sebelum dia tiba' }
-      ]
-    },
-    {
-      level: 'Advanced',
-      title: 'Conditionals',
-      description: 'If clauses dan conditional sentences',
-      icon: '🤔',
-      content: 'Conditional sentences untuk menyatakan pengandaian.',
-      examples: [
-        { text: 'If it rains, I will stay home', type: 'Type 1', meaning: 'Jika hujan, saya akan tinggal di rumah' },
-        { text: 'If I were you, I would study', type: 'Type 2', meaning: 'Jika saya menjadi kamu, saya akan belajar' }
-      ]
-    }
-  ];
-
-  const playEnglishAudio = (text) => {
-    if (!text) return;
-    const url = `https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=en&q=${encodeURIComponent(text)}`;
-    const audio = new Audio(url);
-    audio.play().catch(() => {
-      if ('speechSynthesis' in window) {
-        const utterance = new SpeechSynthesisUtterance(text);
-        utterance.lang = 'en-US';
-        window.speechSynthesis.speak(utterance);
+  const renderNahwu = () => {
+    const groupedLessons = nahwuLessons.reduce((acc, lesson) => {
+      if (!acc[lesson.category]) {
+        acc[lesson.category] = [];
       }
-    });
-  };
+      acc[lesson.category].push(lesson);
+      return acc;
+    }, {});
 
-  return (
-    <div className="animate-fade-in max-w-6xl mx-auto">
-      <div className="text-center mb-8">
-        <h2 className="text-3xl font-bold mb-2">📚 Belajar Bahasa Inggris</h2>
-        <p className="text-gray-400">Pelajari grammar dan kosakata Inggris secara sistematis</p>
-      </div>
+    return (
+      <div className="animate-fade-in max-w-6xl mx-auto">
+        <div className="text-center mb-8">
+          <h2 className="text-3xl font-bold mb-2"> Belajar Nahwu</h2>
+          <p className="text-gray-400">Pelajari tata bahasa Arab secara sistematis</p>
+        </div>
 
-      <div className="space-y-6">
-        {englishTopics.map((topic, idx) => (
-          <div key={idx} className="glass rounded-2xl p-6">
-            <div className="flex items-start gap-4 mb-4">
-              <div className="text-4xl">{topic.icon}</div>
-              <div className="flex-1">
-                <div className="flex items-center gap-3 mb-2">
-                  <span className={`text-xs px-3 py-1 rounded-full font-semibold ${
-                    topic.level === 'Basic' ? 'bg-green-500/20 text-green-300' :
-                    topic.level === 'Intermediate' ? 'bg-yellow-500/20 text-yellow-300' :
-                    'bg-red-500/20 text-red-300'
-                  }`}>
-                    {topic.level}
-                  </span>
-                  <h3 className="text-xl font-bold">{topic.title}</h3>
-                </div>
-                <p className="text-gray-400">{topic.description}</p>
-              </div>
-            </div>
-
-            <div className="mb-4">
-              <p className="text-gray-300">{topic.content}</p>
-            </div>
-
-            {topic.examples && topic.examples.length > 0 && (
-              <div className="space-y-3">
-                <h4 className="text-sm font-semibold text-purple-300 mb-2">Contoh:</h4>
-                {topic.examples.map((ex, exIdx) => (
-                  <div key={exIdx} className="bg-white/5 rounded-lg p-4">
-                    <div className="flex items-center justify-between mb-2">
-                      <p className="text-lg font-semibold flex-1">{ex.text}</p>
-                      <button 
-                        onClick={() => playEnglishAudio(ex.text)}
-                        className="ml-3 px-3 py-1 rounded-full bg-purple-500/20 hover:bg-purple-500/40 transition-colors flex items-center gap-2"
-                      >
-                        🔊
-                      </button>
+        <div className="space-y-6">
+          {Object.entries(groupedLessons).map(([category, lessons], idx) => (
+            <div key={idx} className="glass rounded-2xl p-6">
+              <h3 className="text-2xl font-bold mb-4 text-purple-300">{category}</h3>
+              <div className="space-y-4">
+                {lessons.map((lesson, lessonIdx) => (
+                  <div key={lessonIdx} className="bg-white/5 rounded-lg p-4">
+                    <div className="flex items-start gap-3 mb-3">
+                      <div className="text-2xl">📚</div>
+                      <div className="flex-1">
+                        <h4 className="text-lg font-bold mb-1">{lesson.title}</h4>
+                        <p className="text-gray-400 text-sm">{lesson.content_id}</p>
+                      </div>
                     </div>
-                    <p className="text-sm text-purple-300 mb-1">{ex.type}</p>
-                    <p className="text-sm text-green-300">{ex.meaning}</p>
+
+                    {lesson.content_ar && (
+                      <div className="mb-3 ml-8">
+                        <div className="flex items-center justify-between mb-2">
+                          <p className="text-xl text-right flex-1" dir="rtl">{lesson.content_ar}</p>
+                          <button 
+                            onClick={() => playArabicAudio(lesson.content_ar)}
+                            className="ml-3 px-3 py-1 rounded-full bg-purple-500/20 hover:bg-purple-500/40 transition-colors"
+                          >
+                            🔊
+                          </button>
+                        </div>
+                      </div>
+                    )}
+
+                    {lesson.example_ar && (
+                      <div className="ml-8 bg-white/5 rounded-lg p-3">
+                        <p className="text-sm text-gray-400 mb-2">Contoh:</p>
+                        <div className="flex items-center justify-between mb-1">
+                          <p className="text-lg text-right flex-1" dir="rtl">{lesson.example_ar}</p>
+                          <button 
+                            onClick={() => playArabicAudio(lesson.example_ar)}
+                            className="ml-3 px-3 py-1 rounded-full bg-purple-500/20 hover:bg-purple-500/40 transition-colors"
+                          >
+                            🔊
+                          </button>
+                        </div>
+                        {lesson.example_id && <p className="text-sm text-green-300">{lesson.example_id}</p>}
+                      </div>
+                    )}
                   </div>
                 ))}
               </div>
-            )}
-          </div>
-        ))}
+            </div>
+          ))}
+        </div>
       </div>
-    </div>
-  );
-};
-
-  const renderEnglish = () => {
-  const englishTopics = [
-    {
-      level: 'Basic',
-      title: 'Parts of Speech',
-      description: 'Noun, Verb, Adjective, Adverb',
-      icon: '📚',
-      content: 'Parts of Speech adalah kelas kata dalam bahasa Inggris.',
-      examples: [
-        { text: 'Book', type: 'Noun', meaning: 'Buku' },
-        { text: 'Read', type: 'Verb', meaning: 'Membaca' },
-        { text: 'Beautiful', type: 'Adjective', meaning: 'Indah' }
-      ]
-    },
-    {
-      level: 'Basic',
-      title: 'Tenses - Present',
-      description: 'Simple Present, Present Continuous',
-      icon: '⏰',
-      content: 'Simple Present untuk kebiasaan, Present Continuous untuk aktivitas sekarang.',
-      examples: [
-        { text: 'I eat breakfast every day', type: 'Simple Present', meaning: 'Saya sarapan setiap hari' },
-        { text: 'She is reading a book', type: 'Present Continuous', meaning: 'Dia sedang membaca buku' }
-      ]
-    },
-    {
-      level: 'Intermediate',
-      title: 'Tenses - Past',
-      description: 'Simple Past, Past Continuous',
-      icon: '⏮️',
-      content: 'Simple Past untuk kejadian lampau, Past Continuous untuk aktivitas yang sedang berlangsung di masa lalu.',
-      examples: [
-        { text: 'I ate breakfast yesterday', type: 'Simple Past', meaning: 'Saya sarapan kemarin' },
-        { text: 'She was reading when I called', type: 'Past Continuous', meaning: 'Dia sedang membaca ketika saya menelepon' }
-      ]
-    },
-    {
-      level: 'Intermediate',
-      title: 'Tenses - Future',
-      description: 'Simple Future, Future Continuous',
-      icon: '⏭️',
-      content: 'Simple Future untuk rencana, Future Continuous untuk aktivitas yang akan sedang berlangsung.',
-      examples: [
-        { text: 'I will eat tomorrow', type: 'Simple Future', meaning: 'Saya akan makan besok' },
-        { text: 'I will be studying at 8 PM', type: 'Future Continuous', meaning: 'Saya akan sedang belajar jam 8 malam' }
-      ]
-    },
-    {
-      level: 'Advanced',
-      title: 'Perfect Tenses',
-      description: 'Present Perfect, Past Perfect',
-      icon: '✅',
-      content: 'Present Perfect untuk pengalaman, Past Perfect untuk kejadian sebelum kejadian lain di masa lalu.',
-      examples: [
-        { text: 'I have eaten', type: 'Present Perfect', meaning: 'Saya sudah makan' },
-        { text: 'I had eaten before she arrived', type: 'Past Perfect', meaning: 'Saya sudah makan sebelum dia tiba' }
-      ]
-    },
-    {
-      level: 'Advanced',
-      title: 'Conditionals',
-      description: 'If clauses dan conditional sentences',
-      icon: '🤔',
-      content: 'Conditional sentences untuk menyatakan pengandaian.',
-      examples: [
-        { text: 'If it rains, I will stay home', type: 'Type 1', meaning: 'Jika hujan, saya akan tinggal di rumah' },
-        { text: 'If I were you, I would study', type: 'Type 2', meaning: 'Jika saya menjadi kamu, saya akan belajar' }
-      ]
-    }
-  ];
-
-  const playEnglishAudio = (text) => {
-    if (!text) return;
-    const url = `https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=en&q=${encodeURIComponent(text)}`;
-    const audio = new Audio(url);
-    audio.play().catch(() => {
-      if ('speechSynthesis' in window) {
-        const utterance = new SpeechSynthesisUtterance(text);
-        utterance.lang = 'en-US';
-        window.speechSynthesis.speak(utterance);
-      }
-    });
+    );
   };
 
-  return (
-    <div className="animate-fade-in max-w-6xl mx-auto">
-      <div className="text-center mb-8">
-        <h2 className="text-3xl font-bold mb-2">📚 Belajar Bahasa Inggris</h2>
-        <p className="text-gray-400">Pelajari grammar dan kosakata Inggris secara sistematis</p>
-      </div>
+  const renderEnglish = () => {
+    const groupedLessons = englishLessons.reduce((acc, lesson) => {
+      if (!acc[lesson.category]) {
+        acc[lesson.category] = [];
+      }
+      acc[lesson.category].push(lesson);
+      return acc;
+    }, {});
 
-      <div className="space-y-6">
-        {englishTopics.map((topic, idx) => (
-          <div key={idx} className="glass rounded-2xl p-6">
-            <div className="flex items-start gap-4 mb-4">
-              <div className="text-4xl">{topic.icon}</div>
-              <div className="flex-1">
-                <div className="flex items-center gap-3 mb-2">
-                  <span className={`text-xs px-3 py-1 rounded-full font-semibold ${
-                    topic.level === 'Basic' ? 'bg-green-500/20 text-green-300' :
-                    topic.level === 'Intermediate' ? 'bg-yellow-500/20 text-yellow-300' :
-                    'bg-red-500/20 text-red-300'
-                  }`}>
-                    {topic.level}
-                  </span>
-                  <h3 className="text-xl font-bold">{topic.title}</h3>
-                </div>
-                <p className="text-gray-400">{topic.description}</p>
-              </div>
-            </div>
+    return (
+      <div className="animate-fade-in max-w-6xl mx-auto">
+        <div className="text-center mb-8">
+          <h2 className="text-3xl font-bold mb-2">📚 Belajar Bahasa Inggris</h2>
+          <p className="text-gray-400">Pelajari grammar dan kosakata Inggris secara sistematis</p>
+        </div>
 
-            <div className="mb-4">
-              <p className="text-gray-300">{topic.content}</p>
-            </div>
-
-            {topic.examples && topic.examples.length > 0 && (
-              <div className="space-y-3">
-                <h4 className="text-sm font-semibold text-purple-300 mb-2">Contoh:</h4>
-                {topic.examples.map((ex, exIdx) => (
-                  <div key={exIdx} className="bg-white/5 rounded-lg p-4">
-                    <div className="flex items-center justify-between mb-2">
-                      <p className="text-lg font-semibold flex-1">{ex.text}</p>
-                      <button 
-                        onClick={() => playEnglishAudio(ex.text)}
-                        className="ml-3 px-3 py-1 rounded-full bg-purple-500/20 hover:bg-purple-500/40 transition-colors flex items-center gap-2"
-                      >
-                        🔊
-                      </button>
+        <div className="space-y-6">
+          {Object.entries(groupedLessons).map(([category, lessons], idx) => (
+            <div key={idx} className="glass rounded-2xl p-6">
+              <h3 className="text-2xl font-bold mb-4 text-purple-300">{category}</h3>
+              <div className="space-y-4">
+                {lessons.map((lesson, lessonIdx) => (
+                  <div key={lessonIdx} className="bg-white/5 rounded-lg p-4">
+                    <div className="flex items-start gap-3 mb-3">
+                      <div className="text-2xl">📖</div>
+                      <div className="flex-1">
+                        <h4 className="text-lg font-bold mb-1">{lesson.title}</h4>
+                        <p className="text-gray-400 text-sm">{lesson.content_id}</p>
+                      </div>
                     </div>
-                    <p className="text-sm text-purple-300 mb-1">{ex.type}</p>
-                    <p className="text-sm text-green-300">{ex.meaning}</p>
+
+                    {lesson.content_en && (
+                      <div className="mb-3 ml-8">
+                        <div className="flex items-center justify-between mb-2">
+                          <p className="text-lg flex-1">{lesson.content_en}</p>
+                          <button 
+                            onClick={() => playEnglishAudio(lesson.content_en)}
+                            className="ml-3 px-3 py-1 rounded-full bg-purple-500/20 hover:bg-purple-500/40 transition-colors"
+                          >
+                            🔊
+                          </button>
+                        </div>
+                      </div>
+                    )}
+
+                    {lesson.example_en && (
+                      <div className="ml-8 bg-white/5 rounded-lg p-3">
+                        <p className="text-sm text-gray-400 mb-2">Contoh:</p>
+                        <div className="flex items-center justify-between mb-1">
+                          <p className="text-lg flex-1">{lesson.example_en}</p>
+                          <button 
+                            onClick={() => playEnglishAudio(lesson.example_en)}
+                            className="ml-3 px-3 py-1 rounded-full bg-purple-500/20 hover:bg-purple-500/40 transition-colors"
+                          >
+                            
+                          </button>
+                        </div>
+                        {lesson.example_id && <p className="text-sm text-green-300">{lesson.example_id}</p>}
+                      </div>
+                    )}
                   </div>
                 ))}
               </div>
-            )}
-          </div>
-        ))}
+            </div>
+          ))}
+        </div>
       </div>
-    </div>
-  );
-};
+    );
+  };
 
   if (!mounted || loading) {
     return (
@@ -1023,7 +886,7 @@ export default function LingoSpacePro() {
             </div>
           </div>
           <button onClick={() => { try { localStorage.clear(); alert('Cache dibersihkan!'); } catch(e) {} }} className="px-3 py-2 rounded-full glass text-xs hover:scale-105 transition-transform">
-            🗑️ Cache
+            ️ Cache
           </button>
         </div>
       </nav>
