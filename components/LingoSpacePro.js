@@ -40,11 +40,10 @@ export default function LingoSpacePro() {
 
   // Roadmap State
   const [roadmapLang, setRoadmapLang] = useState('English');
-  const [roadmapData, setRoadmapData] = useState([]);
 
-  // Nahwu & English Lessons State
-  const [nahwuLessons, setNahwuLessons] = useState([]);
-  const [englishLessons, setEnglishLessons] = useState([]);
+  // Nahwu & English State
+  const [selectedNahwuTopic, setSelectedNahwuTopic] = useState(null);
+  const [selectedEnglishTopic, setSelectedEnglishTopic] = useState(null);
 
   // Set mounted
   useEffect(() => {
@@ -154,6 +153,8 @@ export default function LingoSpacePro() {
     setCurrentMode(mode);
     setCurrentIndex(0);
     setIsFlipped(false);
+    setSelectedNahwuTopic(null);
+    setSelectedEnglishTopic(null);
   };
 
   const flipCard = () => {
@@ -586,54 +587,276 @@ export default function LingoSpacePro() {
     );
   };
 
-  const renderRoadmap = () => (
-    <div className="animate-fade-in text-center py-12">
-      <div className="text-6xl mb-4">🗺️</div>
-      <h2 className="text-2xl font-bold mb-4">Roadmap Pembelajaran</h2>
-      <p className="text-gray-400 mb-8">Fitur roadmap akan segera hadir!</p>
-      <div className="max-w-2xl mx-auto glass rounded-2xl p-6">
-        <h3 className="font-semibold mb-4">Pilih Bahasa:</h3>
-        <div className="flex gap-4 justify-center">
+  const renderRoadmap = () => {
+    const roadmapLevels = [
+      { 
+        level: 1, 
+        title: 'Dasar', 
+        category: 'Kata Kerja',
+        requiredWords: 50,
+        description: 'Pelajari kata kerja dasar dalam bahasa Arab/Inggris'
+      },
+      { 
+        level: 2, 
+        title: 'Menengah', 
+        category: 'Kata Benda',
+        requiredWords: 100,
+        description: 'Pelajari nama-nama benda sehari-hari'
+      },
+      { 
+        level: 3, 
+        title: 'Lanjut', 
+        category: 'Keluarga',
+        requiredWords: 150,
+        description: 'Pelajari kosakata tentang keluarga dan rumah'
+      },
+      { 
+        level: 4, 
+        title: 'Mahir', 
+        category: 'Hewan',
+        requiredWords: 200,
+        description: 'Pelajari kosakata tentang hewan dan alam'
+      }
+    ];
+
+    return (
+      <div className="animate-fade-in max-w-4xl mx-auto">
+        <div className="text-center mb-8">
+          <h2 className="text-3xl font-bold mb-2">🗺️ Roadmap Pembelajaran</h2>
+          <p className="text-gray-400">Pilih jalur belajar Anda</p>
+        </div>
+
+        <div className="flex justify-center gap-4 mb-8">
           <button 
             onClick={() => setRoadmapLang('English')}
-            className={`px-6 py-3 rounded-full font-semibold transition-all ${roadmapLang === 'English' ? 'bg-purple-500 text-white' : 'glass hover:scale-105'}`}
+            className={`px-6 py-3 rounded-full font-semibold transition-all ${
+              roadmapLang === 'English' 
+                ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg' 
+                : 'glass hover:scale-105'
+            }`}
           >
-            🇬🇧 English
+            🇬 Bahasa Inggris
           </button>
           <button 
             onClick={() => setRoadmapLang('Arabic')}
-            className={`px-6 py-3 rounded-full font-semibold transition-all ${roadmapLang === 'Arabic' ? 'bg-purple-500 text-white' : 'glass hover:scale-105'}`}
+            className={`px-6 py-3 rounded-full font-semibold transition-all ${
+              roadmapLang === 'Arabic' 
+                ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg' 
+                : 'glass hover:scale-105'
+            }`}
           >
-            🇸🇦 Arabic
+            🇸🇦 Bahasa Arab
           </button>
         </div>
-      </div>
-    </div>
-  );
 
-  const renderNahwu = () => (
-    <div className="animate-fade-in text-center py-12">
-      <div className="text-6xl mb-4">📖</div>
-      <h2 className="text-2xl font-bold mb-4">Belajar Nahwu</h2>
-      <p className="text-gray-400 mb-8">Pelajari tata bahasa Arab secara sistematis</p>
-      <div className="max-w-2xl mx-auto glass rounded-2xl p-6">
-        <p className="text-lg">Fitur ini akan segera hadir!</p>
-        <p className="text-sm text-gray-400 mt-2">Anda akan belajar nahwu dari dasar hingga mahir</p>
-      </div>
-    </div>
-  );
+        <div className="space-y-4">
+          {roadmapLevels.map((level, idx) => {
+            const wordsInCategory = allData.filter(item => item.category === level.category).length;
+            const progress = Math.min((wordsInCategory / level.requiredWords) * 100, 100);
+            const isCompleted = progress >= 100;
 
-  const renderEnglish = () => (
-    <div className="animate-fade-in text-center py-12">
-      <div className="text-6xl mb-4">📚</div>
-      <h2 className="text-2xl font-bold mb-4">Belajar Bahasa Inggris</h2>
-      <p className="text-gray-400 mb-8">Pelajari grammar dan kosakata Inggris secara sistematis</p>
-      <div className="max-w-2xl mx-auto glass rounded-2xl p-6">
-        <p className="text-lg">Fitur ini akan segera hadir!</p>
-        <p className="text-sm text-gray-400 mt-2">Dari level pemula hingga advanced</p>
+            return (
+              <div key={idx} className={`glass rounded-2xl p-6 transition-all ${idx > 0 && !roadmapLevels[idx - 1] ? 'opacity-50' : 'hover:scale-105'}`}>
+                <div className="flex items-start gap-4">
+                  <div className={`flex-shrink-0 w-16 h-16 rounded-full flex items-center justify-center text-2xl ${
+                    isCompleted ? 'bg-gradient-to-br from-green-400 to-emerald-500' :
+                    'bg-gradient-to-br from-purple-500 to-pink-500'
+                  }`}>
+                    {isCompleted ? '✅' : '📚'}
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="text-xl font-bold mb-1">Level {level.level}: {level.title}</h3>
+                    <span className="text-xs px-2 py-1 rounded-full bg-purple-500/20 text-purple-300">{level.category}</span>
+                    <p className="text-gray-300 mt-2">{level.description}</p>
+                    
+                    <div className="mt-4">
+                      <div className="flex justify-between text-sm mb-1">
+                        <span>Progress: {wordsInCategory} / {level.requiredWords} kata</span>
+                        <span>{Math.round(progress)}%</span>
+                      </div>
+                      <div className="h-3 bg-gray-700 rounded-full overflow-hidden">
+                        <div 
+                          className={`h-full transition-all duration-500 ${
+                            isCompleted ? 'bg-gradient-to-r from-green-400 to-emerald-500' :
+                            'bg-gradient-to-r from-purple-400 to-pink-500'
+                          }`}
+                          style={{ width: `${progress}%` }}
+                        ></div>
+                      </div>
+                    </div>
+
+                    {!isCompleted && (
+                      <button 
+                        onClick={() => {
+                          setCategoryFilter(level.category);
+                          switchMode('flashcard');
+                        }}
+                        className="mt-4 px-6 py-2 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 font-semibold hover:scale-105 transition-transform"
+                      >
+                        🚀 Mulai Belajar
+                      </button>
+                    )}
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
       </div>
-    </div>
-  );
+    );
+  };
+
+  const renderNahwu = () => {
+    const nahwuTopics = [
+      {
+        title: 'Isim (Kata Benda)',
+        description: 'Pelajari tentang isim, jenis-jenisnya, dan tanda-tandanya',
+        icon: '📖',
+        content: 'Isim adalah kata yang menunjukkan makna benda, orang, tempat, atau konsep. Contoh: كتاب (kitab = buku), معلم (muallim = guru), مسجد (masjid = masjid)'
+      },
+      {
+        title: "Fi'il (Kata Kerja)",
+        description: 'Pelajari fi\'il madhi, mudhari, dan amar',
+        icon: '✍️',
+        content: "Fi'il adalah kata kerja. Fi'il Madhi (lampau): كَتَبَ (kataba = telah menulis), Fi'il Mudhari (sekarang): يَكْتُبُ (yaktubu = sedang menulis), Fi'il Amar (perintah): اُكْتُبْ (uktub = tulislah!)"
+      },
+      {
+        title: 'Huruf (Kata Tugas)',
+        description: 'Pelajari huruf-huruf dalam bahasa Arab',
+        icon: '🔤',
+        content: 'Huruf adalah kata yang tidak memiliki makna sempurna kecuali bersama isim atau fi\'il. Contoh: في (fi = di), على (ala = di atas), من (min = dari)'
+      },
+      {
+        title: 'Jumlah Ismiyah',
+        description: 'Kalimat yang diawali dengan isim',
+        icon: '📝',
+        content: 'Jumlah Ismiyah terdiri dari Mubtada (subjek) dan Khabar (predikat). Contoh: الكتابُ جديدٌ (Al-kitabu jadiidun = Buku itu baru)'
+      },
+      {
+        title: "Jumlah Fi'liyah",
+        description: "Kalimat yang diawali dengan fi'il",
+        icon: '📜',
+        content: "Jumlah Fi'liyah terdiri dari Fi'il (kata kerja), Fa'il (pelaku), dan Maf'ul Bih (objek). Contoh: كَتَبَ الطالبُ الدرسَ (Kataba ath-thalibu ad-darsa = Siswa menulis pelajaran)"
+      }
+    ];
+
+    return (
+      <div className="animate-fade-in max-w-4xl mx-auto">
+        <div className="text-center mb-8">
+          <h2 className="text-3xl font-bold mb-2">📖 Belajar Nahwu</h2>
+          <p className="text-gray-400">Pelajari tata bahasa Arab secara sistematis</p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {nahwuTopics.map((topic, idx) => (
+            <div 
+              key={idx}
+              onClick={() => setSelectedNahwuTopic(selectedNahwuTopic === idx ? null : idx)}
+              className="glass rounded-2xl p-6 cursor-pointer hover:scale-105 transition-transform"
+            >
+              <div className="text-4xl mb-3">{topic.icon}</div>
+              <h3 className="text-xl font-bold mb-2">{topic.title}</h3>
+              <p className="text-gray-400 text-sm">{topic.description}</p>
+              
+              {selectedNahwuTopic === idx && (
+                <div className="mt-4 pt-4 border-t border-white/10 animate-fade-in">
+                  <p className="text-gray-300">{topic.content}</p>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  };
+
+  const renderEnglish = () => {
+    const englishTopics = [
+      {
+        level: 'Basic',
+        title: 'Parts of Speech',
+        description: 'Noun, Verb, Adjective, Adverb',
+        icon: '📚',
+        content: 'Parts of Speech adalah kelas kata dalam bahasa Inggris: Noun (kata benda), Verb (kata kerja), Adjective (kata sifat), Adverb (kata keterangan)'
+      },
+      {
+        level: 'Basic',
+        title: 'Tenses - Present',
+        description: 'Simple Present, Present Continuous',
+        icon: '⏰',
+        content: 'Simple Present: I eat, She eats. Present Continuous: I am eating, She is eating'
+      },
+      {
+        level: 'Intermediate',
+        title: 'Tenses - Past',
+        description: 'Simple Past, Past Continuous',
+        icon: '⏮️',
+        content: 'Simple Past: I ate, She went. Past Continuous: I was eating, She was going'
+      },
+      {
+        level: 'Intermediate',
+        title: 'Tenses - Future',
+        description: 'Simple Future, Future Continuous',
+        icon: '⏭️',
+        content: 'Simple Future: I will eat, I am going to eat. Future Continuous: I will be eating'
+      },
+      {
+        level: 'Advanced',
+        title: 'Perfect Tenses',
+        description: 'Present Perfect, Past Perfect',
+        icon: '✅',
+        content: 'Present Perfect: I have eaten. Past Perfect: I had eaten'
+      },
+      {
+        level: 'Advanced',
+        title: 'Conditionals',
+        description: 'If clauses dan conditional sentences',
+        icon: '🤔',
+        content: 'Type 1: If it rains, I will stay home. Type 2: If I were you, I would study. Type 3: If I had studied, I would have passed'
+      }
+    ];
+
+    return (
+      <div className="animate-fade-in max-w-4xl mx-auto">
+        <div className="text-center mb-8">
+          <h2 className="text-3xl font-bold mb-2">📚 Belajar Bahasa Inggris</h2>
+          <p className="text-gray-400">Pelajari grammar dan kosakata Inggris secara sistematis</p>
+        </div>
+
+        <div className="space-y-4">
+          {englishTopics.map((topic, idx) => (
+            <div key={idx} className="glass rounded-2xl p-6">
+              <div 
+                onClick={() => setSelectedEnglishTopic(selectedEnglishTopic === idx ? null : idx)}
+                className="cursor-pointer flex items-start gap-4"
+              >
+                <div className="text-4xl">{topic.icon}</div>
+                <div className="flex-1">
+                  <div className="flex items-center gap-3 mb-2">
+                    <span className={`text-xs px-2 py-1 rounded-full ${
+                      topic.level === 'Basic' ? 'bg-green-500/20 text-green-300' :
+                      topic.level === 'Intermediate' ? 'bg-yellow-500/20 text-yellow-300' :
+                      'bg-red-500/20 text-red-300'
+                    }`}>
+                      {topic.level}
+                    </span>
+                    <h3 className="text-xl font-bold">{topic.title}</h3>
+                  </div>
+                  <p className="text-gray-400">{topic.description}</p>
+                </div>
+              </div>
+              
+              {selectedEnglishTopic === idx && (
+                <div className="mt-4 pt-4 border-t border-white/10 animate-fade-in">
+                  <p className="text-gray-300">{topic.content}</p>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  };
 
   if (!mounted || loading) {
     return (
