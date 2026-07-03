@@ -1,3 +1,45 @@
+import './globals.css';
+import { Inter } from 'next/font/google';
+
+const inter = Inter({ subsets: ['latin'] });
+
+export const metadata = {
+  title: 'LingoSpace Pro - Premium Language Learning Platform',
+  description: 'Belajar Bahasa Arab dan Inggris dengan metode modern dan efektif',
+  // TAMBAHKAN KODE VERIFIKASI ADSENSE DI SINI
+  other: {
+    'google-adsense-account': 'ca-pub-XXXXXXXXXXXXXXXX', // GANTI DENGAN KODE ADSENSE ANDA
+  },
+};
+
+export default function RootLayout({ children }) {
+  return (
+    <html lang="id">
+      <head>
+        {/* Google AdSense Verification */}
+        <meta name="google-adsense-account" content="ca-pub-XXXXXXXXXXXXXXXX" />
+        
+        {/* Google Analytics (Opsional) */}
+        <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'GA_MEASUREMENT_ID');
+            `,
+          }}
+        />
+      </head>
+      <body className={inter.className}>
+        <main className="min-h-screen">
+          {children}
+        </main>
+      </body>
+    </html>
+  );
+}
 // Tambahkan di bagian bawah, sebelum closing tag </html>
 <footer className="glass border-t border-white/10 mt-auto">
   <div className="max-w-7xl mx-auto px-6 py-8">
