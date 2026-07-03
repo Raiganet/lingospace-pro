@@ -51,42 +51,83 @@ export default function LingoSpacePro() {
     setMounted(true);
   }, []);
 
-  // Load Data
-  useEffect(() => {
-    if (!mounted) return;
+  // Load Data - Setiap fetch independen agar satu error tidak merusak semua
+useEffect(() => {
+  if (!mounted) return;
+  
+  const loadData = async () => {
+    setLoading(true);
     
-    const loadData = async () => {
-      setLoading(true);
-      try {
-        const [vocabRes, categoriesRes, englishRes, nahwuRes, roadmapRes] = await Promise.all([
-          fetch('/api/vocabulary'),
-          fetch('/api/categories'),
-          fetch('/api/english-lessons'),
-          fetch('/api/nahwu-lessons'),
-          fetch('/api/roadmap')
-        ]);
-
-        const vocabData = await vocabRes.json();
-        const categoriesData = await categoriesRes.json();
+    // Fetch vocabulary (WAJIB)
+    try {
+      const vocabRes = await fetch('/api/vocabulary');
+      const vocabData = await vocabRes.json();
+      setAllData(vocabData || []);
+      setFilteredData(vocabData || []);
+    } catch (error) {
+      console.error('Error loading vocabulary:', error);
+      setAllData([]);
+      setFilteredData([]);
+    }
+    
+    // Fetch categories
+    try {
+      const categoriesRes = await fetch('/api/categories');
+      const categoriesData = await categoriesRes.json();
+      setCategories(categoriesData || []);
+    } catch (error) {
+      console.error('Error loading categories:', error);
+      setCategories([]);
+    }
+    
+    // Fetch english lessons (opsional)
+    try {
+      const englishRes = await fetch('/api/english-lessons');
+      if (englishRes.ok) {
         const englishData = await englishRes.json();
-        const nahwuData = await nahwuRes.json();
-        const roadmapData = await roadmapRes.json();
-
-        setAllData(vocabData || []);
-        setFilteredData(vocabData || []);
-        setCategories(categoriesData || []);
         setEnglishLessons(englishData || []);
-        setNahwuLessons(nahwuData || []);
-        setRoadmapData(roadmapData || []);
-      } catch (error) {
-        console.error('Error loading data:', error);
+      } else {
+        setEnglishLessons([]);
       }
-      setLoading(false);
-    };
+    } catch (error) {
+      console.error('Error loading english lessons:', error);
+      setEnglishLessons([]);
+    }
+    
+    // Fetch nahwu lessons (opsional)
+    try {
+      const nahwuRes = await fetch('/api/nahwu-lessons');
+      if (nahwuRes.ok) {
+        const nahwuData = await nahwuRes.json();
+        setNahwuLessons(nahwuData || []);
+      } else {
+        setNahwuLessons([]);
+      }
+    } catch (error) {
+      console.error('Error loading nahwu lessons:', error);
+      setNahwuLessons([]);
+    }
+    
+    // Fetch roadmap (opsional)
+    try {
+      const roadmapRes = await fetch('/api/roadmap');
+      if (roadmapRes.ok) {
+        const roadmapData = await roadmapRes.json();
+        setRoadmapData(roadmapData || []);
+      } else {
+        setRoadmapData([]);
+      }
+    } catch (error) {
+      console.error('Error loading roadmap:', error);
+      setRoadmapData([]);
+    }
+    
+    setLoading(false);
+  };
 
-    loadData();
-    loadBookmarks();
-  }, [mounted]);
+  loadData();
+  loadBookmarks();
+}, [mounted]);
 
   // Filter Data
   useEffect(() => {
