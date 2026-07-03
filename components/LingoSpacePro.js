@@ -15,6 +15,8 @@ export default function LingoSpacePro() {
   const [isFlipped, setIsFlipped] = useState(false);
   const [bookmarks, setBookmarks] = useState([]);
   const [loading, setLoading] = useState(true);
+// Tambahkan setelah state roadmapLang
+const [expandedLevel, setExpandedLevel] = useState(null);
   
   // Stats State
   const [stats, setStats] = useState({
@@ -665,8 +667,6 @@ useEffect(() => {
   };
 
   const renderRoadmap = () => {
-  const [expandedLevel, setExpandedLevel] = useState(null);
-
   const filteredRoadmap = roadmapData.filter(item => item.language === roadmapLang);
 
   const getLessonsForLevel = (level) => {
@@ -699,24 +699,30 @@ useEffect(() => {
 
       <div className="flex justify-center gap-4 mb-8">
         <button 
-          onClick={() => setRoadmapLang('English')}
+          onClick={() => {
+            setRoadmapLang('English');
+            setExpandedLevel(null);
+          }}
           className={`px-6 py-3 rounded-full font-semibold transition-all ${
             roadmapLang === 'English' 
               ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg' 
               : 'glass hover:scale-105'
           }`}
         >
-           Bahasa Inggris
+          🇬 Bahasa Inggris
         </button>
         <button 
-          onClick={() => setRoadmapLang('Arabic')}
+          onClick={() => {
+            setRoadmapLang('Arabic');
+            setExpandedLevel(null);
+          }}
           className={`px-6 py-3 rounded-full font-semibold transition-all ${
             roadmapLang === 'Arabic' 
               ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg' 
               : 'glass hover:scale-105'
           }`}
         >
-          🇸🇦 Bahasa Arab
+          🇸 Bahasa Arab
         </button>
       </div>
 
@@ -774,7 +780,7 @@ useEffect(() => {
                       <div key={lessonIdx} className="bg-white/5 rounded-lg p-4">
                         <div className="flex items-start gap-3 mb-3">
                           <div className="text-2xl">
-                            {roadmapLang === 'Arabic' ? '📚' : ''}
+                            {roadmapLang === 'Arabic' ? '📖' : ''}
                           </div>
                           <div className="flex-1">
                             <h5 className="text-lg font-bold mb-1">{lesson.title}</h5>
