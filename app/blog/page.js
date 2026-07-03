@@ -1,7 +1,11 @@
+'use client';
+
+import { useState } from 'react';
 import Link from 'next/link';
 
 export default function Blog() {
-  // Daftar semua artikel yang sudah dibuat
+  const [activeCategory, setActiveCategory] = useState('Semua');
+
   const articles = [
     {
       id: 1,
@@ -185,63 +189,106 @@ export default function Blog() {
     }
   ];
 
+  const categories = ['Semua', 'Bahasa Arab', 'Bahasa Inggris', 'Tips Belajar', 'Nahwu'];
+
+  // Filter articles berdasarkan kategori aktif
+  const filteredArticles = activeCategory === 'Semua' 
+    ? articles 
+    : articles.filter(article => article.category === activeCategory);
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white py-12">
       <div className="max-w-6xl mx-auto px-6">
+        {/* Header */}
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold mb-4">Blog LingoSpace Pro</h1>
-          <p className="text-xl text-gray-300">Tips, trik, dan artikel tentang pembelajaran bahasa</p>
-          <p className="text-sm text-gray-400 mt-2">Total {articles.length} artikel</p>
+          <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+            Blog LingoSpace Pro
+          </h1>
+          <p className="text-xl text-gray-300 mb-2">Tips, trik, dan artikel tentang pembelajaran bahasa</p>
+          <p className="text-sm text-gray-400">
+            Menampilkan <span className="text-purple-400 font-semibold">{filteredArticles.length}</span> dari {articles.length} artikel
+          </p>
         </div>
 
-        {/* Filter Kategori */}
-        <div className="flex justify-center gap-2 mb-8 flex-wrap">
-          <button className="px-4 py-2 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold text-sm">
-            Semua
-          </button>
-          <button className="px-4 py-2 rounded-full glass text-sm hover:scale-105 transition-transform">
-            Bahasa Arab
-          </button>
-          <button className="px-4 py-2 rounded-full glass text-sm hover:scale-105 transition-transform">
-            Bahasa Inggris
-          </button>
-          <button className="px-4 py-2 rounded-full glass text-sm hover:scale-105 transition-transform">
-            Tips Belajar
-          </button>
-          <button className="px-4 py-2 rounded-full glass text-sm hover:scale-105 transition-transform">
-            Nahwu
-          </button>
+        {/* Filter Categories dengan Animasi */}
+        <div className="flex justify-center gap-3 mb-12 flex-wrap">
+          {categories.map((category) => (
+            <button
+              key={category}
+              onClick={() => setActiveCategory(category)}
+              className={`px-6 py-3 rounded-full text-sm font-semibold transition-all duration-300 ease-in-out transform hover:scale-110 hover:shadow-lg ${
+                activeCategory === category
+                  ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg shadow-purple-500/50 scale-105'
+                  : 'bg-white/5 text-gray-300 hover:bg-white/10 hover:text-white border border-white/10'
+              }`}
+            >
+              {category}
+            </button>
+          ))}
         </div>
 
-        {/* Grid Artikel */}
+        {/* Grid Artikel dengan Animasi */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {articles.map((article) => (
-            <Link key={article.id} href={`/blog/${article.slug}`} className="block">
-              <div className="glass rounded-2xl p-6 hover:scale-105 transition-transform h-full">
+          {filteredArticles.map((article) => (
+            <Link 
+              key={article.id} 
+              href={`/blog/${article.slug}`} 
+              className="group block"
+            >
+              <div className="glass rounded-2xl p-6 h-full transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-2xl hover:shadow-purple-500/20 border border-white/10 hover:border-purple-500/50">
+                {/* Category Badge */}
                 <div className="flex items-center gap-2 mb-4">
-                  <span className="px-3 py-1 rounded-full bg-purple-500/20 text-purple-300 text-xs font-semibold">
+                  <span className={`px-3 py-1 rounded-full text-xs font-semibold transition-all duration-300 ${
+                    article.category === 'Bahasa Arab' ? 'bg-green-500/20 text-green-300' :
+                    article.category === 'Bahasa Inggris' ? 'bg-blue-500/20 text-blue-300' :
+                    article.category === 'Tips Belajar' ? 'bg-yellow-500/20 text-yellow-300' :
+                    'bg-purple-500/20 text-purple-300'
+                  }`}>
                     {article.category}
                   </span>
                   <span className="text-xs text-gray-400">{article.readTime}</span>
                 </div>
-                <h2 className="text-xl font-bold mb-3 line-clamp-2">{article.title}</h2>
-                <p className="text-gray-400 text-sm mb-4 line-clamp-3">{article.excerpt}</p>
-                <div className="flex items-center justify-between text-sm text-gray-500">
+
+                {/* Title */}
+                <h2 className="text-xl font-bold mb-3 line-clamp-2 group-hover:text-purple-300 transition-colors duration-300">
+                  {article.title}
+                </h2>
+
+                {/* Excerpt */}
+                <p className="text-gray-400 text-sm mb-4 line-clamp-3">
+                  {article.excerpt}
+                </p>
+
+                {/* Footer */}
+                <div className="flex items-center justify-between text-sm text-gray-500 pt-4 border-t border-white/5">
                   <span>{new Date(article.date).toLocaleDateString('id-ID', { 
                     day: 'numeric', 
                     month: 'short', 
                     year: 'numeric' 
                   })}</span>
-                  <span className="text-purple-400">Baca Selengkapnya →</span>
+                  <span className="text-purple-400 font-semibold group-hover:text-pink-400 transition-colors duration-300 flex items-center gap-1">
+                    Baca Selengkapnya 
+                    <span className="transform group-hover:translate-x-1 transition-transform duration-300">→</span>
+                  </span>
                 </div>
               </div>
             </Link>
           ))}
         </div>
 
-        {/* Pagination (Opsional) */}
-        <div className="text-center mt-12">
-          <p className="text-gray-400">Menampilkan semua {articles.length} artikel</p>
+        {/* Empty State */}
+        {filteredArticles.length === 0 && (
+          <div className="text-center py-16">
+            <div className="text-6xl mb-4">📝</div>
+            <p className="text-xl text-gray-400">Tidak ada artikel dalam kategori ini</p>
+          </div>
+        )}
+
+        {/* Footer Info */}
+        <div className="text-center mt-12 pt-8 border-t border-white/10">
+          <p className="text-gray-400">
+            💡 Klik tombol kategori di atas untuk memfilter artikel
+          </p>
         </div>
       </div>
     </div>
