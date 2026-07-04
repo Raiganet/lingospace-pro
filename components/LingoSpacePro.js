@@ -2,6 +2,22 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { 
+  BookOpen, 
+  CheckCircle2, 
+  Bookmark, 
+  HelpCircle, 
+  Volume2, 
+  Compass, 
+  Search, 
+  Grid,
+  TrendingUp, 
+  Award, 
+  FolderIcon, 
+  ArrowRight, 
+  ChevronRight,
+  Sparkles
+} from 'lucide-react';
 
 export default function LingoSpacePro() {
   // --- State Management ---
@@ -43,23 +59,19 @@ export default function LingoSpacePro() {
   const [englishLessons, setEnglishLessons] = useState([]);
   const [nahwuLessons, setNahwuLessons] = useState([]);
   const [roadmapData, setRoadmapData] = useState([]);
-  const [selectedNahwuTopic, setSelectedNahwuTopic] = useState(null);
-  const [selectedEnglishTopic, setSelectedEnglishTopic] = useState(null);
   const [roadmapLang, setRoadmapLang] = useState('English');
   const [expandedLevel, setExpandedLevel] = useState(null);
 
-  // Set mounted
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  // --- Load Data ---
+  // --- Load Data From APIs ---
   useEffect(() => {
     if (!mounted) return;
     
     const loadData = async () => {
       setLoading(true);
-      
       try {
         const vocabRes = await fetch('/api/vocabulary');
         const vocabData = await vocabRes.json();
@@ -67,8 +79,6 @@ export default function LingoSpacePro() {
         setFilteredData(vocabData || []);
       } catch (error) {
         console.error('Error loading vocabulary:', error);
-        setAllData([]);
-        setFilteredData([]);
       }
       
       try {
@@ -77,7 +87,6 @@ export default function LingoSpacePro() {
         setCategories(categoriesData || []);
       } catch (error) {
         console.error('Error loading categories:', error);
-        setCategories([]);
       }
       
       try {
@@ -85,12 +94,9 @@ export default function LingoSpacePro() {
         if (englishRes.ok) {
           const englishData = await englishRes.json();
           setEnglishLessons(englishData || []);
-        } else {
-          setEnglishLessons([]);
         }
       } catch (error) {
         console.error('Error loading english lessons:', error);
-        setEnglishLessons([]);
       }
       
       try {
@@ -98,12 +104,9 @@ export default function LingoSpacePro() {
         if (nahwuRes.ok) {
           const nahwuData = await nahwuRes.json();
           setNahwuLessons(nahwuData || []);
-        } else {
-          setNahwuLessons([]);
         }
       } catch (error) {
         console.error('Error loading nahwu lessons:', error);
-        setNahwuLessons([]);
       }
       
       try {
@@ -111,14 +114,10 @@ export default function LingoSpacePro() {
         if (roadmapRes.ok) {
           const roadmapData = await roadmapRes.json();
           setRoadmapData(roadmapData || []);
-        } else {
-          setRoadmapData([]);
         }
       } catch (error) {
         console.error('Error loading roadmap:', error);
-        setRoadmapData([]);
       }
-      
       setLoading(false);
     };
 
@@ -126,7 +125,7 @@ export default function LingoSpacePro() {
     loadBookmarks();
   }, [mounted]);
 
-  // --- Filter Data ---
+  // --- Filter Logic ---
   useEffect(() => {
     if (!mounted || allData.length === 0) return;
     
@@ -149,7 +148,7 @@ export default function LingoSpacePro() {
     setCurrentIndex(0);
   }, [categoryFilter, searchInput, allData, mounted]);
 
-  // --- Calculate Stats (Fixed Logika New Words) ---
+  // --- SRS Stats calculation ---
   useEffect(() => {
     if (!mounted || allData.length === 0) return;
     
@@ -159,17 +158,15 @@ export default function LingoSpacePro() {
       let totalCorrect = 0, totalWrong = 0;
 
       Object.values(srsData).forEach(srs => {
-        const level = srs.level || 0;
-        if (level >= 4) mastered++;
-        else if (level > 0) learning++;
+        const lvl = srs.level || 0;
+        if (lvl >= 4) mastered++;
+        else if (lvl > 0) learning++;
         
         totalCorrect += (srs.correct || 0);
         totalWrong += (srs.wrong || 0);
       });
 
-      // Solusi Perbaikan: Kalkulasi dinamis sisa kata baru
       const newWords = allData.length - (mastered + learning);
-
       const accuracy = (totalCorrect + totalWrong) > 0
         ? Math.round((totalCorrect / (totalCorrect + totalWrong)) * 100)
         : 0;
@@ -183,18 +180,16 @@ export default function LingoSpacePro() {
         bookmarks: bookmarks.length
       });
     } catch (e) {
-      console.error('Error calculating stats:', e);
+      console.error(e);
     }
   }, [allData, bookmarks, mounted]);
 
   const loadBookmarks = () => {
     try {
       const saved = localStorage.getItem('lingospace_bookmarks');
-      if (saved) {
-        setBookmarks(JSON.parse(saved));
-      }
+      if (saved) setBookmarks(JSON.parse(saved));
     } catch (e) {
-      console.error('Error loading bookmarks:', e);
+      console.error(e);
     }
   };
 
@@ -202,12 +197,14 @@ export default function LingoSpacePro() {
     setCurrentMode(mode);
     setCurrentIndex(0);
     setIsFlipped(false);
-    setSelectedNahwuTopic(null);
-    setSelectedEnglishTopic(null);
   };
 
-  const flipCard = () => {
-    setIsFlipped(!isFlipped);
+  const toggleBookmark = (wordId) => {
+    let newBookmarks = bookmarks.includes(wordId)
+      ? bookmarks.filter(id => id !== wordId)
+      : [...bookmarks, wordId];
+    setBookmarks(newBookmarks);
+    localStorage.setItem('lingospace_bookmarks', JSON.stringify(newBookmarks));
   };
 
   const nextCard = () => {
@@ -220,21 +217,6 @@ export default function LingoSpacePro() {
     if (filteredData.length === 0) return;
     setCurrentIndex((prev) => (prev - 1 + filteredData.length) % filteredData.length);
     setIsFlipped(false);
-  };
-
-  const toggleBookmark = (wordId) => {
-    let newBookmarks;
-    if (bookmarks.includes(wordId)) {
-      newBookmarks = bookmarks.filter(id => id !== wordId);
-    } else {
-      newBookmarks = [...bookmarks, wordId];
-    }
-    setBookmarks(newBookmarks);
-    try {
-      localStorage.setItem('lingospace_bookmarks', JSON.stringify(newBookmarks));
-    } catch (e) {
-      console.error('Error saving bookmarks:', e);
-    }
   };
 
   const rateCard = (isCorrect) => {
@@ -256,35 +238,27 @@ export default function LingoSpacePro() {
       srsData[item.id] = current;
       localStorage.setItem('lingospace_srs', JSON.stringify(srsData));
     } catch (e) {
-      console.error('Error saving SRS:', e);
+      console.error(e);
     }
 
     nextCard();
   };
 
-  // --- Core Audio Engine (Clean & Global) ---
   const playAudio = (text, lang) => {
     if (!text || text === '-') return;
-
-    const url = `https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=${lang}&q=${encodeURIComponent(text)}`;
-    const audio = new Audio(url);
-    audio.play().catch(() => {
-      if ('speechSynthesis' in window) {
-        window.speechSynthesis.cancel();
-        const utterance = new SpeechSynthesisUtterance(text);
-        utterance.lang = lang === 'ar' ? 'ar-SA' : lang === 'en' ? 'en-US' : 'id-ID';
-        window.speechSynthesis.speak(utterance);
-      }
-    });
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = lang === 'ar' ? 'ar-SA' : lang === 'en' ? 'en-US' : 'id-ID';
+      window.speechSynthesis.speak(utterance);
+    }
   };
 
-  // --- Quiz Logic Engine (Fixed Hang) ---
   const startQuiz = () => {
     if (filteredData.length < 4) {
-      alert('Minimal 4 kosakata diperlukan untuk kuis');
+      alert('Minimal butuh 4 kosakata untuk memulai kuis.');
       return;
     }
-
     const shuffled = [...filteredData].sort(() => 0.5 - Math.random());
     const selected = shuffled.slice(0, Math.min(10, shuffled.length));
 
@@ -300,7 +274,7 @@ export default function LingoSpacePro() {
         wordId: item.id,
         question: item.en,
         questionAr: item.ar,
-        options: options
+        options
       };
     });
 
@@ -314,86 +288,66 @@ export default function LingoSpacePro() {
     if (quizAnswered) return;
     setQuizAnswered(true);
 
-    const q = quizData[quizIndex];
-    const isCorrect = q.options[selectedIndex].correct;
-
-    if (isCorrect) {
+    if (quizData[quizIndex].options[selectedIndex].correct) {
       setQuizScore(prev => prev + 1);
     }
 
-    // Solusi Perbaikan: Indeks kuis dipaksa bertambah tanpa kondisi "if" yang mengunci di akhir soal
     setTimeout(() => {
       setQuizIndex(prev => prev + 1);
       setQuizAnswered(false);
-    }, 2000);
+    }, 1800);
   };
 
-  // --- Listen Logic Engine ---
   const startListen = () => {
-    if (filteredData.length < 4) {
-      alert('Minimal 4 kosakata diperlukan');
-      return;
-    }
-
+    if (filteredData.length < 4) return;
     const shuffled = [...filteredData].sort(() => 0.5 - Math.random()).slice(0, 4);
     setListenData(shuffled);
     setListenIndex(Math.floor(Math.random() * 4));
     setListenAnswered(false);
   };
 
-  const answerListen = (selectedIndex) => {
-    if (listenAnswered) return;
-    setListenAnswered(true);
-
-    setTimeout(() => {
-      setListenIndex(Math.floor(Math.random() * 4));
-      setListenAnswered(false);
-    }, 2500);
-  };
-
-  // --- Render Sub-Components Views ---
+  // --- Sub-views (UI Refactored) ---
   const renderDashboard = () => (
-    <div className="animate-fade-in">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-        <div className="glass rounded-2xl p-6 hover:scale-105 transition-transform">
-          <div className="text-3xl mb-2">📚</div>
-          <div className="text-3xl font-bold">{stats.totalWords}</div>
-          <div className="text-sm text-gray-400">Total Kosakata</div>
-        </div>
-        <div className="glass rounded-2xl p-6 hover:scale-105 transition-transform">
-          <div className="text-3xl mb-2">✅</div>
-          <div className="text-3xl font-bold text-green-400">{stats.mastered}</div>
-          <div className="text-sm text-gray-400">Dikuasai</div>
-        </div>
-        <div className="glass rounded-2xl p-6 hover:scale-105 transition-transform">
-          <div className="text-3xl mb-2">📖</div>
-          <div className="text-3xl font-bold text-yellow-400">{stats.learning}</div>
-          <div className="text-sm text-gray-400">Sedang Dipelajari</div>
-        </div>
-        <div className="glass rounded-2xl p-6 hover:scale-105 transition-transform">
-          <div className="text-3xl mb-2">🎯</div>
-          <div className="text-3xl font-bold text-purple-400">{stats.accuracy}%</div>
-          <div className="text-sm text-gray-400">Akurasi</div>
-        </div>
+    <div className="space-y-8 animate-fade-in">
+      {/* 4 Cards Stats Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        {[
+          { label: 'Total Kosakata', val: stats.totalWords, icon: <BookOpen className="w-5 h-5 text-blue-400" />, bg: 'from-blue-500/10 to-indigo-500/5', border: 'border-blue-500/20' },
+          { label: 'Dikuasai (Mastered)', val: stats.mastered, icon: <CheckCircle2 className="w-5 h-5 text-emerald-400" />, bg: 'from-emerald-500/10 to-teal-500/5', border: 'border-emerald-500/20' },
+          { label: 'Sedang Dipelajari', val: stats.learning, icon: <TrendingUp className="w-5 h-5 text-amber-400" />, bg: 'from-amber-500/10 to-orange-500/5', border: 'border-amber-500/20' },
+          { label: 'Rata-rata Akurasi', val: `${stats.accuracy}%`, icon: <Award className="w-5 h-5 text-purple-400" />, bg: 'from-purple-500/10 to-pink-500/5', border: 'border-purple-500/20' }
+        ].map((c, i) => (
+          <div key={i} className={`relative bg-gradient-to-br ${c.bg} border ${c.border} rounded-2xl p-6 backdrop-blur-md shadow-xl transition-all duration-300 hover:-translate-y-1`}>
+            <div className="flex items-center justify-between mb-4">
+              <span className="text-xs uppercase font-bold tracking-wider text-slate-400">{c.label}</span>
+              <div className="p-2 bg-slate-800/60 rounded-xl border border-white/5">{c.icon}</div>
+            </div>
+            <div className="text-3xl font-black tracking-tight text-white">{c.val}</div>
+          </div>
+        ))}
       </div>
 
-      <div className="glass rounded-2xl p-6 mb-6">
-        <h3 className="text-lg font-semibold mb-4">📈 Progress Belajar</h3>
-        <div className="space-y-4">
-          {['Dikuasai', 'Dipelajari', 'Baru'].map((label, idx) => {
-            const values = [stats.mastered, stats.learning, stats.newWords];
-            const total = stats.totalWords || 1;
-            const pct = Math.round((values[idx] / total) * 100);
-            const colors = ['from-green-400 to-emerald-500', 'from-yellow-400 to-orange-500', 'from-blue-400 to-purple-500'];
-
+      {/* Progress Section */}
+      <div className="bg-slate-900/40 border border-slate-800 rounded-2xl p-6 backdrop-blur-md shadow-xl">
+        <div className="flex items-center gap-2 mb-6">
+          <TrendingUp className="w-4 h-4 text-purple-400" />
+          <h3 className="text-base font-bold tracking-wide">Analisis Progres Memori (SRS)</h3>
+        </div>
+        <div className="space-y-5">
+          {[
+            { name: 'Dikuasai (Retensi Tinggi)', current: stats.mastered, color: 'from-emerald-400 to-teal-500' },
+            { name: 'Dipelajari (Interval Pendek)', current: stats.learning, color: 'from-amber-400 to-orange-500' },
+            { name: 'Kosakata Baru', current: stats.newWords, color: 'from-blue-400 to-purple-500' }
+          ].map((item, idx) => {
+            const percentage = stats.totalWords > 0 ? Math.round((item.current / stats.totalWords) * 100) : 0;
             return (
-              <div key={idx}>
-                <div className="flex justify-between text-sm mb-1">
-                  <span>{label}</span>
-                  <span>{pct}%</span>
+              <div key={idx} className="space-y-1.5">
+                <div className="flex justify-between text-xs font-medium">
+                  <span className="text-slate-300">{item.name}</span>
+                  <span className="text-slate-400 font-mono">{item.current} kata ({percentage}%)</span>
                 </div>
-                <div className="h-3 bg-gray-700 rounded-full overflow-hidden">
-                  <div className={`h-full bg-gradient-to-r ${colors[idx]} transition-all duration-500`} style={{ width: `${pct}%` }}></div>
+                <div className="h-2.5 bg-slate-950 rounded-full overflow-hidden border border-white/5">
+                  <div className={`h-full bg-gradient-to-r ${item.color} rounded-full transition-all duration-700`} style={{ width: `${percentage}%` }} />
                 </div>
               </div>
             );
@@ -401,18 +355,23 @@ export default function LingoSpacePro() {
         </div>
       </div>
 
-      <div className="glass rounded-2xl p-6">
-        <h3 className="text-lg font-semibold mb-4">🏆 Pencapaian</h3>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+      {/* Badges Pencapaian */}
+      <div className="bg-slate-900/40 border border-slate-800 rounded-2xl p-6 backdrop-blur-md shadow-xl">
+        <div className="flex items-center gap-2 mb-4">
+          <Award className="w-4 h-4 text-amber-400" />
+          <h3 className="text-base font-bold tracking-wide">Pencapaian Pengguna</h3>
+        </div>
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
           {[
-            { icon: '🌱', name: 'Pemula', req: stats.totalWords >= 1 },
-            { icon: '📚', name: 'Rajin', req: stats.mastered >= 5 },
-            { icon: '🎯', name: 'Tepat', req: stats.accuracy >= 80 },
-            { icon: '⭐', name: 'Kolektor', req: stats.bookmarks >= 5 }
+            { icon: '🌱', title: 'Pemula', desc: 'Mulai belajar', active: stats.totalWords >= 1 },
+            { icon: '📚', title: 'Cendekia', desc: '5+ Kata Mastered', active: stats.mastered >= 5 },
+            { icon: '🎯', title: 'Spesialis', desc: 'Akurasi > 80%', active: stats.accuracy >= 80 },
+            { icon: '⭐', title: 'Kolektor', desc: '5+ Bookmark', active: stats.bookmarks >= 5 }
           ].map((ach, idx) => (
-            <div key={idx} className={`p-4 rounded-xl border transition-all ${ach.req ? 'bg-gradient-to-br from-yellow-500/20 to-orange-500/20 border-yellow-500/30' : 'glass opacity-40'}`}>
-              <div className="text-3xl mb-2">{ach.icon}</div>
-              <div className="font-semibold text-sm">{ach.name}</div>
+            <div key={idx} className={`p-4 rounded-xl border text-center transition-all duration-300 ${ach.active ? 'bg-gradient-to-b from-slate-800/60 to-slate-900/60 border-amber-500/30' : 'bg-slate-900/20 border-slate-800/40 opacity-30'}`}>
+              <div className="text-3xl mb-2 filter drop-shadow">{ach.icon}</div>
+              <div className="font-bold text-sm text-white">{ach.title}</div>
+              <div className="text-xxs text-slate-400 mt-0.5">{ach.desc}</div>
             </div>
           ))}
         </div>
@@ -425,60 +384,70 @@ export default function LingoSpacePro() {
     const isBookmarked = bookmarks.includes(item.id);
 
     return (
-      <div className="animate-fade-in">
-        <div className="flex justify-between items-center mb-6 flex-wrap gap-3">
-          <div>
-            <h2 className="text-2xl font-bold">🎴 Flashcard Mode</h2>
-            <p className="text-gray-400 text-sm">Klik kartu untuk membalik</p>
-          </div>
-          <div className="flex items-center gap-3">
-            <button onClick={prevCard} className="p-3 rounded-full glass hover:scale-110 transition-transform">←</button>
-            <span className="text-sm font-semibold">{currentIndex + 1} / {filteredData.length}</span>
-            <button onClick={nextCard} className="p-3 rounded-full glass hover:scale-110 transition-transform">→</button>
+      <div className="max-w-3xl mx-auto space-y-6 animate-fade-in">
+        <div className="flex justify-between items-center bg-slate-900/20 p-3 rounded-xl border border-slate-800/60">
+          <span className="text-xs font-mono text-slate-400 uppercase tracking-wider">Materi {currentIndex + 1} dari {filteredData.length}</span>
+          <div className="flex items-center gap-2">
+            <button onClick={prevCard} className="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-white text-xs transition">◀ Prev</button>
+            <button onClick={nextCard} className="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-white text-xs transition">Next ▶</button>
           </div>
         </div>
 
-        <div className="perspective-1000 w-full max-w-2xl mx-auto h-96 cursor-pointer" onClick={flipCard}>
-          <div className={`relative w-full h-full transition-transform duration-600 transform-style-3d ${isFlipped ? 'rotate-y-180' : ''}`}>
-            <div className="absolute inset-0 backface-hidden bg-gradient-to-br from-purple-600 to-pink-600 rounded-2xl flex flex-col items-center justify-center p-8 shadow-2xl">
-              <p className="text-sm uppercase tracking-widest mb-4 opacity-80">Bahasa Indonesia</p>
-              <h2 className="text-4xl md:text-5xl font-bold text-center">{item.id_lang || '-'}</h2>
-              <p className="text-sm mt-8 opacity-60">Tap untuk melihat jawaban</p>
+        {/* Card Canvas Component */}
+        <div className="perspective-1000 w-full h-80 relative cursor-pointer" onClick={flipCard}>
+          <div className={`w-full h-full duration-500 transform-style-3d relative ${isFlipped ? 'rotate-y-180' : ''}`}>
+            {/* Front Card */}
+            <div className="absolute inset-0 backface-hidden bg-gradient-to-b from-slate-900 via-purple-950/40 to-slate-900 border border-purple-500/20 rounded-2xl flex flex-col items-center justify-center p-6 shadow-2xl">
+              <span className="text-xxs tracking-widest text-purple-400 font-bold uppercase mb-4">Bahasa Indonesia</span>
+              <h2 className="text-3xl md:text-4xl font-black tracking-tight text-white text-center">{item.id_lang || '-'}</h2>
+              <p className="text-xs text-slate-500 mt-6 animate-pulse">Klik kartu untuk melihat jawaban</p>
             </div>
-
-            <div className="absolute inset-0 backface-hidden bg-gradient-to-br from-pink-600 to-red-600 rounded-2xl flex flex-col items-center justify-center p-8 shadow-2xl rotate-y-180">
-              <div className="text-center w-full">
-                <p className="text-xs uppercase tracking-widest mb-2 opacity-80">English</p>
-                <h3 className="text-3xl font-bold mb-4">{item.en || '-'}</h3>
-                <div className="border-t border-white/30 my-3"></div>
-                <p className="text-xs uppercase tracking-widest mb-2 opacity-80">العربية (Arabic)</p>
-                <h3 className="text-4xl font-bold text-right" dir="rtl">{item.ar || '-'}</h3>
+            {/* Back Card */}
+            <div className="absolute inset-0 backface-hidden bg-gradient-to-b from-slate-900 via-indigo-950/40 to-slate-900 border border-indigo-500/20 rounded-2xl flex flex-col items-center justify-center p-6 shadow-2xl rotate-y-180">
+              <div className="text-center w-full space-y-4">
+                <div>
+                  <span className="text-xxs tracking-wider text-slate-400 uppercase">English Translation</span>
+                  <h3 className="text-2xl font-bold text-white mt-0.5">{item.en || '-'}</h3>
+                </div>
+                <div className="w-12 h-[1px] bg-slate-800 mx-auto" />
+                <div>
+                  <span className="text-xxs tracking-wider text-slate-400 uppercase">العربية (Arabic)</span>
+                  <h3 className="text-3xl font-bold text-amber-200 font-arabic mt-1" dir="rtl">{item.ar || '-'}</h3>
+                </div>
               </div>
             </div>
           </div>
         </div>
 
-        <div className="flex justify-center gap-3 mt-8 flex-wrap">
-          <button onClick={() => playAudio(item.en, 'en')} className="speaker-btn px-5 py-3 rounded-full glass hover:scale-105 transition-transform flex items-center gap-2">🔊 English</button>
-          <button onClick={() => playAudio(item.ar, 'ar')} className="speaker-btn px-5 py-3 rounded-full glass hover:scale-105 transition-transform flex items-center gap-2">🔊 العربية</button>
-          <button onClick={() => toggleBookmark(item.id)} className="px-5 py-3 rounded-full glass hover:scale-105 transition-transform flex items-center gap-2">
-            {isBookmarked ? '⭐ Tersimpan' : '☆ Favorit'}
+        {/* Action Controls */}
+        <div className="grid grid-cols-3 gap-3">
+          <button onClick={(e) => { e.stopPropagation(); playAudio(item.en, 'en'); }} className="p-3 rounded-xl bg-slate-900/60 border border-slate-800 hover:bg-slate-800 text-xs font-semibold flex items-center justify-center gap-2 transition">
+            <Volume2 className="w-4 h-4 text-blue-400" /> English Audio
+          </button>
+          <button onClick={(e) => { e.stopPropagation(); playAudio(item.ar, 'ar'); }} className="p-3 rounded-xl bg-slate-900/60 border border-slate-800 hover:bg-slate-800 text-xs font-semibold flex items-center justify-center gap-2 transition">
+            <Volume2 className="w-4 h-4 text-amber-400" /> Arabic Audio
+          </button>
+          <button onClick={(e) => { e.stopPropagation(); toggleBookmark(item.id); }} className="p-3 rounded-xl bg-slate-900/60 border border-slate-800 hover:bg-slate-800 text-xs font-semibold flex items-center justify-center gap-2 transition">
+            <Bookmark className={`w-4 h-4 ${isBookmarked ? 'fill-yellow-400 text-yellow-400' : 'text-slate-400'}`} /> {isBookmarked ? 'Tersimpan' : 'Simpan'}
           </button>
         </div>
 
-        <div className="flex justify-center gap-3 mt-4">
-          <button onClick={() => rateCard(false)} className="px-6 py-3 rounded-full bg-red-500/20 border border-red-500/50 hover:bg-red-500/40 transition-colors">😓 Sulit</button>
-          <button onClick={() => rateCard(true)} className="px-6 py-3 rounded-full bg-green-500/20 border border-green-500/50 hover:bg-green-500/40 transition-colors">😊 Mudah</button>
+        {/* SRS Rating Actions */}
+        <div className="bg-slate-900/40 p-4 border border-slate-800 rounded-xl flex items-center justify-between gap-4">
+          <span className="text-xs text-slate-400">Bagaimana tingkat kesulitan kosa kata ini bagi Anda?</span>
+          <div className="flex gap-2">
+            <button onClick={() => rateCard(false)} className="px-4 py-2 bg-red-500/10 hover:bg-red-500/20 border border-red-500/30 text-red-400 rounded-xl text-xs font-bold transition">Sulit (Ulang)</button>
+            <button onClick={() => rateCard(true)} className="px-4 py-2 bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 rounded-xl text-xs font-bold transition">Mudah (Lanjut)</button>
+          </div>
         </div>
 
+        {/* Context Sentence */}
         {(item.ex_en || item.ex_ar) && (
-          <div className="max-w-2xl mx-auto mt-8 glass rounded-2xl p-6 text-center">
-            <p className="text-xs uppercase text-gray-400 mb-3">Contoh Kalimat</p>
-            <p className="text-lg mb-2 text-blue-200">{item.ex_en}</p>
-            <p className="text-2xl text-pink-200 text-right" dir="rtl">{item.ex_ar}</p>
-            <div className="flex justify-center gap-2 mt-4">
-              <button onClick={() => playAudio(item.ex_en, 'en')} className="speaker-btn px-4 py-2 rounded-lg glass text-sm hover:scale-105 transition-transform">🔊 EN</button>
-              <button onClick={() => playAudio(item.ex_ar, 'ar')} className="speaker-btn px-4 py-2 rounded-lg glass text-sm hover:scale-105 transition-transform">🔊 AR</button>
+          <div className="bg-slate-900/40 border border-slate-800 rounded-2xl p-6 space-y-4 shadow-lg">
+            <span className="text-xxs text-purple-400 uppercase font-black tracking-widest">Contoh Penggunaan Kalimat</span>
+            <div className="space-y-2">
+              <p className="text-base text-slate-200 italic">"{item.ex_en}"</p>
+              <p className="text-2xl text-amber-100/90 font-arabic text-right leading-relaxed" dir="rtl">{item.ex_ar}</p>
             </div>
           </div>
         )}
@@ -489,65 +458,67 @@ export default function LingoSpacePro() {
   const renderQuiz = () => {
     if (quizData.length === 0) {
       return (
-        <div className="max-w-2xl mx-auto text-center">
-          <div className="glass rounded-2xl p-8">
-            <div className="text-6xl mb-4">🎯</div>
-            <h2 className="text-2xl font-bold mb-4">Quiz Mode</h2>
-            <button onClick={startQuiz} className="px-6 py-3 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 font-semibold hover:scale-105 transition-transform">
-               Mulai Kuis
-            </button>
-          </div>
+        <div className="max-w-md mx-auto text-center p-8 bg-slate-900/40 border border-slate-800 rounded-2xl shadow-xl backdrop-blur-md">
+          <HelpCircle className="w-12 h-12 text-purple-400 mx-auto mb-4" />
+          <h2 className="text-xl font-bold mb-2">Quiz Evaluasi</h2>
+          <p className="text-slate-400 text-xs mb-6">Uji pemahaman memori Anda dari 10 soal acak kategori aktif.</p>
+          <button onClick={startQuiz} className="w-full py-3 bg-gradient-to-r from-purple-500 to-indigo-600 font-bold text-sm rounded-xl hover:opacity-90 transition shadow-lg shadow-purple-500/20">
+            Mulai Sesi Kuis
+          </button>
         </div>
       );
     }
 
     if (quizIndex >= quizData.length) {
-      const pct = Math.round((quizScore / quizData.length) * 100);
+      const percentage = Math.round((quizScore / quizData.length) * 100);
       return (
-        <div className="max-w-2xl mx-auto text-center">
-          <div className="glass rounded-2xl p-8">
-            <div className="text-6xl mb-4">{pct >= 80 ? '🏆' : pct >= 60 ? '🎉' : '📚'}</div>
-            <h2 className="text-3xl font-bold mb-2">{pct >= 80 ? 'Luar Biasa!' : pct >= 60 ? 'Bagus!' : 'Terus Berlatih!'}</h2>
-            <p className="text-gray-400 mb-6">Skor Anda: {quizScore}/{quizData.length} ({pct}%)</p>
-            <button onClick={startQuiz} className="px-6 py-3 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 font-semibold hover:scale-105 transition-transform">
-               🔄 Coba Lagi
-            </button>
-          </div>
+        <div className="max-w-md mx-auto text-center p-8 bg-slate-900/40 border border-slate-800 rounded-2xl shadow-xl backdrop-blur-md">
+          <Award className="w-14 h-14 text-amber-400 mx-auto mb-3" />
+          <h2 className="text-2xl font-black tracking-tight text-white">Kuis Selesai!</h2>
+          <p className="text-slate-400 text-xs mt-1 mb-4">Hasil rekaman akurasi kuis Anda</p>
+          <div className="text-4xl font-extrabold text-purple-400 font-mono mb-2">{percentage}%</div>
+          <p className="text-sm text-slate-300 mb-6">Benar {quizScore} dari {quizData.length} Pertanyaan</p>
+          <button onClick={startQuiz} className="w-full py-2.5 bg-slate-800 border border-slate-700 font-semibold text-xs rounded-xl hover:bg-slate-700 transition">
+            🔄 Ulangi Latihan
+          </button>
         </div>
       );
     }
 
-    const q = quizData[quizIndex];
+    const currentQuizItem = quizData[quizIndex];
 
     return (
-      <div className="max-w-2xl mx-auto">
-        <div className="glass rounded-2xl p-8 text-center">
-          <div className="flex justify-between items-center mb-6">
-            <span className="text-sm text-gray-400">Soal {quizIndex + 1}/{quizData.length}</span>
-            <span className="text-sm font-semibold">Skor: <span className="text-green-400">{quizScore}</span></span>
-          </div>
+      <div className="max-w-xl mx-auto bg-slate-900/40 border border-slate-800 rounded-2xl p-6 shadow-xl backdrop-blur-md">
+        <div className="flex justify-between items-center text-xs font-mono text-slate-400 mb-6">
+          <span>PROGRES: {quizIndex + 1} / {quizData.length}</span>
+          <span>SKOR: <span className="text-emerald-400 font-bold">{quizScore}</span></span>
+        </div>
 
-          <div className="mb-8">
-            <p className="text-sm text-gray-400 mb-2">Apa arti dari:</p>
-            <h2 className="text-4xl font-bold mb-2">{q.question}</h2>
-            {q.questionAr && <p className="text-3xl text-purple-300 mb-4 text-right" dir="rtl">{q.questionAr}</p>}
-            <button onClick={() => playAudio(q.question, 'en')} className="speaker-btn px-4 py-2 rounded-full glass text-sm hover:scale-105 transition-transform">🔊 Dengarkan</button>
-          </div>
+        <div className="text-center mb-8">
+          <span className="text-xxs uppercase tracking-widest text-purple-400 font-bold">Terjemahkan Kosa Kata Berikut</span>
+          <h2 className="text-3xl font-black mt-2 text-white">{currentQuizItem.question}</h2>
+          {currentQuizItem.questionAr && (
+            <p className="text-2xl text-amber-200 mt-2 font-arabic" dir="rtl">{currentQuizItem.questionAr}</p>
+          )}
+        </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-            {q.options.map((opt, i) => (
-              <button
-                key={i}
-                onClick={() => answerQuiz(i)}
-                disabled={quizAnswered}
-                className={`p-4 rounded-xl glass hover:scale-105 transition-transform text-left font-medium ${
-                  quizAnswered && opt.correct ? 'bg-green-500/40 border-2 border-green-500' : ''
-                } ${quizAnswered && !opt.correct && i === q.options.findIndex(o => o.correct) ? 'bg-red-500/40 border-2 border-red-500' : ''}`}
-              >
-                {String.fromCharCode(65 + i)}. {opt.text}
-              </button>
-            ))}
-          </div>
+        <div className="grid grid-cols-1 gap-3">
+          {currentQuizItem.options.map((option, idx) => (
+            <button
+              key={idx}
+              onClick={() => answerQuiz(idx)}
+              disabled={quizAnswered}
+              className={`p-4 rounded-xl border text-left text-sm font-medium transition-all ${
+                quizAnswered && option.correct 
+                  ? 'bg-emerald-500/10 border-emerald-500 text-emerald-400 font-bold' 
+                  : quizAnswered && !option.correct 
+                  ? 'bg-slate-900/20 border-slate-800 text-slate-500 opacity-60' 
+                  : 'bg-slate-900/40 border-slate-800 hover:border-slate-700 text-slate-200'
+              }`}
+            >
+              <span className="font-mono text-xs text-purple-400 mr-2">{String.fromCharCode(65 + idx)}.</span> {option.text}
+            </button>
+          ))}
         </div>
       </div>
     );
@@ -556,14 +527,13 @@ export default function LingoSpacePro() {
   const renderListen = () => {
     if (listenData.length === 0) {
       return (
-        <div className="max-w-2xl mx-auto text-center">
-          <div className="glass rounded-2xl p-8">
-            <h2 className="text-2xl font-bold mb-2">🎧 Listen & Learn</h2>
-            <p className="text-gray-400 text-sm mb-8">Dengarkan dan tebak artinya</p>
-            <button onClick={startListen} className="px-6 py-3 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 font-semibold hover:scale-105 transition-transform">
-               Mulai
-            </button>
-          </div>
+        <div className="max-w-md mx-auto text-center p-8 bg-slate-900/40 border border-slate-800 rounded-2xl shadow-xl">
+          <Volume2 className="w-12 h-12 text-pink-400 mx-auto mb-3" />
+          <h2 className="text-xl font-bold mb-2">Listen & Learn</h2>
+          <p className="text-slate-400 text-xs mb-6">Latih kepekaan mendengarkan pelafalan bahasa asing native audio.</p>
+          <button onClick={startListen} className="w-full py-3 bg-gradient-to-r from-pink-500 to-purple-600 font-bold text-sm rounded-xl hover:opacity-90 transition">
+            Mulai Audio Pemelajaran
+          </button>
         </div>
       );
     }
@@ -571,34 +541,31 @@ export default function LingoSpacePro() {
     const item = listenData[listenIndex];
 
     return (
-      <div className="max-w-2xl mx-auto">
-        <div className="glass rounded-2xl p-8 text-center">
-          <h2 className="text-2xl font-bold mb-2">🎧 Listen & Learn</h2>
-          <p className="text-gray-400 text-sm mb-8">Dengarkan dan tebak artinya</p>
+      <div className="max-w-md mx-auto bg-slate-900/40 border border-slate-800 rounded-2xl p-8 text-center shadow-xl">
+        <span className="text-xxs uppercase tracking-widest text-slate-400 font-bold block mb-6">Klik Tombol Speaker Untuk Memutar</span>
+        
+        <button 
+          onClick={() => playAudio(listenLang === 'en' ? item.en : item.ar, listenLang)} 
+          className="w-24 h-24 rounded-full bg-gradient-to-br from-purple-600 to-pink-600 text-3xl flex items-center justify-center mx-auto hover:scale-105 transition shadow-xl shadow-purple-600/20 mb-6"
+        >
+          🔊
+        </button>
 
-          <button onClick={() => playAudio(listenLang === 'en' ? item.en : item.ar, listenLang)} className="big-play-btn mx-auto mb-8 w-32 h-32 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 text-5xl hover:scale-110 transition-transform shadow-2xl">
-            🔊
-          </button>
+        <div className="flex bg-slate-950 p-1 rounded-xl border border-white/5 max-w-xs mx-auto mb-8">
+          <button onClick={() => setListenLang('en')} className={`flex-1 py-1.5 text-xs font-bold rounded-lg transition ${listenLang === 'en' ? 'bg-slate-800 text-white' : 'text-slate-400'}`}>English</button>
+          <button onClick={() => setListenLang('ar')} className={`flex-1 py-1.5 text-xs font-bold rounded-lg transition ${listenLang === 'ar' ? 'bg-slate-800 text-white' : 'text-slate-400'}`}>العربية</button>
+        </div>
 
-          <div className="flex gap-2 mb-6 justify-center">
-            <button onClick={() => setListenLang('en')} className={`px-4 py-2 rounded-full glass text-sm transition-all ${listenLang === 'en' ? 'bg-purple-500/40' : ''}`}>English</button>
-            <button onClick={() => setListenLang('ar')} className={`px-4 py-2 rounded-full glass text-sm transition-all ${listenLang === 'ar' ? 'bg-purple-500/40' : ''}`}>العربية</button>
-          </div>
-
-          <div className="grid grid-cols-2 gap-3">
-            {listenData.map((opt, i) => (
-              <button
-                key={i}
-                onClick={() => answerListen(i)}
-                disabled={listenAnswered}
-                className={`p-4 rounded-xl glass hover:scale-105 transition-transform font-medium ${
-                  listenAnswered && i === listenIndex ? 'bg-green-500/40' : ''
-                }`}
-              >
-                {opt.id_lang}
-              </button>
-            ))}
-          </div>
+        <div className="grid grid-cols-2 gap-3">
+          {listenData.map((opt, i) => (
+            <button
+              key={i}
+              onClick={() => { setListenAnswered(true); setTimeout(() => { setListenAnswered(false); startListen(); }, 1500); }}
+              className={`p-3 text-xs font-medium border rounded-xl transition ${listenAnswered && i === listenIndex ? 'bg-emerald-500/10 border-emerald-500 text-emerald-400' : 'bg-slate-900/40 border-slate-800'}`}
+            >
+              {opt.id_lang}
+            </button>
+          ))}
         </div>
       </div>
     );
@@ -608,28 +575,33 @@ export default function LingoSpacePro() {
     const bookmarkedData = allData.filter(item => bookmarks.includes(item.id));
 
     return (
-      <div className="animate-fade-in">
-        <h2 className="text-2xl font-bold mb-6">⭐ Kosakata Favorit</h2>
+      <div className="space-y-6 animate-fade-in">
+        <div className="border-b border-slate-800 pb-4">
+          <h2 className="text-xl font-bold">⭐ Kosakata Favorit Anda</h2>
+          <p className="text-xs text-slate-400 mt-0.5">Daftar kata terenkripsi lokal yang Anda simpan untuk ulasan intensif.</p>
+        </div>
+
         {bookmarkedData.length === 0 ? (
-          <div className="text-center py-16 text-gray-400">
-            <div className="text-6xl mb-4">⭐</div>
-            <p>Belum ada kosakata favorit</p>
-            <p className="text-sm mt-2">Klik tombol ⭐ di mode Flashcard untuk menambahkan</p>
+          <div className="text-center py-16 bg-slate-900/10 border border-dashed border-slate-800 rounded-2xl">
+            <Bookmark className="w-10 h-10 text-slate-600 mx-auto mb-3" />
+            <p className="text-sm text-slate-400">Belum ada koleksi tersimpan.</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {bookmarkedData.map((item) => (
-              <div key={item.id} className="glass rounded-2xl p-6 hover:scale-105 transition-transform">
-                <div className="flex justify-between items-start mb-3">
-                  <span className="text-xs px-2 py-1 rounded-full bg-purple-500/20 text-purple-300">{item.category}</span>
-                  <button onClick={() => toggleBookmark(item.id)} className="text-yellow-400 hover:scale-110 transition-transform">⭐</button>
+              <div key={item.id} className="bg-slate-900/40 border border-slate-800 p-5 rounded-xl shadow-md flex flex-col justify-between">
+                <div>
+                  <div className="flex justify-between items-center mb-3">
+                    <span className="text-xxs px-2 py-0.5 rounded bg-purple-500/10 border border-purple-500/20 text-purple-300 uppercase tracking-wider font-bold">{item.category}</span>
+                    <button onClick={() => toggleBookmark(item.id)} className="text-yellow-400 text-sm">⭐</button>
+                  </div>
+                  <h3 className="text-lg font-bold text-white">{item.en}</h3>
+                  <p className="text-2xl text-amber-200 text-right font-arabic my-2" dir="rtl">{item.ar}</p>
+                  <p className="text-xs text-slate-400 italic">"{item.id_lang}"</p>
                 </div>
-                <h3 className="text-xl font-bold mb-1">{item.en}</h3>
-                <p className="text-2xl text-purple-300 mb-2 text-right" dir="rtl">{item.ar}</p>
-                <p className="text-gray-400 text-sm">{item.id_lang}</p>
-                <div className="flex gap-2 mt-4">
-                  <button onClick={() => playAudio(item.en, 'en')} className="flex-1 py-2 rounded-lg glass text-sm hover:scale-105 transition-transform">🔊 EN</button>
-                  <button onClick={() => playAudio(item.ar, 'ar')} className="flex-1 py-2 rounded-lg glass text-sm hover:scale-105 transition-transform">🔊 AR</button>
+                <div className="grid grid-cols-2 gap-2 mt-4 border-t border-slate-800/60 pt-3">
+                  <button onClick={() => playAudio(item.en, 'en')} className="py-1.5 text-xxs font-bold bg-slate-800 rounded-lg border border-slate-700 hover:bg-slate-700 transition">🔊 EN</button>
+                  <button onClick={() => playAudio(item.ar, 'ar')} className="py-1.5 text-xxs font-bold bg-slate-800 rounded-lg border border-slate-700 hover:bg-slate-700 transition">🔊 AR</button>
                 </div>
               </div>
             ))}
@@ -641,49 +613,18 @@ export default function LingoSpacePro() {
 
   const renderRoadmap = () => {
     const filteredRoadmap = roadmapData.filter(item => item.language === roadmapLang);
-
-    const getLessonsForLevel = (level) => {
-      if (roadmapLang === 'Arabic') {
-        return nahwuLessons.filter(lesson => lesson.level === level);
-      } else {
-        return englishLessons.filter(lesson => lesson.level === level);
-      }
-    };
+    const getLessonsForLevel = (level) => roadmapLang === 'Arabic' ? nahwuLessons.filter(l => l.level === level) : englishLessons.filter(l => l.level === level);
 
     return (
-      <div className="animate-fade-in max-w-4xl mx-auto">
-        <div className="text-center mb-8">
-          <h2 className="text-3xl font-bold mb-2">🗺️ Roadmap Pembelajaran</h2>
-          <p className="text-gray-400">Pilih jalur belajar Anda</p>
+      <div className="max-w-3xl mx-auto space-y-6 animate-fade-in">
+        <div className="text-center space-y-1">
+          <h2 className="text-2xl font-black tracking-tight">🗺️ Kurikulum & Roadmap</h2>
+          <p className="text-xs text-slate-400">Jalur pemelajaran berjenjang standar kompetensi CEFR.</p>
         </div>
 
-        <div className="flex justify-center gap-4 mb-8">
-          <button 
-            onClick={() => {
-              setRoadmapLang('English');
-              setExpandedLevel(null);
-            }}
-            className={`px-6 py-3 rounded-full font-semibold transition-all ${
-              roadmapLang === 'English' 
-                ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg' 
-                : 'glass hover:scale-105'
-            }`}
-          >
-             Bahasa Inggris
-          </button>
-          <button 
-            onClick={() => {
-              setRoadmapLang('Arabic');
-              setExpandedLevel(null);
-            }}
-            className={`px-6 py-3 rounded-full font-semibold transition-all ${
-              roadmapLang === 'Arabic' 
-                ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg' 
-                : 'glass hover:scale-105'
-            }`}
-          >
-             🇸️ Bahasa Arab
-          </button>
+        <div className="flex justify-center bg-slate-950 p-1 rounded-xl border border-slate-800 max-w-xs mx-auto">
+          <button onClick={() => { setRoadmapLang('English'); setExpandedLevel(null); }} className={`flex-1 py-2 text-xs font-bold rounded-lg transition ${roadmapLang === 'English' ? 'bg-gradient-to-r from-purple-500 to-indigo-600 text-white shadow-md' : 'text-slate-400'}`}>English Route</button>
+          <button onClick={() => { setRoadmapLang('Arabic'); setExpandedLevel(null); }} className={`flex-1 py-2 text-xs font-bold rounded-lg transition ${roadmapLang === 'Arabic' ? 'bg-gradient-to-r from-purple-500 to-indigo-600 text-white shadow-md' : 'text-slate-400'}`}>Arabic Route</button>
         </div>
 
         <div className="space-y-4">
@@ -692,64 +633,42 @@ export default function LingoSpacePro() {
             const isExpanded = expandedLevel === level.id;
 
             return (
-              <div key={idx} className="glass rounded-2xl p-6 transition-all hover:scale-105">
+              <div key={idx} className="bg-slate-900/40 border border-slate-800 rounded-2xl p-5 transition hover:border-slate-700 shadow-xl">
                 <div className="flex items-start gap-4">
-                  <div className={`flex-shrink-0 w-16 h-16 rounded-full flex items-center justify-center text-2xl ${
-                    lessons.length > 0 ? 'bg-gradient-to-br from-purple-500 to-pink-500' : 'bg-gray-600'
-                  }`}>
-                    {lessons.length > 0 ? '📚' : '🔒'}
+                  <div className={`w-12 h-12 rounded-xl flex items-center justify-center text-xl font-bold flex-shrink-0 ${lessons.length > 0 ? 'bg-purple-500/10 border border-purple-500/20 text-purple-400' : 'bg-slate-800 text-slate-500'}`}>
+                    {lessons.length > 0 ? '✓' : '🔒'}
                   </div>
                   <div className="flex-1">
-                    <h3 className="text-xl font-bold mb-1">Level {level.level}: {level.title}</h3>
-                    <span className="text-xs px-2 py-1 rounded-full bg-purple-500/20 text-purple-300">{level.category}</span>
-                    <p className="text-gray-300 mt-2">{level.description}</p>
-                    
-                    <div className="mt-4">
-                      <div className="flex justify-between text-sm mb-1">
-                        <span>{lessons.length} materi tersedia</span>
-                        <span>{level.requiredWords} kata target</span>
-                      </div>
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <h3 className="text-base font-bold text-white">Level {level.level}: {level.title}</h3>
+                      <span className="text-xxs px-2 py-0.5 rounded bg-slate-800 text-slate-400 font-mono">{level.category}</span>
                     </div>
-
+                    <p className="text-xs text-slate-300 mt-1">{level.description}</p>
+                    
                     {lessons.length > 0 ? (
                       <button 
                         onClick={() => setExpandedLevel(isExpanded ? null : level.id)}
-                        className="mt-4 px-6 py-2 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 font-semibold hover:scale-105 transition-transform"
+                        className="mt-4 px-4 py-1.5 bg-slate-800 hover:bg-slate-700 text-white font-semibold text-xs rounded-lg transition flex items-center gap-1.5"
                       >
-                        {isExpanded ? '🔼 Tutup' : '🚀 Mulai Belajar'}
+                        {isExpanded ? 'Sembunyikan Modul ▲' : 'Buka Modul Kelas ▼'}
                       </button>
                     ) : (
-                      <button 
-                        disabled
-                        className="mt-4 px-6 py-2 rounded-full bg-gray-600 font-semibold cursor-not-allowed"
-                      >
-                        🔒 Segera Hadir
-                      </button>
+                      <span className="mt-4 inline-block text-xxs text-slate-500 font-medium">Modul kurikulum terkunci otomatis oleh sistem</span>
                     )}
                   </div>
                 </div>
 
                 {isExpanded && lessons.length > 0 && (
-                  <div className="mt-6 pt-6 border-t border-white/10 animate-fade-in">
-                    <h4 className="text-lg font-semibold mb-4 text-purple-300">
-                      📖 Daftar Materi - Level {level.level}
-                    </h4>
-                    <div className="space-y-3">
-                      {lessons.map((lesson, lIdx) => (
-                        <div key={lIdx} className="p-4 rounded-xl bg-black/20 border border-white/5 flex justify-between items-center">
-                          <div>
-                            <h5 className="font-bold text-white">{lesson.title}</h5>
-                            <p className="text-xs text-gray-400 mt-1">{lesson.description || 'Klik untuk melatih pelafalan materi ini'}</p>
-                          </div>
-                          <button 
-                            onClick={() => playAudio(lesson.title, roadmapLang === 'Arabic' ? 'ar' : 'en')}
-                            className="p-2.5 rounded-lg glass text-sm hover:scale-105 transition-all"
-                          >
-                            🔊 Putar
-                          </button>
+                  <div className="mt-5 pt-4 border-t border-slate-800/80 space-y-2 animate-fade-in">
+                    {lessons.map((lesson, lIdx) => (
+                      <div key={lIdx} className="p-3 bg-slate-950/40 rounded-xl border border-white/5 flex justify-between items-center gap-4">
+                        <div>
+                          <h5 className="text-xs font-bold text-white">{lesson.title}</h5>
+                          <p className="text-xxs text-slate-400 mt-0.5">{lesson.description || 'Pelatihan tatah bahasa dan struktur teks'}</p>
                         </div>
-                      ))}
-                    </div>
+                        <button onClick={() => playAudio(lesson.title, roadmapLang === 'Arabic' ? 'ar' : 'en')} className="p-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs transition">🔊 Play</button>
+                      </div>
+                    ))}
                   </div>
                 )}
               </div>
@@ -760,77 +679,75 @@ export default function LingoSpacePro() {
     );
   };
 
-  if (!mounted || loading) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center justify-center text-white">
-        <div className="text-center">
-          <div className="w-16 h-16 border-4 border-white/20 border-t-purple-500 rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-lg font-semibold">Sinkronisasi LingoSpace Pro...</p>
-        </div>
-      </div>
-    );
-  }
-
-  // --- Main Application View Wrapper ---
+  // --- Main View Wrapper ---
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white font-sans selection:bg-purple-500/30">
-      
-      {/* 1. Global Navigation Bar */}
-      <header className="border-b border-white/10 bg-slate-900/80 backdrop-blur-md sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+    <div className="min-h-screen bg-[#0b0f19] bg-radial-gradient text-slate-100 font-sans antialiased">
+      {/* Dynamic Header Navbar System */}
+      <header className="sticky top-0 z-50 border-b border-slate-900 bg-[#0b0f19]/80 backdrop-blur-xl">
+        <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
           <div className="flex items-center gap-2 cursor-pointer" onClick={() => switchMode('dashboard')}>
-            <span className="text-2xl">🌌</span>
-            <span className="font-black tracking-wider text-xl bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">LINGOSPACE PRO</span>
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-purple-500 to-pink-500 flex items-center justify-center shadow-lg shadow-purple-500/20">
+              <Sparkles className="w-4 h-4 text-white" />
+            </div>
+            <span className="font-black text-sm tracking-widest bg-gradient-to-r from-white via-slate-200 to-slate-400 bg-clip-text text-transparent">LINGOSPACE PRO</span>
           </div>
-          <nav className="flex items-center gap-1 sm:gap-2">
-            {['dashboard', 'flashcard', 'quiz', 'listen', 'bookmarks', 'roadmap'].map((mode) => (
+          
+          <nav className="flex items-center gap-1">
+            {[
+              { id: 'dashboard', name: 'Dashboard', icon: <Grid className="w-3.5 h-3.5" /> },
+              { id: 'flashcard', name: 'Flashcard', icon: <FolderIcon className="w-3.5 h-3.5" /> },
+              { id: 'quiz', name: 'Quiz', icon: <HelpCircle className="w-3.5 h-3.5" /> },
+              { id: 'roadmap', name: 'Roadmap', icon: <Compass className="w-3.5 h-3.5" /> }
+            ].map((tab) => (
               <button
-                key={mode}
-                onClick={() => switchMode(mode)}
-                className={`px-3 py-1.5 rounded-lg text-xs md:text-sm font-medium transition-all capitalize ${
-                  currentMode === mode ? 'bg-purple-600 text-white shadow-lg shadow-purple-600/30' : 'text-gray-400 hover:text-white hover:bg-white/5'
+                key={tab.id}
+                onClick={() => switchMode(tab.id)}
+                className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 ${
+                  currentMode === tab.id 
+                    ? 'bg-slate-800 text-white border border-slate-700 shadow-inner' 
+                    : 'text-slate-400 hover:text-white hover:bg-white/5'
                 }`}
               >
-                {mode}
+                {tab.icon}
+                <span className="hidden sm:inline">{tab.name}</span>
               </button>
             ))}
-            <Link 
-              href="/blog" 
-              className="ml-2 px-3 py-1.5 rounded-lg text-xs md:text-sm font-bold bg-gradient-to-r from-pink-500 to-rose-500 text-white hover:opacity-90 transition-opacity"
-            >
+            
+            <Link href="/blog" className="ml-2 px-3 py-1.5 rounded-lg text-xs font-bold bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-md hover:opacity-90 transition">
               📰 Blog
             </Link>
           </nav>
         </div>
       </header>
 
-      {/* 2. Main Area (Content Injection) */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        
-        {/* Real-time Vocab Search & Filter (Hanya muncul di mode tertentu) */}
+      {/* Main Container Core */}
+      <main className="max-w-6xl mx-auto px-4 py-8 space-y-6">
+        {/* Universal Sub-Header Toolbar Search */}
         {['flashcard', 'bookmarks'].includes(currentMode) && (
-          <div className="glass rounded-2xl p-4 mb-6 flex flex-col md:flex-row gap-4 items-center justify-between">
-            <div className="relative w-full md:w-72">
+          <div className="bg-slate-900/40 border border-slate-800 p-3 rounded-xl flex flex-col sm:flex-row gap-3 items-center justify-between backdrop-blur-md">
+            <div className="relative w-full sm:w-64">
+              <Search className="absolute left-3 top-2.5 w-4 h-4 text-slate-500" />
               <input
                 type="text"
                 placeholder="Cari kata (EN, AR, ID)..."
                 value={searchInput}
                 onChange={(e) => setSearchInput(e.target.value)}
-                className="w-full bg-black/20 border border-white/10 rounded-xl px-4 py-2 text-sm focus:outline-none focus:border-purple-500 text-white placeholder-gray-500"
+                className="w-full bg-slate-950 border border-slate-800 rounded-lg pl-9 pr-4 py-1.5 text-xs focus:outline-none focus:border-purple-500 text-white placeholder-slate-600"
               />
             </div>
-            <div className="flex gap-2 w-full md:w-auto overflow-x-auto pb-1 md:pb-0">
+            
+            <div className="flex gap-1.5 w-full sm:w-auto overflow-x-auto pb-1 sm:pb-0">
               <button 
                 onClick={() => setCategoryFilter('all')} 
-                className={`px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-all ${categoryFilter === 'all' ? 'bg-purple-500/20 text-purple-300 border border-purple-500/40' : 'glass text-gray-400'}`}
+                className={`px-3 py-1.5 rounded-lg text-xxs font-bold uppercase tracking-wider transition whitespace-nowrap ${categoryFilter === 'all' ? 'bg-purple-500/10 border border-purple-500/30 text-purple-400' : 'bg-slate-950 text-slate-400 border border-transparent'}`}
               >
-                Semua Kategori
+                All
               </button>
               {categories.map((cat, idx) => (
                 <button
                   key={idx}
                   onClick={() => setCategoryFilter(cat)}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-all ${categoryFilter === cat ? 'bg-purple-500/20 text-purple-300 border border-purple-500/40' : 'glass text-gray-400'}`}
+                  className={`px-3 py-1.5 rounded-lg text-xxs font-bold uppercase tracking-wider transition whitespace-nowrap ${categoryFilter === cat ? 'bg-purple-500/10 border border-purple-500/30 text-purple-400' : 'bg-slate-950 text-slate-400'}`}
                 >
                   {cat}
                 </button>
@@ -839,23 +756,24 @@ export default function LingoSpacePro() {
           </div>
         )}
 
-        {/* Render Switch Condition */}
-        {currentMode === 'dashboard' && renderDashboard()}
-        {currentMode === 'flashcard' && renderFlashcard()}
-        {currentMode === 'quiz' && renderQuiz()}
-        {currentMode === 'listen' && renderListen()}
-        {currentMode === 'bookmarks' && renderBookmarks()}
-        {currentMode === 'roadmap' && renderRoadmap()}
+        {/* Content Injector Conditional Routing */}
+        <div className="min-h-[26rem]">
+          {currentMode === 'dashboard' && renderDashboard()}
+          {currentMode === 'flashcard' && renderFlashcard()}
+          {currentMode === 'quiz' && renderQuiz()}
+          {currentMode === 'listen' && renderListen()}
+          {currentMode === 'bookmarks' && renderBookmarks()}
+          {currentMode === 'roadmap' && renderRoadmap()}
+        </div>
       </main>
 
-      {/* 3. Global Footer System */}
-      <footer className="mt-20 border-t border-white/10 bg-slate-950/60 py-12 backdrop-blur-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center md:flex md:items-center md:justify-between">
-          <p className="text-sm text-gray-500">&copy; 2026 LingoSpace Pro. Hak Cipta Dilindungi.</p>
-          <div className="flex justify-center gap-6 mt-4 md:mt-0 text-sm">
-            <Link href="/privacy-policy" className="text-gray-500 hover:text-gray-300 transition">Privacy Policy</Link>
-            <Link href="/terms" className="text-gray-500 hover:text-gray-300 transition">Terms of Service</Link>
-            <Link href="/about" className="text-gray-500 hover:text-gray-300 transition">About Us</Link>
+      {/* Shared Global Modern Footer */}
+      <footer className="border-t border-slate-900/60 bg-slate-950/40 py-8 backdrop-blur-md mt-16 text-xs text-slate-500">
+        <div className="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <p>&copy; 2026 LingoSpace Pro Dashboard. All rights reserved.</p>
+          <div className="flex gap-4 font-medium">
+            <Link href="/privacy" className="hover:text-slate-300 transition">Privacy Policy</Link>
+            <Link href="/terms" className="hover:text-slate-300 transition">Terms</Link>
           </div>
         </div>
       </footer>
