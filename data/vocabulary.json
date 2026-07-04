@@ -1,0 +1,6275 @@
+[
+ {
+   "ID": 1,
+   "English": "Awake",
+   "Arabic": "اِسْتَيْقَظَ - يَسْتَيْقِظُ",
+   "Indonesian": "Bangun",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 2,
+   "English": "Work",
+   "Arabic": "عَمِلَ - يَعْمَلُ",
+   "Indonesian": "Bekerja",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 3,
+   "English": "Study",
+   "Arabic": "دَرَسَ - يَدْرُسُ",
+   "Indonesian": "Belajar",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 4,
+   "English": "Hate",
+   "Arabic": "كَرِهَ - يَكْرَهُ",
+   "Indonesian": "Benci",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 5,
+   "English": "Speak",
+   "Arabic": "تَحَدَّثَ - يَتَحَدَّثُ",
+   "Indonesian": "Berbicara",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 6,
+   "English": "Talk",
+   "Arabic": "تَكَلَّمَ - يَتَكَلَّمُ",
+   "Indonesian": "Berbicara",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 7,
+   "English": "Lie",
+   "Arabic": "كَذَبَ - يَكْذِبُ",
+   "Indonesian": "Berbohong",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 8,
+   "English": "Hunt",
+   "Arabic": "صَادَ - يَصِيْدُ",
+   "Indonesian": "Berburu",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 9,
+   "English": "Stand",
+   "Arabic": "قَامَ - يَقُوْمُ",
+   "Indonesian": "Berdiri",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 10,
+   "English": "Wish",
+   "Arabic": "دَعَا - يَدْعُو",
+   "Indonesian": "Berdoa",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 11,
+   "English": "Swim",
+   "Arabic": "سَبَحَ - يَسْبَحُ",
+   "Indonesian": "Berenang",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 12,
+   "English": "Join",
+   "Arabic": "اِنْضَمَّ - يَنْضَمُّ",
+   "Indonesian": "Bergabung",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 13,
+   "English": "Hope",
+   "Arabic": "رَجَا - يَرْجُو",
+   "Indonesian": "Berharap",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 14,
+   "English": "Stop",
+   "Arabic": "وَقَفَ - يَقِفُ",
+   "Indonesian": "Berhenti",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 15,
+   "English": "Owe",
+   "Arabic": "اِسْتَدَانَ - يَسْتَدِيْنُ",
+   "Indonesian": "Berhutang",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 16,
+   "English": "Walk",
+   "Arabic": "مَشَى - يَمْشِي",
+   "Indonesian": "Berjalan",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 17,
+   "English": "Play",
+   "Arabic": "لَعِبَ - يَلْعَبُ",
+   "Indonesian": "Bermain",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 18,
+   "English": "Sing",
+   "Arabic": "غَنَّى - يُغَنِّي",
+   "Indonesian": "Bernyanyi",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 19,
+   "English": "Dress",
+   "Arabic": "لَبِسَ - يَلْبَسُ",
+   "Indonesian": "Berpakaian",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 20,
+   "English": "Think",
+   "Arabic": "فَكَّرَ - يُفَكِّرُ",
+   "Indonesian": "Berpikir",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 21,
+   "English": "Pretend",
+   "Arabic": "تَظَاهَرَ - يَتَظَاهَرُ",
+   "Indonesian": "Berpura-pura",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 22,
+   "English": "Spin",
+   "Arabic": "دَارَ - يَدُوْرُ",
+   "Indonesian": "Berputar",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 23,
+   "English": "Shine",
+   "Arabic": "لَمَعَ - يَلْمَعُ",
+   "Indonesian": "Bersinar",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 24,
+   "English": "Swear",
+   "Arabic": "حَلَفَ - يَحْلِفُ",
+   "Indonesian": "Bersumpah",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 25,
+   "English": "Meet",
+   "Arabic": "لَقِيَ - يَلْقَى",
+   "Indonesian": "Bertemu",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 26,
+   "English": "Yell",
+   "Arabic": "صَرَخَ - يَصْرُخُ",
+   "Indonesian": "Berteriak",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 27,
+   "English": "Love",
+   "Arabic": "أَحَبَّ - يُحِبُّ",
+   "Indonesian": "Cinta",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 28,
+   "English": "Come",
+   "Arabic": "جَاءَ - يَجِيْءُ",
+   "Indonesian": "Datang",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 29,
+   "English": "Sit",
+   "Arabic": "جَلَسَ - يَجْلِسُ",
+   "Indonesian": "Duduk",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 30,
+   "English": "Remember",
+   "Arabic": "تَذَكَّرَ - يَتَذَكَّرُ",
+   "Indonesian": "Ingat",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 31,
+   "English": "Want",
+   "Arabic": "أَرَادَ - يُرِيْدُ",
+   "Indonesian": "Ingin",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 32,
+   "English": "Break",
+   "Arabic": "اِسْتَرَاحَ - يَسْتَرِيْحُ",
+   "Indonesian": "Istirahat",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 33,
+   "English": "Promise",
+   "Arabic": "وَعَدَ - يَعِدُ",
+   "Indonesian": "Janji",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 34,
+   "English": "Fall",
+   "Arabic": "سَقَطَ - يَسْقُطُ",
+   "Indonesian": "Jatuh",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 35,
+   "English": "Lose",
+   "Arabic": "اِنْهَزَمَ - يَنْهَزِمُ",
+   "Indonesian": "Kalah",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 36,
+   "English": "Pass",
+   "Arabic": "نَجَحَ - يَنْجَحُ",
+   "Indonesian": "Lulus",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 37,
+   "English": "Forget",
+   "Arabic": "نَسِيَ - يَنْسَى",
+   "Indonesian": "Lupa",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 38,
+   "English": "Eat",
+   "Arabic": "أَكَلَ - يَأْكُلُ",
+   "Indonesian": "Makan",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 39,
+   "English": "Do",
+   "Arabic": "فَعَلَ - يَفْعَلُ",
+   "Indonesian": "Melakukan",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 40,
+   "English": "Forbid",
+   "Arabic": "نَهَى - يَنْهَى",
+   "Indonesian": "Melarang",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 41,
+   "English": "Burst",
+   "Arabic": "فَجَّرَ - يُفَجِّرُ",
+   "Indonesian": "Meledakkan",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 42,
+   "English": "Throw",
+   "Arabic": "رَمَى - يَرْمِي",
+   "Indonesian": "Melemparkan",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 43,
+   "English": "Look",
+   "Arabic": "نَظَرَ - يَنْظُرُ إِلَى",
+   "Indonesian": "Melihat",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 44,
+   "English": "See",
+   "Arabic": "رَأَى - يَرَى",
+   "Indonesian": "Melihat",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 45,
+   "English": "Fold",
+   "Arabic": "لَفَّفَ - يُلَفِّفُ",
+   "Indonesian": "Melipat",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 46,
+   "English": "Jump",
+   "Arabic": "قَفَزَ - يَقْفِزُ",
+   "Indonesian": "Melompat",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 47,
+   "English": "Forgive",
+   "Arabic": "عَفَا - يَعْفُو",
+   "Indonesian": "Memaafkan",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 48,
+   "English": "Understand",
+   "Arabic": "فَهِمَ - يَفْهَمُ",
+   "Indonesian": "Memahami",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 49,
+   "English": "Guide",
+   "Arabic": "قَادَ - يَقُوْدُ",
+   "Indonesian": "Memandu",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 50,
+   "English": "Call",
+   "Arabic": "نَادَى - يُنَادِي",
+   "Indonesian": "Memanggil",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 51,
+   "English": "Cook",
+   "Arabic": "طَبَخَ - يَطْبَخُ",
+   "Indonesian": "Memasak",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 52,
+   "English": "Turn off",
+   "Arabic": "أَطْفَأَ - يُطْفِئُ",
+   "Indonesian": "Mematikan",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 53,
+   "English": "Read",
+   "Arabic": "قَرَأَ - يَقْرَأُ",
+   "Indonesian": "Membaca",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 54,
+   "English": "Divide",
+   "Arabic": "وَزَّعَ - يُوَزِّعُ",
+   "Indonesian": "Membagi",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 55,
+   "English": "Split",
+   "Arabic": "قَسَمَ - يَقْسِمُ",
+   "Indonesian": "Memisahkan",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 56,
+   "English": "Share",
+   "Arabic": "وَزَّعَ - يُوَزِّعُ",
+   "Indonesian": "Membagikan",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 57,
+   "English": "Burn",
+   "Arabic": "أَحْرَقَ - يُحْرِقُ",
+   "Indonesian": "Membakar",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 58,
+   "English": "Compare",
+   "Arabic": "وَازَنَ - يُوَازِنُ",
+   "Indonesian": "Membandingkan",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 59,
+   "English": "Build",
+   "Arabic": "بَنَى - يَبْنِي",
+   "Indonesian": "Membangun",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 60,
+   "English": "Help",
+   "Arabic": "سَاعَدَ - يُسَاعِدُ",
+   "Indonesian": "Membantu",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 61,
+   "English": "Bring",
+   "Arabic": "حَمَلَ - يَحْمِلُ",
+   "Indonesian": "Membawa",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 62,
+   "English": "Pay",
+   "Arabic": "دَفَعَ - يَدْفَعُ",
+   "Indonesian": "Membayar",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 63,
+   "English": "Buy",
+   "Arabic": "اِشْتَرَى - يَشْتَرِي",
+   "Indonesian": "Membeli",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 64,
+   "English": "Feed",
+   "Arabic": "أَطْعَمَ - يُطْعِمُ",
+   "Indonesian": "Memberi makan",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 65,
+   "English": "Give",
+   "Arabic": "أَعْطَى - يُعْطِي",
+   "Indonesian": "Memberikan",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 66,
+   "English": "Clean",
+   "Arabic": "نَظَّفَ - يُنَظِّفُ",
+   "Indonesian": "Membersihkan",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 67,
+   "English": "Make",
+   "Arabic": "صَنَعَ - يَصْنَعُ",
+   "Indonesian": "Membuat",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 68,
+   "English": "Open",
+   "Arabic": "فَتَحَ - يَفْتَحُ",
+   "Indonesian": "Membuka",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 69,
+   "English": "Hold",
+   "Arabic": "أَمْسَكَ - يُمْسِكُ",
+   "Indonesian": "Memegang",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 70,
+   "English": "Choose",
+   "Arabic": "اِخْتَارَ - يَخْتَارُ",
+   "Indonesian": "Memilih",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 71,
+   "English": "Borrow",
+   "Arabic": "اِسْتَعَارَ - يَسْتَعِيْرُ",
+   "Indonesian": "Meminjam",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 72,
+   "English": "Ask",
+   "Arabic": "طَلَبَ - يَطْلُبُ",
+   "Indonesian": "Meminta",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 73,
+   "English": "Cut",
+   "Arabic": "قَطَعَ - يَقْطَعُ",
+   "Indonesian": "Memotong",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 74,
+   "English": "Affect",
+   "Arabic": "أَثَّرَ - يُؤَثِّرُ",
+   "Indonesian": "Mempengaruhi",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 75,
+   "English": "Fix",
+   "Arabic": "أَصْلَحَ - يُصْلِحُ",
+   "Indonesian": "Memperbaiki",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 76,
+   "English": "Introduce",
+   "Arabic": "عَرَّفَ - يُعَرِّفُ",
+   "Indonesian": "Memperkenalkan",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 77,
+   "English": "Expand",
+   "Arabic": "وَسَّعَ - يُوَسِّعُ",
+   "Indonesian": "Memperluas",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 78,
+   "English": "Extend",
+   "Arabic": "أَطَالَ - يُطِيْلُ",
+   "Indonesian": "Memperpanjang",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 79,
+   "English": "Prepare",
+   "Arabic": "أَعَدَّ - يُعِدُّ",
+   "Indonesian": "Mempersiapkan",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 80,
+   "English": "Praise",
+   "Arabic": "مَدَحَ - يَمْدَحُ",
+   "Indonesian": "Memuji",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 81,
+   "English": "Hit",
+   "Arabic": "ضَرَبَ - يَضْرِبُ",
+   "Indonesian": "Memukul",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 82,
+   "English": "Add",
+   "Arabic": "زَادَ - يَزِيْدُ",
+   "Indonesian": "Menambahkan",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 83,
+   "English": "Spank",
+   "Arabic": "لَطَمَ - يَلْطِمُ",
+   "Indonesian": "Menampar",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 84,
+   "English": "Plant",
+   "Arabic": "زَرَعَ - يَزْرَعُ",
+   "Indonesian": "Menanam",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 85,
+   "English": "Win",
+   "Arabic": "فَازَ - يَفُوْزُ",
+   "Indonesian": "Menang",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 86,
+   "English": "Cry",
+   "Arabic": "بَكَى - يَبْكِي",
+   "Indonesian": "Menangis",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 87,
+   "English": "Catch",
+   "Arabic": "قَبَضَ - يَقْبِضُ عَلَى",
+   "Indonesian": "Menangkap",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 88,
+   "English": "Put",
+   "Arabic": "وَضَعَ - يَضَعُ",
+   "Indonesian": "Menaruh",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 89,
+   "English": "Advise",
+   "Arabic": "نَصَحَ - يَنْصَحُ",
+   "Indonesian": "Menasihati",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 90,
+   "English": "Tell",
+   "Arabic": "قَصَّ - يَقُصُّ",
+   "Indonesian": "Menceritakan",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 91,
+   "English": "Kiss",
+   "Arabic": "قَبَّلَ - يُقَبِّلُ",
+   "Indonesian": "Mencium",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 92,
+   "English": "Try",
+   "Arabic": "جَرَّبَ - يُجَرِّبُ",
+   "Indonesian": "Mencoba",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 93,
+   "English": "Wash",
+   "Arabic": "غَسَلَ - يَغْسِلُ",
+   "Indonesian": "Mencuci",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 94,
+   "English": "Shave",
+   "Arabic": "حَلَقَ - يَحْلِقُ",
+   "Indonesian": "Mencukur",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 95,
+   "English": "Steal",
+   "Arabic": "سَرَقَ - يَسْرِقُ",
+   "Indonesian": "Mencuri",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 96,
+   "English": "Get",
+   "Arabic": "حَصَلَ - يَحْصُلُ عَلَى",
+   "Indonesian": "Mendapatkan",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 97,
+   "English": "Listen",
+   "Arabic": "سَمِعَ - يَسْمَعُ",
+   "Indonesian": "Mendengarkan",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 98,
+   "English": "Boil",
+   "Arabic": "غَلَا - يَغْلِي",
+   "Indonesian": "Mendidih",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 99,
+   "English": "Find",
+   "Arabic": "وَجَدَ - يَجِدُ",
+   "Indonesian": "Menemukan",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 100,
+   "English": "Kick",
+   "Arabic": "رَفَسَ - يَرْفُسُ",
+   "Indonesian": "Menendang",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 101,
+   "English": "Receive",
+   "Arabic": "اِسْتَلَمَ - يَسْتَلِمُ",
+   "Indonesian": "Menerima",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 102,
+   "English": "Ignore",
+   "Arabic": "أَهْمَلَ - يُهْمِلُ",
+   "Indonesian": "Mengabaikan",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 103,
+   "English": "Teach",
+   "Arabic": "دَرَّسَ - يُدَرِّسُ",
+   "Indonesian": "Mengajar",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 104,
+   "English": "End",
+   "Arabic": "أَنْهَى - يُنْهِي",
+   "Indonesian": "Mengakhiri",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 105,
+   "English": "Admit",
+   "Arabic": "اِعْتَرَفَ - يَعْتَرِفُ",
+   "Indonesian": "Mengakui",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 106,
+   "English": "Take",
+   "Arabic": "أَخَذَ - يَأْخُذُ",
+   "Indonesian": "Mengambil",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 107,
+   "English": "Say",
+   "Arabic": "قَالَ - يَقُوْلُ",
+   "Indonesian": "Mengatakan",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 108,
+   "English": "Set",
+   "Arabic": "أَدَارَ - يُدِيْرُ",
+   "Indonesian": "Mengatur",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 109,
+   "English": "Taste",
+   "Arabic": "ذَاقَ - يَذُوْقُ",
+   "Indonesian": "Mengecap rasa",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 110,
+   "English": "Ride",
+   "Arabic": "رَكِبَ - يَرْكَبُ",
+   "Indonesian": "Mengendarai",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 111,
+   "English": "Dig",
+   "Arabic": "حَفَرَ - يَحْفِرُ",
+   "Indonesian": "Menggali",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 112,
+   "English": "Draw",
+   "Arabic": "رَسَمَ - يَرْسُمُ",
+   "Indonesian": "Menggambar",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 113,
+   "English": "Describe",
+   "Arabic": "صَوَّرَ - يُصَوِّرُ",
+   "Indonesian": "Menggambarkan",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 114,
+   "English": "Hang",
+   "Arabic": "عَلَّقَ - يُعَلِّقُ",
+   "Indonesian": "Menggantung",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 115,
+   "English": "Scratch",
+   "Arabic": "حَكَّ - يَحُكُّ",
+   "Indonesian": "Menggaruk",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 116,
+   "English": "Bite",
+   "Arabic": "عَضَّ - يَعَضُّ",
+   "Indonesian": "Menggigit",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 117,
+   "English": "Spend",
+   "Arabic": "أَنْهَى - يُنْهِي",
+   "Indonesian": "Menghabiskan",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 118,
+   "English": "Attend",
+   "Arabic": "حَضَرَ - يَحْضُرُ",
+   "Indonesian": "Menghadiri",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 119,
+   "English": "Erase",
+   "Arabic": "مَحَا - يَمْحُو",
+   "Indonesian": "Menghapus",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 120,
+   "English": "Count",
+   "Arabic": "أَحْصَى - يُحْصِي",
+   "Indonesian": "Menghitung",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 121,
+   "English": "Punish",
+   "Arabic": "عَاقَبَ - يُعَاقِبُ",
+   "Indonesian": "Menghukum",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 122,
+   "English": "Follow",
+   "Arabic": "تَبِعَ - يَتْبَعُ",
+   "Indonesian": "Mengikuti",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 123,
+   "English": "Remind",
+   "Arabic": "ذَكَّرَ - يُذَكِّرُ",
+   "Indonesian": "Mengingatkan",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 124,
+   "English": "Guess",
+   "Arabic": "ظَنَّ - يَظُنُّ",
+   "Indonesian": "Mengira",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 125,
+   "English": "Send",
+   "Arabic": "أَرْسَلَ - يُرْسِلُ",
+   "Indonesian": "Mengirim",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 126,
+   "English": "Allow",
+   "Arabic": "أَذِنَ - يَأْذَنُ",
+   "Indonesian": "Mengizinkan",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 127,
+   "English": "Invite",
+   "Arabic": "دَعَا - يَدْعُو",
+   "Indonesian": "Mengundang",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 128,
+   "English": "Visit",
+   "Arabic": "زَارَ - يَزُوْرُ",
+   "Indonesian": "Mengunjungi",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 129,
+   "English": "Die",
+   "Arabic": "مَاتَ - يَمُوْتُ",
+   "Indonesian": "Meninggal dunia",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 130,
+   "English": "Leave",
+   "Arabic": "غَادَرَ - يُغَادِرُ",
+   "Indonesian": "Meninggalkan",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 131,
+   "English": "Blow",
+   "Arabic": "نَفَخَ - يَنْفُخُ",
+   "Indonesian": "Meniup",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 132,
+   "English": "Be",
+   "Arabic": "كَانَ - يَكُوْنُ",
+   "Indonesian": "Menjadi",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 133,
+   "English": "Become",
+   "Arabic": "صَارَ - يَصِيْرُ",
+   "Indonesian": "Menjadi",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 134,
+   "English": "Answer",
+   "Arabic": "أَجَابَ - يُجِيْبُ",
+   "Indonesian": "Menjawab",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 135,
+   "English": "Explain",
+   "Arabic": "بَيَّنَ - يُبَيِّنُ",
+   "Indonesian": "Menjelaskan",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 136,
+   "English": "Sell",
+   "Arabic": "بَاعَ - يَبِيْعُ",
+   "Indonesian": "Menjual",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 137,
+   "English": "Refuse",
+   "Arabic": "رَفَضَ - يَرْفُضُ",
+   "Indonesian": "Menolak",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 138,
+   "English": "Watch",
+   "Arabic": "شَاهَدَ - يُشَاهِدُ",
+   "Indonesian": "Menonton",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 139,
+   "English": "Accuse",
+   "Arabic": "اِتَّهَمَ - يَتَّهِمُ",
+   "Indonesian": "Menuduh",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 140,
+   "English": "Write",
+   "Arabic": "كَتَبَ - يَكْتُبُ",
+   "Indonesian": "Menulis",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 141,
+   "English": "Delay",
+   "Arabic": "أَخَّرَ - يُؤَخِّرُ",
+   "Indonesian": "Menunda",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 142,
+   "English": "Wait",
+   "Arabic": "اِنْتَظَرَ - يَنْتَظِرُ",
+   "Indonesian": "Menunggu",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 143,
+   "English": "Cross",
+   "Arabic": "عَبَرَ - يَعْبُرُ",
+   "Indonesian": "Menyeberang",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 144,
+   "English": "Mention",
+   "Arabic": "ذَكَرَ - يَذْكُرُ",
+   "Indonesian": "Menyebut",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 145,
+   "English": "Hide",
+   "Arabic": "أَخْفَى - يُخْفِي",
+   "Indonesian": "Menyembunyikan",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 146,
+   "English": "Attack",
+   "Arabic": "هَاجَمَ - يُهَاجِمُ",
+   "Indonesian": "Menyerang",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 147,
+   "English": "Drive",
+   "Arabic": "سَاقَ - يَسُوْقُ",
+   "Indonesian": "Menyetir",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 148,
+   "English": "Agree",
+   "Arabic": "وَافَقَ - يُوَافِقُ",
+   "Indonesian": "Menyetujui",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 149,
+   "English": "Waste",
+   "Arabic": "ضَيَّعَ - يُضَيِّعُ",
+   "Indonesian": "Menyia-nyiakan",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 150,
+   "English": "Save",
+   "Arabic": "حَفِظَ - يَحْفَظُ",
+   "Indonesian": "Menyimpan",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Kerja"
+ },
+ {
+   "ID": 151,
+   "English": "Independence",
+   "Arabic": "اِسْتِقْلَالٌ",
+   "Indonesian": "Kemerdekaan",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Benda"
+ },
+ {
+   "ID": 152,
+   "English": "Homework",
+   "Arabic": "الوَاجِبُ المَنْزِلِيُّ",
+   "Indonesian": "Pekerjaan Rumah",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Benda"
+ },
+ {
+   "ID": 153,
+   "English": "Holiday",
+   "Arabic": "إِجَازَةٌ",
+   "Indonesian": "Liburan",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Benda"
+ },
+ {
+   "ID": 154,
+   "English": "Father",
+   "Arabic": "أَبٌ",
+   "Indonesian": "Ayah",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Keluarga"
+ },
+ {
+   "ID": 155,
+   "English": "Brother",
+   "Arabic": "أَخٌ",
+   "Indonesian": "Saudara",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Keluarga"
+ },
+ {
+   "ID": 156,
+   "English": "Week",
+   "Arabic": "أُسْبُوْعٌ",
+   "Indonesian": "Minggu",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Waktu"
+ },
+ {
+   "ID": 157,
+   "English": "Family",
+   "Arabic": "أُسْرَةٌ",
+   "Indonesian": "Keluarga",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Keluarga"
+ },
+ {
+   "ID": 158,
+   "English": "Mother",
+   "Arabic": "أُمٌّ",
+   "Indonesian": "Ibu",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Keluarga"
+ },
+ {
+   "ID": 159,
+   "English": "Ocean",
+   "Arabic": "بَحْرٌ",
+   "Indonesian": "Lautan",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Alam"
+ },
+ {
+   "ID": 160,
+   "English": "History",
+   "Arabic": "تَارِيْخٌ",
+   "Indonesian": "Sejarah",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Umum"
+ },
+ {
+   "ID": 161,
+   "English": "College",
+   "Arabic": "جَامِعَةٌ",
+   "Indonesian": "Perguruan Tinggi",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Tempat"
+ },
+ {
+   "ID": 162,
+   "English": "Grandfather",
+   "Arabic": "جَدٌّ",
+   "Indonesian": "Kakek",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Keluarga"
+ },
+ {
+   "ID": 163,
+   "English": "Grandmother",
+   "Arabic": "جَدَّةٌ",
+   "Indonesian": "Nenek",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Keluarga"
+ },
+ {
+   "ID": 164,
+   "English": "Island",
+   "Arabic": "جَزِيْرَةٌ",
+   "Indonesian": "Pulau",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Tempat"
+ },
+ {
+   "ID": 165,
+   "English": "Direction",
+   "Arabic": "جِهَةٌ",
+   "Indonesian": "Arah",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Umum"
+ },
+ {
+   "ID": 166,
+   "English": "Answer",
+   "Arabic": "جَوَابٌ",
+   "Indonesian": "Jawaban",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Umum"
+ },
+ {
+   "ID": 167,
+   "English": "Insect",
+   "Arabic": "حَشَرَةٌ",
+   "Indonesian": "Serangga",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Hewan"
+ },
+ {
+   "ID": 168,
+   "English": "Government",
+   "Arabic": "حُكُوْمَةٌ",
+   "Indonesian": "Pemerintah",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Umum"
+ },
+ {
+   "ID": 169,
+   "English": "Bathroom",
+   "Arabic": "حَمَّامٌ",
+   "Indonesian": "Kamar Mandi",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Rumah"
+ },
+ {
+   "ID": 170,
+   "English": "Conversation",
+   "Arabic": "حِوَارٌ",
+   "Indonesian": "Percakapan",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Umum"
+ },
+ {
+   "ID": 171,
+   "English": "Animal",
+   "Arabic": "حَيَوَانٌ",
+   "Indonesian": "Hewan",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Hewan"
+ },
+ {
+   "ID": 172,
+   "English": "News",
+   "Arabic": "خَبَرٌ",
+   "Indonesian": "Berita",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Umum"
+ },
+ {
+   "ID": 173,
+   "English": "Bread",
+   "Arabic": "خُبْزٌ",
+   "Indonesian": "Roti",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Makanan"
+ },
+ {
+   "ID": 174,
+   "English": "Wood",
+   "Arabic": "خَشَبٌ",
+   "Indonesian": "Kayu",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Benda"
+ },
+ {
+   "ID": 175,
+   "English": "Horse",
+   "Arabic": "خَيْلٌ",
+   "Indonesian": "Kuda",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Hewan"
+ },
+ {
+   "ID": 176,
+   "English": "Disease",
+   "Arabic": "دَاءٌ",
+   "Indonesian": "Penyakit",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Umum"
+ },
+ {
+   "ID": 177,
+   "English": "Circle",
+   "Arabic": "دَائِرَةٌ",
+   "Indonesian": "Lingkaran",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Umum"
+ },
+ {
+   "ID": 178,
+   "English": "Bike",
+   "Arabic": "دَرَّاجَةٌ",
+   "Indonesian": "Sepeda",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kendaraan"
+ },
+ {
+   "ID": 179,
+   "English": "Country",
+   "Arabic": "دَوْلَةٌ",
+   "Indonesian": "Negara",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Tempat"
+ },
+ {
+   "ID": 180,
+   "English": "Angle",
+   "Arabic": "زَاوِيَةٌ",
+   "Indonesian": "Sudut",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Umum"
+ },
+ {
+   "ID": 181,
+   "English": "Garbage",
+   "Arabic": "زُبَالَةٌ",
+   "Indonesian": "Sampah",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Umum"
+ },
+ {
+   "ID": 182,
+   "English": "Earthquake",
+   "Arabic": "زِلْزَالٌ",
+   "Indonesian": "Gempa Bumi",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Alam"
+ },
+ {
+   "ID": 183,
+   "English": "Flower",
+   "Arabic": "زَهْرَةٌ",
+   "Indonesian": "Bunga",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Alam"
+ },
+ {
+   "ID": 184,
+   "English": "Wife",
+   "Arabic": "زَوْجَةٌ",
+   "Indonesian": "Istri",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Keluarga"
+ },
+ {
+   "ID": 185,
+   "English": "Driver",
+   "Arabic": "سَائِقٌ",
+   "Indonesian": "Sopir",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Profesi"
+ },
+ {
+   "ID": 186,
+   "English": "Bed",
+   "Arabic": "سَرِيْرٌ",
+   "Indonesian": "Tempat Tidur",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Rumah"
+ },
+ {
+   "ID": 187,
+   "English": "Gun",
+   "Arabic": "سِلَاحٌ",
+   "Indonesian": "Senjata",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Benda"
+ },
+ {
+   "ID": 188,
+   "English": "Year",
+   "Arabic": "سَنَةٌ",
+   "Indonesian": "Tahun",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Waktu"
+ },
+ {
+   "ID": 189,
+   "English": "Car",
+   "Arabic": "سَيَّارَةٌ",
+   "Indonesian": "Mobil",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kendaraan"
+ },
+ {
+   "ID": 190,
+   "English": "Road",
+   "Arabic": "شَارِعٌ",
+   "Indonesian": "Jalan",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Tempat"
+ },
+ {
+   "ID": 191,
+   "English": "Ghost",
+   "Arabic": "شَبَحٌ",
+   "Indonesian": "Hantu",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Umum"
+ },
+ {
+   "ID": 192,
+   "English": "Tree",
+   "Arabic": "شَجَرَةٌ",
+   "Indonesian": "Pohon",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Alam"
+ },
+ {
+   "ID": 193,
+   "English": "Sun",
+   "Arabic": "شَمْسٌ",
+   "Indonesian": "Matahari",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Alam"
+ },
+ {
+   "ID": 194,
+   "English": "Month",
+   "Arabic": "شَهْرٌ",
+   "Indonesian": "Bulan",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Waktu"
+ },
+ {
+   "ID": 195,
+   "English": "Morning",
+   "Arabic": "صَبَاحٌ",
+   "Indonesian": "Pagi",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Waktu"
+ },
+ {
+   "ID": 196,
+   "English": "Newspaper",
+   "Arabic": "صَحِيْفَةٌ",
+   "Indonesian": "Koran",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Benda"
+ },
+ {
+   "ID": 197,
+   "English": "Picture",
+   "Arabic": "صُوْرَةٌ",
+   "Indonesian": "Gambar",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Benda"
+ },
+ {
+   "ID": 198,
+   "English": "Frog",
+   "Arabic": "ضِفْدَعٌ",
+   "Indonesian": "Katak",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Hewan"
+ },
+ {
+   "ID": 199,
+   "English": "Airplane",
+   "Arabic": "طَائِرَةٌ",
+   "Indonesian": "Pesawat",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kendaraan"
+ },
+ {
+   "ID": 200,
+   "English": "Joke",
+   "Arabic": "طُرْفَةٌ",
+   "Indonesian": "Lelucon",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Umum"
+ },
+ {
+   "ID": 201,
+   "English": "Food",
+   "Arabic": "طَعَامٌ",
+   "Indonesian": "Makanan",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Makanan"
+ },
+ {
+   "ID": 202,
+   "English": "Child",
+   "Arabic": "طِفْلٌ",
+   "Indonesian": "Anak",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Keluarga"
+ },
+ {
+   "ID": 203,
+   "English": "Weather",
+   "Arabic": "طَقْسٌ",
+   "Indonesian": "Cuaca",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Alam"
+ },
+ {
+   "ID": 204,
+   "English": "Bird",
+   "Arabic": "طَيْرٌ",
+   "Indonesian": "Burung",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Hewan"
+ },
+ {
+   "ID": 205,
+   "English": "World",
+   "Arabic": "عَالَمٌ",
+   "Indonesian": "Dunia",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Umum"
+ },
+ {
+   "ID": 206,
+   "English": "Worker",
+   "Arabic": "عَامِلٌ",
+   "Indonesian": "Pekerja",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Profesi"
+ },
+ {
+   "ID": 207,
+   "English": "Honey",
+   "Arabic": "عَسَلٌ",
+   "Indonesian": "Madu",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Makanan"
+ },
+ {
+   "ID": 208,
+   "English": "Dinner",
+   "Arabic": "عَشَاءٌ",
+   "Indonesian": "Makan Malam",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Makanan"
+ },
+ {
+   "ID": 209,
+   "English": "Grass",
+   "Arabic": "عُشْبٌ",
+   "Indonesian": "Rumput",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Alam"
+ },
+ {
+   "ID": 210,
+   "English": "Vacation",
+   "Arabic": "عُطْلَةٌ",
+   "Indonesian": "Liburan",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Waktu"
+ },
+ {
+   "ID": 211,
+   "English": "Agreement",
+   "Arabic": "عَقْدٌ",
+   "Indonesian": "Perjanjian",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Umum"
+ },
+ {
+   "ID": 212,
+   "English": "Science",
+   "Arabic": "عِلْمٌ",
+   "Indonesian": "Ilmu",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Umum"
+ },
+ {
+   "ID": 213,
+   "English": "Aunt",
+   "Arabic": "عَمَّةٌ",
+   "Indonesian": "Bibi",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Keluarga"
+ },
+ {
+   "ID": 214,
+   "English": "Bedroom",
+   "Arabic": "غُرْفَةُ النَّوْمِ",
+   "Indonesian": "Kamar Tidur",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Rumah"
+ },
+ {
+   "ID": 215,
+   "English": "Song",
+   "Arabic": "غِنَاءٌ",
+   "Indonesian": "Lagu",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Umum"
+ },
+ {
+   "ID": 216,
+   "English": "Hall",
+   "Arabic": "قَاعَةٌ",
+   "Indonesian": "Aula",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Tempat"
+ },
+ {
+   "ID": 217,
+   "English": "Village",
+   "Arabic": "قُرْيَةٌ",
+   "Indonesian": "Desa",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Tempat"
+ },
+ {
+   "ID": 218,
+   "English": "Cat",
+   "Arabic": "قِطٌّ",
+   "Indonesian": "Kucing",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Hewan"
+ },
+ {
+   "ID": 219,
+   "English": "Heart",
+   "Arabic": "قَلْبٌ",
+   "Indonesian": "Jantung",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Anggota Badan"
+ },
+ {
+   "ID": 220,
+   "English": "Moon",
+   "Arabic": "قَمَرٌ",
+   "Indonesian": "Bulan",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Alam"
+ },
+ {
+   "ID": 221,
+   "English": "Writer",
+   "Arabic": "كَاتِبٌ",
+   "Indonesian": "Penulis",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Profesi"
+ },
+ {
+   "ID": 222,
+   "English": "Book",
+   "Arabic": "كِتَابٌ",
+   "Indonesian": "Buku",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Benda"
+ },
+ {
+   "ID": 223,
+   "English": "Football",
+   "Arabic": "كُرَةُ القَدَمِ",
+   "Indonesian": "Sepak Bola",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Olahraga"
+ },
+ {
+   "ID": 224,
+   "English": "Ball",
+   "Arabic": "كُرَةٌ",
+   "Indonesian": "Bola",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Olahraga"
+ },
+ {
+   "ID": 225,
+   "English": "Church",
+   "Arabic": "كَنِيْسَةٌ",
+   "Indonesian": "Gereja",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Tempat"
+ },
+ {
+   "ID": 226,
+   "English": "Language",
+   "Arabic": "لُغَةٌ",
+   "Indonesian": "Bahasa",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Umum"
+ },
+ {
+   "ID": 227,
+   "English": "Flag",
+   "Arabic": "لِوَاءٌ",
+   "Indonesian": "Bendera",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Benda"
+ },
+ {
+   "ID": 228,
+   "English": "Night",
+   "Arabic": "لَيْلَةٌ",
+   "Indonesian": "Malam",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Waktu"
+ },
+ {
+   "ID": 229,
+   "English": "Water",
+   "Arabic": "مَاءٌ",
+   "Indonesian": "Air",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Alam"
+ },
+ {
+   "ID": 230,
+   "English": "Society",
+   "Arabic": "مُجْتَمَعٌ",
+   "Indonesian": "Masyarakat",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Umum"
+ },
+ {
+   "ID": 231,
+   "English": "Magazine",
+   "Arabic": "مَجَلَّةٌ",
+   "Indonesian": "Majalah",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Benda"
+ },
+ {
+   "ID": 232,
+   "English": "Station",
+   "Arabic": "مَحَطَّةٌ",
+   "Indonesian": "Stasiun",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Tempat"
+ },
+ {
+   "ID": 233,
+   "English": "Brain",
+   "Arabic": "مُخٌّ",
+   "Indonesian": "Otak",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Anggota Badan"
+ },
+ {
+   "ID": 234,
+   "English": "Teacher",
+   "Arabic": "مُدَرِّسٌ",
+   "Indonesian": "Guru",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Profesi"
+ },
+ {
+   "ID": 235,
+   "English": "Town",
+   "Arabic": "مَدِيْنَةٌ",
+   "Indonesian": "Kota",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Tempat"
+ },
+ {
+   "ID": 236,
+   "English": "Afternoon",
+   "Arabic": "مَسَاءٌ",
+   "Indonesian": "Sore",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Waktu"
+ },
+ {
+   "ID": 237,
+   "English": "Hospital",
+   "Arabic": "مُسْتَشْفَى",
+   "Indonesian": "Rumah Sakit",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Tempat"
+ },
+ {
+   "ID": 238,
+   "English": "Lamp",
+   "Arabic": "مِصْبَاحٌ",
+   "Indonesian": "Lampu",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Benda"
+ },
+ {
+   "ID": 239,
+   "English": "Airport",
+   "Arabic": "مَطَارٌ",
+   "Indonesian": "Bandara",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Tempat"
+ },
+ {
+   "ID": 240,
+   "English": "Table",
+   "Arabic": "مَكْتَبٌ",
+   "Indonesian": "Meja",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Benda"
+ },
+ {
+   "ID": 241,
+   "English": "Library",
+   "Arabic": "مَكْتَبَةٌ",
+   "Indonesian": "Perpustakaan",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Tempat"
+ },
+ {
+   "ID": 242,
+   "English": "Field",
+   "Arabic": "مَلْعَبٌ",
+   "Indonesian": "Lapangan",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Tempat"
+ },
+ {
+   "ID": 243,
+   "English": "King",
+   "Arabic": "مَلِكٌ",
+   "Indonesian": "Raja",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Profesi"
+ },
+ {
+   "ID": 244,
+   "English": "Banana",
+   "Arabic": "مَوْزَةٌ",
+   "Indonesian": "Pisang",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Buah"
+ },
+ {
+   "ID": 245,
+   "English": "Advice",
+   "Arabic": "نَصِيْحَةٌ",
+   "Indonesian": "Nasihat",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Umum"
+ },
+ {
+   "ID": 246,
+   "English": "River",
+   "Arabic": "نَهْرٌ",
+   "Indonesian": "Sungai",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Alam"
+ },
+ {
+   "ID": 247,
+   "English": "Hill",
+   "Arabic": "هَضْبَةٌ",
+   "Indonesian": "Bukit",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Alam"
+ },
+ {
+   "ID": 248,
+   "English": "Air",
+   "Arabic": "هَوَاءٌ",
+   "Indonesian": "Udara",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Alam"
+ },
+ {
+   "ID": 249,
+   "English": "Paper",
+   "Arabic": "وَرَقَةٌ",
+   "Indonesian": "Kertas",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Benda"
+ },
+ {
+   "ID": 250,
+   "English": "Day",
+   "Arabic": "يَوْمٌ",
+   "Indonesian": "Hari",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Waktu"
+ },
+ {
+   "ID": 251,
+   "English": "Yes",
+   "Arabic": "نَعَمْ",
+   "Indonesian": "Ya",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Ungkapan Dasar"
+ },
+ {
+   "ID": 252,
+   "English": "No",
+   "Arabic": "لَا",
+   "Indonesian": "Tidak",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Ungkapan Dasar"
+ },
+ {
+   "ID": 253,
+   "English": "Maybe",
+   "Arabic": "رُبَّمَا",
+   "Indonesian": "Mungkin",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Ungkapan Dasar"
+ },
+ {
+   "ID": 254,
+   "English": "Please",
+   "Arabic": "لَوْ سَمَحْتَ",
+   "Indonesian": "Silakan/Mohon",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Ungkapan Dasar"
+ },
+ {
+   "ID": 255,
+   "English": "Thank you",
+   "Arabic": "شُكْرًا",
+   "Indonesian": "Terima kasih",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Ungkapan Dasar"
+ },
+ {
+   "ID": 256,
+   "English": "Thank you very much / Thanks a lot",
+   "Arabic": "شُكْرًا جَزِيلًا",
+   "Indonesian": "Terima kasih banyak",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Ungkapan Dasar"
+ },
+ {
+   "ID": 257,
+   "English": "May Allah reward you.",
+   "Arabic": "جَزَاكَ اللهُ خَيْرًا",
+   "Indonesian": "Semoga Allah membalasmu",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Ungkapan Dasar"
+ },
+ {
+   "ID": 258,
+   "English": "You're welcome.",
+   "Arabic": "عَفْوًا",
+   "Indonesian": "Sama-sama",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Ungkapan Dasar"
+ },
+ {
+   "ID": 259,
+   "English": "Welcome.",
+   "Arabic": "أَهْلًا وَسَهْلًا",
+   "Indonesian": "Selamat datang",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Salam"
+ },
+ {
+   "ID": 260,
+   "English": "Hello.",
+   "Arabic": "مَرْحَبًا",
+   "Indonesian": "Halo",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Salam"
+ },
+ {
+   "ID": 261,
+   "English": "Good morning.",
+   "Arabic": "صَبَاحُ الْخَيْرِ",
+   "Indonesian": "Selamat pagi",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Salam"
+ },
+ {
+   "ID": 262,
+   "English": "Good afternoon.",
+   "Arabic": "مَسَاءُ الْخَيْرِ",
+   "Indonesian": "Selamat sore",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Salam"
+ },
+ {
+   "ID": 263,
+   "English": "Good evening. (saat bertemu) / Good night. (saat berpisah atau tidur)",
+   "Arabic": "تُصْبِحُ عَلَى خَيْرٍ",
+   "Indonesian": "Selamat malam",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Salam"
+ },
+ {
+   "ID": 264,
+   "English": "Goodbye.",
+   "Arabic": "مَعَ السَّلَامَةِ",
+   "Indonesian": "Selamat tinggal",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Salam"
+ },
+ {
+   "ID": 265,
+   "English": "See you.",
+   "Arabic": "إِلَى اللِّقَاءِ",
+   "Indonesian": "Sampai jumpa",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Salam"
+ },
+ {
+   "ID": 266,
+   "English": "See you again.",
+   "Arabic": "أَرَاكَ قَرِيبًا",
+   "Indonesian": "Sampai jumpa lagi",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Salam"
+ },
+ {
+   "ID": 267,
+   "English": "I'm sorry. / Excuse me. (tergantung konteks)",
+   "Arabic": "آسِفٌ",
+   "Indonesian": "Maaf",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Ungkapan Dasar"
+ },
+ {
+   "ID": 268,
+   "English": "Excuse me.",
+   "Arabic": "مَعْذِرَةً",
+   "Indonesian": "Permisi",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Ungkapan Dasar"
+ },
+ {
+   "ID": 269,
+   "English": "No problem.",
+   "Arabic": "لَا مُشْكِلَةَ",
+   "Indonesian": "Tidak masalah",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Ungkapan Dasar"
+ },
+ {
+   "ID": 270,
+   "English": "It's okay. / That's okay.",
+   "Arabic": "لَا بَأْسَ",
+   "Indonesian": "Tidak apa-apa",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Ungkapan Dasar"
+ },
+ {
+   "ID": 271,
+   "English": "Don't worry.",
+   "Arabic": "لَا تَهْتَمَّ",
+   "Indonesian": "Jangan khawatir",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Ungkapan Dasar"
+ },
+ {
+   "ID": 272,
+   "English": "Do you speak Arabic?",
+   "Arabic": "هَلْ تَتَكَلَّمُ الْعَرَبِيَّةَ؟",
+   "Indonesian": "Apakah kamu berbicara bahasa Arab?",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Percakapan"
+ },
+ {
+   "ID": 273,
+   "English": "I don't speak Arabic.",
+   "Arabic": "لَا أَتَكَلَّمُ الْعَرَبِيَّةَ",
+   "Indonesian": "Saya tidak berbicara bahasa Arab",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Percakapan"
+ },
+ {
+   "ID": 274,
+   "English": "I speak a little Arabic.",
+   "Arabic": "أَتَكَلَّمُ الْعَرَبِيَّةَ قَلِيلًا",
+   "Indonesian": "Saya berbicara bahasa Arab sedikit",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Percakapan"
+ },
+ {
+   "ID": 275,
+   "English": "Please speak more slowly.",
+   "Arabic": "تَكَلَّمْ بِبُطْءٍ مِنْ فَضْلِكَ",
+   "Indonesian": "Tolong bicara lebih pelan",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Percakapan"
+ },
+ {
+   "ID": 276,
+   "English": "Please write it down.",
+   "Arabic": "اُكْتُبْ مِنْ فَضْلِكَ",
+   "Indonesian": "Tolong tuliskan",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Percakapan"
+ },
+ {
+   "ID": 277,
+   "English": "Could you repeat that, please?",
+   "Arabic": "هَلْ يُمْكِنُكَ أَنْ تُكَرِّرَ؟",
+   "Indonesian": "Bisakah kamu mengulanginya?",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Percakapan"
+ },
+ {
+   "ID": 278,
+   "English": "I understand.",
+   "Arabic": "أَفْهَمُ",
+   "Indonesian": "Saya paham",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Percakapan"
+ },
+ {
+   "ID": 279,
+   "English": "I don't understand.",
+   "Arabic": "لَا أَفْهَمُ",
+   "Indonesian": "Saya tidak paham",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Percakapan"
+ },
+ {
+   "ID": 280,
+   "English": "I know.",
+   "Arabic": "أَعْرِفُ",
+   "Indonesian": "Saya tahu",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Percakapan"
+ },
+ {
+   "ID": 281,
+   "English": "I don't know.",
+   "Arabic": "لَا أَعْرِفُ",
+   "Indonesian": "Saya tidak tahu",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Percakapan"
+ },
+ {
+   "ID": 282,
+   "English": "Where is the restroom? (US) / Where is the toilet? (UK)",
+   "Arabic": "أَيْنَ الْحَمَّامُ؟",
+   "Indonesian": "Di mana toiletnya?",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Pertanyaan"
+ },
+ {
+   "ID": 283,
+   "English": "Entrance",
+   "Arabic": "مَدْخَلٌ",
+   "Indonesian": "Pintu masuk",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Tempat"
+ },
+ {
+   "ID": 284,
+   "English": "Exit",
+   "Arabic": "مَخْرَجٌ",
+   "Indonesian": "Pintu keluar",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Tempat"
+ },
+ {
+   "ID": 285,
+   "English": "Push",
+   "Arabic": "اِدْفَعْ",
+   "Indonesian": "Dorong",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Umum"
+ },
+ {
+   "ID": 286,
+   "English": "Pull",
+   "Arabic": "اِسْحَبْ",
+   "Indonesian": "Tarik",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Umum"
+ },
+ {
+   "ID": 287,
+   "English": "Restroom (US) / Toilet (UK)",
+   "Arabic": "دَوْرَةُ الْمِيَاهِ",
+   "Indonesian": "Toilet",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Tempat"
+ },
+ {
+   "ID": 288,
+   "English": "Men / Male",
+   "Arabic": "رِجَالٌ",
+   "Indonesian": "Laki-laki",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Umum"
+ },
+ {
+   "ID": 289,
+   "English": "Women / Female",
+   "Arabic": "نِسَاءٌ",
+   "Indonesian": "Wanita",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Umum"
+ },
+ {
+   "ID": 290,
+   "English": "Vacant",
+   "Arabic": "فَارِغٌ",
+   "Indonesian": "Kosong",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Umum"
+ },
+ {
+   "ID": 291,
+   "English": "Occupied",
+   "Arabic": "مَشْغُولٌ",
+   "Indonesian": "Ditempati",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Umum"
+ },
+ {
+   "ID": 292,
+   "English": "No Smoking",
+   "Arabic": "مَمْنُوعُ التَّدْخِينِ",
+   "Indonesian": "Dilarang merokok",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Umum"
+ },
+ {
+   "ID": 293,
+   "English": "Private",
+   "Arabic": "خَاصٌّ",
+   "Indonesian": "Privat",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Umum"
+ },
+ {
+   "ID": 294,
+   "English": "No Entry",
+   "Arabic": "مَمْنُوعُ الدُّخُولِ",
+   "Indonesian": "Dilarang masuk",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Umum"
+ },
+ {
+   "ID": 295,
+   "English": "Okay / Alright",
+   "Arabic": "حَسَنٌ",
+   "Indonesian": "Baik",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Ungkapan Dasar"
+ },
+ {
+   "ID": 296,
+   "English": "Certainly",
+   "Arabic": "بِالطَّبْعِ",
+   "Indonesian": "Tentu",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Ungkapan Dasar"
+ },
+ {
+   "ID": 297,
+   "English": "Of course",
+   "Arabic": "طَبْعًا",
+   "Indonesian": "Tentu saja",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Ungkapan Dasar"
+ },
+ {
+   "ID": 298,
+   "English": "As soon as possible (ASAP)",
+   "Arabic": "فِي أَقْرَبِ وَقْتٍ مُمْكِنٍ",
+   "Indonesian": "Secepat mungkin",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Umum"
+ },
+ {
+   "ID": 299,
+   "English": "That's enough.",
+   "Arabic": "كَفَى",
+   "Indonesian": "Itu cukup",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Umum"
+ },
+ {
+   "ID": 300,
+   "English": "I'm in a hurry.",
+   "Arabic": "أَنَا مُسْتَعْجِلٌ",
+   "Indonesian": "Saya terburu-buru",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Umum"
+ },
+ {
+   "ID": 301,
+   "English": "I have to go.",
+   "Arabic": "يَجِبُ أَنْ أَذْهَبَ",
+   "Indonesian": "Saya harus pergi",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Umum"
+ },
+ {
+   "ID": 302,
+   "English": "You too.",
+   "Arabic": "وَأَنْتَ أَيْضًا",
+   "Indonesian": "Kamu juga",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Umum"
+ },
+ {
+   "ID": 303,
+   "English": "Me too.",
+   "Arabic": "وَأَنَا أَيْضًا",
+   "Indonesian": "Saya juga",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Umum"
+ },
+ {
+   "ID": 304,
+   "English": "I like it.",
+   "Arabic": "أُحِبُّ",
+   "Indonesian": "Saya suka",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Umum"
+ },
+ {
+   "ID": 305,
+   "English": "I don't like it.",
+   "Arabic": "لَا أُحِبُّ",
+   "Indonesian": "Saya tidak suka",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Umum"
+ },
+ {
+   "ID": 306,
+   "English": "Look!",
+   "Arabic": "اُنْظُرْ",
+   "Indonesian": "Lihatlah",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Umum"
+ },
+ {
+   "ID": 307,
+   "English": "Amazing! / Wonderful!",
+   "Arabic": "رَائِعٌ",
+   "Indonesian": "Luar biasa",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Umum"
+ },
+ {
+   "ID": 308,
+   "English": "Come on! / Let's go!",
+   "Arabic": "هَيَّا",
+   "Indonesian": "Ayo",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Umum"
+ },
+ {
+   "ID": 309,
+   "English": "May Allah bless you.",
+   "Arabic": "بَارَكَ اللهُ فِيكَ",
+   "Indonesian": "Semoga Allah memberkahimu",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Ungkapan"
+ },
+ {
+   "ID": 310,
+   "English": "Where are you?",
+   "Arabic": "أَيْنَ أَنْتَ؟",
+   "Indonesian": "Kamu di mana?",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Pertanyaan"
+ },
+ {
+   "ID": 311,
+   "English": "What's this?",
+   "Arabic": "مَا هَذَا؟",
+   "Indonesian": "Apa ini?",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Pertanyaan"
+ },
+ {
+   "ID": 312,
+   "English": "What's that?",
+   "Arabic": "مَا ذَلِكَ؟",
+   "Indonesian": "Apa itu?",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Pertanyaan"
+ },
+ {
+   "ID": 313,
+   "English": "Why?",
+   "Arabic": "لِمَاذَا؟",
+   "Indonesian": "Mengapa?",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Pertanyaan"
+ },
+ {
+   "ID": 314,
+   "English": "Why not?",
+   "Arabic": "لِمَ لَا؟",
+   "Indonesian": "Kenapa tidak?",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Pertanyaan"
+ },
+ {
+   "ID": 315,
+   "English": "What happened? / What's happening?",
+   "Arabic": "مَاذَا حَدَثَ؟",
+   "Indonesian": "Apa yang terjadi?",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Pertanyaan"
+ },
+ {
+   "ID": 316,
+   "English": "Please come in.",
+   "Arabic": "اُدْخُلْ مِنْ فَضْلِكَ",
+   "Indonesian": "Silakan masuk",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Umum"
+ },
+ {
+   "ID": 317,
+   "English": "Please have a seat.",
+   "Arabic": "اِجْلِسْ مِنْ فَضْلِكَ",
+   "Indonesian": "Silakan duduk",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Umum"
+ },
+ {
+   "ID": 318,
+   "English": "Hurry up!",
+   "Arabic": "أَسْرِعْ",
+   "Indonesian": "Cepatlah",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Umum"
+ },
+ {
+   "ID": 319,
+   "English": "Calm down.",
+   "Arabic": "اِهْدَأْ",
+   "Indonesian": "Tenang",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Umum"
+ },
+ {
+   "ID": 320,
+   "English": "Slowly. / Take it easy.",
+   "Arabic": "بِبُطْءٍ",
+   "Indonesian": "Pelan-pelan",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Umum"
+ },
+ {
+   "ID": 321,
+   "English": "Wait a moment.",
+   "Arabic": "اِنْتَظِرْ لَحْظَةً",
+   "Indonesian": "Tunggu sebentar",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Umum"
+ },
+ {
+   "ID": 322,
+   "English": "There's no need to hurry.",
+   "Arabic": "لَا تَسْتَعْجِلْ",
+   "Indonesian": "Tidak usah buru-buru",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Umum"
+ },
+ {
+   "ID": 323,
+   "English": "Be quiet.",
+   "Arabic": "اُسْكُتْ",
+   "Indonesian": "Diam",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Umum"
+ },
+ {
+   "ID": 324,
+   "English": "Stop.",
+   "Arabic": "تَوَقَّفْ",
+   "Indonesian": "Berhenti",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Umum"
+ },
+ {
+   "ID": 325,
+   "English": "Don't forget.",
+   "Arabic": "لَا تَنْسَ",
+   "Indonesian": "Jangan lupa",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Umum"
+ },
+ {
+   "ID": 326,
+   "English": "Tell me.",
+   "Arabic": "أَخْبِرْنِي",
+   "Indonesian": "Ceritakan padaku",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Umum"
+ },
+ {
+   "ID": 327,
+   "English": "Congratulations!",
+   "Arabic": "مَبْرُوكٌ",
+   "Indonesian": "Selamat",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Ungkapan"
+ },
+ {
+   "ID": 328,
+   "English": "Good luck!",
+   "Arabic": "بِالتَّوْفِيقِ",
+   "Indonesian": "Semoga berhasil",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Ungkapan"
+ },
+ {
+   "ID": 329,
+   "English": "Happy Birthday!",
+   "Arabic": "عِيدُ مِيلَادٍ سَعِيدٌ",
+   "Indonesian": "Selamat ulang tahun",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Ungkapan"
+ },
+ {
+   "ID": 330,
+   "English": "Happy New Year!",
+   "Arabic": "سَنَةٌ سَعِيدَةٌ",
+   "Indonesian": "Selamat tahun baru",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Ungkapan"
+ },
+ {
+   "ID": 331,
+   "English": "I'm glad to hear that.",
+   "Arabic": "أَنَا سَعِيدٌ بِسَمَاعِ ذَلِكَ",
+   "Indonesian": "Saya senang mendengarnya",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Ungkapan"
+ },
+ {
+   "ID": 332,
+   "English": "I'm sorry to hear that.",
+   "Arabic": "أَنَا حَزِينٌ لِسَمَاعِ ذَلِكَ",
+   "Indonesian": "Saya sedih mendengarnya",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Ungkapan"
+ },
+ {
+   "ID": 333,
+   "English": "I'm learning Arabic.",
+   "Arabic": "أَنَا أَتَعَلَّمُ الْعَرَبِيَّةَ",
+   "Indonesian": "Saya sedang belajar bahasa Arab",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Percakapan"
+ },
+ {
+   "ID": 334,
+   "English": "Do you understand?",
+   "Arabic": "هَلْ تَفْهَمُ؟",
+   "Indonesian": "Apakah kamu paham?",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Pertanyaan"
+ },
+ {
+   "ID": 335,
+   "English": "Yes, I understand.",
+   "Arabic": "نَعَمْ، أَفْهَمُ",
+   "Indonesian": "Ya, saya paham",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Percakapan"
+ },
+ {
+   "ID": 336,
+   "English": "Sorry, I don't understand.",
+   "Arabic": "آسِفٌ، لَا أَفْهَمُ",
+   "Indonesian": "Maaf, saya tidak paham",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Percakapan"
+ },
+ {
+   "ID": 337,
+   "English": "How do you say... in Arabic?",
+   "Arabic": "كَيْفَ تَقُولُ... بِالْعَرَبِيَّةِ؟",
+   "Indonesian": "Bagaimana mengatakan... dalam bahasa Arab?",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Pertanyaan"
+ },
+ {
+   "ID": 338,
+   "English": "Your Arabic is very good.",
+   "Arabic": "عَرَبِيَّتُكَ جَيِّدَةٌ جِدًّا",
+   "Indonesian": "Bahasa Arabmu sangat bagus",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Percakapan"
+ },
+ {
+   "ID": 339,
+   "English": "Let's speak Arabic.",
+   "Arabic": "لِنَتَحَدَّثْ بِالْعَرَبِيَّةِ",
+   "Indonesian": "Ayo berbicara bahasa Arab",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Percakapan"
+ },
+ {
+   "ID": 340,
+   "English": "I'm tired.",
+   "Arabic": "أَنَا مُتْعَبٌ",
+   "Indonesian": "Saya lelah",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Perasaan"
+ },
+ {
+   "ID": 341,
+   "English": "I'm hungry.",
+   "Arabic": "أَنَا جَائِعٌ",
+   "Indonesian": "Saya lapar",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Perasaan"
+ },
+ {
+   "ID": 342,
+   "English": "I'm thirsty.",
+   "Arabic": "أَنَا عَطْشَانٌ",
+   "Indonesian": "Saya haus",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Perasaan"
+ },
+ {
+   "ID": 343,
+   "English": "I'm bored.",
+   "Arabic": "أَنَا ضَجِرٌ",
+   "Indonesian": "Saya bosan",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Perasaan"
+ },
+ {
+   "ID": 344,
+   "English": "I'm worried.",
+   "Arabic": "أَنَا قَلِقٌ",
+   "Indonesian": "Saya khawatir",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Perasaan"
+ },
+ {
+   "ID": 345,
+   "English": "What do you think?",
+   "Arabic": "مَاذَا تَعْتَقِدُ؟",
+   "Indonesian": "Bagaimana menurutmu?",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Pertanyaan"
+ },
+ {
+   "ID": 346,
+   "English": "I think it's...",
+   "Arabic": "أَعْتَقِدُ أَنَّ...",
+   "Indonesian": "Saya pikir itu...",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Percakapan"
+ },
+ {
+   "ID": 347,
+   "English": "I hope...",
+   "Arabic": "آمَلُ أَنْ...",
+   "Indonesian": "Saya harap...",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Percakapan"
+ },
+ {
+   "ID": 348,
+   "English": "In my opinion... / I think...",
+   "Arabic": "بِرَأْيِي...",
+   "Indonesian": "Menurutku...",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Percakapan"
+ },
+ {
+   "ID": 349,
+   "English": "I agree.",
+   "Arabic": "أُوَافِقُ",
+   "Indonesian": "Saya setuju",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Percakapan"
+ },
+ {
+   "ID": 350,
+   "English": "I disagree.",
+   "Arabic": "لَا أُوَافِقُ",
+   "Indonesian": "Saya tidak setuju",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Percakapan"
+ },
+ {
+   "ID": 351,
+   "English": "That's right. / That's true.",
+   "Arabic": "ذَلِكَ صَحِيحٌ",
+   "Indonesian": "Itu benar",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Umum"
+ },
+ {
+   "ID": 352,
+   "English": "That's not true.",
+   "Arabic": "ذَلِكَ غَيْرُ صَحِيحٍ",
+   "Indonesian": "Itu tidak benar",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Umum"
+ },
+ {
+   "ID": 353,
+   "English": "You're right.",
+   "Arabic": "أَنْتَ عَلَى حَقٍّ",
+   "Indonesian": "Kamu benar",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Umum"
+ },
+ {
+   "ID": 354,
+   "English": "You're wrong.",
+   "Arabic": "أَنْتَ مُخْطِئٌ",
+   "Indonesian": "Kamu salah",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Umum"
+ },
+ {
+   "ID": 355,
+   "English": "No problem.",
+   "Arabic": "لَا يَهُمُّ",
+   "Indonesian": "Tidak masalah",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Umum"
+ },
+ {
+   "ID": 356,
+   "English": "It's up to you.",
+   "Arabic": "الْأَمْرُ لَكَ",
+   "Indonesian": "Terserah kamu",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Umum"
+ },
+ {
+   "ID": 357,
+   "English": "It depends...",
+   "Arabic": "يَعْتَمِدُ عَلَى...",
+   "Indonesian": "Itu tergantung...",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Umum"
+ },
+ {
+   "ID": 358,
+   "English": "That's interesting.",
+   "Arabic": "ذَلِكَ مُمْتِعٌ",
+   "Indonesian": "Itu menarik",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Umum"
+ },
+ {
+   "ID": 359,
+   "English": "What",
+   "Arabic": "مَا",
+   "Indonesian": "Apa",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Tanya"
+ },
+ {
+   "ID": 360,
+   "English": "Who",
+   "Arabic": "مَنْ",
+   "Indonesian": "Siapa",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Tanya"
+ },
+ {
+   "ID": 361,
+   "English": "Why",
+   "Arabic": "لِمَاذَا",
+   "Indonesian": "Kenapa",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Tanya"
+ },
+ {
+   "ID": 362,
+   "English": "From what",
+   "Arabic": "مِمَّ",
+   "Indonesian": "Dari apa",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Tanya"
+ },
+ {
+   "ID": 363,
+   "English": "With what",
+   "Arabic": "بِمَاذَا",
+   "Indonesian": "Dengan apa",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Tanya"
+ },
+ {
+   "ID": 364,
+   "English": "What for",
+   "Arabic": "لِمَا",
+   "Indonesian": "Untuk apa",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Tanya"
+ },
+ {
+   "ID": 365,
+   "English": "With whom",
+   "Arabic": "مَعَ مَنْ",
+   "Indonesian": "Bersama siapa",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Tanya"
+ },
+ {
+   "ID": 366,
+   "English": "For whom",
+   "Arabic": "لِمَنْ",
+   "Indonesian": "Untuk siapa",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Tanya"
+ },
+ {
+   "ID": 367,
+   "English": "Where",
+   "Arabic": "أَيْنَ",
+   "Indonesian": "Di mana",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Tanya"
+ },
+ {
+   "ID": 368,
+   "English": "Where to",
+   "Arabic": "إِلَى أَيْنَ",
+   "Indonesian": "Ke mana",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Tanya"
+ },
+ {
+   "ID": 369,
+   "English": "Where from",
+   "Arabic": "مِنْ أَيْنَ",
+   "Indonesian": "Dari mana",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Tanya"
+ },
+ {
+   "ID": 370,
+   "English": "How",
+   "Arabic": "كَيْفَ",
+   "Indonesian": "Bagaimana",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Tanya"
+ },
+ {
+   "ID": 371,
+   "English": "When",
+   "Arabic": "مَتَى",
+   "Indonesian": "Kapan",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Tanya"
+ },
+ {
+   "ID": 372,
+   "English": "How many / How much",
+   "Arabic": "كَمْ",
+   "Indonesian": "Berapa",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Tanya"
+ },
+ {
+   "ID": 373,
+   "English": "How much is it?",
+   "Arabic": "بِكَمْ",
+   "Indonesian": "Berapa (harga)",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Tanya"
+ },
+ {
+   "ID": 374,
+   "English": "Is / Are / Do / Does (tergantung konteks)",
+   "Arabic": "أَ",
+   "Indonesian": "Apakah",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Tanya"
+ },
+ {
+   "ID": 375,
+   "English": "Which",
+   "Arabic": "أَيُّ",
+   "Indonesian": "Yang mana",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Kata Tanya"
+ },
+ {
+   "ID": 376,
+   "English": "In front of",
+   "Arabic": "أَمَامَ",
+   "Indonesian": "Di depan",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Tempat"
+ },
+ {
+   "ID": 377,
+   "English": "Behind",
+   "Arabic": "خَلْفَ",
+   "Indonesian": "Di belakang",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Tempat"
+ },
+ {
+   "ID": 378,
+   "English": "Above / On",
+   "Arabic": "فَوْقَ",
+   "Indonesian": "Di atas",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Tempat"
+ },
+ {
+   "ID": 379,
+   "English": "Below / Under",
+   "Arabic": "تَحْتَ",
+   "Indonesian": "Di bawah",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Tempat"
+ },
+ {
+   "ID": 380,
+   "English": "Inside",
+   "Arabic": "دَاخِلَ",
+   "Indonesian": "Di dalam",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Tempat"
+ },
+ {
+   "ID": 381,
+   "English": "Outside",
+   "Arabic": "خَارِجَ",
+   "Indonesian": "Di luar",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Tempat"
+ },
+ {
+   "ID": 382,
+   "English": "Between",
+   "Arabic": "بَيْنَ",
+   "Indonesian": "Di antara",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Tempat"
+ },
+ {
+   "ID": 383,
+   "English": "Next to / Beside",
+   "Arabic": "بِجَانِبِ",
+   "Indonesian": "Di samping",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Tempat"
+ },
+ {
+   "ID": 384,
+   "English": "Here",
+   "Arabic": "هُنَا",
+   "Indonesian": "Di sini",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Tempat"
+ },
+ {
+   "ID": 385,
+   "English": "There",
+   "Arabic": "هُنَاكَ",
+   "Indonesian": "Di sana",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Tempat"
+ },
+ {
+   "ID": 386,
+   "English": "Today",
+   "Arabic": "الْيَوْمَ",
+   "Indonesian": "Hari ini",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Waktu"
+ },
+ {
+   "ID": 387,
+   "English": "Now",
+   "Arabic": "الْآنَ",
+   "Indonesian": "Sekarang",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Waktu"
+ },
+ {
+   "ID": 388,
+   "English": "Before",
+   "Arabic": "قَبْلَ",
+   "Indonesian": "Sebelum",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Waktu"
+ },
+ {
+   "ID": 389,
+   "English": "After",
+   "Arabic": "بَعْدَ",
+   "Indonesian": "Sesudah",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Waktu"
+ },
+ {
+   "ID": 390,
+   "English": "Tomorrow",
+   "Arabic": "غَدًا",
+   "Indonesian": "Besok",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Waktu"
+ },
+ {
+   "ID": 391,
+   "English": "The day after tomorrow",
+   "Arabic": "بَعْدَ غَدٍ",
+   "Indonesian": "Besok lusa",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Waktu"
+ },
+ {
+   "ID": 392,
+   "English": "Yesterday",
+   "Arabic": "أَمْسِ",
+   "Indonesian": "Kemarin",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Waktu"
+ },
+ {
+   "ID": 393,
+   "English": "Morning",
+   "Arabic": "صَبَاحًا",
+   "Indonesian": "Pagi",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Waktu"
+ },
+ {
+   "ID": 394,
+   "English": "Afternoon",
+   "Arabic": "ظُهْرًا",
+   "Indonesian": "Siang",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Waktu"
+ },
+ {
+   "ID": 395,
+   "English": "Late afternoon / Evening",
+   "Arabic": "عَصْرًا",
+   "Indonesian": "Sore",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Waktu"
+ },
+ {
+   "ID": 396,
+   "English": "Night",
+   "Arabic": "لَيْلًا",
+   "Indonesian": "Malam",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Waktu"
+ },
+ {
+   "ID": 397,
+   "English": "Later",
+   "Arabic": "لَاحِقًا",
+   "Indonesian": "Nanti",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Waktu"
+ },
+ {
+   "ID": 398,
+   "English": "Earlier",
+   "Arabic": "سَابِقًا",
+   "Indonesian": "Tadi",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Waktu"
+ },
+ {
+   "ID": 399,
+   "English": "Just now",
+   "Arabic": "مُنْذُ لَحْظَاتٍ",
+   "Indonesian": "Barusan",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Waktu"
+ },
+ {
+   "ID": 400,
+   "English": "Soon",
+   "Arabic": "قَرِيبًا",
+   "Indonesian": "Sebentar lagi",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Waktu"
+ },
+ {
+   "ID": 401,
+   "English": "In the past / Long ago",
+   "Arabic": "سَابِقًا",
+   "Indonesian": "Dulu",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Waktu"
+ },
+ {
+   "ID": 402,
+   "English": "One day",
+   "Arabic": "يَوْمًا مَا",
+   "Indonesian": "Suatu hari",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Waktu"
+ },
+ {
+   "ID": 403,
+   "English": "Last night",
+   "Arabic": "لَيْلَةَ أَمْسِ",
+   "Indonesian": "Kemarin malam",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Waktu"
+ },
+ {
+   "ID": 404,
+   "English": "Sometimes",
+   "Arabic": "أَحْيَانًا",
+   "Indonesian": "Kadang-kadang",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Waktu"
+ },
+ {
+   "ID": 405,
+   "English": "Often",
+   "Arabic": "كَثِيرًا",
+   "Indonesian": "Sering",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Waktu"
+ },
+ {
+   "ID": 406,
+   "English": "Always",
+   "Arabic": "دَائِمًا",
+   "Indonesian": "Selalu",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Waktu"
+ },
+ {
+   "ID": 407,
+   "English": "Forever",
+   "Arabic": "أَبَدًا",
+   "Indonesian": "Selamanya",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Waktu"
+ },
+ {
+   "ID": 408,
+   "English": "Head",
+   "Arabic": "رَأْسٌ",
+   "Indonesian": "Kepala",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Anggota Badan"
+ },
+ {
+   "ID": 409,
+   "English": "Face",
+   "Arabic": "وَجْهٌ",
+   "Indonesian": "Wajah",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Anggota Badan"
+ },
+ {
+   "ID": 410,
+   "English": "Hair",
+   "Arabic": "شَعْرٌ",
+   "Indonesian": "Rambut",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Anggota Badan"
+ },
+ {
+   "ID": 411,
+   "English": "Forehead",
+   "Arabic": "جَبْهَةٌ",
+   "Indonesian": "Dahi",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Anggota Badan"
+ },
+ {
+   "ID": 412,
+   "English": "Ear",
+   "Arabic": "أُذُنٌ",
+   "Indonesian": "Telinga",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Anggota Badan"
+ },
+ {
+   "ID": 413,
+   "English": "Eye",
+   "Arabic": "عَيْنٌ",
+   "Indonesian": "Mata",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Anggota Badan"
+ },
+ {
+   "ID": 414,
+   "English": "Nose",
+   "Arabic": "أَنْفٌ",
+   "Indonesian": "Hidung",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Anggota Badan"
+ },
+ {
+   "ID": 415,
+   "English": "Cheek",
+   "Arabic": "خَدٌّ",
+   "Indonesian": "Pipi",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Anggota Badan"
+ },
+ {
+   "ID": 416,
+   "English": "Tooth / Teeth",
+   "Arabic": "سِنٌّ",
+   "Indonesian": "Gigi",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Anggota Badan"
+ },
+ {
+   "ID": 417,
+   "English": "Mouth",
+   "Arabic": "فَمٌ",
+   "Indonesian": "Mulut",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Anggota Badan"
+ },
+ {
+   "ID": 418,
+   "English": "Tongue",
+   "Arabic": "لِسَانٌ",
+   "Indonesian": "Lidah",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Anggota Badan"
+ },
+ {
+   "ID": 419,
+   "English": "Chin",
+   "Arabic": "ذَقَنٌ",
+   "Indonesian": "Dagu",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Anggota Badan"
+ },
+ {
+   "ID": 420,
+   "English": "Neck",
+   "Arabic": "عُنُقٌ",
+   "Indonesian": "Leher",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Anggota Badan"
+ },
+ {
+   "ID": 421,
+   "English": "Hand",
+   "Arabic": "يَدٌ",
+   "Indonesian": "Tangan",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Anggota Badan"
+ },
+ {
+   "ID": 422,
+   "English": "Arm",
+   "Arabic": "ذِرَاعٌ",
+   "Indonesian": "Lengan",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Anggota Badan"
+ },
+ {
+   "ID": 423,
+   "English": "Stomach / Belly",
+   "Arabic": "بَطْنٌ",
+   "Indonesian": "Perut",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Anggota Badan"
+ },
+ {
+   "ID": 424,
+   "English": "Shoulder",
+   "Arabic": "كَتِفٌ",
+   "Indonesian": "Pundak",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Anggota Badan"
+ },
+ {
+   "ID": 425,
+   "English": "Back",
+   "Arabic": "ظَهْرٌ",
+   "Indonesian": "Punggung",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Anggota Badan"
+ },
+ {
+   "ID": 426,
+   "English": "Chest",
+   "Arabic": "صَدْرٌ",
+   "Indonesian": "Dada",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Anggota Badan"
+ },
+ {
+   "ID": 427,
+   "English": "Knee",
+   "Arabic": "رُكْبَةٌ",
+   "Indonesian": "Lutut",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Anggota Badan"
+ },
+ {
+   "ID": 428,
+   "English": "Leg / Foot",
+   "Arabic": "رِجْلٌ",
+   "Indonesian": "Kaki",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Anggota Badan"
+ },
+ {
+   "ID": 429,
+   "English": "Father",
+   "Arabic": "أَبٌ",
+   "Indonesian": "Ayah",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Keluarga"
+ },
+ {
+   "ID": 430,
+   "English": "Mother",
+   "Arabic": "أُمٌّ",
+   "Indonesian": "Ibu",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Keluarga"
+ },
+ {
+   "ID": 431,
+   "English": "Grandfather",
+   "Arabic": "جَدٌّ",
+   "Indonesian": "Kakek",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Keluarga"
+ },
+ {
+   "ID": 432,
+   "English": "Grandmother",
+   "Arabic": "جَدَّةٌ",
+   "Indonesian": "Nenek",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Keluarga"
+ },
+ {
+   "ID": 433,
+   "English": "Husband",
+   "Arabic": "زَوْجٌ",
+   "Indonesian": "Suami",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Keluarga"
+ },
+ {
+   "ID": 434,
+   "English": "Wife",
+   "Arabic": "زَوْجَةٌ",
+   "Indonesian": "Istri",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Keluarga"
+ },
+ {
+   "ID": 435,
+   "English": "Son",
+   "Arabic": "اِبْنٌ",
+   "Indonesian": "Anak (lk)",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Keluarga"
+ },
+ {
+   "ID": 436,
+   "English": "Daughter",
+   "Arabic": "بِنْتٌ",
+   "Indonesian": "Anak (pr)",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Keluarga"
+ },
+ {
+   "ID": 437,
+   "English": "Grandson",
+   "Arabic": "حَفِيدٌ",
+   "Indonesian": "Cucu (lk)",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Keluarga"
+ },
+ {
+   "ID": 438,
+   "English": "Granddaughter",
+   "Arabic": "حَفِيدَةٌ",
+   "Indonesian": "Cucu (pr)",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Keluarga"
+ },
+ {
+   "ID": 439,
+   "English": "Paternal Uncle",
+   "Arabic": "عَمٌّ",
+   "Indonesian": "Paman dari ayah",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Keluarga"
+ },
+ {
+   "ID": 440,
+   "English": "Paternal Aunt",
+   "Arabic": "عَمَّةٌ",
+   "Indonesian": "Bibi dari ayah",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Keluarga"
+ },
+ {
+   "ID": 441,
+   "English": "Maternal Uncle",
+   "Arabic": "خَالٌ",
+   "Indonesian": "Paman dari ibu",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Keluarga"
+ },
+ {
+   "ID": 442,
+   "English": "Maternal Aunt",
+   "Arabic": "خَالَةٌ",
+   "Indonesian": "Bibi dari ibu",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Keluarga"
+ },
+ {
+   "ID": 443,
+   "English": "Brother",
+   "Arabic": "أَخٌ",
+   "Indonesian": "Saudara (lk)",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Keluarga"
+ },
+ {
+   "ID": 444,
+   "English": "Sister",
+   "Arabic": "أُخْتٌ",
+   "Indonesian": "Saudara (pr)",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Keluarga"
+ },
+ {
+   "ID": 445,
+   "English": "Older Brother",
+   "Arabic": "أَخٌ كَبِيرٌ",
+   "Indonesian": "Kakak (lk)",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Keluarga"
+ },
+ {
+   "ID": 446,
+   "English": "Younger Brother",
+   "Arabic": "أَخٌ صَغِيرٌ",
+   "Indonesian": "Adik (lk)",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Keluarga"
+ },
+ {
+   "ID": 447,
+   "English": "Older Sister",
+   "Arabic": "أُخْتٌ كَبِيرَةٌ",
+   "Indonesian": "Kakak (pr)",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Keluarga"
+ },
+ {
+   "ID": 448,
+   "English": "Younger Sister",
+   "Arabic": "أُخْتٌ صَغِيرَةٌ",
+   "Indonesian": "Adik (pr)",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Keluarga"
+ },
+ {
+   "ID": 449,
+   "English": "Humble",
+   "Arabic": "مُتَوَاضِعٌ",
+   "Indonesian": "Rendah hati",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Sifat"
+ },
+ {
+   "ID": 450,
+   "English": "Wise",
+   "Arabic": "حَكِيمٌ",
+   "Indonesian": "Bijaksana",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Sifat"
+ },
+ {
+   "ID": 451,
+   "English": "Patient",
+   "Arabic": "صَابِرٌ",
+   "Indonesian": "Penyabar",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Sifat"
+ },
+ {
+   "ID": 452,
+   "English": "Cruel",
+   "Arabic": "قَاسٍ",
+   "Indonesian": "Kejam",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Sifat"
+ },
+ {
+   "ID": 453,
+   "English": "Arrogant",
+   "Arabic": "مُتَكَبِّرٌ",
+   "Indonesian": "Sombong",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Sifat"
+ },
+ {
+   "ID": 454,
+   "English": "Short-tempered",
+   "Arabic": "غَضْبَانٌ",
+   "Indonesian": "Pemarah",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Sifat"
+ },
+ {
+   "ID": 455,
+   "English": "Trustworthy",
+   "Arabic": "أَمِينٌ",
+   "Indonesian": "Dapat dipercaya",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Sifat"
+ },
+ {
+   "ID": 456,
+   "English": "Honest",
+   "Arabic": "صَادِقٌ",
+   "Indonesian": "Jujur",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Sifat"
+ },
+ {
+   "ID": 457,
+   "English": "Liar",
+   "Arabic": "كَاذِبٌ",
+   "Indonesian": "Pembohong",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Sifat"
+ },
+ {
+   "ID": 458,
+   "English": "Serious",
+   "Arabic": "جَادٌّ",
+   "Indonesian": "Sungguh-sungguh",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Sifat"
+ },
+ {
+   "ID": 459,
+   "English": "Lazy",
+   "Arabic": "كَسْلَانٌ",
+   "Indonesian": "Pemalas",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Sifat"
+ },
+ {
+   "ID": 460,
+   "English": "Envious",
+   "Arabic": "حَسُودٌ",
+   "Indonesian": "Pendengki",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Sifat"
+ },
+ {
+   "ID": 461,
+   "English": "Generous",
+   "Arabic": "كَرِيمٌ",
+   "Indonesian": "Dermawan",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Sifat"
+ },
+ {
+   "ID": 462,
+   "English": "Stingy",
+   "Arabic": "بَخِيلٌ",
+   "Indonesian": "Pelit",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Sifat"
+ },
+ {
+   "ID": 463,
+   "English": "Brave",
+   "Arabic": "شُجَاعٌ",
+   "Indonesian": "Pemberani",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Sifat"
+ },
+ {
+   "ID": 464,
+   "English": "Cowardly",
+   "Arabic": "جَبَانٌ",
+   "Indonesian": "Pengecut",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Sifat"
+ },
+ {
+   "ID": 465,
+   "English": "Friendly",
+   "Arabic": "وَدُودٌ",
+   "Indonesian": "Ramah",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Sifat"
+ },
+ {
+   "ID": 466,
+   "English": "Naughty",
+   "Arabic": "شَقِيٌّ",
+   "Indonesian": "Nakal",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Sifat"
+ },
+ {
+   "ID": 467,
+   "English": "Cute",
+   "Arabic": "لَطِيفٌ",
+   "Indonesian": "Imut",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Sifat"
+ },
+ {
+   "ID": 468,
+   "English": "Handsome",
+   "Arabic": "جَمِيلٌ",
+   "Indonesian": "Ganteng",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Sifat"
+ },
+ {
+   "ID": 469,
+   "English": "Beautiful",
+   "Arabic": "جَمِيلَةٌ",
+   "Indonesian": "Cantik",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Sifat"
+ },
+ {
+   "ID": 470,
+   "English": "Graceful",
+   "Arabic": "أَنِيقٌ",
+   "Indonesian": "Anggun",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Sifat"
+ },
+ {
+   "ID": 471,
+   "English": "Indifferent",
+   "Arabic": "لَامُبَالٍ",
+   "Indonesian": "Cuek",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Sifat"
+ },
+ {
+   "ID": 472,
+   "English": "Talkative",
+   "Arabic": "ثَرْثَارٌ",
+   "Indonesian": "Cerewet",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Sifat"
+ },
+ {
+   "ID": 473,
+   "English": "Famous",
+   "Arabic": "مَشْهُورٌ",
+   "Indonesian": "Terkenal",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Sifat"
+ },
+ {
+   "ID": 474,
+   "English": "Quiet",
+   "Arabic": "هَادِئٌ",
+   "Indonesian": "Pendiam",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Sifat"
+ },
+ {
+   "ID": 475,
+   "English": "Spoiled",
+   "Arabic": "مُدَلَّلٌ",
+   "Indonesian": "Manja",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Sifat"
+ },
+ {
+   "ID": 476,
+   "English": "Selfish",
+   "Arabic": "أَنَانِيٌّ",
+   "Indonesian": "Egois",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Sifat"
+ },
+ {
+   "ID": 477,
+   "English": "Sensitive",
+   "Arabic": "حَسَّاسٌ",
+   "Indonesian": "Sensitif",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Sifat"
+ },
+ {
+   "ID": 478,
+   "English": "Caring",
+   "Arabic": "رَحِيمٌ",
+   "Indonesian": "Penyayang",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Sifat"
+ },
+ {
+   "ID": 479,
+   "English": "Smart",
+   "Arabic": "ذَكِيٌّ",
+   "Indonesian": "Pintar",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Sifat"
+ },
+ {
+   "ID": 480,
+   "English": "Stupid",
+   "Arabic": "غَبِيٌّ",
+   "Indonesian": "Bodoh",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Sifat"
+ },
+ {
+   "ID": 481,
+   "English": "Intelligent",
+   "Arabic": "ذَكِيٌّ",
+   "Indonesian": "Cerdas",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Sifat"
+ },
+ {
+   "ID": 482,
+   "English": "Poor",
+   "Arabic": "فَقِيرٌ",
+   "Indonesian": "Miskin",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Sifat"
+ },
+ {
+   "ID": 483,
+   "English": "Rich",
+   "Arabic": "غَنِيٌّ",
+   "Indonesian": "Kaya",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Sifat"
+ },
+ {
+   "ID": 484,
+   "English": "Perfect",
+   "Arabic": "كَامِلٌ",
+   "Indonesian": "Sempurna",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Sifat"
+ },
+ {
+   "ID": 485,
+   "English": "Simple",
+   "Arabic": "بَسِيطٌ",
+   "Indonesian": "Sederhana",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Sifat"
+ },
+ {
+   "ID": 486,
+   "English": "Wasteful",
+   "Arabic": "مُبَذِّرٌ",
+   "Indonesian": "Boros",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Sifat"
+ },
+ {
+   "ID": 487,
+   "English": "Thrifty",
+   "Arabic": "مُقْتَصِدٌ",
+   "Indonesian": "Irit",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Sifat"
+ },
+ {
+   "ID": 488,
+   "English": "Fair",
+   "Arabic": "عَادِلٌ",
+   "Indonesian": "Adil",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Sifat"
+ },
+ {
+   "ID": 489,
+   "English": "Oppressive",
+   "Arabic": "ظَالِمٌ",
+   "Indonesian": "Zalim",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Sifat"
+ },
+ {
+   "ID": 490,
+   "English": "Strong",
+   "Arabic": "قَوِيٌّ",
+   "Indonesian": "Kuat",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Sifat"
+ },
+ {
+   "ID": 491,
+   "English": "Weak",
+   "Arabic": "ضَعِيفٌ",
+   "Indonesian": "Lemah",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Sifat"
+ },
+ {
+   "ID": 492,
+   "English": "Old",
+   "Arabic": "عَجُوزٌ",
+   "Indonesian": "Tua",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Sifat"
+ },
+ {
+   "ID": 493,
+   "English": "Happy",
+   "Arabic": "سَعِيدٌ",
+   "Indonesian": "Bahagia",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Sifat"
+ },
+ {
+   "ID": 494,
+   "English": "Miserable",
+   "Arabic": "شَقِيٌّ",
+   "Indonesian": "Sengsara",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Sifat"
+ },
+ {
+   "ID": 495,
+   "English": "Praiseworthy",
+   "Arabic": "مَحْمُودٌ",
+   "Indonesian": "Terpuji",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Sifat"
+ },
+ {
+   "ID": 496,
+   "English": "Disgraceful",
+   "Arabic": "مَذْمُومٌ",
+   "Indonesian": "Tercela",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Sifat"
+ },
+ {
+   "ID": 497,
+   "English": "Fat",
+   "Arabic": "سَمِينٌ",
+   "Indonesian": "Gendut",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Sifat"
+ },
+ {
+   "ID": 498,
+   "English": "Thin",
+   "Arabic": "نَحِيفٌ",
+   "Indonesian": "Kurus",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Sifat"
+ },
+ {
+   "ID": 499,
+   "English": "Busy",
+   "Arabic": "مَشْغُولٌ",
+   "Indonesian": "Sibuk",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Sifat"
+ },
+ {
+   "ID": 500,
+   "English": "Unemployed",
+   "Arabic": "عَاطِلٌ",
+   "Indonesian": "Nganggur",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Sifat"
+ },
+ {
+   "ID": 501,
+   "English": "Healthy",
+   "Arabic": "صَحِيحٌ",
+   "Indonesian": "Sehat",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Sifat"
+ },
+ {
+   "ID": 502,
+   "English": "Sick",
+   "Arabic": "مَرِيضٌ",
+   "Indonesian": "Sakit",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Sifat"
+ },
+ {
+   "ID": 503,
+   "English": "Confident",
+   "Arabic": "وَاثِقٌ",
+   "Indonesian": "Percaya diri",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Sifat"
+ },
+ {
+   "ID": 504,
+   "English": "Serious",
+   "Arabic": "جَادٌّ",
+   "Indonesian": "Serius",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Sifat"
+ },
+ {
+   "ID": 505,
+   "English": "Frustrated",
+   "Arabic": "مُحْبَطٌ",
+   "Indonesian": "Frustasi",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Sifat"
+ },
+ {
+   "ID": 506,
+   "English": "Curious",
+   "Arabic": "فُضُولِيٌّ",
+   "Indonesian": "Penasaran",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Sifat"
+ },
+ {
+   "ID": 507,
+   "English": "Confused",
+   "Arabic": "قَلِقٌ",
+   "Indonesian": "Galau",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Sifat"
+ },
+ {
+   "ID": 508,
+   "English": "Embarrassing",
+   "Arabic": "مُحْرِجٌ",
+   "Indonesian": "Memalukan",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Sifat"
+ },
+ {
+   "ID": 509,
+   "English": "Pleasant",
+   "Arabic": "مُمْتِعٌ",
+   "Indonesian": "Menyenangkan",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Sifat"
+ },
+ {
+   "ID": 510,
+   "English": "Mean",
+   "Arabic": "شِرِّيرٌ",
+   "Indonesian": "Jahat",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Sifat"
+ },
+ {
+   "ID": 511,
+   "English": "Boring",
+   "Arabic": "مُمِلٌّ",
+   "Indonesian": "Membosankan",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Sifat"
+ },
+ {
+   "ID": 512,
+   "English": "Forgetful",
+   "Arabic": "نَسِيٌّ",
+   "Indonesian": "Pelupa",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Sifat"
+ },
+ {
+   "ID": 513,
+   "English": "Black",
+   "Arabic": "أَسْوَدُ",
+   "Indonesian": "Hitam",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Warna"
+ },
+ {
+   "ID": 514,
+   "English": "White",
+   "Arabic": "أَبْيَضُ",
+   "Indonesian": "Putih",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Warna"
+ },
+ {
+   "ID": 515,
+   "English": "Red",
+   "Arabic": "أَحْمَرُ",
+   "Indonesian": "Merah",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Warna"
+ },
+ {
+   "ID": 516,
+   "English": "Yellow",
+   "Arabic": "أَصْفَرُ",
+   "Indonesian": "Kuning",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Warna"
+ },
+ {
+   "ID": 517,
+   "English": "Blue",
+   "Arabic": "أَزْرَقُ",
+   "Indonesian": "Biru",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Warna"
+ },
+ {
+   "ID": 518,
+   "English": "Green",
+   "Arabic": "أَخْضَرُ",
+   "Indonesian": "Hijau",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Warna"
+ },
+ {
+   "ID": 519,
+   "English": "Brown",
+   "Arabic": "بُنِّيٌّ",
+   "Indonesian": "Coklat",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Warna"
+ },
+ {
+   "ID": 520,
+   "English": "Pink",
+   "Arabic": "وَرْدِيٌّ",
+   "Indonesian": "Pink",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Warna"
+ },
+ {
+   "ID": 521,
+   "English": "Gray (US) / Grey (UK)",
+   "Arabic": "رَمَادِيٌّ",
+   "Indonesian": "Abu-abu",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Warna"
+ },
+ {
+   "ID": 522,
+   "English": "Orange",
+   "Arabic": "بُرْتُقَالِيٌّ",
+   "Indonesian": "Oranye",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Warna"
+ },
+ {
+   "ID": 523,
+   "English": "Purple",
+   "Arabic": "بَنَفْسَجِيٌّ",
+   "Indonesian": "Ungu",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Warna"
+ },
+ {
+   "ID": 524,
+   "English": "Golden",
+   "Arabic": "ذَهَبِيٌّ",
+   "Indonesian": "Keemasan",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Warna"
+ },
+ {
+   "ID": 525,
+   "English": "Sweet",
+   "Arabic": "حُلْوٌ",
+   "Indonesian": "Manis",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Rasa"
+ },
+ {
+   "ID": 526,
+   "English": "Salty",
+   "Arabic": "مَالِحٌ",
+   "Indonesian": "Asin",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Rasa"
+ },
+ {
+   "ID": 527,
+   "English": "Bitter",
+   "Arabic": "مُرٌّ",
+   "Indonesian": "Pahit",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Rasa"
+ },
+ {
+   "ID": 528,
+   "English": "Hot",
+   "Arabic": "حَارٌّ",
+   "Indonesian": "Panas",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Rasa"
+ },
+ {
+   "ID": 529,
+   "English": "Cold",
+   "Arabic": "بَارِدٌ",
+   "Indonesian": "Dingin",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Rasa"
+ },
+ {
+   "ID": 530,
+   "English": "Spicy",
+   "Arabic": "حَارٌّ",
+   "Indonesian": "Pedas",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Rasa"
+ },
+ {
+   "ID": 531,
+   "English": "Sour",
+   "Arabic": "حَامِضٌ",
+   "Indonesian": "Asam",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Rasa"
+ },
+ {
+   "ID": 532,
+   "English": "Wet",
+   "Arabic": "مَبْلُولٌ",
+   "Indonesian": "Basah",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Rasa"
+ },
+ {
+   "ID": 533,
+   "English": "Dry",
+   "Arabic": "جَافٌّ",
+   "Indonesian": "Kering",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Rasa"
+ },
+ {
+   "ID": 534,
+   "English": "Warm",
+   "Arabic": "دَافِئٌ",
+   "Indonesian": "Hangat",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Rasa"
+ },
+ {
+   "ID": 535,
+   "English": "Fresh",
+   "Arabic": "طَازَجٌ",
+   "Indonesian": "Segar",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Rasa"
+ },
+ {
+   "ID": 536,
+   "English": "Dog",
+   "Arabic": "كَلْبٌ",
+   "Indonesian": "Anjing",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Hewan"
+ },
+ {
+   "ID": 537,
+   "English": "Cat",
+   "Arabic": "قِطٌّ",
+   "Indonesian": "Kucing",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Hewan"
+ },
+ {
+   "ID": 538,
+   "English": "Rabbit",
+   "Arabic": "أَرْنَبٌ",
+   "Indonesian": "Kelinci",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Hewan"
+ },
+ {
+   "ID": 539,
+   "English": "Rat (atau Mouse untuk tikus kecil)",
+   "Arabic": "فَأْرٌ",
+   "Indonesian": "Tikus",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Hewan"
+ },
+ {
+   "ID": 540,
+   "English": "Sheep",
+   "Arabic": "خَرُوفٌ",
+   "Indonesian": "Domba",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Hewan"
+ },
+ {
+   "ID": 541,
+   "English": "Pig",
+   "Arabic": "خِنْزِيرٌ",
+   "Indonesian": "Babi",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Hewan"
+ },
+ {
+   "ID": 542,
+   "English": "Cow",
+   "Arabic": "بَقَرَةٌ",
+   "Indonesian": "Sapi",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Hewan"
+ },
+ {
+   "ID": 543,
+   "English": "Water Buffalo",
+   "Arabic": "جَامُوسٌ",
+   "Indonesian": "Kerbau",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Hewan"
+ },
+ {
+   "ID": 544,
+   "English": "Horse",
+   "Arabic": "حِصَانٌ",
+   "Indonesian": "Kuda",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Hewan"
+ },
+ {
+   "ID": 545,
+   "English": "Chicken",
+   "Arabic": "دَجَاجَةٌ",
+   "Indonesian": "Ayam",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Hewan"
+ },
+ {
+   "ID": 546,
+   "English": "Goat",
+   "Arabic": "مَاعِزٌ",
+   "Indonesian": "Kambing",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Hewan"
+ },
+ {
+   "ID": 547,
+   "English": "Giraffe",
+   "Arabic": "زَرَافَةٌ",
+   "Indonesian": "Jerapah",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Hewan"
+ },
+ {
+   "ID": 548,
+   "English": "Bee",
+   "Arabic": "نَحْلَةٌ",
+   "Indonesian": "Lebah",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Hewan"
+ },
+ {
+   "ID": 549,
+   "English": "Frog",
+   "Arabic": "ضِفْدَعٌ",
+   "Indonesian": "Katak",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Hewan"
+ },
+ {
+   "ID": 550,
+   "English": "Crab",
+   "Arabic": "سَرَطَانٌ",
+   "Indonesian": "Kepiting",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Hewan"
+ },
+ {
+   "ID": 551,
+   "English": "Tiger",
+   "Arabic": "نَمِرٌ",
+   "Indonesian": "Harimau",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Hewan"
+ },
+ {
+   "ID": 552,
+   "English": "Wolf",
+   "Arabic": "ذِئْبٌ",
+   "Indonesian": "Serigala",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Hewan"
+ },
+ {
+   "ID": 553,
+   "English": "Lion",
+   "Arabic": "أَسَدٌ",
+   "Indonesian": "Singa",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Hewan"
+ },
+ {
+   "ID": 554,
+   "English": "Donkey",
+   "Arabic": "حِمَارٌ",
+   "Indonesian": "Keledai",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Hewan"
+ },
+ {
+   "ID": 555,
+   "English": "Snake",
+   "Arabic": "ثُعْبَانٌ",
+   "Indonesian": "Ular",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Hewan"
+ },
+ {
+   "ID": 556,
+   "English": "Bear",
+   "Arabic": "دُبٌّ",
+   "Indonesian": "Beruang",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Hewan"
+ },
+ {
+   "ID": 557,
+   "English": "House Gecko",
+   "Arabic": "سَحْلِيَّةٌ",
+   "Indonesian": "Cicak",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Hewan"
+ },
+ {
+   "ID": 558,
+   "English": "Elephant",
+   "Arabic": "فِيلٌ",
+   "Indonesian": "Gajah",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Hewan"
+ },
+ {
+   "ID": 559,
+   "English": "Ant",
+   "Arabic": "نَمْلَةٌ",
+   "Indonesian": "Semut",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Hewan"
+ },
+ {
+   "ID": 560,
+   "English": "Mosquito",
+   "Arabic": "بَعُوضَةٌ",
+   "Indonesian": "Nyamuk",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Hewan"
+ },
+ {
+   "ID": 561,
+   "English": "Bat",
+   "Arabic": "خُفَّاشٌ",
+   "Indonesian": "Kelelawar",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Hewan"
+ },
+ {
+   "ID": 562,
+   "English": "Camel",
+   "Arabic": "جَمَلٌ",
+   "Indonesian": "Unta",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Hewan"
+ },
+ {
+   "ID": 563,
+   "English": "Deer",
+   "Arabic": "غَزَالٌ",
+   "Indonesian": "Kijang",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Hewan"
+ },
+ {
+   "ID": 564,
+   "English": "Monkey",
+   "Arabic": "قِرْدٌ",
+   "Indonesian": "Monyet",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Hewan"
+ },
+ {
+   "ID": 565,
+   "English": "Scorpion",
+   "Arabic": "عَقْرَبٌ",
+   "Indonesian": "Kalajengking",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Hewan"
+ },
+ {
+   "ID": 566,
+   "English": "Grasshopper",
+   "Arabic": "جَرَادٌ",
+   "Indonesian": "Belalang",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Hewan"
+ },
+ {
+   "ID": 567,
+   "English": "Caterpillar",
+   "Arabic": "يَرَقَةٌ",
+   "Indonesian": "Ulat",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Hewan"
+ },
+ {
+   "ID": 568,
+   "English": "Duck",
+   "Arabic": "بَطٌّ",
+   "Indonesian": "Bebek",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Hewan"
+ },
+ {
+   "ID": 569,
+   "English": "Rooster",
+   "Arabic": "دِيكٌ",
+   "Indonesian": "Ayam jago",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Hewan"
+ },
+ {
+   "ID": 570,
+   "English": "Bird",
+   "Arabic": "طَيْرٌ",
+   "Indonesian": "Burung",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Hewan"
+ },
+ {
+   "ID": 571,
+   "English": "Pigeon",
+   "Arabic": "حَمَامَةٌ",
+   "Indonesian": "Merpati",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Hewan"
+ },
+ {
+   "ID": 572,
+   "English": "Turtle",
+   "Arabic": "سُلَحْفَاةٌ",
+   "Indonesian": "Kura-kura",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Hewan"
+ },
+ {
+   "ID": 573,
+   "English": "Feather",
+   "Arabic": "رِيشَةٌ",
+   "Indonesian": "Bulu",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Hewan"
+ },
+ {
+   "ID": 574,
+   "English": "Wing",
+   "Arabic": "جَنَاحٌ",
+   "Indonesian": "Sayap",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Hewan"
+ },
+ {
+   "ID": 575,
+   "English": "Tail",
+   "Arabic": "ذَيْلٌ",
+   "Indonesian": "Ekor",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Hewan"
+ },
+ {
+   "ID": 576,
+   "English": "Apple",
+   "Arabic": "تُفَّاحٌ",
+   "Indonesian": "Apel",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Buah"
+ },
+ {
+   "ID": 577,
+   "English": "Pear",
+   "Arabic": "كُمَّثْرَى",
+   "Indonesian": "Pir",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Buah"
+ },
+ {
+   "ID": 578,
+   "English": "Grapes",
+   "Arabic": "عِنَبٌ",
+   "Indonesian": "Anggur",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Buah"
+ },
+ {
+   "ID": 579,
+   "English": "Banana",
+   "Arabic": "مَوْزٌ",
+   "Indonesian": "Pisang",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Buah"
+ },
+ {
+   "ID": 580,
+   "English": "Papaya",
+   "Arabic": "بَابَايَا",
+   "Indonesian": "Pepaya",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Buah"
+ },
+ {
+   "ID": 581,
+   "English": "Mango",
+   "Arabic": "مَانْجُو",
+   "Indonesian": "Mangga",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Buah"
+ },
+ {
+   "ID": 582,
+   "English": "Coconut",
+   "Arabic": "جَوْزُ الْهِنْدِ",
+   "Indonesian": "Kelapa",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Buah"
+ },
+ {
+   "ID": 583,
+   "English": "Avocado",
+   "Arabic": "أَفُوكَادُو",
+   "Indonesian": "Alpukat",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Buah"
+ },
+ {
+   "ID": 584,
+   "English": "Melon",
+   "Arabic": "شِمَامٌ",
+   "Indonesian": "Melon",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Buah"
+ },
+ {
+   "ID": 585,
+   "English": "Watermelon",
+   "Arabic": "بَطِيخٌ",
+   "Indonesian": "Semangka",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Buah"
+ },
+ {
+   "ID": 586,
+   "English": "Mangosteen",
+   "Arabic": "مَنْجُسْتَانٌ",
+   "Indonesian": "Manggis",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Buah"
+ },
+ {
+   "ID": 587,
+   "English": "Orange",
+   "Arabic": "بُرْتُقَالٌ",
+   "Indonesian": "Jeruk",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Buah"
+ },
+ {
+   "ID": 588,
+   "English": "Date",
+   "Arabic": "تَمْرٌ",
+   "Indonesian": "Kurma",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Buah"
+ },
+ {
+   "ID": 589,
+   "English": "Strawberry",
+   "Arabic": "فَرَاوِلَةٌ",
+   "Indonesian": "Strawberi",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Buah"
+ },
+ {
+   "ID": 590,
+   "English": "Pomegranate",
+   "Arabic": "رُمَّانٌ",
+   "Indonesian": "Delima",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Buah"
+ },
+ {
+   "ID": 591,
+   "English": "Dragon Fruit",
+   "Arabic": "فَاكِهَةُ التِّنِّينِ",
+   "Indonesian": "Buah naga",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Buah"
+ },
+ {
+   "ID": 592,
+   "English": "Pineapple",
+   "Arabic": "أَنَانَاسٌ",
+   "Indonesian": "Nanas",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Buah"
+ },
+ {
+   "ID": 593,
+   "English": "Rambutan",
+   "Arabic": "رَامْبُوتَانٌ",
+   "Indonesian": "Rambutan",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Buah"
+ },
+ {
+   "ID": 594,
+   "English": "Durian",
+   "Arabic": "دُورِيَانٌ",
+   "Indonesian": "Durian",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Buah"
+ },
+ {
+   "ID": 595,
+   "English": "Tomato",
+   "Arabic": "طَمَاطِمٌ",
+   "Indonesian": "Tomat",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Buah"
+ },
+ {
+   "ID": 596,
+   "English": "Guava",
+   "Arabic": "جُوَافَةٌ",
+   "Indonesian": "Jambu",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Buah"
+ },
+ {
+   "ID": 597,
+   "English": "Corn (US) / Maize (UK & formal)",
+   "Arabic": "ذُرَةٌ",
+   "Indonesian": "Jagung",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Buah"
+ },
+ {
+   "ID": 598,
+   "English": "Kitchen",
+   "Arabic": "مَطْبَخٌ",
+   "Indonesian": "Dapur",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Tempat"
+ },
+ {
+   "ID": 599,
+   "English": "Pharmacy",
+   "Arabic": "صَيْدَلِيَّةٌ",
+   "Indonesian": "Apotek",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Tempat"
+ },
+ {
+   "ID": 600,
+   "English": "Bank",
+   "Arabic": "بَنْكٌ",
+   "Indonesian": "Bank",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Tempat"
+ },
+ {
+   "ID": 601,
+   "English": "Factory",
+   "Arabic": "مَصْنَعٌ",
+   "Indonesian": "Pabrik",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Tempat"
+ },
+ {
+   "ID": 602,
+   "English": "Market",
+   "Arabic": "سُوقٌ",
+   "Indonesian": "Pasar",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Tempat"
+ },
+ {
+   "ID": 603,
+   "English": "Shopping Mall",
+   "Arabic": "مَوْلٌ",
+   "Indonesian": "Mall",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Tempat"
+ },
+ {
+   "ID": 604,
+   "English": "Bus Terminal",
+   "Arabic": "مَوْقِفُ السَّيَّارَاتِ",
+   "Indonesian": "Terminal",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Tempat"
+ },
+ {
+   "ID": 605,
+   "English": "Train Station",
+   "Arabic": "مَحَطَّةُ الْقِطَارِ",
+   "Indonesian": "Stasiun",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Tempat"
+ },
+ {
+   "ID": 606,
+   "English": "Gas Station (US) / Petrol Station (UK)",
+   "Arabic": "مَحَطَّةُ الْبِنْزِينِ",
+   "Indonesian": "Pom bensin",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Tempat"
+ },
+ {
+   "ID": 607,
+   "English": "Airport",
+   "Arabic": "مَطَارٌ",
+   "Indonesian": "Bandara",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Tempat"
+ },
+ {
+   "ID": 608,
+   "English": "Port",
+   "Arabic": "مِينَاءٌ",
+   "Indonesian": "Pelabuhan",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Tempat"
+ },
+ {
+   "ID": 609,
+   "English": "Warehouse",
+   "Arabic": "مُسْتَوْدَعٌ",
+   "Indonesian": "Gudang",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Tempat"
+ },
+ {
+   "ID": 610,
+   "English": "Library",
+   "Arabic": "مَكْتَبَةٌ",
+   "Indonesian": "Perpustakaan",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Tempat"
+ },
+ {
+   "ID": 611,
+   "English": "Hotel",
+   "Arabic": "فُنْدُقٌ",
+   "Indonesian": "Hotel",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Tempat"
+ },
+ {
+   "ID": 612,
+   "English": "Café",
+   "Arabic": "مَقْهًى",
+   "Indonesian": "Kafe",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Tempat"
+ },
+ {
+   "ID": 613,
+   "English": "Courthouse (gedung) / Court (lembaga)",
+   "Arabic": "مَحْكَمَةٌ",
+   "Indonesian": "Pengadilan",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Tempat"
+ },
+ {
+   "ID": 614,
+   "English": "Training Center",
+   "Arabic": "دَوْرَةٌ",
+   "Indonesian": "Kursusan",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Tempat"
+ },
+ {
+   "ID": 615,
+   "English": "Office",
+   "Arabic": "مَكْتَبٌ",
+   "Indonesian": "Kantor",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Tempat"
+ },
+ {
+   "ID": 616,
+   "English": "Store (US) / Shop (UK)",
+   "Arabic": "دُكَّانٌ",
+   "Indonesian": "Toko",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Tempat"
+ },
+ {
+   "ID": 617,
+   "English": "Road / Street",
+   "Arabic": "شَارِعٌ",
+   "Indonesian": "Jalan",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Tempat"
+ },
+ {
+   "ID": 618,
+   "English": "Museum",
+   "Arabic": "مَتْحَفٌ",
+   "Indonesian": "Museum",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Tempat"
+ },
+ {
+   "ID": 619,
+   "English": "Laboratory",
+   "Arabic": "مَعْمَلٌ",
+   "Indonesian": "Laboratorium",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Tempat"
+ },
+ {
+   "ID": 620,
+   "English": "Restaurant",
+   "Arabic": "مَطْعَمٌ",
+   "Indonesian": "Restoran",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Tempat"
+ },
+ {
+   "ID": 621,
+   "English": "Park",
+   "Arabic": "حَدِيقَةٌ",
+   "Indonesian": "Taman",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Tempat"
+ },
+ {
+   "ID": 622,
+   "English": "Garden",
+   "Arabic": "بُسْتَانٌ",
+   "Indonesian": "Kebun",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Tempat"
+ },
+ {
+   "ID": 623,
+   "English": "Rice Field / Paddy Field",
+   "Arabic": "مَزْرَعَةٌ",
+   "Indonesian": "Sawah",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Tempat"
+ },
+ {
+   "ID": 624,
+   "English": "Room",
+   "Arabic": "غُرْفَةٌ",
+   "Indonesian": "Kamar",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Tempat"
+ },
+ {
+   "ID": 625,
+   "English": "Dormitory",
+   "Arabic": "مَسْكَنٌ",
+   "Indonesian": "Asrama",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Tempat"
+ },
+ {
+   "ID": 626,
+   "English": "Boarding House",
+   "Arabic": "مَأْوًى",
+   "Indonesian": "Kos",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Tempat"
+ },
+ {
+   "ID": 627,
+   "English": "Apartment",
+   "Arabic": "شُقَّةٌ",
+   "Indonesian": "Apartemen",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Tempat"
+ },
+ {
+   "ID": 628,
+   "English": "Cemetery",
+   "Arabic": "مَقْبَرَةٌ",
+   "Indonesian": "Kuburan",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Tempat"
+ },
+ {
+   "ID": 629,
+   "English": "Mosque",
+   "Arabic": "مَسْجِدٌ",
+   "Indonesian": "Masjid",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Tempat"
+ },
+ {
+   "ID": 630,
+   "English": "Islamic Boarding School",
+   "Arabic": "مَعْهَدٌ",
+   "Indonesian": "Pondok pesantren",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Tempat"
+ },
+ {
+   "ID": 631,
+   "English": "School",
+   "Arabic": "مَدْرَسَةٌ",
+   "Indonesian": "Sekolah",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Tempat"
+ },
+ {
+   "ID": 632,
+   "English": "University",
+   "Arabic": "جَامِعَةٌ",
+   "Indonesian": "Universitas",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Tempat"
+ },
+ {
+   "ID": 633,
+   "English": "Church",
+   "Arabic": "كَنِيسَةٌ",
+   "Indonesian": "Gereja",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Tempat"
+ },
+ {
+   "ID": 634,
+   "English": "Temple",
+   "Arabic": "مَعْبَدٌ",
+   "Indonesian": "Candi",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Tempat"
+ },
+ {
+   "ID": 635,
+   "English": "Palace",
+   "Arabic": "قَصْرٌ",
+   "Indonesian": "Istana",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Tempat"
+ },
+ {
+   "ID": 636,
+   "English": "Hut",
+   "Arabic": "كُوخٌ",
+   "Indonesian": "Gubuk",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Tempat"
+ },
+ {
+   "ID": 637,
+   "English": "Town Square",
+   "Arabic": "مَيْدَانٌ",
+   "Indonesian": "Alun-alun",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Tempat"
+ },
+ {
+   "ID": 638,
+   "English": "Tower",
+   "Arabic": "بُرْجٌ",
+   "Indonesian": "Menara",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Tempat"
+ },
+ {
+   "ID": 639,
+   "English": "Workshop / Auto Repair Shop",
+   "Arabic": "وَرْشَةٌ",
+   "Indonesian": "Bengkel",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Tempat"
+ },
+ {
+   "ID": 640,
+   "English": "Sun",
+   "Arabic": "شَمْسٌ",
+   "Indonesian": "Matahari",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Alam"
+ },
+ {
+   "ID": 641,
+   "English": "Moon",
+   "Arabic": "قَمَرٌ",
+   "Indonesian": "Bulan",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Alam"
+ },
+ {
+   "ID": 642,
+   "English": "Mountain",
+   "Arabic": "جَبَلٌ",
+   "Indonesian": "Gunung",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Alam"
+ },
+ {
+   "ID": 643,
+   "English": "Sea",
+   "Arabic": "بَحْرٌ",
+   "Indonesian": "Laut",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Alam"
+ },
+ {
+   "ID": 644,
+   "English": "Sky",
+   "Arabic": "سَمَاءٌ",
+   "Indonesian": "Langit",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Alam"
+ },
+ {
+   "ID": 645,
+   "English": "Star",
+   "Arabic": "نَجْمٌ",
+   "Indonesian": "Bintang",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Alam"
+ },
+ {
+   "ID": 646,
+   "English": "Planet",
+   "Arabic": "كَوْكَبٌ",
+   "Indonesian": "Planet",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Alam"
+ },
+ {
+   "ID": 647,
+   "English": "Outer Space",
+   "Arabic": "فَضَاءٌ",
+   "Indonesian": "Angkasa",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Alam"
+ },
+ {
+   "ID": 648,
+   "English": "Rainbow",
+   "Arabic": "قَوْسُ قُزَحٍ",
+   "Indonesian": "Pelangi",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Alam"
+ },
+ {
+   "ID": 649,
+   "English": "Earth",
+   "Arabic": "أَرْضٌ",
+   "Indonesian": "Bumi",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Alam"
+ },
+ {
+   "ID": 650,
+   "English": "Desert",
+   "Arabic": "صَحْرَاءٌ",
+   "Indonesian": "Padang pasir",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Alam"
+ },
+ {
+   "ID": 651,
+   "English": "Rock / Stone",
+   "Arabic": "حَجَرٌ",
+   "Indonesian": "Batu",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Alam"
+ },
+ {
+   "ID": 652,
+   "English": "Cloud",
+   "Arabic": "سَحَابَةٌ",
+   "Indonesian": "Awan",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Alam"
+ },
+ {
+   "ID": 653,
+   "English": "River",
+   "Arabic": "نَهْرٌ",
+   "Indonesian": "Sungai",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Alam"
+ },
+ {
+   "ID": 654,
+   "English": "Flood",
+   "Arabic": "فَيْضَانٌ",
+   "Indonesian": "Banjir",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Alam"
+ },
+ {
+   "ID": 655,
+   "English": "Beach",
+   "Arabic": "شَاطِئٌ",
+   "Indonesian": "Pantai",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Alam"
+ },
+ {
+   "ID": 656,
+   "English": "Continent",
+   "Arabic": "قَارَّةٌ",
+   "Indonesian": "Benua",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Alam"
+ },
+ {
+   "ID": 657,
+   "English": "Ocean",
+   "Arabic": "مُحِيطٌ",
+   "Indonesian": "Samudra",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Alam"
+ },
+ {
+   "ID": 658,
+   "English": "Wave",
+   "Arabic": "مَوْجٌ",
+   "Indonesian": "Ombak",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Alam"
+ },
+ {
+   "ID": 659,
+   "English": "Island",
+   "Arabic": "جَزِيرَةٌ",
+   "Indonesian": "Pulau",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Alam"
+ },
+ {
+   "ID": 660,
+   "English": "Forest",
+   "Arabic": "غَابَةٌ",
+   "Indonesian": "Hutan",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Alam"
+ },
+ {
+   "ID": 661,
+   "English": "Cave",
+   "Arabic": "كَهْفٌ",
+   "Indonesian": "Goa",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Alam"
+ },
+ {
+   "ID": 662,
+   "English": "Teacher",
+   "Arabic": "مُعَلِّمٌ",
+   "Indonesian": "Guru",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Profesi"
+ },
+ {
+   "ID": 663,
+   "English": "Lecturer",
+   "Arabic": "أُسْتَاذٌ",
+   "Indonesian": "Dosen",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Profesi"
+ },
+ {
+   "ID": 664,
+   "English": "Student",
+   "Arabic": "طَالِبٌ",
+   "Indonesian": "Murid",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Profesi"
+ },
+ {
+   "ID": 665,
+   "English": "Doctor",
+   "Arabic": "طَبِيبٌ",
+   "Indonesian": "Dokter",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Profesi"
+ },
+ {
+   "ID": 666,
+   "English": "Nurse",
+   "Arabic": "مُمَرِّضٌ",
+   "Indonesian": "Perawat",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Profesi"
+ },
+ {
+   "ID": 667,
+   "English": "Soldier",
+   "Arabic": "جُنْدِيٌّ",
+   "Indonesian": "Tentara",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Profesi"
+ },
+ {
+   "ID": 668,
+   "English": "Police Officer",
+   "Arabic": "شُرْطِيٌّ",
+   "Indonesian": "Polisi",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Profesi"
+ },
+ {
+   "ID": 669,
+   "English": "Lawyer",
+   "Arabic": "مُحَامٍ",
+   "Indonesian": "Pengacara",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Profesi"
+ },
+ {
+   "ID": 670,
+   "English": "Judge",
+   "Arabic": "قَاضٍ",
+   "Indonesian": "Hakim",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Profesi"
+ },
+ {
+   "ID": 671,
+   "English": "Director",
+   "Arabic": "مُدِيرٌ",
+   "Indonesian": "Direktur",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Profesi"
+ },
+ {
+   "ID": 672,
+   "English": "Singer",
+   "Arabic": "مُغَنٍّ",
+   "Indonesian": "Penyanyi",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Profesi"
+ },
+ {
+   "ID": 673,
+   "English": "Farmer",
+   "Arabic": "فَلَّاحٌ",
+   "Indonesian": "Petani",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Profesi"
+ },
+ {
+   "ID": 674,
+   "English": "Fisherman",
+   "Arabic": "صَيَّادٌ",
+   "Indonesian": "Nelayan",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Profesi"
+ },
+ {
+   "ID": 675,
+   "English": "Carpenter",
+   "Arabic": "نَجَّارٌ",
+   "Indonesian": "Tukang kayu",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Profesi"
+ },
+ {
+   "ID": 676,
+   "English": "Gardener",
+   "Arabic": "بُسْتَانِيٌّ",
+   "Indonesian": "Tukang kebun",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Profesi"
+ },
+ {
+   "ID": 677,
+   "English": "Barber",
+   "Arabic": "حَلَّاقٌ",
+   "Indonesian": "Tukang cukur",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Profesi"
+ },
+ {
+   "ID": 678,
+   "English": "Makeup Artist",
+   "Arabic": "مُزَيِّنٌ",
+   "Indonesian": "Perias",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Profesi"
+ },
+ {
+   "ID": 679,
+   "English": "Photographer",
+   "Arabic": "مُصَوِّرٌ",
+   "Indonesian": "Fotografer",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Profesi"
+ },
+ {
+   "ID": 680,
+   "English": "Seller / Salesperson",
+   "Arabic": "بَائِعٌ",
+   "Indonesian": "Penjual",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Profesi"
+ },
+ {
+   "ID": 681,
+   "English": "Engineer",
+   "Arabic": "مُهَنْدِسٌ",
+   "Indonesian": "Insinyur",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Profesi"
+ },
+ {
+   "ID": 682,
+   "English": "Driver",
+   "Arabic": "سَائِقٌ",
+   "Indonesian": "Supir",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Profesi"
+ },
+ {
+   "ID": 683,
+   "English": "Tailor",
+   "Arabic": "خَيَّاطٌ",
+   "Indonesian": "Penjahit",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Profesi"
+ },
+ {
+   "ID": 684,
+   "English": "Pilot",
+   "Arabic": "طَيَّارٌ",
+   "Indonesian": "Pilot",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Profesi"
+ },
+ {
+   "ID": 685,
+   "English": "Employee",
+   "Arabic": "مُوَظَّفٌ",
+   "Indonesian": "Karyawan",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Profesi"
+ },
+ {
+   "ID": 686,
+   "English": "Scientist",
+   "Arabic": "عَالِمٌ",
+   "Indonesian": "Ilmuwan",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Profesi"
+ },
+ {
+   "ID": 687,
+   "English": "Housekeeper / Domestic Helper",
+   "Arabic": "خَادِمٌ",
+   "Indonesian": "Pembantu",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Profesi"
+ },
+ {
+   "ID": 688,
+   "English": "Server (netral) / Waiter / Waitress",
+   "Arabic": "نَادِلٌ",
+   "Indonesian": "Pramusaji",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Profesi"
+ },
+ {
+   "ID": 689,
+   "English": "Staff Member / Employee",
+   "Arabic": "مُوَظَّفٌ",
+   "Indonesian": "Pegawai",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Profesi"
+ },
+ {
+   "ID": 690,
+   "English": "Athlete",
+   "Arabic": "رِيَاضِيٌّ",
+   "Indonesian": "Atlit",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Profesi"
+ },
+ {
+   "ID": 691,
+   "English": "Celebrity (figur publik) / Artist (seniman)",
+   "Arabic": "فَنَّانٌ",
+   "Indonesian": "Artis",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Profesi"
+ },
+ {
+   "ID": 692,
+   "English": "Comedian",
+   "Arabic": "مُضْحِكٌ",
+   "Indonesian": "Pelawak",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Profesi"
+ },
+ {
+   "ID": 693,
+   "English": "Dancer",
+   "Arabic": "رَاقِصٌ",
+   "Indonesian": "Penari",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Profesi"
+ },
+ {
+   "ID": 694,
+   "English": "President",
+   "Arabic": "رَئِيسٌ",
+   "Indonesian": "Presiden",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Profesi"
+ },
+ {
+   "ID": 695,
+   "English": "Minister",
+   "Arabic": "وَزِيرٌ",
+   "Indonesian": "Menteri",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Profesi"
+ },
+ {
+   "ID": 696,
+   "English": "Ambassador",
+   "Arabic": "سَفِيرٌ",
+   "Indonesian": "Duta besar",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Profesi"
+ },
+ {
+   "ID": 697,
+   "English": "Governor",
+   "Arabic": "مُحَافِظٌ",
+   "Indonesian": "Gubernur",
+   "Example_EN": "",
+   "Example_AR": "",
+   "Category": "Profesi"
+ }
+]
