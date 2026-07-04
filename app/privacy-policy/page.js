@@ -90,7 +90,7 @@ export default function PrivacyPolicy() {
               Jika Anda memiliki pertanyaan tentang Privacy Policy ini, silakan hubungi kami di:
             </p>
             <p className="text-gray-300">
-              Email: <a href="mailto:contact@raiganet.my.id" className="text-purple-400 hover:underline">contact@raiganet.my.id</a>
+              Email: <a href="mailto:diky.hermansyah91@gmail.com" className="text-purple-400 hover:underline">contact@raiganet.my.id</a>
             </p>
           </section>
 
