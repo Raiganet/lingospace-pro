@@ -1029,9 +1029,37 @@ export default function LingoSpacePro() {
       </div>
       
       <div className="flex gap-2">
-        <Link href="/blog" className="px-4 py-2 rounded-full glass-modern hover:bg-white/10 transition-all btn-press text-sm font-medium">
-          📝 Blog
-        </Link>
+        // Modern Blog Cards
+<Link href={`/blog/${article.slug}`} className="group block">
+  <div className="glass-modern rounded-2xl p-6 hover-lift border border-white/10 hover:border-purple-500/50 transition-all duration-300">
+    <div className="flex items-center gap-2 mb-4">
+      <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
+        article.category === 'Bahasa Arab' ? 'bg-green-500/20 text-green-300' :
+        article.category === 'Bahasa Inggris' ? 'bg-blue-500/20 text-blue-300' :
+        'bg-purple-500/20 text-purple-300'
+      }`}>
+        {article.category}
+      </span>
+      <span className="text-xs text-gray-400">{article.readTime}</span>
+    </div>
+    
+    <h2 className="text-xl font-bold mb-3 line-clamp-2 group-hover:text-purple-300 transition-colors">
+      {article.title}
+    </h2>
+    
+    <p className="text-gray-400 text-sm mb-4 line-clamp-3">
+      {article.excerpt}
+    </p>
+    
+    <div className="flex items-center justify-between text-sm pt-4 border-t border-white/5">
+      <span className="text-gray-500">{formatDate(article.date)}</span>
+      <span className="text-purple-400 font-semibold group-hover:text-pink-400 transition-colors flex items-center gap-1">
+        Baca Selengkapnya 
+        <span className="transform group-hover:translate-x-1 transition-transform">→</span>
+      </span>
+    </div>
+  </div>
+</Link>
         <button onClick={() => { localStorage.clear(); alert('Cache dibersihkan!'); }} className="px-3 py-2 rounded-full glass-modern hover:bg-white/10 transition-all btn-press text-xs">
            Cache
         </button>
