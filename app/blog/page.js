@@ -191,6 +191,10 @@ export default function Blog() {
 
   const categories = ['Semua', 'Bahasa Arab', 'Bahasa Inggris', 'Tips Belajar', 'Nahwu'];
 
+<<<<<<< HEAD
+=======
+  // Filter articles berdasarkan kategori aktif
+>>>>>>> 8acb827eed352dbeae792e81ff5b4a699d963387
   const filteredArticles = activeCategory === 'Semua' 
     ? articles 
     : articles.filter(article => article.category === activeCategory);
@@ -198,6 +202,7 @@ export default function Blog() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white py-12">
       <div className="max-w-6xl mx-auto px-6">
+<<<<<<< HEAD
         
         {/* Tombol Kembali */}
         <div className="mb-8">
@@ -222,6 +227,20 @@ export default function Blog() {
         </div>
 
         {/* Filter Categories */}
+=======
+        {/* Header */}
+        <div className="text-center mb-12">
+          <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+            Blog LingoSpace Pro
+          </h1>
+          <p className="text-xl text-gray-300 mb-2">Tips, trik, dan artikel tentang pembelajaran bahasa</p>
+          <p className="text-sm text-gray-400">
+            Menampilkan <span className="text-purple-400 font-semibold">{filteredArticles.length}</span> dari {articles.length} artikel
+          </p>
+        </div>
+
+        {/* Filter Categories dengan Animasi */}
+>>>>>>> 8acb827eed352dbeae792e81ff5b4a699d963387
         <div className="flex justify-center gap-3 mb-12 flex-wrap">
           {categories.map((category) => (
             <button
@@ -238,7 +257,7 @@ export default function Blog() {
           ))}
         </div>
 
-        {/* Grid Artikel */}
+        {/* Grid Artikel dengan Animasi */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredArticles.map((article) => (
             <Link 
@@ -247,6 +266,10 @@ export default function Blog() {
               className="group block"
             >
               <div className="glass rounded-2xl p-6 h-full transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-2xl hover:shadow-purple-500/20 border border-white/10 hover:border-purple-500/50">
+<<<<<<< HEAD
+=======
+                {/* Category Badge */}
+>>>>>>> 8acb827eed352dbeae792e81ff5b4a699d963387
                 <div className="flex items-center gap-2 mb-4">
                   <span className={`px-3 py-1 rounded-full text-xs font-semibold transition-all duration-300 ${
                     article.category === 'Bahasa Arab' ? 'bg-green-500/20 text-green-300' :
@@ -259,14 +282,26 @@ export default function Blog() {
                   <span className="text-xs text-gray-400">{article.readTime}</span>
                 </div>
 
+<<<<<<< HEAD
+=======
+                {/* Title */}
+>>>>>>> 8acb827eed352dbeae792e81ff5b4a699d963387
                 <h2 className="text-xl font-bold mb-3 line-clamp-2 group-hover:text-purple-300 transition-colors duration-300">
                   {article.title}
                 </h2>
 
+<<<<<<< HEAD
+=======
+                {/* Excerpt */}
+>>>>>>> 8acb827eed352dbeae792e81ff5b4a699d963387
                 <p className="text-gray-400 text-sm mb-4 line-clamp-3">
                   {article.excerpt}
                 </p>
 
+<<<<<<< HEAD
+=======
+                {/* Footer */}
+>>>>>>> 8acb827eed352dbeae792e81ff5b4a699d963387
                 <div className="flex items-center justify-between text-sm text-gray-500 pt-4 border-t border-white/5">
                   <span>{new Date(article.date).toLocaleDateString('id-ID', { 
                     day: 'numeric', 
@@ -283,6 +318,10 @@ export default function Blog() {
           ))}
         </div>
 
+<<<<<<< HEAD
+=======
+        {/* Empty State */}
+>>>>>>> 8acb827eed352dbeae792e81ff5b4a699d963387
         {filteredArticles.length === 0 && (
           <div className="text-center py-16">
             <div className="text-6xl mb-4">📝</div>
@@ -290,12 +329,64 @@ export default function Blog() {
           </div>
         )}
 
-        <div className="text-center mt-12 pt-8 border-t border-white/10">
-          <p className="text-gray-400">
-            💡 Klik tombol kategori di atas untuk memfilter artikel
-          </p>
+<<<<<<< HEAD
+=======
+        {/* Footer Info */}
+>>>>>>> 8acb827eed352dbeae792e81ff5b4a699d963387
+                {/* Footer dengan Link Legal */}
+        <div className="mt-16 pt-8 border-t border-white/10">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+            {/* Tentang Kami */}
+            <div>
+              <h3 className="font-bold text-lg mb-4 text-purple-300">Tentang</h3>
+              <ul className="space-y-2">
+                <li>
+                  <Link href="/about" className="text-gray-400 hover:text-white transition-colors">
+                    Tentang Kami
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/contact" className="text-gray-400 hover:text-white transition-colors">
+                    Kontak
+                  </Link>
+                </li>
+              </ul>
+            </div>
+
+            {/* Legal */}
+            <div>
+              <h3 className="font-bold text-lg mb-4 text-purple-300">Legal</h3>
+              <ul className="space-y-2">
+                <li>
+                  <Link href="/privacy-policy" className="text-gray-400 hover:text-white transition-colors">
+                    Kebijakan Privasi
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/terms" className="text-gray-400 hover:text-white transition-colors">
+                    Syarat & Ketentuan
+                  </Link>
+                </li>
+              </ul>
+            </div>
+
+            {/* Info */}
+            <div>
+              <h3 className="font-bold text-lg mb-4 text-purple-300">Info</h3>
+              <p className="text-gray-400 text-sm">
+                LingoSpace Pro adalah platform pembelajaran bahasa premium untuk Bahasa Arab dan Inggris.
+              </p>
+              <p className="text-gray-400 text-sm mt-2">
+                 contact@raiganet.my.id
+              </p>
+            </div>
+          </div>
+
+          <div className="text-center pt-6 border-t border-white/10">
+            <p className="text-gray-400 text-sm">
+              © {new Date().getFullYear()} LingoSpace Pro. All rights reserved.
+            </p>
+          </div>
         </div>
-      </div>
-    </div>
   );
 }
