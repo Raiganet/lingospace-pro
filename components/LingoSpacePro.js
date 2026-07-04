@@ -1075,9 +1075,26 @@ export default function LingoSpacePro() {
           0% { background-position: 200% 0; }
           100% { background-position: -200% 0; }
         }
+                .hover-lift {
+          transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .hover-lift:hover {
+          transform: translateY(-4px);
+          box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        .btn-press {
+          transition: transform 0.1s ease;
+        }
+        
+        .btn-press:active {
+          transform: scale(0.95);
+        }
       `}</style>
 
       {/* Navigation - SERAGAM dengan Blog */}
+            {/* Navigation - SERAGAM dengan Blog */}
       <nav className="glass-modern sticky top-0 z-50 px-6 py-3">
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center gap-4 flex-wrap">
@@ -1119,10 +1136,10 @@ export default function LingoSpacePro() {
                 </button>
               ))}
               
-              {/* Blog Button - SERAGAM dengan tombol lainnya */}
+              {/* Blog Button - Dengan Efek Hover yang Sama */}
               <Link 
                 href="/blog" 
-                className="px-4 py-2 rounded-full glass-modern hover:bg-white/10 transition-all btn-press text-sm font-semibold text-gray-300 whitespace-nowrap"
+                className="px-4 py-2 rounded-full glass-modern hover:bg-white/10 transition-all duration-300 hover-lift btn-press text-sm font-semibold text-gray-300 whitespace-nowrap"
               >
                 📝 Blog
               </Link>
@@ -1130,9 +1147,6 @@ export default function LingoSpacePro() {
           </div>
         </div>
       </nav>
-
-      {/* Spacer */}
-      <div className="h-2"></div>
 
       {/* Search & Filter */}
       {currentMode !== 'dashboard' && currentMode !== 'bookmarks' && currentMode !== 'roadmap' && currentMode !== 'nahwu' && currentMode !== 'english' && (
