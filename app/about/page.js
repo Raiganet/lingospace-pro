@@ -7,8 +7,6 @@ export default function About() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white">
       <Navbar />  {/* ← TAMBAHKAN INI */}
-      
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white py-12">
       <div className="max-w-4xl mx-auto px-6">
         <div className="text-center mb-12">
           <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-4xl font-bold mx-auto mb-4">
