@@ -333,28 +333,26 @@ export default function LingoSpacePro() {
     }, 2500);
   };
 
-    const playAudio = (text, lang) => {
+  const playAudio = (text, lang) => {
     if (!text || text === '-') return;
     
-    // Batalkan audio sebelumnya agar tidak tumpang tindih
     window.speechSynthesis.cancel();
     
     if ('speechSynthesis' in window) {
       const utterance = new SpeechSynthesisUtterance(text);
       utterance.lang = lang === 'ar' ? 'ar-SA' : lang === 'en' ? 'en-US' : 'id-ID';
-      utterance.rate = 0.8;      // 20% lebih lambat dari normal
-      utterance.pitch = 1.0;     // Pitch normal
-      utterance.volume = 1.0;    // Volume maksimal
+      utterance.rate = 0.8;
+      utterance.pitch = 1.0;
+      utterance.volume = 1.0;
       window.speechSynthesis.speak(utterance);
     } else {
-      // Fallback ke Google TTS jika browser tidak support
       const url = `https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=${lang}&q=${encodeURIComponent(text)}`;
       const audio = new Audio(url);
       audio.play().catch(e => console.error('Audio error:', e));
     }
   };
 
-    const playArabicAudio = (text) => {
+  const playArabicAudio = (text) => {
     if (!text) return;
     
     window.speechSynthesis.cancel();
@@ -362,7 +360,7 @@ export default function LingoSpacePro() {
     if ('speechSynthesis' in window) {
       const utterance = new SpeechSynthesisUtterance(text);
       utterance.lang = 'ar-SA';
-      utterance.rate = 0.75;     // 25% lebih lambat (Arab lebih sulit)
+      utterance.rate = 0.75;
       utterance.pitch = 1.0;
       utterance.volume = 1.0;
       window.speechSynthesis.speak(utterance);
@@ -373,7 +371,7 @@ export default function LingoSpacePro() {
     }
   };
 
-    const playEnglishAudio = (text) => {
+  const playEnglishAudio = (text) => {
     if (!text) return;
     
     window.speechSynthesis.cancel();
@@ -381,7 +379,7 @@ export default function LingoSpacePro() {
     if ('speechSynthesis' in window) {
       const utterance = new SpeechSynthesisUtterance(text);
       utterance.lang = 'en-US';
-      utterance.rate = 0.8;      // 20% lebih lambat
+      utterance.rate = 0.8;
       utterance.pitch = 1.0;
       utterance.volume = 1.0;
       window.speechSynthesis.speak(utterance);
@@ -400,7 +398,6 @@ export default function LingoSpacePro() {
 
     return (
       <div className="animate-fade-in">
-        {/* Modern Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           {[
             { icon: '📚', value: stats.totalWords, label: 'Total Kosakata', color: 'from-blue-500 to-cyan-500' },
@@ -420,7 +417,6 @@ export default function LingoSpacePro() {
           ))}
         </div>
 
-        {/* Modern Progress Bars */}
         <div className="glass-modern rounded-2xl p-6 mb-8">
           <h3 className="text-lg font-semibold mb-6 flex items-center gap-2">
             <span>📈</span> Progress Belajar
@@ -444,7 +440,6 @@ export default function LingoSpacePro() {
           </div>
         </div>
 
-        {/* Modern Achievement Cards */}
         <div className="glass-modern rounded-2xl p-6">
           <h3 className="text-lg font-semibold mb-6 flex items-center gap-2">
             <span>🏆</span> Pencapaian
@@ -702,7 +697,7 @@ export default function LingoSpacePro() {
       }
     };
 
-        const playLessonAudio = (text, lang) => {
+    const playLessonAudio = (text, lang) => {
       if (!text) return;
       
       window.speechSynthesis.cancel();
@@ -710,7 +705,7 @@ export default function LingoSpacePro() {
       if ('speechSynthesis' in window) {
         const utterance = new SpeechSynthesisUtterance(text);
         utterance.lang = lang === 'ar' ? 'ar-SA' : 'en-US';
-        utterance.rate = 0.8;    // 20% lebih lambat
+        utterance.rate = 0.8;
         utterance.pitch = 1.0;
         utterance.volume = 1.0;
         window.speechSynthesis.speak(utterance);
@@ -1082,8 +1077,7 @@ export default function LingoSpacePro() {
         }
       `}</style>
 
-                 {/* Modern Navigation - Single Row */}
-           {/* Modern Navigation - Single Row dengan Blog */}
+      {/* Navigation - SERAGAM dengan Blog */}
       <nav className="glass-modern sticky top-0 z-50 px-6 py-3">
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center gap-4 flex-wrap">
@@ -1100,7 +1094,7 @@ export default function LingoSpacePro() {
               </div>
             </Link>
 
-            {/* Semua Navigation Buttons + Blog dalam satu container scroll */}
+            {/* Semua Tombol dalam Satu Container Scroll */}
             <div className="flex gap-2 overflow-x-auto flex-1">
               {[
                 { id: 'dashboard', label: '📊 Dashboard' },
@@ -1125,10 +1119,10 @@ export default function LingoSpacePro() {
                 </button>
               ))}
               
-              {/* Blog Button - Masuk dalam navigasi */}
+              {/* Blog Button - SERAGAM dengan tombol lainnya */}
               <Link 
                 href="/blog" 
-                className="px-4 py-2 rounded-full glass-modern hover:bg-white/10 transition-all btn-press text-sm font-medium whitespace-nowrap"
+                className="px-4 py-2 rounded-full glass-modern hover:bg-white/10 transition-all btn-press text-sm font-semibold text-gray-300 whitespace-nowrap"
               >
                 📝 Blog
               </Link>
@@ -1137,9 +1131,10 @@ export default function LingoSpacePro() {
         </div>
       </nav>
 
-  
+      {/* Spacer */}
+      <div className="h-2"></div>
 
-      {/* Search & Filter (hanya untuk mode tertentu) */}
+      {/* Search & Filter */}
       {currentMode !== 'dashboard' && currentMode !== 'bookmarks' && currentMode !== 'roadmap' && currentMode !== 'nahwu' && currentMode !== 'english' && (
         <div className="max-w-7xl mx-auto px-6 mt-6">
           <div className="flex flex-wrap gap-3">
@@ -1176,7 +1171,7 @@ export default function LingoSpacePro() {
         {currentMode === 'english' && renderEnglish()}
       </main>
 
-      {/* Modern Footer */}
+      {/* Footer */}
       <footer className="glass-modern border-t border-white/10 mt-16">
         <div className="max-w-7xl mx-auto px-6 py-12">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
