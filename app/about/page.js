@@ -1,6 +1,12 @@
+'use client';
+
+import Link from 'next/link';
+import Navbar from '../../components/Navbar';  // ← TAMBAHKAN INI
+
 export default function About() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white py-12">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white">
+      <Navbar />  {/* ← TAMBAHKAN INI */}
       <div className="max-w-4xl mx-auto px-6">
         <div className="text-center mb-12">
           <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-4xl font-bold mx-auto mb-4">
@@ -92,7 +98,7 @@ export default function About() {
             </p>
             <div className="space-y-2">
               <p className="text-gray-300">
-                <strong>Email:</strong> <a href="mailto:contact@raiganet.my.id" className="text-purple-400 hover:underline">contact@raiganet.my.id</a>
+                <strong>Email:</strong> <a href="mailto:diky.hermansyah91@gmail.com" className="text-purple-400 hover:underline">diky.hermansyah91@gmail.com</a>
               </p>
               <p className="text-gray-300">
                 <strong>Website:</strong> <a href="https://www.raiganet.my.id" className="text-purple-400 hover:underline">www.raiganet.my.id</a>

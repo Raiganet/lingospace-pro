@@ -1,7 +1,14 @@
+'use client';
+
+import Link from 'next/link';
+import Navbar from '../../components/Navbar';  // ← TAMBAHKAN INI
+
 export default function PrivacyPolicy() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white py-12">
-      <div className="max-w-4xl mx-auto px-6">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white">
+      <Navbar />  {/* ← TAMBAHKAN INI */}
+      
+      <div className="max-w-4xl mx-auto px-6 py-12">
         <h1 className="text-4xl font-bold mb-8 text-center">Privacy Policy</h1>
         
         <div className="glass rounded-2xl p-8 space-y-6">
@@ -90,7 +97,7 @@ export default function PrivacyPolicy() {
               Jika Anda memiliki pertanyaan tentang Privacy Policy ini, silakan hubungi kami di:
             </p>
             <p className="text-gray-300">
-              Email: <a href="mailto:contact@raiganet.my.id" className="text-purple-400 hover:underline">contact@raiganet.my.id</a>
+              Email: <a href="mailto:diky.hermansyah91@gmail.com" className="text-purple-400 hover:underline">diky.hermansyah91@gmail.com</a>
             </p>
           </section>
 
