@@ -137,7 +137,7 @@ export default function TermsOfService() {
               Untuk pertanyaan tentang Terms of Service ini, hubungi kami di:
             </p>
             <p className="text-gray-300">
-              Email: <a href="mailto:contact@raiganet.my.id" className="text-purple-400 hover:underline">contact@raiganet.my.id</a>
+              Email: <a href="mailto:diky.hermansyah91@gmail.com" className="text-purple-400 hover:underline">diky.hermansyah91@gmail.com</a>
             </p>
           </section>
 
