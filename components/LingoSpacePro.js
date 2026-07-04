@@ -1034,6 +1034,7 @@ export default function LingoSpacePro() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white">
       <style>{`
+          
         .perspective-1000 { perspective: 1000px; }
         .transform-style-3d { transform-style: preserve-3d; }
         .backface-hidden { backface-visibility: hidden; }
@@ -1075,23 +1076,8 @@ export default function LingoSpacePro() {
           0% { background-position: 200% 0; }
           100% { background-position: -200% 0; }
         }
-                .hover-lift {
-          transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
         
-        .hover-lift:hover {
-          transform: translateY(-4px);
-          box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-        }
-        
-        .btn-press {
-          transition: transform 0.1s ease;
-        }
-        
-        .btn-press:active {
-          transform: scale(0.95);
-        }
-                /* Hilangkan tombol spinner di semua input */
+        /* Hilangkan spinner buttons */
         input[type="number"]::-webkit-outer-spin-button,
         input[type="number"]::-webkit-inner-spin-button {
           -webkit-appearance: none;
@@ -1102,12 +1088,22 @@ export default function LingoSpacePro() {
           -moz-appearance: textfield;
         }
         
-        /* Hilangkan tombol spinner di select */
         select {
           -webkit-appearance: none;
           -moz-appearance: none;
           appearance: none;
         }
+        
+        /* Hilangkan outline default */
+        button, a {
+          outline: none;
+        }
+        
+        button:focus-visible, a:focus-visible {
+          outline: 2px solid #8b5cf6;
+          outline-offset: 2px;
+        }
+      
       `}</style>
 
       {/* Navigation - SERAGAM dengan Blog */}
