@@ -1082,63 +1082,64 @@ export default function LingoSpacePro() {
         }
       `}</style>
 
-            {/* Modern Navigation */}
-      <nav className="glass-modern sticky top-0 z-50 px-6 py-4">
+                 {/* Modern Navigation - Single Row */}
+      <nav className="glass-modern sticky top-0 z-50 px-6 py-3">
         <div className="max-w-7xl mx-auto">
-          {/* Baris 1: Logo + Blog */}
-          <div className="flex justify-between items-center mb-4">
-            <div className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center font-bold text-2xl shadow-lg">
+          <div className="flex items-center justify-between gap-4 flex-wrap">
+            {/* Logo */}
+            <Link href="/" className="flex items-center gap-3 flex-shrink-0">
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center font-bold text-xl shadow-lg">
                 L
               </div>
-              <div>
-                <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+              <div className="hidden md:block">
+                <h1 className="text-lg font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
                   LingoSpace Pro
                 </h1>
-                <p className="text-xs text-gray-400">Premium Learning Platform</p>
+                <p className="text-xs text-gray-400">Premium Learning</p>
               </div>
+            </Link>
+
+            {/* Navigation Buttons */}
+            <div className="flex gap-2 overflow-x-auto flex-1 justify-center">
+              {[
+                { id: 'dashboard', label: '📊 Dashboard' },
+                { id: 'flashcard', label: '🎴 Flashcard' },
+                { id: 'quiz', label: '🎯 Quiz' },
+                { id: 'listen', label: '🎧 Listen' },
+                { id: 'bookmarks', label: '⭐ Favorit' },
+                { id: 'roadmap', label: '🗺️ Roadmap' },
+                { id: 'nahwu', label: '📖 Nahwu' },
+                { id: 'english', label: '📚 English' }
+              ].map((mode) => (
+                <button
+                  key={mode.id}
+                  onClick={() => switchMode(mode.id)}
+                  className={`px-4 py-2 rounded-full text-sm font-semibold transition-all duration-300 hover-lift btn-press whitespace-nowrap ${
+                    currentMode === mode.id 
+                      ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg shadow-purple-500/30 scale-105' 
+                      : 'glass-modern hover:bg-white/10 text-gray-300'
+                  }`}
+                >
+                  {mode.label}
+                </button>
+              ))}
             </div>
-            
-            <div className="flex gap-2">
+
+            {/* Blog Button */}
+            <div className="flex-shrink-0">
               <Link 
                 href="/blog" 
-                className="px-4 py-2 rounded-full glass-modern hover:bg-white/10 transition-all btn-press text-sm font-medium"
+                className="px-4 py-2 rounded-full glass-modern hover:bg-white/10 transition-all btn-press text-sm font-medium whitespace-nowrap"
               >
                 📝 Blog
               </Link>
             </div>
           </div>
-
-          {/* Baris 2: Mode Navigation */}
-          <div className="flex gap-3 overflow-x-auto py-2 flex-wrap">
-            {[
-              { id: 'dashboard', label: '📊 Dashboard' },
-              { id: 'flashcard', label: '🎴 Flashcard' },
-              { id: 'quiz', label: '🎯 Quiz' },
-              { id: 'listen', label: '🎧 Listen' },
-              { id: 'bookmarks', label: '⭐ Favorit' },
-              { id: 'roadmap', label: '🗺️ Roadmap' },
-              { id: 'nahwu', label: '📖 Nahwu' },
-              { id: 'english', label: '📚 English' }
-            ].map((mode) => (
-              <button
-                key={mode.id}
-                onClick={() => switchMode(mode.id)}
-                className={`px-6 py-3 rounded-full text-sm font-semibold transition-all duration-300 hover-lift btn-press whitespace-nowrap ${
-                  currentMode === mode.id 
-                    ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg shadow-purple-500/30 scale-105' 
-                    : 'glass-modern hover:bg-white/10 text-gray-300'
-                }`}
-              >
-                {mode.label}
-              </button>
-            ))}
-          </div>
         </div>
       </nav>
 
-      {/* Spacer untuk mencegah konten tertutup nav */}
-      <div className="h-4"></div>
+      {/* Spacer */}
+      <div className="h-2"></div>
 
       {/* Search & Filter (hanya untuk mode tertentu) */}
       {currentMode !== 'dashboard' && currentMode !== 'bookmarks' && currentMode !== 'roadmap' && currentMode !== 'nahwu' && currentMode !== 'english' && (
