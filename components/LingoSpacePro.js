@@ -375,71 +375,74 @@ export default function LingoSpacePro() {
 
   // Render Functions (Dashboard, Flashcard, Quiz, Listen, Bookmarks, Roadmap, Nahwu, English)
   const renderDashboard = () => (
-    <div className="animate-fade-in">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-        <div className="glass rounded-2xl p-6 hover:scale-105 transition-transform">
-          <div className="text-3xl mb-2">📚</div>
-          <div className="text-3xl font-bold">{stats.totalWords}</div>
-          <div className="text-sm text-gray-400">Total Kosakata</div>
-        </div>
-        <div className="glass rounded-2xl p-6 hover:scale-105 transition-transform">
-          <div className="text-3xl mb-2">✅</div>
-          <div className="text-3xl font-bold text-green-400">{stats.mastered}</div>
-          <div className="text-sm text-gray-400">Dikuasai</div>
-        </div>
-        <div className="glass rounded-2xl p-6 hover:scale-105 transition-transform">
-          <div className="text-3xl mb-2">📖</div>
-          <div className="text-3xl font-bold text-yellow-400">{stats.learning}</div>
-          <div className="text-sm text-gray-400">Sedang Dipelajari</div>
-        </div>
-        <div className="glass rounded-2xl p-6 hover:scale-105 transition-transform">
-          <div className="text-3xl mb-2">🎯</div>
-          <div className="text-3xl font-bold text-purple-400">{stats.accuracy}%</div>
-          <div className="text-sm text-gray-400">Akurasi</div>
-        </div>
+    // Modern Stats Cards dengan Icon Animation
+<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+  {[
+    { icon: '📚', value: stats.totalWords, label: 'Total Kosakata', color: 'from-blue-500 to-cyan-500' },
+    { icon: '✅', value: stats.mastered, label: 'Dikuasai', color: 'from-green-500 to-emerald-500' },
+    { icon: '📖', value: stats.learning, label: 'Dipelajari', color: 'from-yellow-500 to-orange-500' },
+    { icon: '🎯', value: `${stats.accuracy}%`, label: 'Akurasi', color: 'from-purple-500 to-pink-500' }
+  ].map((stat, idx) => (
+    <div key={idx} className="glass-modern rounded-2xl p-6 hover-lift cursor-pointer group">
+      <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${stat.color} flex items-center justify-center text-3xl mb-4 group-hover:scale-110 transition-transform duration-300 shadow-lg`}>
+        {stat.icon}
       </div>
-
-      <div className="glass rounded-2xl p-6 mb-6">
-        <h3 className="text-lg font-semibold mb-4">📈 Progress Belajar</h3>
-        <div className="space-y-4">
-          {['Dikuasai', 'Dipelajari', 'Baru'].map((label, idx) => {
-            const values = [stats.mastered, stats.learning, stats.newWords];
-            const total = stats.totalWords || 1;
-            const pct = Math.round((values[idx] / total) * 100);
-            const colors = ['from-green-400 to-emerald-500', 'from-yellow-400 to-orange-500', 'from-blue-400 to-purple-500'];
-
-            return (
-              <div key={idx}>
-                <div className="flex justify-between text-sm mb-1">
-                  <span>{label}</span>
-                  <span>{pct}%</span>
-                </div>
-                <div className="h-3 bg-gray-700 rounded-full overflow-hidden">
-                  <div className={`h-full bg-gradient-to-r ${colors[idx]} transition-all duration-500`} style={{ width: `${pct}%` }}></div>
-                </div>
-              </div>
-            );
-          })}
-        </div>
+      <div className="text-4xl font-bold mb-2 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+        {stat.value}
       </div>
-
-      <div className="glass rounded-2xl p-6">
-        <h3 className="text-lg font-semibold mb-4">🏆 Pencapaian</h3>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-          {[
-            { icon: '🌱', name: 'Pemula', req: stats.totalWords >= 1 },
-            { icon: '📚', name: 'Rajin', req: stats.mastered >= 5 },
-            { icon: '🎯', name: 'Tepat', req: stats.accuracy >= 80 },
-            { icon: '⭐', name: 'Kolektor', req: stats.bookmarks >= 5 }
-          ].map((ach, idx) => (
-            <div key={idx} className={`p-4 rounded-xl border transition-all ${ach.req ? 'bg-gradient-to-br from-yellow-500/20 to-orange-500/20 border-yellow-500/30' : 'glass opacity-40'}`}>
-              <div className="text-3xl mb-2">{ach.icon}</div>
-              <div className="font-semibold text-sm">{ach.name}</div>
-            </div>
-          ))}
-        </div>
-      </div>
+      <div className="text-sm text-gray-400">{stat.label}</div>
     </div>
+  ))}
+</div>
+
+      // Modern Progress Bars dengan Gradient Animation
+<div className="glass-modern rounded-2xl p-6">
+  <h3 className="text-lg font-semibold mb-6 flex items-center gap-2">
+    <span>📈</span> Progress Belajar
+  </h3>
+  <div className="space-y-6">
+    {[
+      { label: 'Dikuasai', value: masteredPct, color: 'from-green-400 to-emerald-500' },
+      { label: 'Dipelajari', value: learningPct, color: 'from-yellow-400 to-orange-500' },
+      { label: 'Baru', value: newPct, color: 'from-blue-400 to-purple-500' }
+    ].map((item, idx) => (
+      <div key={idx}>
+        <div className="flex justify-between text-sm mb-2">
+          <span className="text-gray-300">{item.label}</span>
+          <span className="font-semibold text-white">{item.value}%</span>
+        </div>
+        <div className="h-3 bg-white/5 rounded-full overflow-hidden">
+          <div className={`h-full bg-gradient-to-r ${item.color} progress-animated rounded-full transition-all duration-500`} style={{ width: `${item.value}%` }}></div>
+        </div>
+      </div>
+    ))}
+  </div>
+</div>
+
+      // Achievement Cards dengan Badge Effect
+<div className="glass-modern rounded-2xl p-6">
+  <h3 className="text-lg font-semibold mb-6 flex items-center gap-2">
+    <span>🏆</span> Pencapaian
+  </h3>
+  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+    {[
+      { icon: '🌱', name: 'Pemula', req: stats.totalWords >= 1, color: 'from-green-400 to-emerald-500' },
+      { icon: '📚', name: 'Rajin', req: stats.mastered >= 5, color: 'from-blue-400 to-cyan-500' },
+      { icon: '🎯', name: 'Tepat', req: stats.accuracy >= 80, color: 'from-purple-400 to-pink-500' },
+      { icon: '⭐', name: 'Kolektor', req: stats.bookmarks >= 5, color: 'from-yellow-400 to-orange-500' }
+    ].map((ach, idx) => (
+      <div key={idx} className={`p-5 rounded-xl border transition-all duration-300 hover-lift ${
+        ach.req 
+          ? `bg-gradient-to-br ${ach.color}/20 border-white/20 shadow-lg` 
+          : 'glass opacity-40 grayscale'
+      }`}>
+        <div className="text-4xl mb-2 transform hover:scale-110 transition-transform">{ach.icon}</div>
+        <div className="font-semibold text-sm">{ach.name}</div>
+        {ach.req && <div className="text-xs text-green-400 mt-1">✓ Unlocked</div>}
+      </div>
+    ))}
+  </div>
+</div>
   );
 
   const renderFlashcard = () => {
