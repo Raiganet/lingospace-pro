@@ -1175,7 +1175,7 @@ export default function LingoSpacePro() {
             <div>
               <h4 className="font-bold mb-4 text-purple-300">Hubungi Kami</h4>
               <ul className="space-y-2 text-sm text-gray-400">
-                <li className="flex items-center gap-2">📧 contact@raiganet.my.id</li>
+                <li className="flex items-center gap-2">📧 diky.hermansyah91@gmail.com</li>
                 <li className="flex items-center gap-2">🌐 www.raiganet.my.id</li>
               </ul>
             </div>
