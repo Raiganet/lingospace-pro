@@ -1206,19 +1206,45 @@ export default function LingoSpacePro() {
         {currentMode === 'english' && renderEnglish()}
       </main>
 
-            {/* Footer */}
+      {/* Footer */}
       <footer className="glass-modern border-t border-white/10 mt-16">
-        <div className="max-w-7xl mx-auto px-6 py-8">
-          <div className="text-center">
-            <Link 
-              href="/" 
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 font-semibold hover:scale-105 transition-transform btn-press"
-            >
-              🏠 Kembali ke Beranda
-            </Link>
-            <p className="text-gray-400 text-sm mt-6">
-              © {new Date().getFullYear()} LingoSpace Pro. All rights reserved.
-            </p>
+        <div className="max-w-7xl mx-auto px-6 py-12">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+            <div>
+              <h3 className="font-bold text-lg mb-4 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">LingoSpace Pro</h3>
+              <p className="text-gray-400 text-sm">Platform pembelajaran bahasa premium untuk Bahasa Arab dan Inggris dengan metode SRS yang efektif.</p>
+            </div>
+
+            <div>
+              <h4 className="font-bold mb-4 text-purple-300">Menu</h4>
+              <ul className="space-y-2 text-sm">
+                <li><Link href="/" className="text-gray-400 hover:text-white transition-colors">📊 Dashboard</Link></li>
+                <li><Link href="/blog" className="text-gray-400 hover:text-white transition-colors">📝 Blog</Link></li>
+                <li><Link href="/about" className="text-gray-400 hover:text-white transition-colors">ℹ️ Tentang Kami</Link></li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 className="font-bold mb-4 text-purple-300">Legal</h4>
+              <ul className="space-y-2 text-sm">
+                <li><Link href="/privacy-policy" className="text-gray-400 hover:text-white transition-colors">🔒 Privacy Policy</Link></li>
+                <li><Link href="/terms" className="text-gray-400 hover:text-white transition-colors">📄 Terms of Service</Link></li>
+                <li><Link href="/contact" className="text-gray-400 hover:text-white transition-colors">📧 Contact</Link></li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 className="font-bold mb-4 text-purple-300">Hubungi Kami</h4>
+              <ul className="space-y-2 text-sm text-gray-400">
+                <li className="flex items-center gap-2">📧 diky.hermansyah91@gmail.com</li>
+                <li className="flex items-center gap-2">🌐 www.raiganet.my.id</li>
+              </ul>
+            </div>
+          </div>
+
+          <div className="border-t border-white/10 pt-6 text-center text-sm text-gray-400">
+            <p>© {new Date().getFullYear()} LingoSpace Pro. All rights reserved.</p>
+            <p className="mt-2 text-xs">Dibuat dengan ❤️ untuk pelajar bahasa di Indonesia</p>
           </div>
         </div>
       </footer>
