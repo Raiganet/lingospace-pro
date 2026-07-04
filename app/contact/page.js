@@ -2,13 +2,16 @@
 
 import Link from 'next/link';
 import Navbar from '../../components/Navbar';  // ← TAMBAHKAN INI
-import { useState } from 'react';
 
 export default function Contact() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white">
       <Navbar />  {/* ← TAMBAHKAN INI */}
-    
+      
+      <div className="max-w-4xl mx-auto px-6 py-12">
+        {/* ... isi konten Contact ... */}
+
+import { useState } from 'react';
   const [formData, setFormData] = useState({
     name: '',
     email: '',
