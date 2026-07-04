@@ -1137,8 +1137,7 @@ export default function LingoSpacePro() {
         </div>
       </nav>
 
-      {/* Spacer */}
-      <div className="h-2"></div>
+  
 
       {/* Search & Filter (hanya untuk mode tertentu) */}
       {currentMode !== 'dashboard' && currentMode !== 'bookmarks' && currentMode !== 'roadmap' && currentMode !== 'nahwu' && currentMode !== 'english' && (
