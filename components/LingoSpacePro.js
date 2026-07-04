@@ -880,84 +880,241 @@ export default function LingoSpacePro() {
     );
   };
 
-  const renderNahwu = () => {
-    const groupedLessons = nahwuLessons.reduce((acc, lesson) => {
-      if (!acc[lesson.category]) {
-        acc[lesson.category] = [];
+    const renderNahwu = () => {
+    const [selectedLevel, setSelectedLevel] = useState('all');
+    const [selectedCategory, setSelectedCategory] = useState('all');
+    const [modalOpen, setModalOpen] = useState(false);
+    const [currentLesson, setCurrentLesson] = useState(null);
+
+    const levels = [
+      { id: '1', label: 'Level 1: Dasar' },
+      { id: '2', label: 'Level 2: Menengah' },
+      { id: '3', label: 'Level 3: Lanjut' }
+    ];
+
+    const categories = [...new Set(nahwuLessons.map(l => l.category))];
+
+    const filteredLessons = nahwuLessons.filter(lesson => {
+      const matchLevel = selectedLevel === 'all' || lesson.level === selectedLevel;
+      const matchCategory = selectedCategory === 'all' || lesson.category === selectedCategory;
+      return matchLevel && matchCategory;
+    });
+
+    const openModal = (lesson) => {
+      setCurrentLesson(lesson);
+      setModalOpen(true);
+    };
+
+    const closeModal = () => {
+      setModalOpen(false);
+      setCurrentLesson(null);
+    };
+
+    const navigateLesson = (direction) => {
+      if (!currentLesson) return;
+      const currentIndex = filteredLessons.findIndex(l => l.id === currentLesson.id);
+      const newIndex = direction === 'next' ? currentIndex + 1 : currentIndex - 1;
+      if (newIndex >= 0 && newIndex < filteredLessons.length) {
+        setCurrentLesson(filteredLessons[newIndex]);
       }
-      acc[lesson.category].push(lesson);
-      return acc;
-    }, {});
+    };
 
     return (
       <div className="animate-fade-in max-w-6xl mx-auto">
         <div className="text-center mb-8">
-          <h2 className="text-3xl font-bold mb-2"> Belajar Nahwu</h2>
+          <h2 className="text-3xl font-bold mb-2">📖 Belajar Nahwu</h2>
           <p className="text-gray-400">Pelajari tata bahasa Arab secara sistematis</p>
         </div>
 
-        <div className="space-y-6">
-          {Object.entries(groupedLessons).map(([category, lessons], idx) => (
-            <div key={idx} className="glass-modern rounded-2xl p-6">
-              <h3 className="text-2xl font-bold mb-4 text-purple-300">{category}</h3>
-              <div className="space-y-4">
-                {lessons.map((lesson, lessonIdx) => (
-                  <div key={lessonIdx} className="bg-white/5 rounded-lg p-4">
-                    <div className="flex items-start gap-3 mb-3">
-                      <div className="text-2xl">📚</div>
-                      <div className="flex-1">
-                        <h4 className="text-lg font-bold mb-1">{lesson.title}</h4>
-                        <p className="text-gray-400 text-sm">{lesson.content_id}</p>
-                      </div>
-                    </div>
+        {/* Level Filter */}
+        <div className="flex gap-3 mb-6 flex-wrap justify-center">
+          {levels.map((level) => (
+            <button
+              key={level.id}
+              onClick={() => setSelectedLevel(level.id)}
+              className={`px-4 py-2 rounded-full text-sm font-semibold transition-all btn-press ${
+                selectedLevel === level.id
+                  ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white'
+                  : 'glass-modern hover:bg-white/10 text-gray-300'
+              }`}
+            >
+              {level.label}
+            </button>
+          ))}
+          <button
+            onClick={() => setSelectedLevel('all')}
+            className={`px-4 py-2 rounded-full text-sm font-semibold transition-all btn-press ${
+              selectedLevel === 'all'
+                ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white'
+                : 'glass-modern hover:bg-white/10 text-gray-300'
+            }`}
+          >
+            Semua Materi
+          </button>
+        </div>
 
-                    {lesson.content_ar && (
-                      <div className="mb-3 ml-8">
-                        <div className="flex items-center justify-between mb-2">
-                          <p className="text-xl text-right flex-1" dir="rtl">{lesson.content_ar}</p>
-                          <button 
-                            onClick={() => playArabicAudio(lesson.content_ar)}
-                            className="ml-3 px-3 py-1 rounded-full bg-purple-500/20 hover:bg-purple-500/40 transition-colors btn-press"
-                          >
-                            🔊
-                          </button>
-                        </div>
-                      </div>
-                    )}
+        {/* Category Filter */}
+        <div className="mb-8">
+          <select
+            value={selectedCategory}
+            onChange={(e) => setSelectedCategory(e.target.value)}
+            className="px-4 py-2 rounded-full glass-modern text-sm bg-transparent outline-none cursor-pointer text-white"
+          >
+            <option value="all" className="bg-slate-800">Semua Kategori</option>
+            {categories.map((cat, idx) => (
+              <option key={idx} value={cat} className="bg-slate-800">{cat}</option>
+            ))}
+          </select>
+        </div>
 
-                    {lesson.example_ar && (
-                      <div className="ml-8 bg-white/5 rounded-lg p-3">
-                        <p className="text-sm text-gray-400 mb-2">Contoh:</p>
-                        <div className="flex items-center justify-between mb-1">
-                          <p className="text-lg text-right flex-1" dir="rtl">{lesson.example_ar}</p>
-                          <button 
-                            onClick={() => playArabicAudio(lesson.example_ar)}
-                            className="ml-3 px-3 py-1 rounded-full bg-purple-500/20 hover:bg-purple-500/40 transition-colors btn-press"
-                          >
-                            🔊
-                          </button>
-                        </div>
-                        {lesson.example_id && <p className="text-sm text-green-300">{lesson.example_id}</p>}
-                      </div>
-                    )}
-                  </div>
-                ))}
+        {/* Lessons Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {filteredLessons.map((lesson, idx) => (
+            <div key={idx} className="glass-modern rounded-2xl p-6 hover-lift cursor-pointer" onClick={() => openModal(lesson)}>
+              <div className="flex justify-between items-start mb-4">
+                <span className="px-3 py-1 rounded-full bg-purple-500/20 text-purple-300 text-xs font-semibold">
+                  {lesson.category}
+                </span>
+                <span className="text-2xl">📖</span>
+              </div>
+              <h3 className="text-xl font-bold mb-2">{lesson.title}</h3>
+              <p className="text-gray-400 text-sm mb-4">{lesson.content_id}</p>
+              <div className="flex gap-2">
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    playArabicAudio(lesson.content_ar);
+                  }}
+                  className="px-4 py-2 rounded-full glass-modern text-sm hover:bg-white/10 transition-all btn-press flex items-center gap-2"
+                >
+                  🔊 Dengarkan
+                </button>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    openModal(lesson);
+                  }}
+                  className="px-4 py-2 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 text-sm font-semibold hover:scale-105 transition-transform btn-press"
+                >
+                  Tandai Selesai
+                </button>
               </div>
             </div>
           ))}
         </div>
+
+        {/* Modal */}
+        {modalOpen && currentLesson && (
+          <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4" onClick={closeModal}>
+            <div className="glass-modern rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+              <div className="p-8">
+                <div className="flex justify-between items-start mb-6">
+                  <h2 className="text-2xl font-bold">{currentLesson.title}</h2>
+                  <button onClick={closeModal} className="text-gray-400 hover:text-white text-2xl">✕</button>
+                </div>
+
+                <div className="space-y-6">
+                  <div>
+                    <h3 className="text-sm uppercase text-gray-400 mb-2">Penjelasan</h3>
+                    {currentLesson.content_ar && (
+                      <p className="text-2xl text-right mb-2 text-purple-300" dir="rtl">{currentLesson.content_ar}</p>
+                    )}
+                    <p className="text-gray-300">{currentLesson.content_id}</p>
+                  </div>
+
+                  {currentLesson.example_ar && (
+                    <div>
+                      <h3 className="text-sm uppercase text-gray-400 mb-2">Contoh</h3>
+                      <p className="text-2xl text-right mb-2 text-blue-300" dir="rtl">{currentLesson.example_ar}</p>
+                      <p className="text-gray-300">{currentLesson.example_id}</p>
+                    </div>
+                  )}
+
+                  <div className="flex gap-3 flex-wrap">
+                    {currentLesson.content_ar && (
+                      <button
+                        onClick={() => playArabicAudio(currentLesson.content_ar)}
+                        className="px-6 py-3 rounded-full glass-modern hover:bg-white/10 transition-all btn-press flex items-center gap-2"
+                      >
+                        🔊 Dengarkan Penjelasan
+                      </button>
+                    )}
+                    {currentLesson.example_ar && (
+                      <button
+                        onClick={() => playArabicAudio(currentLesson.example_ar)}
+                        className="px-6 py-3 rounded-full glass-modern hover:bg-white/10 transition-all btn-press flex items-center gap-2"
+                      >
+                        🔊 Dengarkan Contoh
+                      </button>
+                    )}
+                  </div>
+                </div>
+
+                <div className="flex justify-between mt-8 pt-6 border-t border-white/10">
+                  <button
+                    onClick={() => navigateLesson('prev')}
+                    disabled={filteredLessons.findIndex(l => l.id === currentLesson.id) === 0}
+                    className="px-6 py-3 rounded-full glass-modern hover:bg-white/10 transition-all btn-press disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    ← Sebelumnya
+                  </button>
+                  <button
+                    onClick={() => navigateLesson('next')}
+                    disabled={filteredLessons.findIndex(l => l.id === currentLesson.id) === filteredLessons.length - 1}
+                    className="px-6 py-3 rounded-full glass-modern hover:bg-white/10 transition-all btn-press disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    Selanjutnya →
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     );
   };
 
-  const renderEnglish = () => {
-    const groupedLessons = englishLessons.reduce((acc, lesson) => {
-      if (!acc[lesson.category]) {
-        acc[lesson.category] = [];
+    const renderEnglish = () => {
+    const [selectedLevel, setSelectedLevel] = useState('all');
+    const [selectedCategory, setSelectedCategory] = useState('all');
+    const [modalOpen, setModalOpen] = useState(false);
+    const [currentLesson, setCurrentLesson] = useState(null);
+
+    const levels = [
+      { id: '1', label: 'Level 1: Dasar' },
+      { id: '2', label: 'Level 2: Menengah' },
+      { id: '3', label: 'Level 3: Lanjut' },
+      { id: '4', label: 'Level 4: Advanced' },
+      { id: '5', label: 'Level 5: Mahir' },
+      { id: '6', label: 'Level 6: Native' }
+    ];
+
+    const categories = [...new Set(englishLessons.map(l => l.category))];
+
+    const filteredLessons = englishLessons.filter(lesson => {
+      const matchLevel = selectedLevel === 'all' || lesson.level === selectedLevel;
+      const matchCategory = selectedCategory === 'all' || lesson.category === selectedCategory;
+      return matchLevel && matchCategory;
+    });
+
+    const openModal = (lesson) => {
+      setCurrentLesson(lesson);
+      setModalOpen(true);
+    };
+
+    const closeModal = () => {
+      setModalOpen(false);
+      setCurrentLesson(null);
+    };
+
+    const navigateLesson = (direction) => {
+      if (!currentLesson) return;
+      const currentIndex = filteredLessons.findIndex(l => l.id === currentLesson.id);
+      const newIndex = direction === 'next' ? currentIndex + 1 : currentIndex - 1;
+      if (newIndex >= 0 && newIndex < filteredLessons.length) {
+        setCurrentLesson(filteredLessons[newIndex]);
       }
-      acc[lesson.category].push(lesson);
-      return acc;
-    }, {});
+    };
 
     return (
       <div className="animate-fade-in max-w-6xl mx-auto">
@@ -966,56 +1123,146 @@ export default function LingoSpacePro() {
           <p className="text-gray-400">Pelajari grammar dan kosakata Inggris secara sistematis</p>
         </div>
 
-        <div className="space-y-6">
-          {Object.entries(groupedLessons).map(([category, lessons], idx) => (
-            <div key={idx} className="glass-modern rounded-2xl p-6">
-              <h3 className="text-2xl font-bold mb-4 text-purple-300">{category}</h3>
-              <div className="space-y-4">
-                {lessons.map((lesson, lessonIdx) => (
-                  <div key={lessonIdx} className="bg-white/5 rounded-lg p-4">
-                    <div className="flex items-start gap-3 mb-3">
-                      <div className="text-2xl">📖</div>
-                      <div className="flex-1">
-                        <h4 className="text-lg font-bold mb-1">{lesson.title}</h4>
-                        <p className="text-gray-400 text-sm">{lesson.content_id}</p>
-                      </div>
-                    </div>
+        {/* Level Filter */}
+        <div className="flex gap-3 mb-6 flex-wrap justify-center">
+          {levels.map((level) => (
+            <button
+              key={level.id}
+              onClick={() => setSelectedLevel(level.id)}
+              className={`px-4 py-2 rounded-full text-sm font-semibold transition-all btn-press ${
+                selectedLevel === level.id
+                  ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white'
+                  : 'glass-modern hover:bg-white/10 text-gray-300'
+              }`}
+            >
+              {level.label}
+            </button>
+          ))}
+          <button
+            onClick={() => setSelectedLevel('all')}
+            className={`px-4 py-2 rounded-full text-sm font-semibold transition-all btn-press ${
+              selectedLevel === 'all'
+                ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white'
+                : 'glass-modern hover:bg-white/10 text-gray-300'
+            }`}
+          >
+            Semua Materi
+          </button>
+        </div>
 
-                    {lesson.content_en && (
-                      <div className="mb-3 ml-8">
-                        <div className="flex items-center justify-between mb-2">
-                          <p className="text-lg flex-1">{lesson.content_en}</p>
-                          <button 
-                            onClick={() => playEnglishAudio(lesson.content_en)}
-                            className="ml-3 px-3 py-1 rounded-full bg-purple-500/20 hover:bg-purple-500/40 transition-colors btn-press"
-                          >
-                            🔊
-                          </button>
-                        </div>
-                      </div>
-                    )}
+        {/* Category Filter */}
+        <div className="mb-8">
+          <select
+            value={selectedCategory}
+            onChange={(e) => setSelectedCategory(e.target.value)}
+            className="px-4 py-2 rounded-full glass-modern text-sm bg-transparent outline-none cursor-pointer text-white"
+          >
+            <option value="all" className="bg-slate-800">Semua Kategori</option>
+            {categories.map((cat, idx) => (
+              <option key={idx} value={cat} className="bg-slate-800">{cat}</option>
+            ))}
+          </select>
+        </div>
 
-                    {lesson.example_en && (
-                      <div className="ml-8 bg-white/5 rounded-lg p-3">
-                        <p className="text-sm text-gray-400 mb-2">Contoh:</p>
-                        <div className="flex items-center justify-between mb-1">
-                          <p className="text-lg flex-1">{lesson.example_en}</p>
-                          <button 
-                            onClick={() => playEnglishAudio(lesson.example_en)}
-                            className="ml-3 px-3 py-1 rounded-full bg-purple-500/20 hover:bg-purple-500/40 transition-colors btn-press"
-                          >
-                            
-                          </button>
-                        </div>
-                        {lesson.example_id && <p className="text-sm text-green-300">{lesson.example_id}</p>}
-                      </div>
-                    )}
-                  </div>
-                ))}
+        {/* Lessons Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {filteredLessons.map((lesson, idx) => (
+            <div key={idx} className="glass-modern rounded-2xl p-6 hover-lift cursor-pointer" onClick={() => openModal(lesson)}>
+              <div className="flex justify-between items-start mb-4">
+                <span className="px-3 py-1 rounded-full bg-purple-500/20 text-purple-300 text-xs font-semibold">
+                  {lesson.category}
+                </span>
+                <span className="text-2xl">📖</span>
+              </div>
+              <h3 className="text-xl font-bold mb-2">{lesson.title}</h3>
+              <p className="text-gray-400 text-sm mb-4">{lesson.content_id}</p>
+              <div className="flex gap-2">
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    playEnglishAudio(lesson.content_en);
+                  }}
+                  className="px-4 py-2 rounded-full glass-modern text-sm hover:bg-white/10 transition-all btn-press flex items-center gap-2"
+                >
+                   Dengarkan
+                </button>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    openModal(lesson);
+                  }}
+                  className="px-4 py-2 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 text-sm font-semibold hover:scale-105 transition-transform btn-press"
+                >
+                  Tandai Selesai
+                </button>
               </div>
             </div>
           ))}
         </div>
+
+        {/* Modal */}
+        {modalOpen && currentLesson && (
+          <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4" onClick={closeModal}>
+            <div className="glass-modern rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+              <div className="p-8">
+                <div className="flex justify-between items-start mb-6">
+                  <h2 className="text-2xl font-bold">{currentLesson.title}</h2>
+                  <button onClick={closeModal} className="text-gray-400 hover:text-white text-2xl">✕</button>
+                </div>
+
+                <div className="space-y-6">
+                  <div>
+                    <h3 className="text-sm uppercase text-gray-400 mb-2">Penjelasan (English)</h3>
+                    <p className="text-lg text-blue-300 mb-2">{currentLesson.content_en}</p>
+                    <p className="text-gray-300">{currentLesson.content_id}</p>
+                  </div>
+
+                  {currentLesson.example_en && (
+                    <div>
+                      <h3 className="text-sm uppercase text-gray-400 mb-2">Contoh</h3>
+                      <p className="text-lg text-green-300 mb-2">{currentLesson.example_en}</p>
+                      <p className="text-gray-300">{currentLesson.example_id}</p>
+                    </div>
+                  )}
+
+                  <div className="flex gap-3 flex-wrap">
+                    <button
+                      onClick={() => playEnglishAudio(currentLesson.content_en)}
+                      className="px-6 py-3 rounded-full glass-modern hover:bg-white/10 transition-all btn-press flex items-center gap-2"
+                    >
+                      🔊 Dengarkan Penjelasan
+                    </button>
+                    {currentLesson.example_en && (
+                      <button
+                        onClick={() => playEnglishAudio(currentLesson.example_en)}
+                        className="px-6 py-3 rounded-full glass-modern hover:bg-white/10 transition-all btn-press flex items-center gap-2"
+                      >
+                        🔊 Dengarkan Contoh
+                      </button>
+                    )}
+                  </div>
+                </div>
+
+                <div className="flex justify-between mt-8 pt-6 border-t border-white/10">
+                  <button
+                    onClick={() => navigateLesson('prev')}
+                    disabled={filteredLessons.findIndex(l => l.id === currentLesson.id) === 0}
+                    className="px-6 py-3 rounded-full glass-modern hover:bg-white/10 transition-all btn-press disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    ← Sebelumnya
+                  </button>
+                  <button
+                    onClick={() => navigateLesson('next')}
+                    disabled={filteredLessons.findIndex(l => l.id === currentLesson.id) === filteredLessons.length - 1}
+                    className="px-6 py-3 rounded-full glass-modern hover:bg-white/10 transition-all btn-press disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    Selanjutnya →
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     );
   };
