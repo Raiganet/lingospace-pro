@@ -1095,15 +1095,11 @@ export default function LingoSpacePro() {
               </div>
             </div>
             
-            <div className="flex gap-2">
+                        <div className="flex gap-2">
               <Link href="/blog" className="px-4 py-2 rounded-full glass-modern hover:bg-white/10 transition-all btn-press text-sm font-medium">
                 📝 Blog
               </Link>
-              <button onClick={() => { localStorage.clear(); alert('Cache dibersihkan!'); }} className="px-3 py-2 rounded-full glass-modern hover:bg-white/10 transition-all btn-press text-xs">
-                 Cache
-              </button>
             </div>
-          </div>
 
           {/* Baris 2: Mode Navigation - Dengan Spacing yang Cukup */}
           <div className="flex gap-3 overflow-x-auto py-2 flex-wrap">
