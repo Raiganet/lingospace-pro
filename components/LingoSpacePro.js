@@ -1033,8 +1033,7 @@ export default function LingoSpacePro() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white">
-      <style>{`
-          
+            <style>{`
         .perspective-1000 { perspective: 1000px; }
         .transform-style-3d { transform-style: preserve-3d; }
         .backface-hidden { backface-visibility: hidden; }
@@ -1077,6 +1076,16 @@ export default function LingoSpacePro() {
           100% { background-position: -200% 0; }
         }
         
+        /* Sembunyikan scrollbar tapi tetap bisa scroll */
+        .hide-scrollbar {
+          -ms-overflow-style: none;  /* IE and Edge */
+          scrollbar-width: none;  /* Firefox */
+        }
+        
+        .hide-scrollbar::-webkit-scrollbar {
+          display: none;  /* Chrome, Safari and Opera */
+        }
+        
         /* Hilangkan spinner buttons */
         input[type="number"]::-webkit-outer-spin-button,
         input[type="number"]::-webkit-inner-spin-button {
@@ -1094,7 +1103,6 @@ export default function LingoSpacePro() {
           appearance: none;
         }
         
-        /* Hilangkan outline default */
         button, a {
           outline: none;
         }
@@ -1103,11 +1111,12 @@ export default function LingoSpacePro() {
           outline: 2px solid #8b5cf6;
           outline-offset: 2px;
         }
-      
       `}</style>
 
       {/* Navigation - SERAGAM dengan Blog */}
-               {/* Navigation - SERAGAM dengan Blog */}
+
+                          {/* Semua Tombol dalam Satu Container Scroll */}
+            <div className="flex gap-2 overflow-x-auto flex-1 hide-scrollbar">
       <nav className="glass-modern sticky top-0 z-50 px-6 py-3">
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center gap-4 flex-wrap">
