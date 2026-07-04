@@ -333,44 +333,63 @@ export default function LingoSpacePro() {
     }, 2500);
   };
 
-  const playAudio = (text, lang) => {
+    const playAudio = (text, lang) => {
     if (!text || text === '-') return;
-
-    const url = `https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=${lang}&q=${encodeURIComponent(text)}`;
-    const audio = new Audio(url);
-    audio.play().catch(() => {
-      if ('speechSynthesis' in window) {
-        const utterance = new SpeechSynthesisUtterance(text);
-        utterance.lang = lang === 'ar' ? 'ar-SA' : lang === 'en' ? 'en-US' : 'id-ID';
-        window.speechSynthesis.speak(utterance);
-      }
-    });
+    
+    // Batalkan audio sebelumnya agar tidak tumpang tindih
+    window.speechSynthesis.cancel();
+    
+    if ('speechSynthesis' in window) {
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = lang === 'ar' ? 'ar-SA' : lang === 'en' ? 'en-US' : 'id-ID';
+      utterance.rate = 0.8;      // 20% lebih lambat dari normal
+      utterance.pitch = 1.0;     // Pitch normal
+      utterance.volume = 1.0;    // Volume maksimal
+      window.speechSynthesis.speak(utterance);
+    } else {
+      // Fallback ke Google TTS jika browser tidak support
+      const url = `https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=${lang}&q=${encodeURIComponent(text)}`;
+      const audio = new Audio(url);
+      audio.play().catch(e => console.error('Audio error:', e));
+    }
   };
 
-  const playArabicAudio = (text) => {
+    const playArabicAudio = (text) => {
     if (!text) return;
-    const url = `https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=ar&q=${encodeURIComponent(text)}`;
-    const audio = new Audio(url);
-    audio.play().catch(() => {
-      if ('speechSynthesis' in window) {
-        const utterance = new SpeechSynthesisUtterance(text);
-        utterance.lang = 'ar-SA';
-        window.speechSynthesis.speak(utterance);
-      }
-    });
+    
+    window.speechSynthesis.cancel();
+    
+    if ('speechSynthesis' in window) {
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'ar-SA';
+      utterance.rate = 0.75;     // 25% lebih lambat (Arab lebih sulit)
+      utterance.pitch = 1.0;
+      utterance.volume = 1.0;
+      window.speechSynthesis.speak(utterance);
+    } else {
+      const url = `https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=ar&q=${encodeURIComponent(text)}`;
+      const audio = new Audio(url);
+      audio.play().catch(e => console.error('Audio error:', e));
+    }
   };
 
-  const playEnglishAudio = (text) => {
+    const playEnglishAudio = (text) => {
     if (!text) return;
-    const url = `https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=en&q=${encodeURIComponent(text)}`;
-    const audio = new Audio(url);
-    audio.play().catch(() => {
-      if ('speechSynthesis' in window) {
-        const utterance = new SpeechSynthesisUtterance(text);
-        utterance.lang = 'en-US';
-        window.speechSynthesis.speak(utterance);
-      }
-    });
+    
+    window.speechSynthesis.cancel();
+    
+    if ('speechSynthesis' in window) {
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'en-US';
+      utterance.rate = 0.8;      // 20% lebih lambat
+      utterance.pitch = 1.0;
+      utterance.volume = 1.0;
+      window.speechSynthesis.speak(utterance);
+    } else {
+      const url = `https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=en&q=${encodeURIComponent(text)}`;
+      const audio = new Audio(url);
+      audio.play().catch(e => console.error('Audio error:', e));
+    }
   };
 
   // Render Functions
@@ -683,17 +702,23 @@ export default function LingoSpacePro() {
       }
     };
 
-    const playLessonAudio = (text, lang) => {
+        const playLessonAudio = (text, lang) => {
       if (!text) return;
-      const url = `https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=${lang}&q=${encodeURIComponent(text)}`;
-      const audio = new Audio(url);
-      audio.play().catch(() => {
-        if ('speechSynthesis' in window) {
-          const utterance = new SpeechSynthesisUtterance(text);
-          utterance.lang = lang === 'ar' ? 'ar-SA' : 'en-US';
-          window.speechSynthesis.speak(utterance);
-        }
-      });
+      
+      window.speechSynthesis.cancel();
+      
+      if ('speechSynthesis' in window) {
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = lang === 'ar' ? 'ar-SA' : 'en-US';
+        utterance.rate = 0.8;    // 20% lebih lambat
+        utterance.pitch = 1.0;
+        utterance.volume = 1.0;
+        window.speechSynthesis.speak(utterance);
+      } else {
+        const url = `https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=${lang}&q=${encodeURIComponent(text)}`;
+        const audio = new Audio(url);
+        audio.play().catch(e => console.error('Audio error:', e));
+      }
     };
 
     return (
