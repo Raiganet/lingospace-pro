@@ -1,28 +1,22 @@
 'use client';
 
 import Link from 'next/link';
-import Navbar from '../../components/Navbar';  // ← TAMBAHKAN INI
+import Navbar from '../../components/Navbar';
+import { useState } from 'react';
 
 export default function Contact() {
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white">
-      <Navbar />  {/* ← TAMBAHKAN INI */}
-      
-      <div className="max-w-4xl mx-auto px-6 py-12">
-        {/* ... isi konten Contact ... */}
-
-import { useState } from 'react';
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     subject: '',
     message: ''
   });
+  
   const [submitted, setSubmitted] = useState(false);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    // Di sini nanti bisa ditambahkan integrasi dengan email service
+    // Di sini nanti bisa ditambahkan logic untuk kirim email
     setSubmitted(true);
     setTimeout(() => {
       setSubmitted(false);
@@ -30,131 +24,279 @@ import { useState } from 'react';
     }, 3000);
   };
 
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white py-12">
-      <div className="max-w-4xl mx-auto px-6">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white">
+      <Navbar />
+      
+      <div className="max-w-6xl mx-auto px-6 py-12">
+        {/* Header */}
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold mb-4">Hubungi Kami</h1>
-          <p className="text-xl text-gray-300">Kami siap membantu Anda!</p>
+          <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-4xl font-bold mx-auto mb-4 shadow-lg">
+            📧
+          </div>
+          <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+            Hubungi Kami
+          </h1>
+          <p className="text-xl text-gray-300">
+            Kami siap membantu Anda! Jangan ragu untuk menghubungi kami.
+          </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {/* Contact Info */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+          {/* Contact Information */}
           <div className="space-y-6">
-            <div className="glass rounded-2xl p-6">
-              <h2 className="text-2xl font-bold mb-6 text-purple-300">Informasi Kontak</h2>
+            <div className="glass-modern rounded-2xl p-8">
+              <h2 className="text-2xl font-bold mb-6 text-purple-300">📞 Informasi Kontak</h2>
               
-              <div className="space-y-4">
+              <div className="space-y-6">
                 <div className="flex items-start gap-4">
-                  <div className="text-2xl">📧</div>
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-2xl flex-shrink-0">
+                    📧
+                  </div>
                   <div>
-                    <h3 className="font-semibold mb-1">Email</h3>
-                    <p className="text-gray-300">diky.hermansyah91@gmail.com</p>
-                    <p className="text-sm text-gray-400">Kami akan membalas dalam 1-2 hari kerja</p>
+                    <h3 className="font-bold mb-1">Email</h3>
+                    <a href="mailto:diky.hermansyah91@gmail.com" className="text-purple-400 hover:underline">
+                      diky.hermansyah91@gmail.com
+                    </a>
+                    <p className="text-sm text-gray-400 mt-1">Kami akan membalas dalam 1-2 hari kerja</p>
                   </div>
                 </div>
 
                 <div className="flex items-start gap-4">
-                  <div className="text-2xl">🌐</div>
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-2xl flex-shrink-0">
+                    🌐
+                  </div>
                   <div>
-                    <h3 className="font-semibold mb-1">Website</h3>
-                    <p className="text-gray-300">www.raiganet.my.id</p>
+                    <h3 className="font-bold mb-1">Website</h3>
+                    <a href="https://www.raiganet.my.id" target="_blank" rel="noopener noreferrer" className="text-purple-400 hover:underline">
+                      www.raiganet.my.id
+                    </a>
+                    <p className="text-sm text-gray-400 mt-1">Kunjungi website utama kami</p>
                   </div>
                 </div>
 
                 <div className="flex items-start gap-4">
-                  <div className="text-2xl">⏰</div>
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-2xl flex-shrink-0">
+                    ⏰
+                  </div>
                   <div>
-                    <h3 className="font-semibold mb-1">Jam Operasional</h3>
-                    <p className="text-gray-300">Senin - Jumat: 09.00 - 17.00 WIB</p>
-                    <p className="text-gray-300">Sabtu - Minggu: Online 24/7</p>
+                    <h3 className="font-bold mb-1">Jam Operasional</h3>
+                    <p className="text-gray-300">Senin - Jumat: 08:00 - 17:00 WIB</p>
+                    <p className="text-gray-300">Sabtu: 09:00 - 15:00 WIB</p>
+                    <p className="text-sm text-gray-400 mt-1">Minggu & Hari Libur Nasional</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-2xl flex-shrink-0">
+                    📍
+                  </div>
+                  <div>
+                    <h3 className="font-bold mb-1">Lokasi</h3>
+                    <p className="text-gray-300">Indonesia</p>
+                    <p className="text-sm text-gray-400 mt-1">Platform pembelajaran online</p>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div className="glass rounded-2xl p-6">
-              <h2 className="text-2xl font-bold mb-4 text-purple-300">FAQ</h2>
+            {/* Social Media */}
+            <div className="glass-modern rounded-2xl p-8">
+              <h2 className="text-2xl font-bold mb-6 text-purple-300"> Media Sosial</h2>
+              <p className="text-gray-300 mb-6">Ikuti kami di media sosial untuk update terbaru:</p>
+              
+              <div className="flex gap-4 flex-wrap">
+                <a href="#" className="flex items-center gap-2 px-6 py-3 rounded-full glass-modern hover:bg-white/10 transition-all">
+                  <span className="text-2xl">📘</span>
+                  <span>Facebook</span>
+                </a>
+                <a href="#" className="flex items-center gap-2 px-6 py-3 rounded-full glass-modern hover:bg-white/10 transition-all">
+                  <span className="text-2xl">📸</span>
+                  <span>Instagram</span>
+                </a>
+                <a href="#" className="flex items-center gap-2 px-6 py-3 rounded-full glass-modern hover:bg-white/10 transition-all">
+                  <span className="text-2xl">🐦</span>
+                  <span>Twitter</span>
+                </a>
+                <a href="#" className="flex items-center gap-2 px-6 py-3 rounded-full glass-modern hover:bg-white/10 transition-all">
+                  <span className="text-2xl">▶️</span>
+                  <span>YouTube</span>
+                </a>
+              </div>
+            </div>
+
+            {/* FAQ Quick Links */}
+            <div className="glass-modern rounded-2xl p-8">
+              <h2 className="text-2xl font-bold mb-4 text-purple-300">❓ Pertanyaan Umum?</h2>
               <p className="text-gray-300 mb-4">
-                Punya pertanyaan? Cek halaman FAQ kami untuk jawaban cepat.
+                Mungkin jawaban yang Anda cari sudah tersedia di halaman FAQ kami.
               </p>
-              <button className="px-6 py-2 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 font-semibold hover:scale-105 transition-transform">
-                Lihat FAQ
-              </button>
+              <Link 
+                href="/blog" 
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 font-semibold hover:scale-105 transition-transform"
+              >
+                📚 Kunjungi Blog & FAQ
+              </Link>
             </div>
           </div>
 
           {/* Contact Form */}
-          <div className="glass rounded-2xl p-8">
-            <h2 className="text-2xl font-bold mb-6 text-purple-300">Kirim Pesan</h2>
-            
+          <div className="glass-modern rounded-2xl p-8">
+            <h2 className="text-2xl font-bold mb-6 text-purple-300">✉️ Kirim Pesan</h2>
+            <p className="text-gray-300 mb-6">
+              Isi form di bawah ini dan kami akan menghubungi Anda secepatnya.
+            </p>
+
             {submitted ? (
-              <div className="bg-green-500/20 border border-green-500/50 rounded-lg p-6 text-center">
-                <div className="text-4xl mb-3">✅</div>
-                <h3 className="text-xl font-bold mb-2">Pesan Terkirim!</h3>
-                <p className="text-gray-300">Terima kasih! Kami akan segera membalas pesan Anda.</p>
+              <div className="bg-green-500/20 border border-green-500/50 rounded-xl p-6 text-center">
+                <div className="text-5xl mb-4">✅</div>
+                <h3 className="text-xl font-bold mb-2 text-green-400">Pesan Terkirim!</h3>
+                <p className="text-gray-300">
+                  Terima kasih telah menghubungi kami. Kami akan membalas pesan Anda secepatnya.
+                </p>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="space-y-4">
+              <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
-                  <label className="block text-sm font-medium mb-2">Nama Lengkap *</label>
+                  <label className="block text-sm font-medium mb-2">
+                    Nama Lengkap <span className="text-red-400">*</span>
+                  </label>
                   <input
                     type="text"
-                    required
+                    name="name"
                     value={formData.name}
-                    onChange={(e) => setFormData({...formData, name: e.target.value})}
-                    className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 focus:border-purple-500 focus:outline-none transition-colors"
+                    onChange={handleChange}
+                    required
+                    className="w-full px-4 py-3 rounded-xl glass-modern bg-white/5 border border-white/10 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 outline-none transition-all"
                     placeholder="Masukkan nama Anda"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium mb-2">Email *</label>
+                  <label className="block text-sm font-medium mb-2">
+                    Email <span className="text-red-400">*</span>
+                  </label>
                   <input
                     type="email"
-                    required
+                    name="email"
                     value={formData.email}
-                    onChange={(e) => setFormData({...formData, email: e.target.value})}
-                    className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 focus:border-purple-500 focus:outline-none transition-colors"
-                    placeholder="email@example.com"
+                    onChange={handleChange}
+                    required
+                    className="w-full px-4 py-3 rounded-xl glass-modern bg-white/5 border border-white/10 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 outline-none transition-all"
+                    placeholder="nama@email.com"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium mb-2">Subjek *</label>
-                  <input
-                    type="text"
-                    required
+                  <label className="block text-sm font-medium mb-2">
+                    Subjek <span className="text-red-400">*</span>
+                  </label>
+                  <select
+                    name="subject"
                     value={formData.subject}
-                    onChange={(e) => setFormData({...formData, subject: e.target.value})}
-                    className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 focus:border-purple-500 focus:outline-none transition-colors"
-                    placeholder="Subjek pesan"
-                  />
+                    onChange={handleChange}
+                    required
+                    className="w-full px-4 py-3 rounded-xl glass-modern bg-white/5 border border-white/10 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 outline-none transition-all"
+                  >
+                    <option value="">Pilih Subjek</option>
+                    <option value="general">Pertanyaan Umum</option>
+                    <option value="support">Dukungan Teknis</option>
+                    <option value="feedback">Masukan & Saran</option>
+                    <option value="collaboration">Kerjasama</option>
+                    <option value="other">Lainnya</option>
+                  </select>
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium mb-2">Pesan *</label>
+                  <label className="block text-sm font-medium mb-2">
+                    Pesan <span className="text-red-400">*</span>
+                  </label>
                   <textarea
-                    required
-                    rows={5}
+                    name="message"
                     value={formData.message}
-                    onChange={(e) => setFormData({...formData, message: e.target.value})}
-                    className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 focus:border-purple-500 focus:outline-none transition-colors resize-none"
-                    placeholder="Tulis pesan Anda di sini..."
+                    onChange={handleChange}
+                    required
+                    rows={6}
+                    className="w-full px-4 py-3 rounded-xl glass-modern bg-white/5 border border-white/10 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 outline-none transition-all resize-none"
+                    placeholder="Tuliskan pesan Anda di sini..."
                   />
                 </div>
 
                 <button
                   type="submit"
-                  className="w-full px-6 py-3 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 font-semibold hover:scale-105 transition-transform"
+                  className="w-full px-6 py-4 rounded-xl bg-gradient-to-r from-purple-500 to-pink-500 font-semibold text-lg hover:scale-105 transition-transform shadow-lg shadow-purple-500/30"
                 >
-                  📤 Kirim Pesan
+                  📨 Kirim Pesan
                 </button>
               </form>
             )}
           </div>
         </div>
+
+        {/* Additional Info */}
+        <div className="glass-modern rounded-2xl p-8 text-center">
+          <h2 className="text-2xl font-bold mb-4 text-purple-300">💬 Mari Berdiskusi</h2>
+          <p className="text-gray-300 max-w-3xl mx-auto">
+            Apakah Anda memiliki pertanyaan tentang fitur LingoSpace Pro, cara penggunaan, atau ingin berkolaborasi? 
+            Tim kami siap membantu Anda. Jangan ragu untuk menghubungi kami melalui form di atas atau langsung 
+            ke email kami. Kami berkomitmen untuk memberikan respons terbaik dalam waktu 1-2 hari kerja.
+          </p>
+        </div>
       </div>
+
+      {/* Footer */}
+      <footer className="glass-modern border-t border-white/10 mt-16">
+        <div className="max-w-7xl mx-auto px-6 py-12">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+            <div>
+              <h3 className="font-bold text-lg mb-4 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+                LingoSpace Pro
+              </h3>
+              <p className="text-gray-400 text-sm">
+                Platform pembelajaran bahasa premium untuk Bahasa Arab dan Inggris dengan metode SRS yang efektif.
+              </p>
+            </div>
+
+            <div>
+              <h4 className="font-bold mb-4 text-purple-300">Menu</h4>
+              <ul className="space-y-2 text-sm">
+                <li><Link href="/" className="text-gray-400 hover:text-white transition-colors">📊 Dashboard</Link></li>
+                <li><Link href="/blog" className="text-gray-400 hover:text-white transition-colors">📝 Blog</Link></li>
+                <li><Link href="/about" className="text-gray-400 hover:text-white transition-colors">ℹ️ Tentang Kami</Link></li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 className="font-bold mb-4 text-purple-300">Legal</h4>
+              <ul className="space-y-2 text-sm">
+                <li><Link href="/privacy-policy" className="text-gray-400 hover:text-white transition-colors">🔒 Privacy Policy</Link></li>
+                <li><Link href="/terms" className="text-gray-400 hover:text-white transition-colors">📄 Terms of Service</Link></li>
+                <li><Link href="/contact" className="text-gray-400 hover:text-white transition-colors">📧 Contact</Link></li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 className="font-bold mb-4 text-purple-300">Kontak</h4>
+              <ul className="space-y-2 text-sm text-gray-400">
+                <li className="flex items-center gap-2">📧 diky.hermansyah91@gmail.com</li>
+                <li className="flex items-center gap-2">🌐 www.raiganet.my.id</li>
+              </ul>
+            </div>
+          </div>
+
+          <div className="border-t border-white/10 pt-6 text-center text-sm text-gray-400">
+            <p>© {new Date().getFullYear()} LingoSpace Pro. All rights reserved.</p>
+            <p className="mt-2 text-xs">Dibuat dengan ❤️ untuk pelajar bahasa di Indonesia</p>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
