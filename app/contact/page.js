@@ -40,7 +40,7 @@ export default function Contact() {
                   <div className="text-2xl">📧</div>
                   <div>
                     <h3 className="font-semibold mb-1">Email</h3>
-                    <p className="text-gray-300">contact@raiganet.my.id</p>
+                    <p className="text-gray-300">diky.hermansyah91@gmail.com</p>
                     <p className="text-sm text-gray-400">Kami akan membalas dalam 1-2 hari kerja</p>
                   </div>
                 </div>
