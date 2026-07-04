@@ -47,6 +47,23 @@ export default function LingoSpacePro() {
   const [selectedEnglishTopic, setSelectedEnglishTopic] = useState(null);
   const [roadmapLang, setRoadmapLang] = useState('English');
   const [expandedLevel, setExpandedLevel] = useState(null);
+    // Lessons & Roadmap State
+  const [englishLessons, setEnglishLessons] = useState([]);
+  const [nahwuLessons, setNahwuLessons] = useState([]);
+  const [roadmapData, setRoadmapData] = useState([]);
+  const [selectedNahwuTopic, setSelectedNahwuTopic] = useState(null);
+  const [selectedEnglishTopic, setSelectedEnglishTopic] = useState(null);
+  const [roadmapLang, setRoadmapLang] = useState('English');
+  const [expandedLevel, setExpandedLevel] = useState(null);
+  
+  // TAMBAHKAN INI:
+  const [englishLevel, setEnglishLevel] = useState('all');
+  const [englishCategory, setEnglishCategory] = useState('all');
+  const [englishModal, setEnglishModal] = useState(null);
+  
+  const [nahwuLevel, setNahwuLevel] = useState('all');
+  const [nahwuCategory, setNahwuCategory] = useState('all');
+  const [nahwuModal, setNahwuModal] = useState(null);
 
   // Set mounted
   useEffect(() => {
@@ -880,12 +897,7 @@ export default function LingoSpacePro() {
     );
   };
 
-    const renderNahwu = () => {
-    const [selectedLevel, setSelectedLevel] = useState('all');
-    const [selectedCategory, setSelectedCategory] = useState('all');
-    const [modalOpen, setModalOpen] = useState(false);
-    const [currentLesson, setCurrentLesson] = useState(null);
-
+      const renderNahwu = () => {
     const levels = [
       { id: '1', label: 'Level 1: Dasar' },
       { id: '2', label: 'Level 2: Menengah' },
@@ -895,34 +907,24 @@ export default function LingoSpacePro() {
     const categories = [...new Set(nahwuLessons.map(l => l.category))];
 
     const filteredLessons = nahwuLessons.filter(lesson => {
-      const matchLevel = selectedLevel === 'all' || lesson.level === selectedLevel;
-      const matchCategory = selectedCategory === 'all' || lesson.category === selectedCategory;
+      const matchLevel = nahwuLevel === 'all' || String(lesson.level) === nahwuLevel;
+      const matchCategory = nahwuCategory === 'all' || lesson.category === nahwuCategory;
       return matchLevel && matchCategory;
     });
 
-    const openModal = (lesson) => {
-      setCurrentLesson(lesson);
-      setModalOpen(true);
-    };
-
-    const closeModal = () => {
-      setModalOpen(false);
-      setCurrentLesson(null);
-    };
-
-    const navigateLesson = (direction) => {
-      if (!currentLesson) return;
-      const currentIndex = filteredLessons.findIndex(l => l.id === currentLesson.id);
+    const navigateNahwu = (direction) => {
+      if (!nahwuModal) return;
+      const currentIndex = filteredLessons.findIndex(l => l.id === nahwuModal.id);
       const newIndex = direction === 'next' ? currentIndex + 1 : currentIndex - 1;
       if (newIndex >= 0 && newIndex < filteredLessons.length) {
-        setCurrentLesson(filteredLessons[newIndex]);
+        setNahwuModal(filteredLessons[newIndex]);
       }
     };
 
     return (
       <div className="animate-fade-in max-w-6xl mx-auto">
         <div className="text-center mb-8">
-          <h2 className="text-3xl font-bold mb-2">📖 Belajar Nahwu</h2>
+          <h2 className="text-3xl font-bold mb-2"> Belajar Nahwu</h2>
           <p className="text-gray-400">Pelajari tata bahasa Arab secara sistematis</p>
         </div>
 
@@ -931,9 +933,9 @@ export default function LingoSpacePro() {
           {levels.map((level) => (
             <button
               key={level.id}
-              onClick={() => setSelectedLevel(level.id)}
+              onClick={() => setNahwuLevel(level.id)}
               className={`px-4 py-2 rounded-full text-sm font-semibold transition-all btn-press ${
-                selectedLevel === level.id
+                nahwuLevel === level.id
                   ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white'
                   : 'glass-modern hover:bg-white/10 text-gray-300'
               }`}
@@ -942,9 +944,9 @@ export default function LingoSpacePro() {
             </button>
           ))}
           <button
-            onClick={() => setSelectedLevel('all')}
+            onClick={() => setNahwuLevel('all')}
             className={`px-4 py-2 rounded-full text-sm font-semibold transition-all btn-press ${
-              selectedLevel === 'all'
+              nahwuLevel === 'all'
                 ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white'
                 : 'glass-modern hover:bg-white/10 text-gray-300'
             }`}
@@ -956,8 +958,8 @@ export default function LingoSpacePro() {
         {/* Category Filter */}
         <div className="mb-8">
           <select
-            value={selectedCategory}
-            onChange={(e) => setSelectedCategory(e.target.value)}
+            value={nahwuCategory}
+            onChange={(e) => setNahwuCategory(e.target.value)}
             className="px-4 py-2 rounded-full glass-modern text-sm bg-transparent outline-none cursor-pointer text-white"
           >
             <option value="all" className="bg-slate-800">Semua Kategori</option>
@@ -970,7 +972,7 @@ export default function LingoSpacePro() {
         {/* Lessons Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {filteredLessons.map((lesson, idx) => (
-            <div key={idx} className="glass-modern rounded-2xl p-6 hover-lift cursor-pointer" onClick={() => openModal(lesson)}>
+            <div key={idx} className="glass-modern rounded-2xl p-6 hover-lift cursor-pointer" onClick={() => setNahwuModal(lesson)}>
               <div className="flex justify-between items-start mb-4">
                 <span className="px-3 py-1 rounded-full bg-purple-500/20 text-purple-300 text-xs font-semibold">
                   {lesson.category}
@@ -987,64 +989,71 @@ export default function LingoSpacePro() {
                   }}
                   className="px-4 py-2 rounded-full glass-modern text-sm hover:bg-white/10 transition-all btn-press flex items-center gap-2"
                 >
-                  🔊 Dengarkan
+                   Dengarkan
                 </button>
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
-                    openModal(lesson);
+                    setNahwuModal(lesson);
                   }}
                   className="px-4 py-2 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 text-sm font-semibold hover:scale-105 transition-transform btn-press"
                 >
-                  Tandai Selesai
+                  Detail
                 </button>
               </div>
             </div>
           ))}
         </div>
 
+        {filteredLessons.length === 0 && (
+          <div className="text-center py-16 text-gray-400">
+            <div className="text-6xl mb-4">📖</div>
+            <p>Tidak ada materi untuk filter ini</p>
+          </div>
+        )}
+
         {/* Modal */}
-        {modalOpen && currentLesson && (
-          <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4" onClick={closeModal}>
+        {nahwuModal && (
+          <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4" onClick={() => setNahwuModal(null)}>
             <div className="glass-modern rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
               <div className="p-8">
                 <div className="flex justify-between items-start mb-6">
-                  <h2 className="text-2xl font-bold">{currentLesson.title}</h2>
-                  <button onClick={closeModal} className="text-gray-400 hover:text-white text-2xl">✕</button>
+                  <h2 className="text-2xl font-bold">{nahwuModal.title}</h2>
+                  <button onClick={() => setNahwuModal(null)} className="text-gray-400 hover:text-white text-2xl">✕</button>
                 </div>
 
                 <div className="space-y-6">
                   <div>
                     <h3 className="text-sm uppercase text-gray-400 mb-2">Penjelasan</h3>
-                    {currentLesson.content_ar && (
-                      <p className="text-2xl text-right mb-2 text-purple-300" dir="rtl">{currentLesson.content_ar}</p>
+                    {nahwuModal.content_ar && (
+                      <p className="text-2xl text-right mb-2 text-purple-300" dir="rtl">{nahwuModal.content_ar}</p>
                     )}
-                    <p className="text-gray-300">{currentLesson.content_id}</p>
+                    <p className="text-gray-300">{nahwuModal.content_id}</p>
                   </div>
 
-                  {currentLesson.example_ar && (
+                  {nahwuModal.example_ar && (
                     <div>
                       <h3 className="text-sm uppercase text-gray-400 mb-2">Contoh</h3>
-                      <p className="text-2xl text-right mb-2 text-blue-300" dir="rtl">{currentLesson.example_ar}</p>
-                      <p className="text-gray-300">{currentLesson.example_id}</p>
+                      <p className="text-2xl text-right mb-2 text-blue-300" dir="rtl">{nahwuModal.example_ar}</p>
+                      <p className="text-gray-300">{nahwuModal.example_id}</p>
                     </div>
                   )}
 
                   <div className="flex gap-3 flex-wrap">
-                    {currentLesson.content_ar && (
+                    {nahwuModal.content_ar && (
                       <button
-                        onClick={() => playArabicAudio(currentLesson.content_ar)}
+                        onClick={() => playArabicAudio(nahwuModal.content_ar)}
                         className="px-6 py-3 rounded-full glass-modern hover:bg-white/10 transition-all btn-press flex items-center gap-2"
                       >
                         🔊 Dengarkan Penjelasan
                       </button>
                     )}
-                    {currentLesson.example_ar && (
+                    {nahwuModal.example_ar && (
                       <button
-                        onClick={() => playArabicAudio(currentLesson.example_ar)}
+                        onClick={() => playArabicAudio(nahwuModal.example_ar)}
                         className="px-6 py-3 rounded-full glass-modern hover:bg-white/10 transition-all btn-press flex items-center gap-2"
                       >
-                        🔊 Dengarkan Contoh
+                         Dengarkan Contoh
                       </button>
                     )}
                   </div>
@@ -1052,15 +1061,15 @@ export default function LingoSpacePro() {
 
                 <div className="flex justify-between mt-8 pt-6 border-t border-white/10">
                   <button
-                    onClick={() => navigateLesson('prev')}
-                    disabled={filteredLessons.findIndex(l => l.id === currentLesson.id) === 0}
+                    onClick={() => navigateNahwu('prev')}
+                    disabled={filteredLessons.findIndex(l => l.id === nahwuModal.id) === 0}
                     className="px-6 py-3 rounded-full glass-modern hover:bg-white/10 transition-all btn-press disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     ← Sebelumnya
                   </button>
                   <button
-                    onClick={() => navigateLesson('next')}
-                    disabled={filteredLessons.findIndex(l => l.id === currentLesson.id) === filteredLessons.length - 1}
+                    onClick={() => navigateNahwu('next')}
+                    disabled={filteredLessons.findIndex(l => l.id === nahwuModal.id) === filteredLessons.length - 1}
                     className="px-6 py-3 rounded-full glass-modern hover:bg-white/10 transition-all btn-press disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     Selanjutnya →
@@ -1074,12 +1083,7 @@ export default function LingoSpacePro() {
     );
   };
 
-    const renderEnglish = () => {
-    const [selectedLevel, setSelectedLevel] = useState('all');
-    const [selectedCategory, setSelectedCategory] = useState('all');
-    const [modalOpen, setModalOpen] = useState(false);
-    const [currentLesson, setCurrentLesson] = useState(null);
-
+      const renderEnglish = () => {
     const levels = [
       { id: '1', label: 'Level 1: Dasar' },
       { id: '2', label: 'Level 2: Menengah' },
@@ -1092,27 +1096,17 @@ export default function LingoSpacePro() {
     const categories = [...new Set(englishLessons.map(l => l.category))];
 
     const filteredLessons = englishLessons.filter(lesson => {
-      const matchLevel = selectedLevel === 'all' || lesson.level === selectedLevel;
-      const matchCategory = selectedCategory === 'all' || lesson.category === selectedCategory;
+      const matchLevel = englishLevel === 'all' || String(lesson.level) === englishLevel;
+      const matchCategory = englishCategory === 'all' || lesson.category === englishCategory;
       return matchLevel && matchCategory;
     });
 
-    const openModal = (lesson) => {
-      setCurrentLesson(lesson);
-      setModalOpen(true);
-    };
-
-    const closeModal = () => {
-      setModalOpen(false);
-      setCurrentLesson(null);
-    };
-
-    const navigateLesson = (direction) => {
-      if (!currentLesson) return;
-      const currentIndex = filteredLessons.findIndex(l => l.id === currentLesson.id);
+    const navigateEnglish = (direction) => {
+      if (!englishModal) return;
+      const currentIndex = filteredLessons.findIndex(l => l.id === englishModal.id);
       const newIndex = direction === 'next' ? currentIndex + 1 : currentIndex - 1;
       if (newIndex >= 0 && newIndex < filteredLessons.length) {
-        setCurrentLesson(filteredLessons[newIndex]);
+        setEnglishModal(filteredLessons[newIndex]);
       }
     };
 
@@ -1128,9 +1122,9 @@ export default function LingoSpacePro() {
           {levels.map((level) => (
             <button
               key={level.id}
-              onClick={() => setSelectedLevel(level.id)}
+              onClick={() => setEnglishLevel(level.id)}
               className={`px-4 py-2 rounded-full text-sm font-semibold transition-all btn-press ${
-                selectedLevel === level.id
+                englishLevel === level.id
                   ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white'
                   : 'glass-modern hover:bg-white/10 text-gray-300'
               }`}
@@ -1139,9 +1133,9 @@ export default function LingoSpacePro() {
             </button>
           ))}
           <button
-            onClick={() => setSelectedLevel('all')}
+            onClick={() => setEnglishLevel('all')}
             className={`px-4 py-2 rounded-full text-sm font-semibold transition-all btn-press ${
-              selectedLevel === 'all'
+              englishLevel === 'all'
                 ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white'
                 : 'glass-modern hover:bg-white/10 text-gray-300'
             }`}
@@ -1153,8 +1147,8 @@ export default function LingoSpacePro() {
         {/* Category Filter */}
         <div className="mb-8">
           <select
-            value={selectedCategory}
-            onChange={(e) => setSelectedCategory(e.target.value)}
+            value={englishCategory}
+            onChange={(e) => setEnglishCategory(e.target.value)}
             className="px-4 py-2 rounded-full glass-modern text-sm bg-transparent outline-none cursor-pointer text-white"
           >
             <option value="all" className="bg-slate-800">Semua Kategori</option>
@@ -1167,7 +1161,7 @@ export default function LingoSpacePro() {
         {/* Lessons Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {filteredLessons.map((lesson, idx) => (
-            <div key={idx} className="glass-modern rounded-2xl p-6 hover-lift cursor-pointer" onClick={() => openModal(lesson)}>
+            <div key={idx} className="glass-modern rounded-2xl p-6 hover-lift cursor-pointer" onClick={() => setEnglishModal(lesson)}>
               <div className="flex justify-between items-start mb-4">
                 <span className="px-3 py-1 rounded-full bg-purple-500/20 text-purple-300 text-xs font-semibold">
                   {lesson.category}
@@ -1184,57 +1178,64 @@ export default function LingoSpacePro() {
                   }}
                   className="px-4 py-2 rounded-full glass-modern text-sm hover:bg-white/10 transition-all btn-press flex items-center gap-2"
                 >
-                   Dengarkan
+                  🔊 Dengarkan
                 </button>
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
-                    openModal(lesson);
+                    setEnglishModal(lesson);
                   }}
                   className="px-4 py-2 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 text-sm font-semibold hover:scale-105 transition-transform btn-press"
                 >
-                  Tandai Selesai
+                  Detail
                 </button>
               </div>
             </div>
           ))}
         </div>
 
+        {filteredLessons.length === 0 && (
+          <div className="text-center py-16 text-gray-400">
+            <div className="text-6xl mb-4"></div>
+            <p>Tidak ada materi untuk filter ini</p>
+          </div>
+        )}
+
         {/* Modal */}
-        {modalOpen && currentLesson && (
-          <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4" onClick={closeModal}>
+        {englishModal && (
+          <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4" onClick={() => setEnglishModal(null)}>
             <div className="glass-modern rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
               <div className="p-8">
                 <div className="flex justify-between items-start mb-6">
-                  <h2 className="text-2xl font-bold">{currentLesson.title}</h2>
-                  <button onClick={closeModal} className="text-gray-400 hover:text-white text-2xl">✕</button>
+                  <h2 className="text-2xl font-bold">{englishModal.title}</h2>
+                  <button onClick={() => setEnglishModal(null)} className="text-gray-400 hover:text-white text-2xl">✕</button>
                 </div>
 
                 <div className="space-y-6">
                   <div>
                     <h3 className="text-sm uppercase text-gray-400 mb-2">Penjelasan (English)</h3>
-                    <p className="text-lg text-blue-300 mb-2">{currentLesson.content_en}</p>
-                    <p className="text-gray-300">{currentLesson.content_id}</p>
+                    <p className="text-lg text-blue-300 mb-2">{englishModal.content_en}</p>
+                    <p className="text-gray-300">{englishModal.content_id}</p>
                   </div>
 
-                  {currentLesson.example_en && (
+                  {englishModal.example_en && (
                     <div>
                       <h3 className="text-sm uppercase text-gray-400 mb-2">Contoh</h3>
-                      <p className="text-lg text-green-300 mb-2">{currentLesson.example_en}</p>
-                      <p className="text-gray-300">{currentLesson.example_id}</p>
+                      <p className="text-lg text-green-300 mb-2">{englishModal.example_en}</p>
+                      <p className="text-gray-300">{englishModal.example_id}</p>
                     </div>
                   )}
 
                   <div className="flex gap-3 flex-wrap">
                     <button
-                      onClick={() => playEnglishAudio(currentLesson.content_en)}
+                      onClick={() => playEnglishAudio(englishModal.content_en)}
                       className="px-6 py-3 rounded-full glass-modern hover:bg-white/10 transition-all btn-press flex items-center gap-2"
                     >
                       🔊 Dengarkan Penjelasan
                     </button>
-                    {currentLesson.example_en && (
+                    {englishModal.example_en && (
                       <button
-                        onClick={() => playEnglishAudio(currentLesson.example_en)}
+                        onClick={() => playEnglishAudio(englishModal.example_en)}
                         className="px-6 py-3 rounded-full glass-modern hover:bg-white/10 transition-all btn-press flex items-center gap-2"
                       >
                         🔊 Dengarkan Contoh
@@ -1245,15 +1246,15 @@ export default function LingoSpacePro() {
 
                 <div className="flex justify-between mt-8 pt-6 border-t border-white/10">
                   <button
-                    onClick={() => navigateLesson('prev')}
-                    disabled={filteredLessons.findIndex(l => l.id === currentLesson.id) === 0}
+                    onClick={() => navigateEnglish('prev')}
+                    disabled={filteredLessons.findIndex(l => l.id === englishModal.id) === 0}
                     className="px-6 py-3 rounded-full glass-modern hover:bg-white/10 transition-all btn-press disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     ← Sebelumnya
                   </button>
                   <button
-                    onClick={() => navigateLesson('next')}
-                    disabled={filteredLessons.findIndex(l => l.id === currentLesson.id) === filteredLessons.length - 1}
+                    onClick={() => navigateEnglish('next')}
+                    disabled={filteredLessons.findIndex(l => l.id === englishModal.id) === filteredLessons.length - 1}
                     className="px-6 py-3 rounded-full glass-modern hover:bg-white/10 transition-all btn-press disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     Selanjutnya →
