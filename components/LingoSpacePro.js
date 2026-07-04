@@ -47,14 +47,6 @@ export default function LingoSpacePro() {
   const [selectedEnglishTopic, setSelectedEnglishTopic] = useState(null);
   const [roadmapLang, setRoadmapLang] = useState('English');
   const [expandedLevel, setExpandedLevel] = useState(null);
-    // Lessons & Roadmap State
-  const [englishLessons, setEnglishLessons] = useState([]);
-  const [nahwuLessons, setNahwuLessons] = useState([]);
-  const [roadmapData, setRoadmapData] = useState([]);
-  const [selectedNahwuTopic, setSelectedNahwuTopic] = useState(null);
-  const [selectedEnglishTopic, setSelectedEnglishTopic] = useState(null);
-  const [roadmapLang, setRoadmapLang] = useState('English');
-  const [expandedLevel, setExpandedLevel] = useState(null);
   
   // TAMBAHKAN INI:
   const [englishLevel, setEnglishLevel] = useState('all');
