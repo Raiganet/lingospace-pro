@@ -92,7 +92,7 @@ export default function About() {
             </p>
             <div className="space-y-2">
               <p className="text-gray-300">
-                <strong>Email:</strong> <a href="mailto:contact@raiganet.my.id" className="text-purple-400 hover:underline">contact@raiganet.my.id</a>
+                <strong>Email:</strong> <a href="mailto:diky.hermansyah91@gmail.com" className="text-purple-400 hover:underline">contact@raiganet.my.id</a>
               </p>
               <p className="text-gray-300">
                 <strong>Website:</strong> <a href="https://www.raiganet.my.id" className="text-purple-400 hover:underline">www.raiganet.my.id</a>
