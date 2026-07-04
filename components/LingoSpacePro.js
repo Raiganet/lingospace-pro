@@ -1,455 +1,864 @@
-"use client";
+'use client';
 
-import React, { useState, useEffect } from "react";
-import { 
-  Play, 
-  CheckCircle2, 
-  XCircle, 
-  Award, 
-  ArrowRight, 
-  RotateCcw, 
-  BookOpen, 
-  Volume2, 
-  ChevronDown, 
-  ChevronUp, 
-  Layers 
-} from "lucide-react";
+import { useState, useEffect } from 'react';
+import Link from 'next/link';
 
-export default function LingoSpacePro({ level, allData, onBack }) {
-  // --- States ---
+export default function LingoSpacePro() {
+  // --- State Management ---
   const [mounted, setMounted] = useState(false);
-  const [lessons, setLessons] = useState([]);
+  const [currentMode, setCurrentMode] = useState('dashboard');
+  const [allData, setAllData] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [categoryFilter, setCategoryFilter] = useState('all');
+  const [searchInput, setSearchInput] = useState('');
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isFlipped, setIsFlipped] = useState(false);
+  const [bookmarks, setBookmarks] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [isExpanded, setIsExpanded] = useState(false);
-
-  // Stats SRS State
+  
+  // Stats State
   const [stats, setStats] = useState({
+    totalWords: 0,
     mastered: 0,
     learning: 0,
-    newWords: 0
+    newWords: 0,
+    accuracy: 0,
+    bookmarks: 0
   });
 
-  // Quiz States
+  // Quiz State
   const [quizData, setQuizData] = useState([]);
   const [quizIndex, setQuizIndex] = useState(0);
-  const [selectedAnswer, setSelectedAnswer] = useState(null);
+  const [quizScore, setQuizScore] = useState(0);
   const [quizAnswered, setQuizAnswered] = useState(false);
-  const [score, setScore] = useState(0);
 
-  // --- Effects ---
+  // Listen State
+  const [listenLang, setListenLang] = useState('en');
+  const [listenData, setListenData] = useState([]);
+  const [listenIndex, setListenIndex] = useState(0);
+  const [listenAnswered, setListenAnswered] = useState(false);
+
+  // Lessons & Roadmap State
+  const [englishLessons, setEnglishLessons] = useState([]);
+  const [nahwuLessons, setNahwuLessons] = useState([]);
+  const [roadmapData, setRoadmapData] = useState([]);
+  const [selectedNahwuTopic, setSelectedNahwuTopic] = useState(null);
+  const [selectedEnglishTopic, setSelectedEnglishTopic] = useState(null);
+  const [roadmapLang, setRoadmapLang] = useState('English');
+  const [expandedLevel, setExpandedLevel] = useState(null);
+
+  // Set mounted
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  // Fetch & Filter Data berdasarkan Level
+  // --- Load Data ---
   useEffect(() => {
     if (!mounted) return;
-
-    const filtered = allData.filter(item => item.level === level.level);
-    setLessons(filtered);
-    setLoading(false);
-
-    // Hitung statistik SRS dari localStorage
-    let masteredCount = 0;
-    let learningCount = 0;
-
-    filtered.forEach(item => {
-      const srsData = localStorage.getItem(`srs_${item.id}`);
-      if (srsData) {
-        const { stage } = JSON.parse(srsData);
-        if (stage >= 5) masteredCount++;
-        else if (stage > 0) learningCount++;
-      }
-    });
-
-    setStats({
-      mastered: masteredCount,
-      learning: learningCount,
-      newWords: filtered.length - (masteredCount + learningCount)
-    });
-
-    // Setup Kuis (Ambil acak maksimal 5 soal dari materi level ini)
-    if (filtered.length > 0) {
-      const shuffled = [...filtered].sort(() => 0.5 - Math.random());
-      const selectedQuiz = shuffled.slice(0, Math.random() > 0.5 ? 5 : Math.min(5, filtered.length));
+    
+    const loadData = async () => {
+      setLoading(true);
       
-      const formattedQuiz = selectedQuiz.map(item => {
-        // Buat pilihan ganda acak
-        const wrongOptions = allData
-          .filter(d => d.english !== item.english)
-          .sort(() => 0.5 - Math.random())
-          .slice(0, 3)
-          .map(d => d.english);
-        
-        const options = [...wrongOptions, item.english].sort(() => 0.5 - Math.random());
+      try {
+        const vocabRes = await fetch('/api/vocabulary');
+        const vocabData = await vocabRes.json();
+        setAllData(vocabData || []);
+        setFilteredData(vocabData || []);
+      } catch (error) {
+        console.error('Error loading vocabulary:', error);
+        setAllData([]);
+        setFilteredData([]);
+      }
+      
+      try {
+        const categoriesRes = await fetch('/api/categories');
+        const categoriesData = await categoriesRes.json();
+        setCategories(categoriesData || []);
+      } catch (error) {
+        console.error('Error loading categories:', error);
+        setCategories([]);
+      }
+      
+      try {
+        const englishRes = await fetch('/api/english-lessons');
+        if (englishRes.ok) {
+          const englishData = await englishRes.json();
+          setEnglishLessons(englishData || []);
+        } else {
+          setEnglishLessons([]);
+        }
+      } catch (error) {
+        console.error('Error loading english lessons:', error);
+        setEnglishLessons([]);
+      }
+      
+      try {
+        const nahwuRes = await fetch('/api/nahwu-lessons');
+        if (nahwuRes.ok) {
+          const nahwuData = await nahwuRes.json();
+          setNahwuLessons(nahwuData || []);
+        } else {
+          setNahwuLessons([]);
+        }
+      } catch (error) {
+        console.error('Error loading nahwu lessons:', error);
+        setNahwuLessons([]);
+      }
+      
+      try {
+        const roadmapRes = await fetch('/api/roadmap');
+        if (roadmapRes.ok) {
+          const roadmapData = await roadmapRes.json();
+          setRoadmapData(roadmapData || []);
+        } else {
+          setRoadmapData([]);
+        }
+      } catch (error) {
+        console.error('Error loading roadmap:', error);
+        setRoadmapData([]);
+      }
+      
+      setLoading(false);
+    };
 
-        return {
-          id: item.id,
-          arabic: item.arabic,
-          correctAnswer: item.english,
-          options: options
-        };
+    loadData();
+    loadBookmarks();
+  }, [mounted]);
+
+  // --- Filter Data ---
+  useEffect(() => {
+    if (!mounted || allData.length === 0) return;
+    
+    let filtered = [...allData];
+
+    if (categoryFilter !== 'all') {
+      filtered = filtered.filter(item => item.category === categoryFilter);
+    }
+
+    if (searchInput.trim()) {
+      const search = searchInput.toLowerCase();
+      filtered = filtered.filter(item =>
+        (item.en && item.en.toLowerCase().includes(search)) ||
+        (item.ar && item.ar.includes(search)) ||
+        (item.id_lang && item.id_lang.toLowerCase().includes(search))
+      );
+    }
+
+    setFilteredData(filtered);
+    setCurrentIndex(0);
+  }, [categoryFilter, searchInput, allData, mounted]);
+
+  // --- Calculate Stats (Fixed Logika New Words) ---
+  useEffect(() => {
+    if (!mounted || allData.length === 0) return;
+    
+    try {
+      const srsData = JSON.parse(localStorage.getItem('lingospace_srs') || '{}');
+      let mastered = 0, learning = 0;
+      let totalCorrect = 0, totalWrong = 0;
+
+      Object.values(srsData).forEach(srs => {
+        const level = srs.level || 0;
+        if (level >= 4) mastered++;
+        else if (level > 0) learning++;
+        
+        totalCorrect += (srs.correct || 0);
+        totalWrong += (srs.wrong || 0);
       });
 
-      setQuizData(formattedQuiz);
-    }
-  }, [mounted, level.level, allData]);
+      // Solusi Perbaikan: Kalkulasi dinamis sisa kata baru
+      const newWords = allData.length - (mastered + learning);
 
-  // --- Handlers ---
-  const playAudio = (text, lang = "ar-SA") => {
-    if (typeof window !== "undefined" && "speechSynthesis" in window) {
-      window.speechSynthesis.cancel();
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = lang;
-      window.speechSynthesis.speak(utterance);
+      const accuracy = (totalCorrect + totalWrong) > 0
+        ? Math.round((totalCorrect / (totalCorrect + totalWrong)) * 100)
+        : 0;
+
+      setStats({
+        totalWords: allData.length,
+        mastered,
+        learning,
+        newWords: newWords < 0 ? 0 : newWords,
+        accuracy,
+        bookmarks: bookmarks.length
+      });
+    } catch (e) {
+      console.error('Error calculating stats:', e);
+    }
+  }, [allData, bookmarks, mounted]);
+
+  const loadBookmarks = () => {
+    try {
+      const saved = localStorage.getItem('lingospace_bookmarks');
+      if (saved) {
+        setBookmarks(JSON.parse(saved));
+      }
+    } catch (e) {
+      console.error('Error loading bookmarks:', e);
     }
   };
 
-  const handleSRSAction = (id, isCorrect) => {
-    const key = `srs_${id}`;
-    const srsData = localStorage.getItem(key);
-    let currentStage = 0;
+  const switchMode = (mode) => {
+    setCurrentMode(mode);
+    setCurrentIndex(0);
+    setIsFlipped(false);
+    setSelectedNahwuTopic(null);
+    setSelectedEnglishTopic(null);
+  };
 
-    if (srsData) {
-      currentStage = JSON.parse(srsData).stage || 0;
+  const flipCard = () => {
+    setIsFlipped(!isFlipped);
+  };
+
+  const nextCard = () => {
+    if (filteredData.length === 0) return;
+    setCurrentIndex((prev) => (prev + 1) % filteredData.length);
+    setIsFlipped(false);
+  };
+
+  const prevCard = () => {
+    if (filteredData.length === 0) return;
+    setCurrentIndex((prev) => (prev - 1 + filteredData.length) % filteredData.length);
+    setIsFlipped(false);
+  };
+
+  const toggleBookmark = (wordId) => {
+    let newBookmarks;
+    if (bookmarks.includes(wordId)) {
+      newBookmarks = bookmarks.filter(id => id !== wordId);
+    } else {
+      newBookmarks = [...bookmarks, wordId];
     }
+    setBookmarks(newBookmarks);
+    try {
+      localStorage.setItem('lingospace_bookmarks', JSON.stringify(newBookmarks));
+    } catch (e) {
+      console.error('Error saving bookmarks:', e);
+    }
+  };
 
-    let newStage = isCorrect ? currentStage + 1 : Math.max(0, currentStage - 1);
-    localStorage.setItem(key, JSON.stringify({ stage: newStage, lastReview: Date.now() }));
+  const rateCard = (isCorrect) => {
+    if (filteredData.length === 0) return;
+    const item = filteredData[currentIndex];
 
-    // Update state stats secara real-time
-    setStats(prev => {
-      let mastered = prev.mastered;
-      let learning = prev.learning;
+    try {
+      const srsData = JSON.parse(localStorage.getItem('lingospace_srs') || '{}');
+      const current = srsData[item.id] || { level: 0, correct: 0, wrong: 0 };
 
-      // Logika perubahan status kartu
-      if (currentStage === 0 && newStage > 0) {
-        learning++;
-      } else if (currentStage < 5 && newStage >= 5) {
-        learning--;
-        mastered++;
-      } else if (currentStage >= 5 && newStage < 5) {
-        mastered--;
-        learning++;
-      } else if (currentStage > 0 && newStage === 0) {
-        learning--;
+      if (isCorrect) {
+        current.level = Math.min(current.level + 1, 5);
+        current.correct = (current.correct || 0) + 1;
+      } else {
+        current.level = 0;
+        current.wrong = (current.wrong || 0) + 1;
       }
 
-      return {
-        mastered,
-        learning,
-        newWords: lessons.length - (mastered + learning)
-      };
+      srsData[item.id] = current;
+      localStorage.setItem('lingospace_srs', JSON.stringify(srsData));
+    } catch (e) {
+      console.error('Error saving SRS:', e);
+    }
+
+    nextCard();
+  };
+
+  // --- Core Audio Engine (Clean & Global) ---
+  const playAudio = (text, lang) => {
+    if (!text || text === '-') return;
+
+    const url = `https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=${lang}&q=${encodeURIComponent(text)}`;
+    const audio = new Audio(url);
+    audio.play().catch(() => {
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = lang === 'ar' ? 'ar-SA' : lang === 'en' ? 'en-US' : 'id-ID';
+        window.speechSynthesis.speak(utterance);
+      }
     });
   };
 
-  const answerQuiz = (option) => {
-    if (quizAnswered) return;
-
-    setSelectedAnswer(option);
-    setQuizAnswered(true);
-
-    const isCorrect = option === quizData[quizIndex].correctAnswer;
-    if (isCorrect) {
-      setScore(prev => prev + 1);
+  // --- Quiz Logic Engine (Fixed Hang) ---
+  const startQuiz = () => {
+    if (filteredData.length < 4) {
+      alert('Minimal 4 kosakata diperlukan untuk kuis');
+      return;
     }
 
-    // Update SRS berdasarkan performa kuis
-    handleSRSAction(quizData[quizIndex].id, isCorrect);
+    const shuffled = [...filteredData].sort(() => 0.5 - Math.random());
+    const selected = shuffled.slice(0, Math.min(10, shuffled.length));
 
-    // Pindah otomatis ke soal berikutnya / menyelesaikan kuis setelah 2 detik
+    const quiz = selected.map(item => {
+      const others = filteredData.filter(v => v.id !== item.id);
+      const wrongOptions = others.sort(() => 0.5 - Math.random()).slice(0, 3);
+      const options = [
+        { text: item.id_lang, correct: true },
+        ...wrongOptions.map(w => ({ text: w.id_lang, correct: false }))
+      ].sort(() => 0.5 - Math.random());
+
+      return {
+        wordId: item.id,
+        question: item.en,
+        questionAr: item.ar,
+        options: options
+      };
+    });
+
+    setQuizData(quiz);
+    setQuizIndex(0);
+    setQuizScore(0);
+    setQuizAnswered(false);
+  };
+
+  const answerQuiz = (selectedIndex) => {
+    if (quizAnswered) return;
+    setQuizAnswered(true);
+
+    const q = quizData[quizIndex];
+    const isCorrect = q.options[selectedIndex].correct;
+
+    if (isCorrect) {
+      setQuizScore(prev => prev + 1);
+    }
+
+    // Solusi Perbaikan: Indeks kuis dipaksa bertambah tanpa kondisi "if" yang mengunci di akhir soal
     setTimeout(() => {
       setQuizIndex(prev => prev + 1);
-      setSelectedAnswer(null);
       setQuizAnswered(false);
     }, 2000);
   };
 
-  const resetQuiz = () => {
-    setQuizIndex(0);
-    setScore(0);
-    setSelectedAnswer(null);
-    setQuizAnswered(false);
-    // Acak ulang kuis dari data pelajaran yang ada
-    if (lessons.length > 0) {
-      const shuffled = [...lessons].sort(() => 0.5 - Math.random());
-      const selectedQuiz = shuffled.slice(0, Math.min(5, lessons.length));
-      const formattedQuiz = selectedQuiz.map(item => {
-        const wrongOptions = allData
-          .filter(d => d.english !== item.english)
-          .sort(() => 0.5 - Math.random())
-          .slice(0, 3)
-          .map(d => d.english);
-        const options = [...wrongOptions, item.english].sort(() => 0.5 - Math.random());
-        return {
-          id: item.id,
-          arabic: item.arabic,
-          correctAnswer: item.english,
-          options: options
-        };
-      });
-      setQuizData(formattedQuiz);
+  // --- Listen Logic Engine ---
+  const startListen = () => {
+    if (filteredData.length < 4) {
+      alert('Minimal 4 kosakata diperlukan');
+      return;
     }
+
+    const shuffled = [...filteredData].sort(() => 0.5 - Math.random()).slice(0, 4);
+    setListenData(shuffled);
+    setListenIndex(Math.floor(Math.random() * 4));
+    setListenAnswered(false);
+  };
+
+  const answerListen = (selectedIndex) => {
+    if (listenAnswered) return;
+    setListenAnswered(true);
+
+    setTimeout(() => {
+      setListenIndex(Math.floor(Math.random() * 4));
+      setListenAnswered(false);
+    }, 2500);
+  };
+
+  // --- Render Sub-Components Views ---
+  const renderDashboard = () => (
+    <div className="animate-fade-in">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+        <div className="glass rounded-2xl p-6 hover:scale-105 transition-transform">
+          <div className="text-3xl mb-2">📚</div>
+          <div className="text-3xl font-bold">{stats.totalWords}</div>
+          <div className="text-sm text-gray-400">Total Kosakata</div>
+        </div>
+        <div className="glass rounded-2xl p-6 hover:scale-105 transition-transform">
+          <div className="text-3xl mb-2">✅</div>
+          <div className="text-3xl font-bold text-green-400">{stats.mastered}</div>
+          <div className="text-sm text-gray-400">Dikuasai</div>
+        </div>
+        <div className="glass rounded-2xl p-6 hover:scale-105 transition-transform">
+          <div className="text-3xl mb-2">📖</div>
+          <div className="text-3xl font-bold text-yellow-400">{stats.learning}</div>
+          <div className="text-sm text-gray-400">Sedang Dipelajari</div>
+        </div>
+        <div className="glass rounded-2xl p-6 hover:scale-105 transition-transform">
+          <div className="text-3xl mb-2">🎯</div>
+          <div className="text-3xl font-bold text-purple-400">{stats.accuracy}%</div>
+          <div className="text-sm text-gray-400">Akurasi</div>
+        </div>
+      </div>
+
+      <div className="glass rounded-2xl p-6 mb-6">
+        <h3 className="text-lg font-semibold mb-4">📈 Progress Belajar</h3>
+        <div className="space-y-4">
+          {['Dikuasai', 'Dipelajari', 'Baru'].map((label, idx) => {
+            const values = [stats.mastered, stats.learning, stats.newWords];
+            const total = stats.totalWords || 1;
+            const pct = Math.round((values[idx] / total) * 100);
+            const colors = ['from-green-400 to-emerald-500', 'from-yellow-400 to-orange-500', 'from-blue-400 to-purple-500'];
+
+            return (
+              <div key={idx}>
+                <div className="flex justify-between text-sm mb-1">
+                  <span>{label}</span>
+                  <span>{pct}%</span>
+                </div>
+                <div className="h-3 bg-gray-700 rounded-full overflow-hidden">
+                  <div className={`h-full bg-gradient-to-r ${colors[idx]} transition-all duration-500`} style={{ width: `${pct}%` }}></div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      <div className="glass rounded-2xl p-6">
+        <h3 className="text-lg font-semibold mb-4">🏆 Pencapaian</h3>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+          {[
+            { icon: '🌱', name: 'Pemula', req: stats.totalWords >= 1 },
+            { icon: '📚', name: 'Rajin', req: stats.mastered >= 5 },
+            { icon: '🎯', name: 'Tepat', req: stats.accuracy >= 80 },
+            { icon: '⭐', name: 'Kolektor', req: stats.bookmarks >= 5 }
+          ].map((ach, idx) => (
+            <div key={idx} className={`p-4 rounded-xl border transition-all ${ach.req ? 'bg-gradient-to-br from-yellow-500/20 to-orange-500/20 border-yellow-500/30' : 'glass opacity-40'}`}>
+              <div className="text-3xl mb-2">{ach.icon}</div>
+              <div className="font-semibold text-sm">{ach.name}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+
+  const renderFlashcard = () => {
+    const item = filteredData[currentIndex] || {};
+    const isBookmarked = bookmarks.includes(item.id);
+
+    return (
+      <div className="animate-fade-in">
+        <div className="flex justify-between items-center mb-6 flex-wrap gap-3">
+          <div>
+            <h2 className="text-2xl font-bold">🎴 Flashcard Mode</h2>
+            <p className="text-gray-400 text-sm">Klik kartu untuk membalik</p>
+          </div>
+          <div className="flex items-center gap-3">
+            <button onClick={prevCard} className="p-3 rounded-full glass hover:scale-110 transition-transform">←</button>
+            <span className="text-sm font-semibold">{currentIndex + 1} / {filteredData.length}</span>
+            <button onClick={nextCard} className="p-3 rounded-full glass hover:scale-110 transition-transform">→</button>
+          </div>
+        </div>
+
+        <div className="perspective-1000 w-full max-w-2xl mx-auto h-96 cursor-pointer" onClick={flipCard}>
+          <div className={`relative w-full h-full transition-transform duration-600 transform-style-3d ${isFlipped ? 'rotate-y-180' : ''}`}>
+            <div className="absolute inset-0 backface-hidden bg-gradient-to-br from-purple-600 to-pink-600 rounded-2xl flex flex-col items-center justify-center p-8 shadow-2xl">
+              <p className="text-sm uppercase tracking-widest mb-4 opacity-80">Bahasa Indonesia</p>
+              <h2 className="text-4xl md:text-5xl font-bold text-center">{item.id_lang || '-'}</h2>
+              <p className="text-sm mt-8 opacity-60">Tap untuk melihat jawaban</p>
+            </div>
+
+            <div className="absolute inset-0 backface-hidden bg-gradient-to-br from-pink-600 to-red-600 rounded-2xl flex flex-col items-center justify-center p-8 shadow-2xl rotate-y-180">
+              <div className="text-center w-full">
+                <p className="text-xs uppercase tracking-widest mb-2 opacity-80">English</p>
+                <h3 className="text-3xl font-bold mb-4">{item.en || '-'}</h3>
+                <div className="border-t border-white/30 my-3"></div>
+                <p className="text-xs uppercase tracking-widest mb-2 opacity-80">العربية (Arabic)</p>
+                <h3 className="text-4xl font-bold text-right" dir="rtl">{item.ar || '-'}</h3>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="flex justify-center gap-3 mt-8 flex-wrap">
+          <button onClick={() => playAudio(item.en, 'en')} className="speaker-btn px-5 py-3 rounded-full glass hover:scale-105 transition-transform flex items-center gap-2">🔊 English</button>
+          <button onClick={() => playAudio(item.ar, 'ar')} className="speaker-btn px-5 py-3 rounded-full glass hover:scale-105 transition-transform flex items-center gap-2">🔊 العربية</button>
+          <button onClick={() => toggleBookmark(item.id)} className="px-5 py-3 rounded-full glass hover:scale-105 transition-transform flex items-center gap-2">
+            {isBookmarked ? '⭐ Tersimpan' : '☆ Favorit'}
+          </button>
+        </div>
+
+        <div className="flex justify-center gap-3 mt-4">
+          <button onClick={() => rateCard(false)} className="px-6 py-3 rounded-full bg-red-500/20 border border-red-500/50 hover:bg-red-500/40 transition-colors">😓 Sulit</button>
+          <button onClick={() => rateCard(true)} className="px-6 py-3 rounded-full bg-green-500/20 border border-green-500/50 hover:bg-green-500/40 transition-colors">😊 Mudah</button>
+        </div>
+
+        {(item.ex_en || item.ex_ar) && (
+          <div className="max-w-2xl mx-auto mt-8 glass rounded-2xl p-6 text-center">
+            <p className="text-xs uppercase text-gray-400 mb-3">Contoh Kalimat</p>
+            <p className="text-lg mb-2 text-blue-200">{item.ex_en}</p>
+            <p className="text-2xl text-pink-200 text-right" dir="rtl">{item.ex_ar}</p>
+            <div className="flex justify-center gap-2 mt-4">
+              <button onClick={() => playAudio(item.ex_en, 'en')} className="speaker-btn px-4 py-2 rounded-lg glass text-sm hover:scale-105 transition-transform">🔊 EN</button>
+              <button onClick={() => playAudio(item.ex_ar, 'ar')} className="speaker-btn px-4 py-2 rounded-lg glass text-sm hover:scale-105 transition-transform">🔊 AR</button>
+            </div>
+          </div>
+        )}
+      </div>
+    );
+  };
+
+  const renderQuiz = () => {
+    if (quizData.length === 0) {
+      return (
+        <div className="max-w-2xl mx-auto text-center">
+          <div className="glass rounded-2xl p-8">
+            <div className="text-6xl mb-4">🎯</div>
+            <h2 className="text-2xl font-bold mb-4">Quiz Mode</h2>
+            <button onClick={startQuiz} className="px-6 py-3 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 font-semibold hover:scale-105 transition-transform">
+               Mulai Kuis
+            </button>
+          </div>
+        </div>
+      );
+    }
+
+    if (quizIndex >= quizData.length) {
+      const pct = Math.round((quizScore / quizData.length) * 100);
+      return (
+        <div className="max-w-2xl mx-auto text-center">
+          <div className="glass rounded-2xl p-8">
+            <div className="text-6xl mb-4">{pct >= 80 ? '🏆' : pct >= 60 ? '🎉' : '📚'}</div>
+            <h2 className="text-3xl font-bold mb-2">{pct >= 80 ? 'Luar Biasa!' : pct >= 60 ? 'Bagus!' : 'Terus Berlatih!'}</h2>
+            <p className="text-gray-400 mb-6">Skor Anda: {quizScore}/{quizData.length} ({pct}%)</p>
+            <button onClick={startQuiz} className="px-6 py-3 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 font-semibold hover:scale-105 transition-transform">
+               🔄 Coba Lagi
+            </button>
+          </div>
+        </div>
+      );
+    }
+
+    const q = quizData[quizIndex];
+
+    return (
+      <div className="max-w-2xl mx-auto">
+        <div className="glass rounded-2xl p-8 text-center">
+          <div className="flex justify-between items-center mb-6">
+            <span className="text-sm text-gray-400">Soal {quizIndex + 1}/{quizData.length}</span>
+            <span className="text-sm font-semibold">Skor: <span className="text-green-400">{quizScore}</span></span>
+          </div>
+
+          <div className="mb-8">
+            <p className="text-sm text-gray-400 mb-2">Apa arti dari:</p>
+            <h2 className="text-4xl font-bold mb-2">{q.question}</h2>
+            {q.questionAr && <p className="text-3xl text-purple-300 mb-4 text-right" dir="rtl">{q.questionAr}</p>}
+            <button onClick={() => playAudio(q.question, 'en')} className="speaker-btn px-4 py-2 rounded-full glass text-sm hover:scale-105 transition-transform">🔊 Dengarkan</button>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            {q.options.map((opt, i) => (
+              <button
+                key={i}
+                onClick={() => answerQuiz(i)}
+                disabled={quizAnswered}
+                className={`p-4 rounded-xl glass hover:scale-105 transition-transform text-left font-medium ${
+                  quizAnswered && opt.correct ? 'bg-green-500/40 border-2 border-green-500' : ''
+                } ${quizAnswered && !opt.correct && i === q.options.findIndex(o => o.correct) ? 'bg-red-500/40 border-2 border-red-500' : ''}`}
+              >
+                {String.fromCharCode(65 + i)}. {opt.text}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  const renderListen = () => {
+    if (listenData.length === 0) {
+      return (
+        <div className="max-w-2xl mx-auto text-center">
+          <div className="glass rounded-2xl p-8">
+            <h2 className="text-2xl font-bold mb-2">🎧 Listen & Learn</h2>
+            <p className="text-gray-400 text-sm mb-8">Dengarkan dan tebak artinya</p>
+            <button onClick={startListen} className="px-6 py-3 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 font-semibold hover:scale-105 transition-transform">
+               Mulai
+            </button>
+          </div>
+        </div>
+      );
+    }
+
+    const item = listenData[listenIndex];
+
+    return (
+      <div className="max-w-2xl mx-auto">
+        <div className="glass rounded-2xl p-8 text-center">
+          <h2 className="text-2xl font-bold mb-2">🎧 Listen & Learn</h2>
+          <p className="text-gray-400 text-sm mb-8">Dengarkan dan tebak artinya</p>
+
+          <button onClick={() => playAudio(listenLang === 'en' ? item.en : item.ar, listenLang)} className="big-play-btn mx-auto mb-8 w-32 h-32 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 text-5xl hover:scale-110 transition-transform shadow-2xl">
+            🔊
+          </button>
+
+          <div className="flex gap-2 mb-6 justify-center">
+            <button onClick={() => setListenLang('en')} className={`px-4 py-2 rounded-full glass text-sm transition-all ${listenLang === 'en' ? 'bg-purple-500/40' : ''}`}>English</button>
+            <button onClick={() => setListenLang('ar')} className={`px-4 py-2 rounded-full glass text-sm transition-all ${listenLang === 'ar' ? 'bg-purple-500/40' : ''}`}>العربية</button>
+          </div>
+
+          <div className="grid grid-cols-2 gap-3">
+            {listenData.map((opt, i) => (
+              <button
+                key={i}
+                onClick={() => answerListen(i)}
+                disabled={listenAnswered}
+                className={`p-4 rounded-xl glass hover:scale-105 transition-transform font-medium ${
+                  listenAnswered && i === listenIndex ? 'bg-green-500/40' : ''
+                }`}
+              >
+                {opt.id_lang}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  const renderBookmarks = () => {
+    const bookmarkedData = allData.filter(item => bookmarks.includes(item.id));
+
+    return (
+      <div className="animate-fade-in">
+        <h2 className="text-2xl font-bold mb-6">⭐ Kosakata Favorit</h2>
+        {bookmarkedData.length === 0 ? (
+          <div className="text-center py-16 text-gray-400">
+            <div className="text-6xl mb-4">⭐</div>
+            <p>Belum ada kosakata favorit</p>
+            <p className="text-sm mt-2">Klik tombol ⭐ di mode Flashcard untuk menambahkan</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {bookmarkedData.map((item) => (
+              <div key={item.id} className="glass rounded-2xl p-6 hover:scale-105 transition-transform">
+                <div className="flex justify-between items-start mb-3">
+                  <span className="text-xs px-2 py-1 rounded-full bg-purple-500/20 text-purple-300">{item.category}</span>
+                  <button onClick={() => toggleBookmark(item.id)} className="text-yellow-400 hover:scale-110 transition-transform">⭐</button>
+                </div>
+                <h3 className="text-xl font-bold mb-1">{item.en}</h3>
+                <p className="text-2xl text-purple-300 mb-2 text-right" dir="rtl">{item.ar}</p>
+                <p className="text-gray-400 text-sm">{item.id_lang}</p>
+                <div className="flex gap-2 mt-4">
+                  <button onClick={() => playAudio(item.en, 'en')} className="flex-1 py-2 rounded-lg glass text-sm hover:scale-105 transition-transform">🔊 EN</button>
+                  <button onClick={() => playAudio(item.ar, 'ar')} className="flex-1 py-2 rounded-lg glass text-sm hover:scale-105 transition-transform">🔊 AR</button>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    );
+  };
+
+  const renderRoadmap = () => {
+    const filteredRoadmap = roadmapData.filter(item => item.language === roadmapLang);
+
+    const getLessonsForLevel = (level) => {
+      if (roadmapLang === 'Arabic') {
+        return nahwuLessons.filter(lesson => lesson.level === level);
+      } else {
+        return englishLessons.filter(lesson => lesson.level === level);
+      }
+    };
+
+    return (
+      <div className="animate-fade-in max-w-4xl mx-auto">
+        <div className="text-center mb-8">
+          <h2 className="text-3xl font-bold mb-2">🗺️ Roadmap Pembelajaran</h2>
+          <p className="text-gray-400">Pilih jalur belajar Anda</p>
+        </div>
+
+        <div className="flex justify-center gap-4 mb-8">
+          <button 
+            onClick={() => {
+              setRoadmapLang('English');
+              setExpandedLevel(null);
+            }}
+            className={`px-6 py-3 rounded-full font-semibold transition-all ${
+              roadmapLang === 'English' 
+                ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg' 
+                : 'glass hover:scale-105'
+            }`}
+          >
+             Bahasa Inggris
+          </button>
+          <button 
+            onClick={() => {
+              setRoadmapLang('Arabic');
+              setExpandedLevel(null);
+            }}
+            className={`px-6 py-3 rounded-full font-semibold transition-all ${
+              roadmapLang === 'Arabic' 
+                ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg' 
+                : 'glass hover:scale-105'
+            }`}
+          >
+             🇸️ Bahasa Arab
+          </button>
+        </div>
+
+        <div className="space-y-4">
+          {filteredRoadmap.map((level, idx) => {
+            const lessons = getLessonsForLevel(level.level);
+            const isExpanded = expandedLevel === level.id;
+
+            return (
+              <div key={idx} className="glass rounded-2xl p-6 transition-all hover:scale-105">
+                <div className="flex items-start gap-4">
+                  <div className={`flex-shrink-0 w-16 h-16 rounded-full flex items-center justify-center text-2xl ${
+                    lessons.length > 0 ? 'bg-gradient-to-br from-purple-500 to-pink-500' : 'bg-gray-600'
+                  }`}>
+                    {lessons.length > 0 ? '📚' : '🔒'}
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="text-xl font-bold mb-1">Level {level.level}: {level.title}</h3>
+                    <span className="text-xs px-2 py-1 rounded-full bg-purple-500/20 text-purple-300">{level.category}</span>
+                    <p className="text-gray-300 mt-2">{level.description}</p>
+                    
+                    <div className="mt-4">
+                      <div className="flex justify-between text-sm mb-1">
+                        <span>{lessons.length} materi tersedia</span>
+                        <span>{level.requiredWords} kata target</span>
+                      </div>
+                    </div>
+
+                    {lessons.length > 0 ? (
+                      <button 
+                        onClick={() => setExpandedLevel(isExpanded ? null : level.id)}
+                        className="mt-4 px-6 py-2 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 font-semibold hover:scale-105 transition-transform"
+                      >
+                        {isExpanded ? '🔼 Tutup' : '🚀 Mulai Belajar'}
+                      </button>
+                    ) : (
+                      <button 
+                        disabled
+                        className="mt-4 px-6 py-2 rounded-full bg-gray-600 font-semibold cursor-not-allowed"
+                      >
+                        🔒 Segera Hadir
+                      </button>
+                    )}
+                  </div>
+                </div>
+
+                {isExpanded && lessons.length > 0 && (
+                  <div className="mt-6 pt-6 border-t border-white/10 animate-fade-in">
+                    <h4 className="text-lg font-semibold mb-4 text-purple-300">
+                      📖 Daftar Materi - Level {level.level}
+                    </h4>
+                    <div className="space-y-3">
+                      {lessons.map((lesson, lIdx) => (
+                        <div key={lIdx} className="p-4 rounded-xl bg-black/20 border border-white/5 flex justify-between items-center">
+                          <div>
+                            <h5 className="font-bold text-white">{lesson.title}</h5>
+                            <p className="text-xs text-gray-400 mt-1">{lesson.description || 'Klik untuk melatih pelafalan materi ini'}</p>
+                          </div>
+                          <button 
+                            onClick={() => playAudio(lesson.title, roadmapLang === 'Arabic' ? 'ar' : 'en')}
+                            className="p-2.5 rounded-lg glass text-sm hover:scale-105 transition-all"
+                          >
+                            🔊 Putar
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    );
   };
 
   if (!mounted || loading) {
     return (
-      <div className="flex justify-center items-center h-64 text-white">
-        <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-purple-500 mr-3" />
-        <span>Memuat Modul Pro...</span>
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center justify-center text-white">
+        <div className="text-center">
+          <div className="w-16 h-16 border-4 border-white/20 border-t-purple-500 rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-lg font-semibold">Sinkronisasi LingoSpace Pro...</p>
+        </div>
       </div>
     );
   }
 
+  // --- Main Application View Wrapper ---
   return (
-    <div className="space-y-6 text-white max-w-4xl mx-auto p-4">
-      {/* Header Panel */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-gradient-to-r from-purple-900/60 to-indigo-900/60 p-6 rounded-2xl border border-purple-500/30 shadow-xl backdrop-blur-md">
-        <div>
-          <button 
-            onClick={onBack}
-            className="text-sm text-purple-300 hover:text-white transition flex items-center gap-1 mb-2"
-          >
-            ← Kembali ke Dashboard
-          </button>
-          <h2 className="text-2xl md:text-3xl font-black bg-clip-text text-transparent bg-gradient-to-r from-purple-300 to-pink-300">
-            {level.title}
-          </h2>
-          <p className="text-gray-300 text-sm md:text-base mt-1">{level.description}</p>
-        </div>
-        
-        {/* SRS Mini Trackers */}
-        <div className="flex gap-3 bg-black/30 p-3 rounded-xl border border-white/5 self-start md:self-center">
-          <div className="text-center px-2">
-            <span className="block text-xs text-gray-400">Baru</span>
-            <span className="text-sm font-bold text-blue-400">{stats.newWords}</span>
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white font-sans selection:bg-purple-500/30">
+      
+      {/* 1. Global Navigation Bar */}
+      <header className="border-b border-white/10 bg-slate-900/80 backdrop-blur-md sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+          <div className="flex items-center gap-2 cursor-pointer" onClick={() => switchMode('dashboard')}>
+            <span className="text-2xl">🌌</span>
+            <span className="font-black tracking-wider text-xl bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">LINGOSPACE PRO</span>
           </div>
-          <div className="w-[1px] bg-white/10 self-stretch" />
-          <div className="text-center px-2">
-            <span className="block text-xs text-gray-400">Belajar</span>
-            <span className="text-sm font-bold text-yellow-400">{stats.learning}</span>
-          </div>
-          <div className="w-[1px] bg-white/10 self-stretch" />
-          <div className="text-center px-2">
-            <span className="block text-xs text-gray-400">Master</span>
-            <span className="text-sm font-bold text-green-400">{stats.mastered}</span>
-          </div>
-        </div>
-      </div>
-
-      {/* Main Sandbox Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        
-        {/* KIRI: Interactive Challenge Area */}
-        <div className="lg:col-span-7 bg-white/5 border border-white/10 rounded-2xl p-6 backdrop-blur-sm flex flex-col justify-between min-h-[400px]">
-          {quizData.length === 0 ? (
-            <div className="flex flex-col items-center justify-center text-center py-12 flex-1">
-              <BookOpen className="w-12 h-12 text-purple-400 mb-3 animate-pulse" />
-              <p className="text-gray-400">Belum ada data kuis untuk level ini.</p>
-            </div>
-          ) : quizIndex >= quizData.length ? (
-            /* LAYAR SKOR AKHIR */
-            <div className="text-center py-8 flex flex-col items-center justify-center flex-1 animate-fade-in">
-              <div className="bg-gradient-to-tr from-yellow-400 to-amber-500 p-4 rounded-full shadow-lg shadow-yellow-500/20 mb-4 animate-bounce">
-                <Award className="w-12 h-12 text-black" />
-              </div>
-              <h3 className="text-2xl font-bold text-amber-300">Sesi Latihan Selesai!</h3>
-              <p className="text-gray-300 mt-2">
-                Skor Anda: <span className="text-white font-black text-xl">{score}</span> dari {quizData.length} soal benar.
-              </p>
-              <p className="text-xs text-purple-300 max-w-sm mt-2">
-                Sistem Spaced Repetition otomatis mengadaptasi interval memori Anda berdasarkan hasil tadi!
-              </p>
-              <button 
-                onClick={resetQuiz}
-                className="mt-6 flex items-center gap-2 bg-purple-600 hover:bg-purple-500 px-5 py-2.5 rounded-xl font-medium tracking-wide transition shadow-lg shadow-purple-600/30"
+          <nav className="flex items-center gap-1 sm:gap-2">
+            {['dashboard', 'flashcard', 'quiz', 'listen', 'bookmarks', 'roadmap'].map((mode) => (
+              <button
+                key={mode}
+                onClick={() => switchMode(mode)}
+                className={`px-3 py-1.5 rounded-lg text-xs md:text-sm font-medium transition-all capitalize ${
+                  currentMode === mode ? 'bg-purple-600 text-white shadow-lg shadow-purple-600/30' : 'text-gray-400 hover:text-white hover:bg-white/5'
+                }`}
               >
-                <RotateCcw className="w-4 h-4" /> Ulangi Sesi
+                {mode}
               </button>
-            </div>
-          ) : (
-            /* PROSES KUIS AKTIF */
-            <div className="flex flex-col justify-between flex-1">
-              <div>
-                {/* Progress Mini Bar */}
-                <div className="flex justify-between items-center text-xs text-gray-400 mb-4">
-                  <span className="font-mono">SOAL {quizIndex + 1} / {quizData.length}</span>
-                  <span className="bg-purple-950 text-purple-300 px-2 py-0.5 rounded-full border border-purple-800">
-                    Sesi Aktif
-                  </span>
-                </div>
-                
-                <div className="w-full bg-white/5 h-1.5 rounded-full mb-6 overflow-hidden">
-                  <div 
-                    className="bg-gradient-to-r from-purple-500 to-pink-500 h-full transition-all duration-300"
-                    style={{ width: `${((quizIndex + 1) / quizData.length) * 100}%` }}
-                  />
-                </div>
-
-                {/* Stimulus Utama */}
-                <div className="bg-black/20 rounded-xl p-8 text-center border border-white/5 mb-6 relative group">
-                  <span className="absolute top-3 right-3 text-xs tracking-widest text-white/20 font-mono uppercase">Target</span>
-                  <h3 className="text-4xl md:text-5xl font-bold text-right dir-rtl font-arabic text-amber-100 mb-4 drop-shadow">
-                    {quizData[quizIndex].arabic}
-                  </h3>
-                  <button 
-                    onClick={() => playAudio(quizData[quizIndex].arabic, "ar-SA")}
-                    className="mx-auto flex items-center gap-2 bg-white/10 hover:bg-white/20 text-xs px-3 py-1.5 rounded-full transition border border-white/10"
-                  >
-                    <Volume2 className="w-3.5 h-3.5" /> Dengarkan Audio
-                  </button>
-                </div>
-
-                {/* Grid Pilihan Jawaban */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  {quizData[quizIndex].options.map((option, idx) => {
-                    const isSelected = selectedAnswer === option;
-                    const isCorrect = option === quizData[quizIndex].correctAnswer;
-                    
-                    let btnStyle = "bg-white/5 border-white/10 text-gray-200 hover:bg-white/10";
-                    if (quizAnswered) {
-                      if (isCorrect) btnStyle = "bg-green-500/20 border-green-500 text-green-300 font-semibold";
-                      else if (isSelected) btnStyle = "bg-red-500/20 border-red-500 text-red-300";
-                      else btnStyle = "bg-white/5 border-white/5 text-gray-500 opacity-60";
-                    }
-
-                    return (
-                      <button
-                        key={idx}
-                        disabled={quizAnswered}
-                        onClick={() => answerQuiz(option)}
-                        className={`p-4 rounded-xl text-left border text-sm md:text-base transition-all duration-200 flex items-center justify-between ${btnStyle}`}
-                      >
-                        <span>{option}</span>
-                        {quizAnswered && isCorrect && <CheckCircle2 className="w-5 h-5 text-green-400 flex-shrink-0 ml-2" />}
-                        {quizAnswered && isSelected && !isCorrect && <XCircle className="w-5 h-5 text-red-400 flex-shrink-0 ml-2" />}
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-
-              {/* Status Feedback Bawah */}
-              {quizAnswered && (
-                <div className="mt-6 p-3 rounded-xl bg-black/40 border border-white/5 flex items-center justify-between animate-fade-in text-xs md:text-sm">
-                  <p className="text-gray-300">
-                    {selectedAnswer === quizData[quizIndex].correctAnswer ? (
-                      <span className="text-green-400 font-medium">✨ Jawaban Benar!</span>
-                    ) : (
-                      <span>
-                        Jawaban tepat: <span className="text-amber-300 font-medium">{quizData[quizIndex].correctAnswer}</span>
-                      </span>
-                    )}
-                  </p>
-                  <span className="text-gray-500 italic flex items-center gap-1 animate-pulse">
-                    Melangkah maju <ArrowRight className="w-3 h-3" />
-                  </span>
-                </div>
-              )}
-            </div>
-          )}
+            ))}
+            <Link 
+              href="/blog" 
+              className="ml-2 px-3 py-1.5 rounded-lg text-xs md:text-sm font-bold bg-gradient-to-r from-pink-500 to-rose-500 text-white hover:opacity-90 transition-opacity"
+            >
+              📰 Blog
+            </Link>
+          </nav>
         </div>
+      </header>
 
-        {/* KANAN: Panduan Singkat Level */}
-        <div className="lg:col-span-5 space-y-4">
-          <div className="bg-gradient-to-b from-white/5 to-transparent border border-white/10 rounded-2xl p-6 backdrop-blur-sm">
-            <div className="flex items-center gap-2 mb-4 text-purple-400">
-              <Layers className="w-5 h-5" />
-              <h3 className="font-bold text-lg">Metode LingoSpace Pro</h3>
+      {/* 2. Main Area (Content Injection) */}
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        
+        {/* Real-time Vocab Search & Filter (Hanya muncul di mode tertentu) */}
+        {['flashcard', 'bookmarks'].includes(currentMode) && (
+          <div className="glass rounded-2xl p-4 mb-6 flex flex-col md:flex-row gap-4 items-center justify-between">
+            <div className="relative w-full md:w-72">
+              <input
+                type="text"
+                placeholder="Cari kata (EN, AR, ID)..."
+                value={searchInput}
+                onChange={(e) => setSearchInput(e.target.value)}
+                className="w-full bg-black/20 border border-white/10 rounded-xl px-4 py-2 text-sm focus:outline-none focus:border-purple-500 text-white placeholder-gray-500"
+              />
             </div>
-            
-            <ul className="space-y-3 text-sm text-gray-300">
-              <li className="flex gap-2.5 items-start">
-                <div className="w-1.5 h-1.5 rounded-full bg-purple-400 mt-1.5 flex-shrink-0" />
-                <span>Setiap jawaban kuis Anda akan dianalisis secara real-time oleh algoritma SRS internal.</span>
-              </li>
-              <li className="flex gap-2.5 items-start">
-                <div className="w-1.5 h-1.5 rounded-full bg-purple-400 mt-1.5 flex-shrink-0" />
-                <span>Kata yang salah dijawab otomatis diturunkan peringkat memorinya agar lebih sering diujikan kembali.</span>
-              </li>
-              <li className="flex gap-2.5 items-start">
-                <div className="w-1.5 h-1.5 rounded-full bg-purple-400 mt-1.5 flex-shrink-0" />
-                <span>Klik tombol daftar materi di bawah ini untuk mengulang pelafalan mandiri kapan saja.</span>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      {/* FOOTER COLLAPSIBLE: Kamus Kosakata Komplit */}
-      <div className="bg-white/5 border border-white/10 rounded-2xl p-6 backdrop-blur-sm">
-        <button 
-          onClick={() => setIsExpanded(!isExpanded)}
-          className="w-full flex items-center justify-between text-left focus:outline-none"
-        >
-          <div className="flex items-center gap-2">
-            <BookOpen className="w-5 h-5 text-pink-400" />
-            <h3 className="font-bold text-lg">
-              Kamus Kosa Kata Level Ini ({lessons.length} Item)
-            </h3>
-          </div>
-          {isExpanded ? <ChevronUp className="w-5 h-5 text-gray-400" /> : <ChevronDown className="w-5 h-5 text-gray-400" />}
-        </button>
-
-        {isExpanded && lessons.length === 0 && (
-          <p className="text-gray-400 text-sm mt-4 text-center py-4">Tidak ada materi terdaftar pada level ini.</p>
-        )}
-
-        {isExpanded && lessons.length > 0 && (
-          <div className="mt-6 pt-6 border-t border-white/10 animate-fade-in">
-            <h4 className="text-lg font-semibold mb-4 text-purple-300">
-              📖 Daftar Materi - Level {level.level}
-            </h4>
-            <div className="space-y-3 max-h-96 overflow-y-auto pr-2 custom-scrollbar">
-              {lessons.map((item, idx) => {
-                // Ambil stage saat ini dari localStorage
-                const srsKey = `srs_${item.id}`;
-                let currentStage = 0;
-                if (typeof window !== "undefined") {
-                  const srsData = localStorage.getItem(srsKey);
-                  if (srsData) currentStage = JSON.parse(srsData).stage || 0;
-                }
-
-                return (
-                  <div 
-                    key={item.id || idx}
-                    className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-black/20 border border-white/5 p-4 rounded-xl hover:border-purple-500/40 transition-all duration-200"
-                  >
-                    <div className="flex items-center gap-4">
-                      <button 
-                        onClick={() => playAudio(item.arabic, "ar-SA")}
-                        className="bg-purple-600/20 hover:bg-purple-600/40 text-purple-300 p-2.5 rounded-lg transition border border-purple-500/20"
-                        title="Putar Audio Arab"
-                      >
-                        <Play className="w-4 h-4 fill-current" />
-                      </button>
-                      <div>
-                        <p className="text-xl font-bold text-amber-100 font-arabic text-right sm:text-left dir-rtl">
-                          {item.arabic}
-                        </p>
-                        <p className="text-sm text-gray-300 mt-0.5">
-                          {item.english} <span className="text-gray-500 mx-1">•</span> <span className="text-xs text-gray-400 italic">{item.indonesian || "N/A"}</span>
-                        </p>
-                      </div>
-                    </div>
-
-                    {/* Badge Status Review */}
-                    <div className="flex items-center gap-2 self-end sm:self-center">
-                      <span className={`text-xs px-2.5 py-1 rounded-full border ${
-                        currentStage >= 5 ? "bg-green-500/10 border-green-500/30 text-green-400" :
-                        currentStage > 0 ? "bg-yellow-500/10 border-yellow-500/30 text-yellow-400" :
-                        "bg-blue-500/10 border-blue-500/30 text-blue-400"
-                      }`}>
-                        {currentStage >= 5 ? "Mastered" : currentStage > 0 ? `Learning (Lvl ${currentStage})` : "New Word"}
-                      </span>
-                    </div>
-                  </div>
-                );
-              })}
+            <div className="flex gap-2 w-full md:w-auto overflow-x-auto pb-1 md:pb-0">
+              <button 
+                onClick={() => setCategoryFilter('all')} 
+                className={`px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-all ${categoryFilter === 'all' ? 'bg-purple-500/20 text-purple-300 border border-purple-500/40' : 'glass text-gray-400'}`}
+              >
+                Semua Kategori
+              </button>
+              {categories.map((cat, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => setCategoryFilter(cat)}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-all ${categoryFilter === cat ? 'bg-purple-500/20 text-purple-300 border border-purple-500/40' : 'glass text-gray-400'}`}
+                >
+                  {cat}
+                </button>
+              ))}
             </div>
           </div>
         )}
-      </div>
+
+        {/* Render Switch Condition */}
+        {currentMode === 'dashboard' && renderDashboard()}
+        {currentMode === 'flashcard' && renderFlashcard()}
+        {currentMode === 'quiz' && renderQuiz()}
+        {currentMode === 'listen' && renderListen()}
+        {currentMode === 'bookmarks' && renderBookmarks()}
+        {currentMode === 'roadmap' && renderRoadmap()}
+      </main>
+
+      {/* 3. Global Footer System */}
+      <footer className="mt-20 border-t border-white/10 bg-slate-950/60 py-12 backdrop-blur-sm">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center md:flex md:items-center md:justify-between">
+          <p className="text-sm text-gray-500">&copy; 2026 LingoSpace Pro. Hak Cipta Dilindungi.</p>
+          <div className="flex justify-center gap-6 mt-4 md:mt-0 text-sm">
+            <Link href="/privacy-policy" className="text-gray-500 hover:text-gray-300 transition">Privacy Policy</Link>
+            <Link href="/terms" className="text-gray-500 hover:text-gray-300 transition">Terms of Service</Link>
+            <Link href="/about" className="text-gray-500 hover:text-gray-300 transition">About Us</Link>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
