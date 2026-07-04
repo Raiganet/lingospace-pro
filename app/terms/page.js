@@ -1,7 +1,14 @@
-export default function TermsOfService() {
+'use client';
+
+import Link from 'next/link';
+import Navbar from '../../components/Navbar';  // ← TAMBAHKAN INI
+
+export default function Terms() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white py-12">
-      <div className="max-w-4xl mx-auto px-6">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white">
+      <Navbar />  {/* ← TAMBAHKAN INI */}
+      
+      <div className="max-w-4xl mx-auto px-6 py-12">
         <h1 className="text-4xl font-bold mb-8 text-center">Terms of Service</h1>
         
         <div className="glass rounded-2xl p-8 space-y-6">
