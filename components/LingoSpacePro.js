@@ -2,22 +2,6 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { 
-  BookOpen, 
-  CheckCircle2, 
-  Bookmark, 
-  HelpCircle, 
-  Volume2, 
-  Compass, 
-  Search, 
-  Grid,
-  TrendingUp, 
-  Award, 
-  FolderIcon, 
-  ArrowRight, 
-  ChevronRight,
-  Sparkles
-} from 'lucide-react';
 
 export default function LingoSpacePro() {
   // --- State Management ---
@@ -219,6 +203,10 @@ export default function LingoSpacePro() {
     setIsFlipped(false);
   };
 
+  const flipCard = () => {
+    setIsFlipped(!isFlipped);
+  };
+
   const rateCard = (isCorrect) => {
     if (filteredData.length === 0) return;
     const item = filteredData[currentIndex];
@@ -306,16 +294,39 @@ export default function LingoSpacePro() {
     setListenAnswered(false);
   };
 
-  // --- Sub-views (UI Refactored) ---
+  // --- Sub-views (SVG Inline Components) ---
   const renderDashboard = () => (
     <div className="space-y-8 animate-fade-in">
-      {/* 4 Cards Stats Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
         {[
-          { label: 'Total Kosakata', val: stats.totalWords, icon: <BookOpen className="w-5 h-5 text-blue-400" />, bg: 'from-blue-500/10 to-indigo-500/5', border: 'border-blue-500/20' },
-          { label: 'Dikuasai (Mastered)', val: stats.mastered, icon: <CheckCircle2 className="w-5 h-5 text-emerald-400" />, bg: 'from-emerald-500/10 to-teal-500/5', border: 'border-emerald-500/20' },
-          { label: 'Sedang Dipelajari', val: stats.learning, icon: <TrendingUp className="w-5 h-5 text-amber-400" />, bg: 'from-amber-500/10 to-orange-500/5', border: 'border-amber-500/20' },
-          { label: 'Rata-rata Akurasi', val: `${stats.accuracy}%`, icon: <Award className="w-5 h-5 text-purple-400" />, bg: 'from-purple-500/10 to-pink-500/5', border: 'border-purple-500/20' }
+          { 
+            label: 'Total Kosakata', 
+            val: stats.totalWords, 
+            icon: <svg className="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>, 
+            bg: 'from-blue-500/10 to-indigo-500/5', 
+            border: 'border-blue-500/20' 
+          },
+          { 
+            label: 'Dikuasai (Mastered)', 
+            val: stats.mastered, 
+            icon: <svg className="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>, 
+            bg: 'from-emerald-500/10 to-teal-500/5', 
+            border: 'border-emerald-500/20' 
+          },
+          { 
+            label: 'Sedang Dipelajari', 
+            val: stats.learning, 
+            icon: <svg className="w-5 h-5 text-amber-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg>, 
+            bg: 'from-amber-500/10 to-orange-500/5', 
+            border: 'border-amber-500/20' 
+          },
+          { 
+            label: 'Rata-rata Akurasi', 
+            val: `${stats.accuracy}%`, 
+            icon: <svg className="w-5 h-5 text-purple-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" /></svg>, 
+            bg: 'from-purple-500/10 to-pink-500/5', 
+            border: 'border-purple-500/20' 
+          }
         ].map((c, i) => (
           <div key={i} className={`relative bg-gradient-to-br ${c.bg} border ${c.border} rounded-2xl p-6 backdrop-blur-md shadow-xl transition-all duration-300 hover:-translate-y-1`}>
             <div className="flex items-center justify-between mb-4">
@@ -330,7 +341,7 @@ export default function LingoSpacePro() {
       {/* Progress Section */}
       <div className="bg-slate-900/40 border border-slate-800 rounded-2xl p-6 backdrop-blur-md shadow-xl">
         <div className="flex items-center gap-2 mb-6">
-          <TrendingUp className="w-4 h-4 text-purple-400" />
+          <svg className="w-4 h-4 text-purple-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg>
           <h3 className="text-base font-bold tracking-wide">Analisis Progres Memori (SRS)</h3>
         </div>
         <div className="space-y-5">
@@ -358,7 +369,7 @@ export default function LingoSpacePro() {
       {/* Badges Pencapaian */}
       <div className="bg-slate-900/40 border border-slate-800 rounded-2xl p-6 backdrop-blur-md shadow-xl">
         <div className="flex items-center gap-2 mb-4">
-          <Award className="w-4 h-4 text-amber-400" />
+          <svg className="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222" /></svg>
           <h3 className="text-base font-bold tracking-wide">Pencapaian Pengguna</h3>
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
@@ -393,7 +404,6 @@ export default function LingoSpacePro() {
           </div>
         </div>
 
-        {/* Card Canvas Component */}
         <div className="perspective-1000 w-full h-80 relative cursor-pointer" onClick={flipCard}>
           <div className={`w-full h-full duration-500 transform-style-3d relative ${isFlipped ? 'rotate-y-180' : ''}`}>
             {/* Front Card */}
@@ -419,20 +429,21 @@ export default function LingoSpacePro() {
           </div>
         </div>
 
-        {/* Action Controls */}
         <div className="grid grid-cols-3 gap-3">
           <button onClick={(e) => { e.stopPropagation(); playAudio(item.en, 'en'); }} className="p-3 rounded-xl bg-slate-900/60 border border-slate-800 hover:bg-slate-800 text-xs font-semibold flex items-center justify-center gap-2 transition">
-            <Volume2 className="w-4 h-4 text-blue-400" /> English Audio
+            <svg className="w-4 h-4 text-blue-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" /></svg> 
+            English Audio
           </button>
           <button onClick={(e) => { e.stopPropagation(); playAudio(item.ar, 'ar'); }} className="p-3 rounded-xl bg-slate-900/60 border border-slate-800 hover:bg-slate-800 text-xs font-semibold flex items-center justify-center gap-2 transition">
-            <Volume2 className="w-4 h-4 text-amber-400" /> Arabic Audio
+            <svg className="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" /></svg> 
+            Arabic Audio
           </button>
           <button onClick={(e) => { e.stopPropagation(); toggleBookmark(item.id); }} className="p-3 rounded-xl bg-slate-900/60 border border-slate-800 hover:bg-slate-800 text-xs font-semibold flex items-center justify-center gap-2 transition">
-            <Bookmark className={`w-4 h-4 ${isBookmarked ? 'fill-yellow-400 text-yellow-400' : 'text-slate-400'}`} /> {isBookmarked ? 'Tersimpan' : 'Simpan'}
+            <svg className={`w-4 h-4 ${isBookmarked ? 'fill-yellow-400 text-yellow-400' : 'text-slate-400'}`} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" /></svg> 
+            {isBookmarked ? 'Tersimpan' : 'Simpan'}
           </button>
         </div>
 
-        {/* SRS Rating Actions */}
         <div className="bg-slate-900/40 p-4 border border-slate-800 rounded-xl flex items-center justify-between gap-4">
           <span className="text-xs text-slate-400">Bagaimana tingkat kesulitan kosa kata ini bagi Anda?</span>
           <div className="flex gap-2">
@@ -441,7 +452,6 @@ export default function LingoSpacePro() {
           </div>
         </div>
 
-        {/* Context Sentence */}
         {(item.ex_en || item.ex_ar) && (
           <div className="bg-slate-900/40 border border-slate-800 rounded-2xl p-6 space-y-4 shadow-lg">
             <span className="text-xxs text-purple-400 uppercase font-black tracking-widest">Contoh Penggunaan Kalimat</span>
@@ -459,7 +469,7 @@ export default function LingoSpacePro() {
     if (quizData.length === 0) {
       return (
         <div className="max-w-md mx-auto text-center p-8 bg-slate-900/40 border border-slate-800 rounded-2xl shadow-xl backdrop-blur-md">
-          <HelpCircle className="w-12 h-12 text-purple-400 mx-auto mb-4" />
+          <svg className="w-12 h-12 text-purple-400 mx-auto mb-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
           <h2 className="text-xl font-bold mb-2">Quiz Evaluasi</h2>
           <p className="text-slate-400 text-xs mb-6">Uji pemahaman memori Anda dari 10 soal acak kategori aktif.</p>
           <button onClick={startQuiz} className="w-full py-3 bg-gradient-to-r from-purple-500 to-indigo-600 font-bold text-sm rounded-xl hover:opacity-90 transition shadow-lg shadow-purple-500/20">
@@ -473,7 +483,7 @@ export default function LingoSpacePro() {
       const percentage = Math.round((quizScore / quizData.length) * 100);
       return (
         <div className="max-w-md mx-auto text-center p-8 bg-slate-900/40 border border-slate-800 rounded-2xl shadow-xl backdrop-blur-md">
-          <Award className="w-14 h-14 text-amber-400 mx-auto mb-3" />
+          <svg className="w-14 h-14 text-amber-400 mx-auto mb-3" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
           <h2 className="text-2xl font-black tracking-tight text-white">Kuis Selesai!</h2>
           <p className="text-slate-400 text-xs mt-1 mb-4">Hasil rekaman akurasi kuis Anda</p>
           <div className="text-4xl font-extrabold text-purple-400 font-mono mb-2">{percentage}%</div>
@@ -528,7 +538,7 @@ export default function LingoSpacePro() {
     if (listenData.length === 0) {
       return (
         <div className="max-w-md mx-auto text-center p-8 bg-slate-900/40 border border-slate-800 rounded-2xl shadow-xl">
-          <Volume2 className="w-12 h-12 text-pink-400 mx-auto mb-3" />
+          <svg className="w-12 h-12 text-pink-400 mx-auto mb-3" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" /></svg>
           <h2 className="text-xl font-bold mb-2">Listen & Learn</h2>
           <p className="text-slate-400 text-xs mb-6">Latih kepekaan mendengarkan pelafalan bahasa asing native audio.</p>
           <button onClick={startListen} className="w-full py-3 bg-gradient-to-r from-pink-500 to-purple-600 font-bold text-sm rounded-xl hover:opacity-90 transition">
@@ -583,7 +593,7 @@ export default function LingoSpacePro() {
 
         {bookmarkedData.length === 0 ? (
           <div className="text-center py-16 bg-slate-900/10 border border-dashed border-slate-800 rounded-2xl">
-            <Bookmark className="w-10 h-10 text-slate-600 mx-auto mb-3" />
+            <svg className="w-10 h-10 text-slate-600 mx-auto mb-3" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" /></svg>
             <p className="text-sm text-slate-400">Belum ada koleksi tersimpan.</p>
           </div>
         ) : (
@@ -682,22 +692,21 @@ export default function LingoSpacePro() {
   // --- Main View Wrapper ---
   return (
     <div className="min-h-screen bg-[#0b0f19] bg-radial-gradient text-slate-100 font-sans antialiased">
-      {/* Dynamic Header Navbar System */}
       <header className="sticky top-0 z-50 border-b border-slate-900 bg-[#0b0f19]/80 backdrop-blur-xl">
         <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
           <div className="flex items-center gap-2 cursor-pointer" onClick={() => switchMode('dashboard')}>
             <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-purple-500 to-pink-500 flex items-center justify-center shadow-lg shadow-purple-500/20">
-              <Sparkles className="w-4 h-4 text-white" />
+              <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" /></svg>
             </div>
             <span className="font-black text-sm tracking-widest bg-gradient-to-r from-white via-slate-200 to-slate-400 bg-clip-text text-transparent">LINGOSPACE PRO</span>
           </div>
           
           <nav className="flex items-center gap-1">
             {[
-              { id: 'dashboard', name: 'Dashboard', icon: <Grid className="w-3.5 h-3.5" /> },
-              { id: 'flashcard', name: 'Flashcard', icon: <FolderIcon className="w-3.5 h-3.5" /> },
-              { id: 'quiz', name: 'Quiz', icon: <HelpCircle className="w-3.5 h-3.5" /> },
-              { id: 'roadmap', name: 'Roadmap', icon: <Compass className="w-3.5 h-3.5" /> }
+              { id: 'dashboard', name: 'Dashboard', icon: <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2H6a2 2 0 01-2-2v-4zM14 16a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2h-2a2 2 0 01-2-2v-4z" /></svg> },
+              { id: 'flashcard', name: 'Flashcard', icon: <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" /></svg> },
+              { id: 'quiz', name: 'Quiz', icon: <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg> },
+              { id: 'roadmap', name: 'Roadmap', icon: <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" /></svg> }
             ].map((tab) => (
               <button
                 key={tab.id}
@@ -720,13 +729,11 @@ export default function LingoSpacePro() {
         </div>
       </header>
 
-      {/* Main Container Core */}
       <main className="max-w-6xl mx-auto px-4 py-8 space-y-6">
-        {/* Universal Sub-Header Toolbar Search */}
         {['flashcard', 'bookmarks'].includes(currentMode) && (
           <div className="bg-slate-900/40 border border-slate-800 p-3 rounded-xl flex flex-col sm:flex-row gap-3 items-center justify-between backdrop-blur-md">
             <div className="relative w-full sm:w-64">
-              <Search className="absolute left-3 top-2.5 w-4 h-4 text-slate-500" />
+              <svg className="absolute left-3 top-2.5 w-4 h-4 text-slate-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
               <input
                 type="text"
                 placeholder="Cari kata (EN, AR, ID)..."
@@ -756,7 +763,6 @@ export default function LingoSpacePro() {
           </div>
         )}
 
-        {/* Content Injector Conditional Routing */}
         <div className="min-h-[26rem]">
           {currentMode === 'dashboard' && renderDashboard()}
           {currentMode === 'flashcard' && renderFlashcard()}
@@ -767,7 +773,6 @@ export default function LingoSpacePro() {
         </div>
       </main>
 
-      {/* Shared Global Modern Footer */}
       <footer className="border-t border-slate-900/60 bg-slate-950/40 py-8 backdrop-blur-md mt-16 text-xs text-slate-500">
         <div className="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p>&copy; 2026 LingoSpace Pro Dashboard. All rights reserved.</p>
