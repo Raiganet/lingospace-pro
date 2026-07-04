@@ -1091,10 +1091,27 @@ export default function LingoSpacePro() {
         .btn-press:active {
           transform: scale(0.95);
         }
+                /* Hilangkan tombol spinner di semua input */
+        input[type="number"]::-webkit-outer-spin-button,
+        input[type="number"]::-webkit-inner-spin-button {
+          -webkit-appearance: none;
+          margin: 0;
+        }
+        
+        input[type="number"] {
+          -moz-appearance: textfield;
+        }
+        
+        /* Hilangkan tombol spinner di select */
+        select {
+          -webkit-appearance: none;
+          -moz-appearance: none;
+          appearance: none;
+        }
       `}</style>
 
       {/* Navigation - SERAGAM dengan Blog */}
-            {/* Navigation - SERAGAM dengan Blog */}
+               {/* Navigation - SERAGAM dengan Blog */}
       <nav className="glass-modern sticky top-0 z-50 px-6 py-3">
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center gap-4 flex-wrap">
@@ -1114,13 +1131,13 @@ export default function LingoSpacePro() {
             {/* Semua Tombol dalam Satu Container Scroll */}
             <div className="flex gap-2 overflow-x-auto flex-1">
               {[
-                { id: 'dashboard', label: '📊 Dashboard' },
+                { id: 'dashboard', label: ' Dashboard' },
                 { id: 'flashcard', label: '🎴 Flashcard' },
-                { id: 'quiz', label: '🎯 Quiz' },
+                { id: 'quiz', label: ' Quiz' },
                 { id: 'listen', label: '🎧 Listen' },
                 { id: 'bookmarks', label: '⭐ Favorit' },
                 { id: 'roadmap', label: '🗺️ Roadmap' },
-                { id: 'nahwu', label: '📖 Nahwu' },
+                { id: 'nahwu', label: ' Nahwu' },
                 { id: 'english', label: '📚 English' }
               ].map((mode) => (
                 <button
@@ -1136,7 +1153,7 @@ export default function LingoSpacePro() {
                 </button>
               ))}
               
-              {/* Blog Button - Dengan Efek Hover yang Sama */}
+              {/* Blog Button */}
               <Link 
                 href="/blog" 
                 className="px-4 py-2 rounded-full glass-modern hover:bg-white/10 transition-all duration-300 hover-lift btn-press text-sm font-semibold text-gray-300 whitespace-nowrap"
