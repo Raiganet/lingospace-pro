@@ -1012,7 +1012,7 @@ export default function LingoSpacePro() {
         .glass { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
       `}</style>
 
-      <nav className="glass sticky top-0 z-50 px-6 py-4">
+            <nav className="glass sticky top-0 z-50 px-6 py-4">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center font-bold text-xl">L</div>
@@ -1093,7 +1093,7 @@ export default function LingoSpacePro() {
         {currentMode === 'english' && renderEnglish()}
       </main>
 
-      {/* Footer */}
+          {/* Footer */}
       <footer className="glass border-t border-white/10 mt-16">
         <div className="max-w-7xl mx-auto px-6 py-12">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
