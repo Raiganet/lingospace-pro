@@ -373,77 +373,85 @@ export default function LingoSpacePro() {
     });
   };
 
-  // Render Functions (Dashboard, Flashcard, Quiz, Listen, Bookmarks, Roadmap, Nahwu, English)
-  const renderDashboard = () => (
-    // Modern Stats Cards dengan Icon Animation
-<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-  {[
-    { icon: '📚', value: stats.totalWords, label: 'Total Kosakata', color: 'from-blue-500 to-cyan-500' },
-    { icon: '✅', value: stats.mastered, label: 'Dikuasai', color: 'from-green-500 to-emerald-500' },
-    { icon: '📖', value: stats.learning, label: 'Dipelajari', color: 'from-yellow-500 to-orange-500' },
-    { icon: '🎯', value: `${stats.accuracy}%`, label: 'Akurasi', color: 'from-purple-500 to-pink-500' }
-  ].map((stat, idx) => (
-    <div key={idx} className="glass-modern rounded-2xl p-6 hover-lift cursor-pointer group">
-      <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${stat.color} flex items-center justify-center text-3xl mb-4 group-hover:scale-110 transition-transform duration-300 shadow-lg`}>
-        {stat.icon}
-      </div>
-      <div className="text-4xl font-bold mb-2 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
-        {stat.value}
-      </div>
-      <div className="text-sm text-gray-400">{stat.label}</div>
-    </div>
-  ))}
-</div>
+  // Render Functions
+  const renderDashboard = () => {
+    const masteredPct = stats.totalWords > 0 ? Math.round((stats.mastered / stats.totalWords) * 100) : 0;
+    const learningPct = stats.totalWords > 0 ? Math.round((stats.learning / stats.totalWords) * 100) : 0;
+    const newPct = stats.totalWords > 0 ? Math.round((stats.newWords / stats.totalWords) * 100) : 0;
 
-      // Modern Progress Bars dengan Gradient Animation
-<div className="glass-modern rounded-2xl p-6">
-  <h3 className="text-lg font-semibold mb-6 flex items-center gap-2">
-    <span>📈</span> Progress Belajar
-  </h3>
-  <div className="space-y-6">
-    {[
-      { label: 'Dikuasai', value: masteredPct, color: 'from-green-400 to-emerald-500' },
-      { label: 'Dipelajari', value: learningPct, color: 'from-yellow-400 to-orange-500' },
-      { label: 'Baru', value: newPct, color: 'from-blue-400 to-purple-500' }
-    ].map((item, idx) => (
-      <div key={idx}>
-        <div className="flex justify-between text-sm mb-2">
-          <span className="text-gray-300">{item.label}</span>
-          <span className="font-semibold text-white">{item.value}%</span>
+    return (
+      <div className="animate-fade-in">
+        {/* Modern Stats Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          {[
+            { icon: '📚', value: stats.totalWords, label: 'Total Kosakata', color: 'from-blue-500 to-cyan-500' },
+            { icon: '✅', value: stats.mastered, label: 'Dikuasai', color: 'from-green-500 to-emerald-500' },
+            { icon: '📖', value: stats.learning, label: 'Dipelajari', color: 'from-yellow-500 to-orange-500' },
+            { icon: '🎯', value: `${stats.accuracy}%`, label: 'Akurasi', color: 'from-purple-500 to-pink-500' }
+          ].map((stat, idx) => (
+            <div key={idx} className="glass-modern rounded-2xl p-6 hover-lift cursor-pointer group">
+              <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${stat.color} flex items-center justify-center text-3xl mb-4 group-hover:scale-110 transition-transform duration-300 shadow-lg`}>
+                {stat.icon}
+              </div>
+              <div className="text-4xl font-bold mb-2 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+                {stat.value}
+              </div>
+              <div className="text-sm text-gray-400">{stat.label}</div>
+            </div>
+          ))}
         </div>
-        <div className="h-3 bg-white/5 rounded-full overflow-hidden">
-          <div className={`h-full bg-gradient-to-r ${item.color} progress-animated rounded-full transition-all duration-500`} style={{ width: `${item.value}%` }}></div>
-        </div>
-      </div>
-    ))}
-  </div>
-</div>
 
-      // Achievement Cards dengan Badge Effect
-<div className="glass-modern rounded-2xl p-6">
-  <h3 className="text-lg font-semibold mb-6 flex items-center gap-2">
-    <span>🏆</span> Pencapaian
-  </h3>
-  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-    {[
-      { icon: '🌱', name: 'Pemula', req: stats.totalWords >= 1, color: 'from-green-400 to-emerald-500' },
-      { icon: '📚', name: 'Rajin', req: stats.mastered >= 5, color: 'from-blue-400 to-cyan-500' },
-      { icon: '🎯', name: 'Tepat', req: stats.accuracy >= 80, color: 'from-purple-400 to-pink-500' },
-      { icon: '⭐', name: 'Kolektor', req: stats.bookmarks >= 5, color: 'from-yellow-400 to-orange-500' }
-    ].map((ach, idx) => (
-      <div key={idx} className={`p-5 rounded-xl border transition-all duration-300 hover-lift ${
-        ach.req 
-          ? `bg-gradient-to-br ${ach.color}/20 border-white/20 shadow-lg` 
-          : 'glass opacity-40 grayscale'
-      }`}>
-        <div className="text-4xl mb-2 transform hover:scale-110 transition-transform">{ach.icon}</div>
-        <div className="font-semibold text-sm">{ach.name}</div>
-        {ach.req && <div className="text-xs text-green-400 mt-1">✓ Unlocked</div>}
+        {/* Modern Progress Bars */}
+        <div className="glass-modern rounded-2xl p-6 mb-8">
+          <h3 className="text-lg font-semibold mb-6 flex items-center gap-2">
+            <span>📈</span> Progress Belajar
+          </h3>
+          <div className="space-y-6">
+            {[
+              { label: 'Dikuasai', value: masteredPct, color: 'from-green-400 to-emerald-500' },
+              { label: 'Dipelajari', value: learningPct, color: 'from-yellow-400 to-orange-500' },
+              { label: 'Baru', value: newPct, color: 'from-blue-400 to-purple-500' }
+            ].map((item, idx) => (
+              <div key={idx}>
+                <div className="flex justify-between text-sm mb-2">
+                  <span className="text-gray-300">{item.label}</span>
+                  <span className="font-semibold text-white">{item.value}%</span>
+                </div>
+                <div className="h-3 bg-white/5 rounded-full overflow-hidden">
+                  <div className={`h-full bg-gradient-to-r ${item.color} progress-animated rounded-full transition-all duration-500`} style={{ width: `${item.value}%` }}></div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Modern Achievement Cards */}
+        <div className="glass-modern rounded-2xl p-6">
+          <h3 className="text-lg font-semibold mb-6 flex items-center gap-2">
+            <span>🏆</span> Pencapaian
+          </h3>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {[
+              { icon: '🌱', name: 'Pemula', req: stats.totalWords >= 1, color: 'from-green-400 to-emerald-500' },
+              { icon: '📚', name: 'Rajin', req: stats.mastered >= 5, color: 'from-blue-400 to-cyan-500' },
+              { icon: '🎯', name: 'Tepat', req: stats.accuracy >= 80, color: 'from-purple-400 to-pink-500' },
+              { icon: '⭐', name: 'Kolektor', req: stats.bookmarks >= 5, color: 'from-yellow-400 to-orange-500' }
+            ].map((ach, idx) => (
+              <div key={idx} className={`p-5 rounded-xl border transition-all duration-300 hover-lift ${
+                ach.req 
+                  ? `bg-gradient-to-br ${ach.color}/20 border-white/20 shadow-lg` 
+                  : 'glass opacity-40 grayscale'
+              }`}>
+                <div className="text-4xl mb-2 transform hover:scale-110 transition-transform">{ach.icon}</div>
+                <div className="font-semibold text-sm">{ach.name}</div>
+                {ach.req && <div className="text-xs text-green-400 mt-1">✓ Unlocked</div>}
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
-    ))}
-  </div>
-</div>
-  );
+    );
+  };
 
   const renderFlashcard = () => {
     const item = filteredData[currentIndex] || {};
@@ -457,9 +465,9 @@ export default function LingoSpacePro() {
             <p className="text-gray-400 text-sm">Klik kartu untuk membalik</p>
           </div>
           <div className="flex items-center gap-3">
-            <button onClick={prevCard} className="p-3 rounded-full glass hover:scale-110 transition-transform">←</button>
+            <button onClick={prevCard} className="p-3 rounded-full glass-modern hover:scale-110 transition-transform btn-press">←</button>
             <span className="text-sm font-semibold">{currentIndex + 1} / {filteredData.length}</span>
-            <button onClick={nextCard} className="p-3 rounded-full glass hover:scale-110 transition-transform">→</button>
+            <button onClick={nextCard} className="p-3 rounded-full glass-modern hover:scale-110 transition-transform btn-press">→</button>
           </div>
         </div>
 
@@ -484,26 +492,26 @@ export default function LingoSpacePro() {
         </div>
 
         <div className="flex justify-center gap-3 mt-8 flex-wrap">
-          <button onClick={() => playAudio(item.en, 'en')} className="speaker-btn px-5 py-3 rounded-full glass hover:scale-105 transition-transform flex items-center gap-2">🔊 English</button>
-          <button onClick={() => playAudio(item.ar, 'ar')} className="speaker-btn px-5 py-3 rounded-full glass hover:scale-105 transition-transform flex items-center gap-2">🔊 العربية</button>
-          <button onClick={() => toggleBookmark(item.id)} className="px-5 py-3 rounded-full glass hover:scale-105 transition-transform flex items-center gap-2">
+          <button onClick={() => playAudio(item.en, 'en')} className="speaker-btn px-5 py-3 rounded-full glass-modern hover:scale-105 transition-transform flex items-center gap-2 btn-press">🔊 English</button>
+          <button onClick={() => playAudio(item.ar, 'ar')} className="speaker-btn px-5 py-3 rounded-full glass-modern hover:scale-105 transition-transform flex items-center gap-2 btn-press">🔊 العربية</button>
+          <button onClick={() => toggleBookmark(item.id)} className="px-5 py-3 rounded-full glass-modern hover:scale-105 transition-transform flex items-center gap-2 btn-press">
             {isBookmarked ? '⭐ Tersimpan' : '☆ Favorit'}
           </button>
         </div>
 
         <div className="flex justify-center gap-3 mt-4">
-          <button onClick={() => rateCard(false)} className="px-6 py-3 rounded-full bg-red-500/20 border border-red-500/50 hover:bg-red-500/40 transition-colors">😓 Sulit</button>
-          <button onClick={() => rateCard(true)} className="px-6 py-3 rounded-full bg-green-500/20 border border-green-500/50 hover:bg-green-500/40 transition-colors">😊 Mudah</button>
+          <button onClick={() => rateCard(false)} className="px-6 py-3 rounded-full bg-red-500/20 border border-red-500/50 hover:bg-red-500/40 transition-colors btn-press">😓 Sulit</button>
+          <button onClick={() => rateCard(true)} className="px-6 py-3 rounded-full bg-green-500/20 border border-green-500/50 hover:bg-green-500/40 transition-colors btn-press">😊 Mudah</button>
         </div>
 
         {(item.ex_en || item.ex_ar) && (
-          <div className="max-w-2xl mx-auto mt-8 glass rounded-2xl p-6 text-center">
+          <div className="max-w-2xl mx-auto mt-8 glass-modern rounded-2xl p-6 text-center">
             <p className="text-xs uppercase text-gray-400 mb-3">Contoh Kalimat</p>
             <p className="text-lg mb-2 text-blue-200">{item.ex_en}</p>
             <p className="text-2xl text-pink-200 text-right" dir="rtl">{item.ex_ar}</p>
             <div className="flex justify-center gap-2 mt-4">
-              <button onClick={() => playAudio(item.ex_en, 'en')} className="speaker-btn px-4 py-2 rounded-lg glass text-sm hover:scale-105 transition-transform">🔊 EN</button>
-              <button onClick={() => playAudio(item.ex_ar, 'ar')} className="speaker-btn px-4 py-2 rounded-lg glass text-sm hover:scale-105 transition-transform">🔊 AR</button>
+              <button onClick={() => playAudio(item.ex_en, 'en')} className="speaker-btn px-4 py-2 rounded-lg glass-modern text-sm hover:scale-105 transition-transform btn-press">🔊 EN</button>
+              <button onClick={() => playAudio(item.ex_ar, 'ar')} className="speaker-btn px-4 py-2 rounded-lg glass-modern text-sm hover:scale-105 transition-transform btn-press">🔊 AR</button>
             </div>
           </div>
         )}
@@ -515,10 +523,10 @@ export default function LingoSpacePro() {
     if (quizData.length === 0) {
       return (
         <div className="max-w-2xl mx-auto text-center">
-          <div className="glass rounded-2xl p-8">
+          <div className="glass-modern rounded-2xl p-8">
             <div className="text-6xl mb-4">🎯</div>
             <h2 className="text-2xl font-bold mb-4">Quiz Mode</h2>
-            <button onClick={startQuiz} className="px-6 py-3 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 font-semibold hover:scale-105 transition-transform">
+            <button onClick={startQuiz} className="px-6 py-3 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 font-semibold hover:scale-105 transition-transform btn-press">
                Mulai Kuis
             </button>
           </div>
@@ -530,11 +538,11 @@ export default function LingoSpacePro() {
       const pct = Math.round((quizScore / quizData.length) * 100);
       return (
         <div className="max-w-2xl mx-auto text-center">
-          <div className="glass rounded-2xl p-8">
+          <div className="glass-modern rounded-2xl p-8">
             <div className="text-6xl mb-4">{pct >= 80 ? '🏆' : pct >= 60 ? '🎉' : '📚'}</div>
             <h2 className="text-3xl font-bold mb-2">{pct >= 80 ? 'Luar Biasa!' : pct >= 60 ? 'Bagus!' : 'Terus Berlatih!'}</h2>
             <p className="text-gray-400 mb-6">Skor Anda: {quizScore}/{quizData.length} ({pct}%)</p>
-            <button onClick={startQuiz} className="px-6 py-3 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 font-semibold hover:scale-105 transition-transform">
+            <button onClick={startQuiz} className="px-6 py-3 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 font-semibold hover:scale-105 transition-transform btn-press">
               🔄 Coba Lagi
             </button>
           </div>
@@ -546,7 +554,7 @@ export default function LingoSpacePro() {
 
     return (
       <div className="max-w-2xl mx-auto">
-        <div className="glass rounded-2xl p-8 text-center">
+        <div className="glass-modern rounded-2xl p-8 text-center">
           <div className="flex justify-between items-center mb-6">
             <span className="text-sm text-gray-400">Soal {quizIndex + 1}/{quizData.length}</span>
             <span className="text-sm font-semibold">Skor: <span className="text-green-400">{quizScore}</span></span>
@@ -556,7 +564,7 @@ export default function LingoSpacePro() {
             <p className="text-sm text-gray-400 mb-2">Apa arti dari:</p>
             <h2 className="text-4xl font-bold mb-2">{q.question}</h2>
             {q.questionAr && <p className="text-3xl text-purple-300 mb-4 text-right" dir="rtl">{q.questionAr}</p>}
-            <button onClick={() => playAudio(q.question, 'en')} className="speaker-btn px-4 py-2 rounded-full glass text-sm hover:scale-105 transition-transform">🔊 Dengarkan</button>
+            <button onClick={() => playAudio(q.question, 'en')} className="speaker-btn px-4 py-2 rounded-full glass-modern text-sm hover:scale-105 transition-transform btn-press">🔊 Dengarkan</button>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -565,7 +573,7 @@ export default function LingoSpacePro() {
                 key={i}
                 onClick={() => answerQuiz(i)}
                 disabled={quizAnswered}
-                className={`p-4 rounded-xl glass hover:scale-105 transition-transform text-left font-medium ${
+                className={`p-4 rounded-xl glass-modern hover:scale-105 transition-transform text-left font-medium btn-press ${
                   quizAnswered && opt.correct ? 'bg-green-500/40 border-2 border-green-500' : ''
                 } ${quizAnswered && !opt.correct && i === q.options.findIndex(o => o.correct) ? 'bg-red-500/40 border-2 border-red-500' : ''}`}
               >
@@ -582,10 +590,10 @@ export default function LingoSpacePro() {
     if (listenData.length === 0) {
       return (
         <div className="max-w-2xl mx-auto text-center">
-          <div className="glass rounded-2xl p-8">
+          <div className="glass-modern rounded-2xl p-8">
             <h2 className="text-2xl font-bold mb-2">🎧 Listen & Learn</h2>
             <p className="text-gray-400 text-sm mb-8">Dengarkan dan tebak artinya</p>
-            <button onClick={startListen} className="px-6 py-3 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 font-semibold hover:scale-105 transition-transform">
+            <button onClick={startListen} className="px-6 py-3 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 font-semibold hover:scale-105 transition-transform btn-press">
                Mulai
             </button>
           </div>
@@ -597,17 +605,17 @@ export default function LingoSpacePro() {
 
     return (
       <div className="max-w-2xl mx-auto">
-        <div className="glass rounded-2xl p-8 text-center">
+        <div className="glass-modern rounded-2xl p-8 text-center">
           <h2 className="text-2xl font-bold mb-2">🎧 Listen & Learn</h2>
           <p className="text-gray-400 text-sm mb-8">Dengarkan dan tebak artinya</p>
 
-          <button onClick={() => playAudio(listenLang === 'en' ? item.en : item.ar, listenLang)} className="big-play-btn mx-auto mb-8 w-32 h-32 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 text-5xl hover:scale-110 transition-transform shadow-2xl">
+          <button onClick={() => playAudio(listenLang === 'en' ? item.en : item.ar, listenLang)} className="big-play-btn mx-auto mb-8 w-32 h-32 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 text-5xl hover:scale-110 transition-transform shadow-2xl btn-press">
             🔊
           </button>
 
           <div className="flex gap-2 mb-6 justify-center">
-            <button onClick={() => setListenLang('en')} className={`px-4 py-2 rounded-full glass text-sm transition-all ${listenLang === 'en' ? 'bg-purple-500/40' : ''}`}>English</button>
-            <button onClick={() => setListenLang('ar')} className={`px-4 py-2 rounded-full glass text-sm transition-all ${listenLang === 'ar' ? 'bg-purple-500/40' : ''}`}>العربية</button>
+            <button onClick={() => setListenLang('en')} className={`px-4 py-2 rounded-full glass-modern text-sm transition-all btn-press ${listenLang === 'en' ? 'bg-purple-500/40' : ''}`}>English</button>
+            <button onClick={() => setListenLang('ar')} className={`px-4 py-2 rounded-full glass-modern text-sm transition-all btn-press ${listenLang === 'ar' ? 'bg-purple-500/40' : ''}`}>العربية</button>
           </div>
 
           <div className="grid grid-cols-2 gap-3">
@@ -616,7 +624,7 @@ export default function LingoSpacePro() {
                 key={i}
                 onClick={() => answerListen(i)}
                 disabled={listenAnswered}
-                className={`p-4 rounded-xl glass hover:scale-105 transition-transform font-medium ${
+                className={`p-4 rounded-xl glass-modern hover:scale-105 transition-transform font-medium btn-press ${
                   listenAnswered && i === listenIndex ? 'bg-green-500/40' : ''
                 }`}
               >
@@ -644,7 +652,7 @@ export default function LingoSpacePro() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {bookmarkedData.map((item) => (
-              <div key={item.id} className="glass rounded-2xl p-6 hover:scale-105 transition-transform">
+              <div key={item.id} className="glass-modern rounded-2xl p-6 hover-lift">
                 <div className="flex justify-between items-start mb-3">
                   <span className="text-xs px-2 py-1 rounded-full bg-purple-500/20 text-purple-300">{item.category}</span>
                   <button onClick={() => toggleBookmark(item.id)} className="text-yellow-400 hover:scale-110 transition-transform">⭐</button>
@@ -653,8 +661,8 @@ export default function LingoSpacePro() {
                 <p className="text-2xl text-purple-300 mb-2 text-right" dir="rtl">{item.ar}</p>
                 <p className="text-gray-400 text-sm">{item.id_lang}</p>
                 <div className="flex gap-2 mt-4">
-                  <button onClick={() => playAudio(item.en, 'en')} className="flex-1 py-2 rounded-lg glass text-sm hover:scale-105 transition-transform">🔊 EN</button>
-                  <button onClick={() => playAudio(item.ar, 'ar')} className="flex-1 py-2 rounded-lg glass text-sm hover:scale-105 transition-transform">🔊 AR</button>
+                  <button onClick={() => playAudio(item.en, 'en')} className="flex-1 py-2 rounded-lg glass-modern text-sm hover:scale-105 transition-transform btn-press">🔊 EN</button>
+                  <button onClick={() => playAudio(item.ar, 'ar')} className="flex-1 py-2 rounded-lg glass-modern text-sm hover:scale-105 transition-transform btn-press">🔊 AR</button>
                 </div>
               </div>
             ))}
@@ -701,10 +709,10 @@ export default function LingoSpacePro() {
               setRoadmapLang('English');
               setExpandedLevel(null);
             }}
-            className={`px-6 py-3 rounded-full font-semibold transition-all ${
+            className={`px-6 py-3 rounded-full font-semibold transition-all btn-press ${
               roadmapLang === 'English' 
                 ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg' 
-                : 'glass hover:scale-105'
+                : 'glass-modern hover:scale-105'
             }`}
           >
              Bahasa Inggris
@@ -714,10 +722,10 @@ export default function LingoSpacePro() {
               setRoadmapLang('Arabic');
               setExpandedLevel(null);
             }}
-            className={`px-6 py-3 rounded-full font-semibold transition-all ${
+            className={`px-6 py-3 rounded-full font-semibold transition-all btn-press ${
               roadmapLang === 'Arabic' 
                 ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg' 
-                : 'glass hover:scale-105'
+                : 'glass-modern hover:scale-105'
             }`}
           >
             🇸 Bahasa Arab
@@ -730,7 +738,7 @@ export default function LingoSpacePro() {
             const isExpanded = expandedLevel === level.id;
 
             return (
-              <div key={idx} className="glass rounded-2xl p-6 transition-all hover:scale-105">
+              <div key={idx} className="glass-modern rounded-2xl p-6 transition-all hover-lift">
                 <div className="flex items-start gap-4">
                   <div className={`flex-shrink-0 w-16 h-16 rounded-full flex items-center justify-center text-2xl ${
                     lessons.length > 0 ? 'bg-gradient-to-br from-purple-500 to-pink-500' : 'bg-gray-600'
@@ -752,7 +760,7 @@ export default function LingoSpacePro() {
                     {lessons.length > 0 ? (
                       <button 
                         onClick={() => setExpandedLevel(isExpanded ? null : level.id)}
-                        className="mt-4 px-6 py-2 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 font-semibold hover:scale-105 transition-transform"
+                        className="mt-4 px-6 py-2 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 font-semibold hover:scale-105 transition-transform btn-press"
                       >
                         {isExpanded ? '🔼 Tutup' : '🚀 Mulai Belajar'}
                       </button>
@@ -793,7 +801,7 @@ export default function LingoSpacePro() {
                                 <p className="text-xl text-right flex-1" dir="rtl">{lesson.content_ar}</p>
                                 <button 
                                   onClick={() => playLessonAudio(lesson.content_ar, 'ar')}
-                                  className="ml-3 px-3 py-1 rounded-full bg-purple-500/20 hover:bg-purple-500/40 transition-colors"
+                                  className="ml-3 px-3 py-1 rounded-full bg-purple-500/20 hover:bg-purple-500/40 transition-colors btn-press"
                                 >
                                   🔊
                                 </button>
@@ -807,7 +815,7 @@ export default function LingoSpacePro() {
                                 <p className="text-lg flex-1">{lesson.content_en}</p>
                                 <button 
                                   onClick={() => playLessonAudio(lesson.content_en, 'en')}
-                                  className="ml-3 px-3 py-1 rounded-full bg-purple-500/20 hover:bg-purple-500/40 transition-colors"
+                                  className="ml-3 px-3 py-1 rounded-full bg-purple-500/20 hover:bg-purple-500/40 transition-colors btn-press"
                                 >
                                   🔊
                                 </button>
@@ -827,7 +835,7 @@ export default function LingoSpacePro() {
                                     roadmapLang === 'Arabic' ? lesson.example_ar : lesson.example_en,
                                     roadmapLang === 'Arabic' ? 'ar' : 'en'
                                   )}
-                                  className="ml-3 px-3 py-1 rounded-full bg-purple-500/20 hover:bg-purple-500/40 transition-colors"
+                                  className="ml-3 px-3 py-1 rounded-full bg-purple-500/20 hover:bg-purple-500/40 transition-colors btn-press"
                                 >
                                   🔊
                                 </button>
@@ -870,7 +878,7 @@ export default function LingoSpacePro() {
 
         <div className="space-y-6">
           {Object.entries(groupedLessons).map(([category, lessons], idx) => (
-            <div key={idx} className="glass rounded-2xl p-6">
+            <div key={idx} className="glass-modern rounded-2xl p-6">
               <h3 className="text-2xl font-bold mb-4 text-purple-300">{category}</h3>
               <div className="space-y-4">
                 {lessons.map((lesson, lessonIdx) => (
@@ -889,7 +897,7 @@ export default function LingoSpacePro() {
                           <p className="text-xl text-right flex-1" dir="rtl">{lesson.content_ar}</p>
                           <button 
                             onClick={() => playArabicAudio(lesson.content_ar)}
-                            className="ml-3 px-3 py-1 rounded-full bg-purple-500/20 hover:bg-purple-500/40 transition-colors"
+                            className="ml-3 px-3 py-1 rounded-full bg-purple-500/20 hover:bg-purple-500/40 transition-colors btn-press"
                           >
                             🔊
                           </button>
@@ -904,7 +912,7 @@ export default function LingoSpacePro() {
                           <p className="text-lg text-right flex-1" dir="rtl">{lesson.example_ar}</p>
                           <button 
                             onClick={() => playArabicAudio(lesson.example_ar)}
-                            className="ml-3 px-3 py-1 rounded-full bg-purple-500/20 hover:bg-purple-500/40 transition-colors"
+                            className="ml-3 px-3 py-1 rounded-full bg-purple-500/20 hover:bg-purple-500/40 transition-colors btn-press"
                           >
                             🔊
                           </button>
@@ -940,7 +948,7 @@ export default function LingoSpacePro() {
 
         <div className="space-y-6">
           {Object.entries(groupedLessons).map(([category, lessons], idx) => (
-            <div key={idx} className="glass rounded-2xl p-6">
+            <div key={idx} className="glass-modern rounded-2xl p-6">
               <h3 className="text-2xl font-bold mb-4 text-purple-300">{category}</h3>
               <div className="space-y-4">
                 {lessons.map((lesson, lessonIdx) => (
@@ -959,7 +967,7 @@ export default function LingoSpacePro() {
                           <p className="text-lg flex-1">{lesson.content_en}</p>
                           <button 
                             onClick={() => playEnglishAudio(lesson.content_en)}
-                            className="ml-3 px-3 py-1 rounded-full bg-purple-500/20 hover:bg-purple-500/40 transition-colors"
+                            className="ml-3 px-3 py-1 rounded-full bg-purple-500/20 hover:bg-purple-500/40 transition-colors btn-press"
                           >
                             🔊
                           </button>
@@ -974,7 +982,7 @@ export default function LingoSpacePro() {
                           <p className="text-lg flex-1">{lesson.example_en}</p>
                           <button 
                             onClick={() => playEnglishAudio(lesson.example_en)}
-                            className="ml-3 px-3 py-1 rounded-full bg-purple-500/20 hover:bg-purple-500/40 transition-colors"
+                            className="ml-3 px-3 py-1 rounded-full bg-purple-500/20 hover:bg-purple-500/40 transition-colors btn-press"
                           >
                             
                           </button>
@@ -1012,96 +1020,102 @@ export default function LingoSpacePro() {
         .rotate-y-180 { transform: rotateY(180deg); }
         .animate-fade-in { animation: fadeIn 0.5s ease-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .glass { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        
+        .glass-modern {
+          background: rgba(255, 255, 255, 0.05);
+          backdrop-filter: blur(20px) saturate(180%);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        }
+        
+        .hover-lift {
+          transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .hover-lift:hover {
+          transform: translateY(-4px);
+          box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        .btn-press {
+          transition: transform 0.1s ease;
+        }
+        
+        .btn-press:active {
+          transform: scale(0.95);
+        }
+        
+        .progress-animated {
+          background: linear-gradient(90deg, var(--primary, #8b5cf6), var(--secondary, #ec4899));
+          background-size: 200% 100%;
+          animation: shimmer 2s infinite;
+        }
+        
+        @keyframes shimmer {
+          0% { background-position: 200% 0; }
+          100% { background-position: -200% 0; }
+        }
       `}</style>
 
-              // Modern Navigation dengan Active Indicator
-<nav className="glass-modern sticky top-0 z-50 px-6 py-4">
-  <div className="max-w-7xl mx-auto">
-    {/* Baris 1: Logo + Blog/Cache */}
-    <div className="flex justify-between items-center mb-4">
-      <div className="flex items-center gap-3">
-        <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center font-bold text-2xl shadow-lg">L</div>
-        <div>
-          <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">LingoSpace Pro</h1>
-          <p className="text-xs text-gray-400">Premium Learning Platform</p>
+      {/* Modern Navigation */}
+      <nav className="glass-modern sticky top-0 z-50 px-6 py-4">
+        <div className="max-w-7xl mx-auto">
+          {/* Baris 1: Logo + Blog & Cache */}
+          <div className="flex justify-between items-center mb-3">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center font-bold text-2xl shadow-lg">L</div>
+              <div>
+                <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">LingoSpace Pro</h1>
+                <p className="text-xs text-gray-400">Premium Learning Platform</p>
+              </div>
+            </div>
+            
+            <div className="flex gap-2">
+              <Link href="/blog" className="px-4 py-2 rounded-full glass-modern hover:bg-white/10 transition-all btn-press text-sm font-medium">
+                📝 Blog
+              </Link>
+              <button onClick={() => { localStorage.clear(); alert('Cache dibersihkan!'); }} className="px-3 py-2 rounded-full glass-modern hover:bg-white/10 transition-all btn-press text-xs">
+                 Cache
+              </button>
+            </div>
+          </div>
+
+          {/* Baris 2: Mode Navigation */}
+          <div className="flex gap-2 overflow-x-auto pb-2 flex-wrap">
+            {[
+              { id: 'dashboard', label: '📊 Dashboard' },
+              { id: 'flashcard', label: '🎴 Flashcard' },
+              { id: 'quiz', label: '🎯 Quiz' },
+              { id: 'listen', label: '🎧 Listen' },
+              { id: 'bookmarks', label: '⭐ Favorit' },
+              { id: 'roadmap', label: '🗺️ Roadmap' },
+              { id: 'nahwu', label: '📖 Nahwu' },
+              { id: 'english', label: '📚 English' }
+            ].map((mode) => (
+              <button
+                key={mode.id}
+                onClick={() => switchMode(mode.id)}
+                className={`px-5 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 hover-lift btn-press whitespace-nowrap ${
+                  currentMode === mode.id 
+                    ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg shadow-purple-500/30 scale-105' 
+                    : 'glass-modern hover:bg-white/10 text-gray-300'
+                }`}
+              >
+                {mode.label}
+              </button>
+            ))}
+          </div>
         </div>
-      </div>
-      
-      <div className="flex gap-2">
-        // Modern Blog Cards
-<Link href={`/blog/${article.slug}`} className="group block">
-  <div className="glass-modern rounded-2xl p-6 hover-lift border border-white/10 hover:border-purple-500/50 transition-all duration-300">
-    <div className="flex items-center gap-2 mb-4">
-      <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
-        article.category === 'Bahasa Arab' ? 'bg-green-500/20 text-green-300' :
-        article.category === 'Bahasa Inggris' ? 'bg-blue-500/20 text-blue-300' :
-        'bg-purple-500/20 text-purple-300'
-      }`}>
-        {article.category}
-      </span>
-      <span className="text-xs text-gray-400">{article.readTime}</span>
-    </div>
-    
-    <h2 className="text-xl font-bold mb-3 line-clamp-2 group-hover:text-purple-300 transition-colors">
-      {article.title}
-    </h2>
-    
-    <p className="text-gray-400 text-sm mb-4 line-clamp-3">
-      {article.excerpt}
-    </p>
-    
-    <div className="flex items-center justify-between text-sm pt-4 border-t border-white/5">
-      <span className="text-gray-500">{formatDate(article.date)}</span>
-      <span className="text-purple-400 font-semibold group-hover:text-pink-400 transition-colors flex items-center gap-1">
-        Baca Selengkapnya 
-        <span className="transform group-hover:translate-x-1 transition-transform">→</span>
-      </span>
-    </div>
-  </div>
-</Link>
-        <button onClick={() => { localStorage.clear(); alert('Cache dibersihkan!'); }} className="px-3 py-2 rounded-full glass-modern hover:bg-white/10 transition-all btn-press text-xs">
-           Cache
-        </button>
-      </div>
-    </div>
+      </nav>
 
-    {/* Baris 2: Navigation dengan Active State */}
-    <div className="flex gap-2 overflow-x-auto pb-2 flex-wrap">
-      {[
-        { id: 'dashboard', label: '📊 Dashboard', icon: '📊' },
-        { id: 'flashcard', label: 'Flashcard', icon: '🎴' },
-        { id: 'quiz', label: 'Quiz', icon: '🎯' },
-        { id: 'listen', label: 'Listen', icon: '🎧' },
-        { id: 'bookmarks', label: 'Favorit', icon: '⭐' },
-        { id: 'roadmap', label: 'Roadmap', icon: '🗺️' },
-        { id: 'nahwu', label: 'Nahwu', icon: '📖' },
-        { id: 'english', label: 'English', icon: '📚' }
-      ].map((mode) => (
-        <button
-          key={mode.id}
-          onClick={() => switchMode(mode.id)}
-          className={`px-5 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 hover-lift btn-press whitespace-nowrap ${
-            currentMode === mode.id 
-              ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg shadow-purple-500/30 scale-105' 
-              : 'glass-modern hover:bg-white/10 text-gray-300'
-          }`}
-        >
-          <span className="mr-2">{mode.icon}</span>
-          {mode.label}
-        </button>
-      ))}
-    </div>
-  </div>
-</nav>
-
+      {/* Search & Filter (hanya untuk mode tertentu) */}
       {currentMode !== 'dashboard' && currentMode !== 'bookmarks' && currentMode !== 'roadmap' && currentMode !== 'nahwu' && currentMode !== 'english' && (
-        <div className="max-w-7xl mx-auto px-6 mt-4">
+        <div className="max-w-7xl mx-auto px-6 mt-6">
           <div className="flex flex-wrap gap-3">
             <select
               value={categoryFilter}
               onChange={(e) => setCategoryFilter(e.target.value)}
-              className="px-4 py-2 rounded-full glass text-sm bg-transparent outline-none cursor-pointer text-white"
+              className="px-4 py-2 rounded-full glass-modern text-sm bg-transparent outline-none cursor-pointer text-white"
             >
               <option value="all" className="bg-slate-800">Semua Kategori</option>
               {categories.map((cat, idx) => (
@@ -1113,12 +1127,13 @@ export default function LingoSpacePro() {
               value={searchInput}
               onChange={(e) => setSearchInput(e.target.value)}
               placeholder="🔍 Cari kosakata..."
-              className="px-4 py-2 rounded-full glass text-sm bg-transparent outline-none flex-1 min-w-[200px] text-white placeholder-gray-400"
+              className="px-4 py-2 rounded-full glass-modern text-sm bg-transparent outline-none flex-1 min-w-[200px] text-white placeholder-gray-400"
             />
           </div>
         </div>
       )}
 
+      {/* Main Content */}
       <main className="max-w-7xl mx-auto px-6 py-8">
         {currentMode === 'dashboard' && renderDashboard()}
         {currentMode === 'flashcard' && renderFlashcard()}
@@ -1130,44 +1145,45 @@ export default function LingoSpacePro() {
         {currentMode === 'english' && renderEnglish()}
       </main>
 
-      {/* Footer */}
-      <footer className="glass border-t border-white/10 mt-16">
+      {/* Modern Footer */}
+      <footer className="glass-modern border-t border-white/10 mt-16">
         <div className="max-w-7xl mx-auto px-6 py-12">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
             <div>
-              <h3 className="font-bold text-lg mb-4">LingoSpace Pro</h3>
-              <p className="text-gray-400 text-sm">Platform pembelajaran bahasa premium untuk Bahasa Arab dan Inggris.</p>
+              <h3 className="font-bold text-lg mb-4 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">LingoSpace Pro</h3>
+              <p className="text-gray-400 text-sm">Platform pembelajaran bahasa premium untuk Bahasa Arab dan Inggris dengan metode SRS yang efektif.</p>
             </div>
 
             <div>
               <h4 className="font-bold mb-4 text-purple-300">Menu</h4>
               <ul className="space-y-2 text-sm">
-                <li><Link href="/" className="text-gray-400 hover:text-white"> Dashboard</Link></li>
-                <li><Link href="/blog" className="text-gray-400 hover:text-white">📝 Blog</Link></li>
-                <li><Link href="/about" className="text-gray-400 hover:text-white">ℹ️ Tentang</Link></li>
+                <li><Link href="/" className="text-gray-400 hover:text-white transition-colors">📊 Dashboard</Link></li>
+                <li><Link href="/blog" className="text-gray-400 hover:text-white transition-colors">📝 Blog</Link></li>
+                <li><Link href="/about" className="text-gray-400 hover:text-white transition-colors">ℹ️ Tentang Kami</Link></li>
               </ul>
             </div>
 
             <div>
               <h4 className="font-bold mb-4 text-purple-300">Legal</h4>
               <ul className="space-y-2 text-sm">
-                <li><Link href="/privacy-policy" className="text-gray-400 hover:text-white">🔒 Privacy Policy</Link></li>
-                <li><Link href="/terms" className="text-gray-400 hover:text-white">📄 Terms of Service</Link></li>
-                <li><Link href="/contact" className="text-gray-400 hover:text-white">📧 Contact</Link></li>
+                <li><Link href="/privacy-policy" className="text-gray-400 hover:text-white transition-colors">🔒 Privacy Policy</Link></li>
+                <li><Link href="/terms" className="text-gray-400 hover:text-white transition-colors">📄 Terms of Service</Link></li>
+                <li><Link href="/contact" className="text-gray-400 hover:text-white transition-colors">📧 Contact</Link></li>
               </ul>
             </div>
 
             <div>
-              <h4 className="font-bold mb-4 text-purple-300">Kontak</h4>
+              <h4 className="font-bold mb-4 text-purple-300">Hubungi Kami</h4>
               <ul className="space-y-2 text-sm text-gray-400">
-                <li>📧 contact@raiganet.my.id</li>
-                <li>🌐 www.raiganet.my.id</li>
+                <li className="flex items-center gap-2">📧 contact@raiganet.my.id</li>
+                <li className="flex items-center gap-2">🌐 www.raiganet.my.id</li>
               </ul>
             </div>
           </div>
 
           <div className="border-t border-white/10 pt-6 text-center text-sm text-gray-400">
             <p>© {new Date().getFullYear()} LingoSpace Pro. All rights reserved.</p>
+            <p className="mt-2 text-xs">Dibuat dengan ❤️ untuk pelajar bahasa di Indonesia</p>
           </div>
         </div>
       </footer>
