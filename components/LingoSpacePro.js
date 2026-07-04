@@ -1115,8 +1115,7 @@ export default function LingoSpacePro() {
 
       {/* Navigation - SERAGAM dengan Blog */}
 
-                          {/* Semua Tombol dalam Satu Container Scroll */}
-            <div className="flex gap-2 overflow-x-auto flex-1 hide-scrollbar">
+                   
       <nav className="glass-modern sticky top-0 z-50 px-6 py-3">
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center gap-4 flex-wrap">
@@ -1133,8 +1132,8 @@ export default function LingoSpacePro() {
               </div>
             </Link>
 
-            {/* Semua Tombol dalam Satu Container Scroll */}
-            <div className="flex gap-2 overflow-x-auto flex-1">
+                   {/* Semua Tombol dalam Satu Container Scroll */}
+            <div className="flex gap-2 overflow-x-auto flex-1 hide-scrollbar">
               {[
                 { id: 'dashboard', label: ' Dashboard' },
                 { id: 'flashcard', label: '🎴 Flashcard' },
