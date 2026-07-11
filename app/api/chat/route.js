@@ -7,7 +7,7 @@ export async function POST(req) {
     const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
     
     // GANTI NAMA MODEL DI SINI: Gunakan 'gemini-pro' agar lebih stabil
-    const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+    const model = genAI.getGenerativeModel({ model: "Gemini 3.5 Flash" });
 
     const result = await model.generateContent(message);
     const response = await result.response.text();
