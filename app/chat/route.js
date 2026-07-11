@@ -1,93 +1,73 @@
 import { NextResponse } from 'next/server';
-import { GoogleGenerativeAI } from "@google/generative-ai";
-
-
-// Inisialisasi Gemini AI
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 export async function POST(req) {
   try {
     const body = await req.json();
-    const userMessage = body.message || body.text;
-    const mode = body.mode || 'translate';
+    const userMessage = body.text || body.message;
     const targetLang = body.targetLang || 'en';
-     console.log(' Request received:', await req.clone().text());
-  console.log('🔑 API Key exists:', !!process.env.GEMINI_API_KEY);
-
-    // Validasi input
+    
     if (!userMessage) {
-      return NextResponse.json(
-        { error: 'Pesan tidak boleh kosong' }, 
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Pesan tidak boleh kosong' }, { status: 400 });
     }
 
-    // Validasi API Key
-    if (!process.env.GEMINI_API_KEY) {
-      return NextResponse.json(
-        { error: 'API Key Gemini belum diatur di server.' }, 
-        { status: 500 }
-      );
+    const apiKey = process.env.GEMINI_API_KEY;
+    
+    if (!apiKey) {
+      return NextResponse.json({ error: 'API key tidak dikonfigurasi' }, { status: 500 });
     }
 
-    // System prompt: AI sebagai guru bahasa
-    const systemPrompt = `Kamu adalah asisten AI ramah di aplikasi LingoSpace Pro. 
-Tugasmu adalah membantu pengguna belajar bahasa Inggris dan bahasa Arab. 
-Jawablah dengan santai, informatif, dan mudah dipahami.`;
-
-    // Bangun prompt sesuai mode
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
+    
     let prompt = '';
     
-    if (mode === 'translate') {
-      prompt = `${systemPrompt}
+    if (targetLang === 'ar') {
+      prompt = `Terjemahkan teks berikut ke bahasa Arab DENGAN HARAKAT (tanda baca/diacritics) lengkap.
+HANYA berikan hasil terjemahan dalam bahasa Arab dengan harakat. JANGAN tambahkan penjelasan.
 
-Tugas: Terjemahkan teks berikut ke bahasa ${targetLang}.
-WAJIB balas HANYA dalam format JSON valid (tanpa markdown, tanpa backtick):
-{
-  "translation": "teks terjemahan",
-  "explanation": "penjelasan singkat grammar/kosakata",
-  "ipa": "pelafalan IPA (jika target bahasa Inggris, kosongkan jika bukan)"
-}
+Teks: "${userMessage}"
 
-Teks yang diterjemahkan: "${userMessage}"`;
+Terjemahan Arab dengan harakat:`;
+    } else if (targetLang === 'id') {
+      prompt = `Terjemahkan teks berikut ke bahasa Indonesia.
+HANYA berikan hasil terjemahan. JANGAN tambahkan penjelasan.
+
+Teks: "${userMessage}"
+
+Terjemahan:`;
     } else {
-      prompt = `${systemPrompt}\n\nPesan user: "${userMessage}"`;
+      prompt = `Translate the following text to English.
+ONLY provide the translation. DO NOT add any explanation.
+
+Text: "${userMessage}"
+
+Translation:`;
     }
 
-    // Panggil Gemini API
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-    const result = await model.generateContent(prompt);
-    const response = await result.response.text();
-    
-    // Parse JSON response dari AI
-    let data;
-    try {
-      // Bersihkan response jika ada markdown code block
-      const cleanResponse = response
-        .replace(/```json\n?/g, '')
-        .replace(/```\n?/g, '')
-        .trim();
-      data = JSON.parse(cleanResponse);
-    } catch {
-      // Fallback jika response bukan JSON valid
-      data = {
-        translation: response,
-        explanation: '',
-        ipa: ''
-      };
-    }
-
-    return NextResponse.json({
-      translation: data.translation || response,
-      explanation: data.explanation || '',
-      ipa: data.ipa || ''
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        contents: [{ parts: [{ text: prompt }] }],
+        generationConfig: { temperature: 0.3, maxOutputTokens: 1024 }
+      })
     });
+
+    if (!response.ok) {
+      const errorData = await response.text();
+      return NextResponse.json({ error: 'Gagal menghubungi AI', details: errorData }, { status: response.status });
+    }
+
+    const data = await response.json();
+
+    if (data.candidates && data.candidates.length > 0) {
+      let aiReply = data.candidates[0].content.parts[0].text.replace(/\*\*/g, '').trim();
+      return NextResponse.json({ translation: aiReply });
+    } else {
+      throw new Error('Format respons tidak sesuai');
+    }
 
   } catch (error) {
     console.error('API Error:', error);
-    return NextResponse.json(
-      { error: 'Maaf, server AI sedang sibuk atau mengalami gangguan.', details: error.message }, 
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Gagal menghubungi AI', details: error.message }, { status: 500 });
   }
 }
