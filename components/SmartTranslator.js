@@ -7,24 +7,27 @@ export default function LinguaAIChat() {
   const [isLoading, setIsLoading] = useState(false);
   const [isListening, setIsListening] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
+  const [targetLang, setTargetLang] = useState('en'); // 'en', 'id', 'ar'
   const [availableVoices, setAvailableVoices] = useState([]);
   const [selectedVoice, setSelectedVoice] = useState(null);
-  const [voiceLang, setVoiceLang] = useState('auto'); // 'auto', 'id', 'en'
+  const [voiceLang, setVoiceLang] = useState('auto');
+  
   const messagesEndRef = useRef(null);
   const recognitionRef = useRef(null);
-  const synthRef = useRef(window.speechSynthesis);
+  const synthRef = useRef(typeof window !== 'undefined' ? window.speechSynthesis : null);
 
   // Load available voices
   useEffect(() => {
+    if (!synthRef.current) return;
+    
     const loadVoices = () => {
       const voices = synthRef.current.getVoices();
       setAvailableVoices(voices);
       
-      // Cari voice Indonesia yang bagus
+      // Cari voice default
       const idVoice = voices.find(v => v.lang.startsWith('id-ID') || v.lang.startsWith('id'));
       const enVoice = voices.find(v => v.lang.startsWith('en-US') || v.lang.startsWith('en-GB'));
       
-      // Set default voice
       if (idVoice) {
         setSelectedVoice(idVoice);
       } else if (enVoice) {
@@ -34,7 +37,6 @@ export default function LinguaAIChat() {
 
     loadVoices();
     
-    // Chrome load voices asynchronously
     if (synthRef.current.onvoiceschanged !== undefined) {
       synthRef.current.onvoiceschanged = loadVoices;
     }
@@ -47,6 +49,8 @@ export default function LinguaAIChat() {
 
   // Setup Speech Recognition
   useEffect(() => {
+    if (typeof window === 'undefined') return;
+    
     if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
       const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
       recognitionRef.current = new SpeechRecognition();
@@ -78,9 +82,11 @@ export default function LinguaAIChat() {
 
   // Deteksi bahasa dari teks
   const detectLanguage = (text) => {
-    // Simple detection: cek apakah ada karakter/huruf Indonesia
-    const indonesianWords = ['yang', 'dan', 'atau', 'tidak', 'dengan', 'untuk', 'bisa', 'apakah', 'ini', 'itu'];
+    const indonesianWords = ['yang', 'dan', 'atau', 'tidak', 'dengan', 'untuk', 'bisa', 'apakah', 'ini', 'itu', 'saya', 'aku', 'kamu', 'dia', 'mereka'];
+    const arabicRegex = /[\u0600-\u06FF]/;
     const lowerText = text.toLowerCase();
+    
+    if (arabicRegex.test(text)) return 'ar';
     
     const hasIndonesian = indonesianWords.some(word => lowerText.includes(word));
     return hasIndonesian ? 'id' : 'en';
@@ -98,50 +104,41 @@ export default function LinguaAIChat() {
 
     const utterance = new SpeechSynthesisUtterance(text);
     
-    // Auto-detect bahasa atau gunakan voice yang dipilih
     let targetVoice = selectedVoice;
+    let detectedLang = detectLanguage(text);
     
-    if (voiceLang === 'auto') {
-      const detectedLang = detectLanguage(text);
-      const voices = availableVoices;
-      
+    // Jika targetLang adalah arab, gunakan voice arab
+    if (targetLang === 'ar' || detectedLang === 'ar') {
+      targetVoice = availableVoices.find(v => 
+        v.lang.startsWith('ar') || v.name.toLowerCase().includes('arabic')
+      );
+      utterance.lang = 'ar-SA';
+    } else if (voiceLang === 'auto') {
       if (detectedLang === 'id') {
-        // Cari voice Indonesia
-        targetVoice = voices.find(v => 
-          v.lang.startsWith('id-ID') || 
-          v.lang.startsWith('id') ||
-          v.name.toLowerCase().includes('indonesian')
-        ) || voices.find(v => v.lang.startsWith('en')); // Fallback ke English
+        targetVoice = availableVoices.find(v => 
+          v.lang.startsWith('id-ID') || v.lang.startsWith('id')
+        ) || availableVoices.find(v => v.lang.startsWith('en'));
       } else {
-        // Cari voice English
-        targetVoice = voices.find(v => 
-          v.lang.startsWith('en-US') || 
-          v.lang.startsWith('en-GB') ||
-          v.lang.startsWith('en')
+        targetVoice = availableVoices.find(v => 
+          v.lang.startsWith('en-US') || v.lang.startsWith('en-GB') || v.lang.startsWith('en')
         );
       }
     } else if (voiceLang === 'id') {
       targetVoice = availableVoices.find(v => 
-        v.lang.startsWith('id-ID') || 
-        v.lang.startsWith('id')
+        v.lang.startsWith('id-ID') || v.lang.startsWith('id')
       );
     } else if (voiceLang === 'en') {
       targetVoice = availableVoices.find(v => 
-        v.lang.startsWith('en-US') || 
-        v.lang.startsWith('en-GB')
+        v.lang.startsWith('en-US') || v.lang.startsWith('en-GB')
       );
     }
 
     if (targetVoice) {
       utterance.voice = targetVoice;
       utterance.lang = targetVoice.lang;
-    } else {
-      // Default settings
-      utterance.lang = voiceLang === 'id' ? 'id-ID' : 'en-US';
     }
 
-    // Adjust rate dan pitch untuk suara yang lebih natural
-    utterance.rate = 0.95; // Sedikit lebih lambat untuk kejelasan
+    utterance.rate = 0.95;
     utterance.pitch = 1.0;
     utterance.volume = 1.0;
 
@@ -172,7 +169,6 @@ export default function LinguaAIChat() {
     setInput('');
     setIsLoading(true);
 
-    // Bubble User
     const newUserMsg = { 
       text: userText, 
       isUser: true, 
@@ -184,7 +180,10 @@ export default function LinguaAIChat() {
       const res = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text: userText, mode: 'translate', targetLang: 'en' })
+        body: JSON.stringify({ 
+          text: userText, 
+          targetLang: targetLang
+        })
       });
       
       if (!res.ok) {
@@ -194,7 +193,7 @@ export default function LinguaAIChat() {
       const data = await res.json();
 
       const aiMsg = { 
-        text: data.translation || data.reply || 'Maaf, saya tidak mengerti', 
+        text: data.translation || 'Maaf, saya tidak mengerti', 
         isUser: false, 
         explanation: data.explanation || '',
         ipa: data.ipa || '',
@@ -222,6 +221,13 @@ export default function LinguaAIChat() {
     }
   };
 
+  const getLanguageLabel = () => {
+    if (targetLang === 'en') return '🇧 English';
+    if (targetLang === 'id') return '🇮🇩 Indonesia';
+    if (targetLang === 'ar') return '🇸🇦 العربية';
+    return 'English';
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center justify-center p-4">
       <div className="w-full max-w-3xl bg-white/10 backdrop-blur-xl rounded-3xl shadow-2xl overflow-hidden border border-white/20">
@@ -245,11 +251,50 @@ export default function LinguaAIChat() {
           </div>
         </div>
 
+        {/* Language Selector */}
+        <div className="bg-white/5 border-b border-white/10 p-4">
+          <div className="flex items-center gap-3 flex-wrap">
+            <label className="text-white text-sm font-medium">Target Bahasa:</label>
+            <div className="flex gap-2 flex-wrap">
+              <button
+                onClick={() => setTargetLang('en')}
+                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                  targetLang === 'en' 
+                    ? 'bg-blue-600 text-white shadow-lg scale-105' 
+                    : 'bg-white/10 text-white/70 hover:bg-white/20'
+                }`}
+              >
+                🇬🇧 English
+              </button>
+              <button
+                onClick={() => setTargetLang('id')}
+                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                  targetLang === 'id' 
+                    ? 'bg-blue-600 text-white shadow-lg scale-105' 
+                    : 'bg-white/10 text-white/70 hover:bg-white/20'
+                }`}
+              >
+                🇮🇩 Indonesia
+              </button>
+              <button
+                onClick={() => setTargetLang('ar')}
+                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                  targetLang === 'ar' 
+                    ? 'bg-blue-600 text-white shadow-lg scale-105' 
+                    : 'bg-white/10 text-white/70 hover:bg-white/20'
+                }`}
+              >
+                🇸🇦 العربية
+              </button>
+            </div>
+          </div>
+        </div>
+
         {/* Voice Settings */}
         <div className="bg-white/5 border-b border-white/10 p-4">
           <div className="flex items-center gap-4 flex-wrap">
             <div className="flex items-center gap-2">
-              <label className="text-white text-sm font-medium"> Voice:</label>
+              <label className="text-white text-sm font-medium">🔊 Voice:</label>
               <select 
                 value={voiceLang}
                 onChange={(e) => setVoiceLang(e.target.value)}
@@ -258,12 +303,13 @@ export default function LinguaAIChat() {
                 <option value="auto" className="bg-slate-800">Auto Detect</option>
                 <option value="id" className="bg-slate-800">Bahasa Indonesia</option>
                 <option value="en" className="bg-slate-800">English</option>
+                <option value="ar" className="bg-slate-800">Arabic</option>
               </select>
             </div>
             
             {availableVoices.length > 0 && (
               <div className="flex items-center gap-2">
-                <label className="text-white/70 text-xs">Specific Voice:</label>
+                <label className="text-white/70 text-xs">Specific:</label>
                 <select 
                   value={selectedVoice?.name || ''}
                   onChange={(e) => {
@@ -290,52 +336,64 @@ export default function LinguaAIChat() {
             <div className="text-center py-20">
               <div className="text-6xl mb-4">💬</div>
               <p className="text-gray-500 text-lg">Mulai percakapan dengan AI</p>
-              <p className="text-gray-400 text-sm mt-2">Ketik pesan atau gunakan fitur voice</p>
+              <p className="text-gray-400 text-sm mt-2">
+                Terjemahkan ke: <span className="font-semibold text-purple-600">{getLanguageLabel()}</span>
+              </p>
             </div>
           )}
 
-          {messages.map((m, i) => (
-            <div key={i} className={`flex flex-col ${m.isUser ? 'items-end' : 'items-start'} animate-fade-in`}>
-              <div className={`flex items-end gap-2 max-w-[85%] ${m.isUser ? 'flex-row-reverse' : 'flex-row'}`}>
-                {/* Avatar */}
-                <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${m.isUser ? 'bg-gradient-to-br from-blue-500 to-blue-600' : 'bg-gradient-to-br from-purple-500 to-pink-500'}`}>
-                  <span className="text-white text-sm">{m.isUser ? '👤' : '🤖'}</span>
-                </div>
+          {messages.map((m, i) => {
+            const isArabic = /[\u0600-\u06FF]/.test(m.text);
+            
+            return (
+              <div key={i} className={`flex flex-col ${m.isUser ? 'items-end' : 'items-start'} animate-fade-in`}>
+                <div className={`flex items-end gap-2 max-w-[85%] ${m.isUser ? 'flex-row-reverse' : 'flex-row'}`}>
+                  {/* Avatar */}
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${m.isUser ? 'bg-gradient-to-br from-blue-500 to-blue-600' : 'bg-gradient-to-br from-purple-500 to-pink-500'}`}>
+                    <span className="text-white text-sm">{m.isUser ? '👤' : '🤖'}</span>
+                  </div>
 
-                {/* Message Bubble */}
-                <div className={`p-4 rounded-2xl shadow-lg ${m.isUser ? 'bg-gradient-to-br from-blue-600 to-blue-700 text-white rounded-br-none' : 'bg-white border border-gray-200 rounded-bl-none'}`}>
-                  <p className={`text-base leading-relaxed ${m.isUser ? 'text-white' : 'text-gray-800'}`}>{m.text}</p>
-                  
-                  {!m.isUser && m.ipa && (
-                    <p className="text-xs mt-2 text-gray-500 italic font-mono bg-gray-100 px-2 py-1 rounded">{m.ipa}</p>
-                  )}
-                  
-                  <p className={`text-xs mt-2 ${m.isUser ? 'text-blue-200' : 'text-gray-400'}`}>{m.timestamp}</p>
+                  {/* Message Bubble */}
+                  <div className={`p-4 rounded-2xl shadow-lg ${m.isUser ? 'bg-gradient-to-br from-blue-600 to-blue-700 text-white rounded-br-none' : 'bg-white border border-gray-200 rounded-bl-none'}`}>
+                    <p 
+                      className={`text-base leading-relaxed ${m.isUser ? 'text-white' : 'text-gray-800'}`}
+                      dir={isArabic ? 'rtl' : 'ltr'}
+                      style={isArabic ? { fontFamily: "'Amiri', 'Traditional Arabic', serif", fontSize: '1.3rem' } : {}}
+                    >
+                      {m.text}
+                    </p>
+                    
+                    {!m.isUser && m.ipa && (
+                      <p className="text-xs mt-2 text-gray-500 italic font-mono bg-gray-100 px-2 py-1 rounded">{m.ipa}</p>
+                    )}
+                    
+                    <p className={`text-xs mt-2 ${m.isUser ? 'text-blue-200' : 'text-gray-400'}`}>{m.timestamp}</p>
 
-                  {/* Quick Actions untuk AI */}
-                  {!m.isUser && (
-                    <div className="flex gap-2 mt-3 pt-3 border-t border-gray-200">
-                      <button 
-                        onClick={() => speakText(m.text)}
-                        disabled={isSpeaking}
-                        className="flex items-center gap-1 text-xs px-3 py-1.5 rounded-full bg-purple-100 text-purple-700 hover:bg-purple-200 transition-all disabled:opacity-50"
-                      >
-                        <span>🔊</span>
-                        <span>{isSpeaking ? 'Playing...' : 'Play'}</span>
-                      </button>
-                      <button 
-                        onClick={() => navigator.clipboard.writeText(m.text)}
-                        className="flex items-center gap-1 text-xs px-3 py-1.5 rounded-full bg-gray-100 text-gray-700 hover:bg-gray-200 transition-all"
-                      >
-                        <span>📋</span>
-                        <span>Copy</span>
-                      </button>
-                    </div>
-                  )}
+                    {/* Quick Actions untuk AI */}
+                    {!m.isUser && (
+                      <div className="flex gap-2 mt-3 pt-3 border-t border-gray-200">
+                        <button 
+                          onClick={() => speakText(m.text)}
+                          disabled={isSpeaking}
+                          className="flex items-center gap-1 text-xs px-3 py-1.5 rounded-full bg-purple-100 text-purple-700 hover:bg-purple-200 transition-all disabled:opacity-50"
+                        >
+                          <span>🔊</span>
+                          <span>{isSpeaking ? 'Playing...' : 'Play'}</span>
+                        </button>
+                        <button 
+                          onClick={() => navigator.clipboard.writeText(m.text)}
+                          className="flex items-center gap-1 text-xs px-3 py-1.5 rounded-full bg-gray-100 text-gray-700 hover:bg-gray-200 transition-all"
+                        >
+                          <span>📋</span>
+                          <span>Copy</span>
+                        </button>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
 
           {/* Loading Indicator */}
           {isLoading && (
@@ -383,7 +441,7 @@ export default function LinguaAIChat() {
               value={input} 
               onChange={(e) => setInput(e.target.value)} 
               onKeyPress={handleKeyPress}
-              placeholder={isListening ? "Listening..." : "Ketik pesan atau gunakan voice..."}
+              placeholder={isListening ? "Listening..." : `Ketik untuk diterjemahkan ke ${getLanguageLabel()}...`}
               disabled={isListening || isLoading}
             />
 
