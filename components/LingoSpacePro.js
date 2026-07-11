@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Dictionary from './Dictionary';
+import SmartTranslator from './SmartTranslator'; 
 
 export default function LingoSpacePro() {
   // State Management
@@ -1562,7 +1563,7 @@ export default function LingoSpacePro() {
 
   // Menu items untuk reuse di desktop & sidebar
   const menuItems = [
-    { id: 'dashboard', label: '📊 Dashboard' },
+     { id: 'dashboard', label: '📊 Dashboard' },
     { id: 'flashcard', label: '🎴 Flashcard' },
     { id: 'quiz', label: '🎯 Quiz' },
     { id: 'listen', label: '🎧 Listen' },
@@ -1570,8 +1571,10 @@ export default function LingoSpacePro() {
     { id: 'roadmap', label: '🗺️ Roadmap' },
     { id: 'nahwu', label: '📖 Nahwu' },
     { id: 'english', label: '📘 English' },
-    { id: 'dictionary', label: '📖 Kamus' }
+    { id: 'dictionary', label: '📖 Kamus' },
+    { id: 'smarttranslator', label: '🎙️ SmartTranslator' }
   ];
+
 
   // ==================== MAIN RENDER ====================
   return (
@@ -1913,6 +1916,7 @@ export default function LingoSpacePro() {
        currentMode !== 'nahwu' &&
        currentMode !== 'english' &&
         currentMode !== 'listen' &&
+        currentMode !== 'smarttranslator' &&
  (
         <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 mt-4 md:mt-6">
           <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
@@ -1939,7 +1943,7 @@ export default function LingoSpacePro() {
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 py-4 sm:py-6 md:py-8 safe-area-bottom">
-        {currentMode === 'dashboard' && renderDashboard()}
+         {currentMode === 'dashboard' && renderDashboard()}
         {currentMode === 'flashcard' && renderFlashcard()}
         {currentMode === 'quiz' && renderQuiz()}
         {currentMode === 'listen' && renderListen()}
@@ -1948,6 +1952,8 @@ export default function LingoSpacePro() {
         {currentMode === 'nahwu' && renderNahwu()}
         {currentMode === 'english' && renderEnglish()}
         {currentMode === 'dictionary' && <Dictionary />}
+        {/* PERBAIKAN: Me-render komponen asli SmartTranslator ketika menu dipilih */}
+        {currentMode === 'smarttranslator' && <SmartTranslator />}
       </main>
 
       {/* Footer */}
