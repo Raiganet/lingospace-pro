@@ -89,25 +89,35 @@ export default function LinguaAIChat() {
     setMessages(prev => [...prev, newUserMsg]);
 
     try {
-      // Panggil API AI
       const res = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ text: userText, mode: 'translate', targetLang: 'en' })
       });
+      
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`);
+      }
+      
       const data = await res.json();
 
-      // Bubble AI
       const aiMsg = { 
-        text: data.translation, 
+        text: data.translation || data.reply || 'Maaf, saya tidak mengerti', 
         isUser: false, 
-        explanation: data.explanation,
-        ipa: data.ipa,
+        explanation: data.explanation || '',
+        ipa: data.ipa || '',
         timestamp: new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })
       };
       setMessages(prev => [...prev, aiMsg]);
-    } catch (error) {
-      console.error('Error:', error);
+    } catch (err) {
+      console.error('Error:', err);
+      
+      const errorMsg = { 
+        text: '️ Maaf, terjadi kesalahan. Silakan coba lagi.', 
+        isUser: false, 
+        timestamp: new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })
+      };
+      setMessages(prev => [...prev, errorMsg]);
     } finally {
       setIsLoading(false);
     }
@@ -147,7 +157,7 @@ export default function LinguaAIChat() {
         <div className="h-[500px] overflow-y-auto p-6 space-y-4 bg-gradient-to-b from-gray-50/50 to-white/50">
           {messages.length === 0 && (
             <div className="text-center py-20">
-              <div className="text-6xl mb-4"></div>
+              <div className="text-6xl mb-4">💬</div>
               <p className="text-gray-500 text-lg">Mulai percakapan dengan AI</p>
               <p className="text-gray-400 text-sm mt-2">Ketik pesan atau gunakan fitur voice</p>
             </div>
@@ -158,12 +168,13 @@ export default function LinguaAIChat() {
               <div className={`flex items-end gap-2 max-w-[85%] ${m.isUser ? 'flex-row-reverse' : 'flex-row'}`}>
                 {/* Avatar */}
                 <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${m.isUser ? 'bg-gradient-to-br from-blue-500 to-blue-600' : 'bg-gradient-to-br from-purple-500 to-pink-500'}`}>
-                  <span className="text-white text-sm">{m.isUser ? '' : '🤖'}</span>
+                  <span className="text-white text-sm">{m.isUser ? '👤' : '🤖'}</span>
                 </div>
 
                 {/* Message Bubble */}
                 <div className={`p-4 rounded-2xl shadow-lg ${m.isUser ? 'bg-gradient-to-br from-blue-600 to-blue-700 text-white rounded-br-none' : 'bg-white border border-gray-200 rounded-bl-none'}`}>
-                  <p className="text-base leading-relaxed">{m.text}</p>
+                  {/* PERBAIKAN: Teks AI harus berwarna gelap (gray-800) */}
+                  <p className={`text-base leading-relaxed ${m.isUser ? 'text-white' : 'text-gray-800'}`}>{m.text}</p>
                   
                   {!m.isUser && m.ipa && (
                     <p className="text-xs mt-2 text-gray-500 italic font-mono bg-gray-100 px-2 py-1 rounded">{m.ipa}</p>
@@ -179,7 +190,7 @@ export default function LinguaAIChat() {
                         disabled={isSpeaking}
                         className="flex items-center gap-1 text-xs px-3 py-1.5 rounded-full bg-purple-100 text-purple-700 hover:bg-purple-200 transition-all disabled:opacity-50"
                       >
-                        <span>{isSpeaking ? '🔊' : '🔊'}</span>
+                        <span>🔊</span>
                         <span>{isSpeaking ? 'Playing...' : 'Play'}</span>
                       </button>
                       <button 
