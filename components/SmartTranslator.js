@@ -7,8 +7,38 @@ export default function LinguaAIChat() {
   const [isLoading, setIsLoading] = useState(false);
   const [isListening, setIsListening] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
+  const [availableVoices, setAvailableVoices] = useState([]);
+  const [selectedVoice, setSelectedVoice] = useState(null);
+  const [voiceLang, setVoiceLang] = useState('auto'); // 'auto', 'id', 'en'
   const messagesEndRef = useRef(null);
   const recognitionRef = useRef(null);
+  const synthRef = useRef(window.speechSynthesis);
+
+  // Load available voices
+  useEffect(() => {
+    const loadVoices = () => {
+      const voices = synthRef.current.getVoices();
+      setAvailableVoices(voices);
+      
+      // Cari voice Indonesia yang bagus
+      const idVoice = voices.find(v => v.lang.startsWith('id-ID') || v.lang.startsWith('id'));
+      const enVoice = voices.find(v => v.lang.startsWith('en-US') || v.lang.startsWith('en-GB'));
+      
+      // Set default voice
+      if (idVoice) {
+        setSelectedVoice(idVoice);
+      } else if (enVoice) {
+        setSelectedVoice(enVoice);
+      }
+    };
+
+    loadVoices();
+    
+    // Chrome load voices asynchronously
+    if (synthRef.current.onvoiceschanged !== undefined) {
+      synthRef.current.onvoiceschanged = loadVoices;
+    }
+  }, []);
 
   // Auto scroll ke bawah
   useEffect(() => {
@@ -46,21 +76,83 @@ export default function LinguaAIChat() {
     };
   }, []);
 
-  // Text to Speech
-  const speakText = (text) => {
-    if ('speechSynthesis' in window) {
-      setIsSpeaking(true);
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = 'en-US';
-      utterance.rate = 0.9;
-      utterance.pitch = 1;
-      
-      utterance.onend = () => {
-        setIsSpeaking(false);
-      };
+  // Deteksi bahasa dari teks
+  const detectLanguage = (text) => {
+    // Simple detection: cek apakah ada karakter/huruf Indonesia
+    const indonesianWords = ['yang', 'dan', 'atau', 'tidak', 'dengan', 'untuk', 'bisa', 'apakah', 'ini', 'itu'];
+    const lowerText = text.toLowerCase();
+    
+    const hasIndonesian = indonesianWords.some(word => lowerText.includes(word));
+    return hasIndonesian ? 'id' : 'en';
+  };
 
-      window.speechSynthesis.speak(utterance);
+  // Text to Speech dengan voice yang sesuai
+  const speakText = (text) => {
+    if (!synthRef.current) {
+      alert('Browser Anda tidak mendukung text-to-speech');
+      return;
     }
+
+    // Cancel speech yang sedang berjalan
+    synthRef.current.cancel();
+
+    const utterance = new SpeechSynthesisUtterance(text);
+    
+    // Auto-detect bahasa atau gunakan voice yang dipilih
+    let targetVoice = selectedVoice;
+    
+    if (voiceLang === 'auto') {
+      const detectedLang = detectLanguage(text);
+      const voices = availableVoices;
+      
+      if (detectedLang === 'id') {
+        // Cari voice Indonesia
+        targetVoice = voices.find(v => 
+          v.lang.startsWith('id-ID') || 
+          v.lang.startsWith('id') ||
+          v.name.toLowerCase().includes('indonesian')
+        ) || voices.find(v => v.lang.startsWith('en')); // Fallback ke English
+      } else {
+        // Cari voice English
+        targetVoice = voices.find(v => 
+          v.lang.startsWith('en-US') || 
+          v.lang.startsWith('en-GB') ||
+          v.lang.startsWith('en')
+        );
+      }
+    } else if (voiceLang === 'id') {
+      targetVoice = availableVoices.find(v => 
+        v.lang.startsWith('id-ID') || 
+        v.lang.startsWith('id')
+      );
+    } else if (voiceLang === 'en') {
+      targetVoice = availableVoices.find(v => 
+        v.lang.startsWith('en-US') || 
+        v.lang.startsWith('en-GB')
+      );
+    }
+
+    if (targetVoice) {
+      utterance.voice = targetVoice;
+      utterance.lang = targetVoice.lang;
+    } else {
+      // Default settings
+      utterance.lang = voiceLang === 'id' ? 'id-ID' : 'en-US';
+    }
+
+    // Adjust rate dan pitch untuk suara yang lebih natural
+    utterance.rate = 0.95; // Sedikit lebih lambat untuk kejelasan
+    utterance.pitch = 1.0;
+    utterance.volume = 1.0;
+
+    utterance.onstart = () => setIsSpeaking(true);
+    utterance.onend = () => setIsSpeaking(false);
+    utterance.onerror = (e) => {
+      console.error('Speech error:', e);
+      setIsSpeaking(false);
+    };
+
+    synthRef.current.speak(utterance);
   };
 
   const toggleListening = () => {
@@ -113,7 +205,7 @@ export default function LinguaAIChat() {
       console.error('Error:', err);
       
       const errorMsg = { 
-        text: '️ Maaf, terjadi kesalahan. Silakan coba lagi.', 
+        text: '⚠️ Maaf, terjadi kesalahan. Silakan coba lagi.', 
         isUser: false, 
         timestamp: new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })
       };
@@ -153,6 +245,45 @@ export default function LinguaAIChat() {
           </div>
         </div>
 
+        {/* Voice Settings */}
+        <div className="bg-white/5 border-b border-white/10 p-4">
+          <div className="flex items-center gap-4 flex-wrap">
+            <div className="flex items-center gap-2">
+              <label className="text-white text-sm font-medium"> Voice:</label>
+              <select 
+                value={voiceLang}
+                onChange={(e) => setVoiceLang(e.target.value)}
+                className="bg-white/10 text-white border border-white/20 rounded-lg px-3 py-1.5 text-sm outline-none focus:border-blue-400"
+              >
+                <option value="auto" className="bg-slate-800">Auto Detect</option>
+                <option value="id" className="bg-slate-800">Bahasa Indonesia</option>
+                <option value="en" className="bg-slate-800">English</option>
+              </select>
+            </div>
+            
+            {availableVoices.length > 0 && (
+              <div className="flex items-center gap-2">
+                <label className="text-white/70 text-xs">Specific Voice:</label>
+                <select 
+                  value={selectedVoice?.name || ''}
+                  onChange={(e) => {
+                    const voice = availableVoices.find(v => v.name === e.target.value);
+                    setSelectedVoice(voice);
+                    setVoiceLang('auto');
+                  }}
+                  className="bg-white/10 text-white border border-white/20 rounded-lg px-3 py-1.5 text-xs outline-none focus:border-blue-400 max-w-xs truncate"
+                >
+                  {availableVoices.map((voice) => (
+                    <option key={voice.name} value={voice.name} className="bg-slate-800">
+                      {voice.name} ({voice.lang})
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
+          </div>
+        </div>
+
         {/* Chat Area */}
         <div className="h-[500px] overflow-y-auto p-6 space-y-4 bg-gradient-to-b from-gray-50/50 to-white/50">
           {messages.length === 0 && (
@@ -173,7 +304,6 @@ export default function LinguaAIChat() {
 
                 {/* Message Bubble */}
                 <div className={`p-4 rounded-2xl shadow-lg ${m.isUser ? 'bg-gradient-to-br from-blue-600 to-blue-700 text-white rounded-br-none' : 'bg-white border border-gray-200 rounded-bl-none'}`}>
-                  {/* PERBAIKAN: Teks AI harus berwarna gelap (gray-800) */}
                   <p className={`text-base leading-relaxed ${m.isUser ? 'text-white' : 'text-gray-800'}`}>{m.text}</p>
                   
                   {!m.isUser && m.ipa && (
