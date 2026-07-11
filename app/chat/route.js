@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
+
 // Inisialisasi Gemini AI
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
@@ -10,6 +11,8 @@ export async function POST(req) {
     const userMessage = body.message || body.text;
     const mode = body.mode || 'translate';
     const targetLang = body.targetLang || 'en';
+     console.log(' Request received:', await req.clone().text());
+  console.log('🔑 API Key exists:', !!process.env.GEMINI_API_KEY);
 
     // Validasi input
     if (!userMessage) {
