@@ -4,9 +4,7 @@ export async function POST(req) {
   try {
     const body = await req.json();
     const userMessage = body.text || body.message;
-    const targetLang = body.targetLang || 'en'; // 'en', 'id', 'ar'
-    
-    console.log('📥 Request:', { userMessage, targetLang });
+    const targetLang = body.targetLang || 'en';
     
     if (!userMessage) {
       return NextResponse.json({ error: 'Pesan tidak boleh kosong' }, { status: 400 });
@@ -20,36 +18,32 @@ export async function POST(req) {
 
     const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
     
-    // Build prompt berdasarkan target bahasa
+    // Build prompt yang SANGAT STRICT - hanya terjemahan
     let prompt = '';
     
     if (targetLang === 'ar') {
-      prompt = `Terjemahkan teks berikut ke bahasa Arab DENGAN HARAKAT (tanda baca) lengkap.
-HANYA berikan hasil terjemahan dalam bahasa Arab dengan harakat. 
-JANGAN tambahkan penjelasan, intro, atau teks lainnya.
+      prompt = `You are a translation machine. Translate ONLY. No intro, no explanation, no notes.
 
-Teks: "${userMessage}"
+Input: "${userMessage}"
+Language: Arabic with harakat
 
-Terjemahan Arab dengan harakat:`;
+Output (Arabic text ONLY):`;
     } else if (targetLang === 'id') {
-      prompt = `Terjemahkan teks berikut ke bahasa Indonesia.
-HANYA berikan hasil terjemahan. JANGAN tambahkan penjelasan atau intro.
+      prompt = `You are a translation machine. Translate ONLY. No intro, no explanation, no notes.
 
-Teks: "${userMessage}"
+Input: "${userMessage}"
+Language: Indonesian
 
-Terjemahan:`;
+Output (Indonesian text ONLY):`;
     } else {
-      // English (default)
-      prompt = `Translate the following text to English.
-ONLY provide the translation. DO NOT add any explanation or introductory text.
+      // English
+      prompt = `You are a translation machine. Translate ONLY. No intro, no explanation, no notes.
 
-Text: "${userMessage}"
+Input: "${userMessage}"
+Language: English
 
-Translation:`;
+Output (English text ONLY):`;
     }
-
-    console.log('🎯 Target language:', targetLang);
-    console.log('📝 Prompt:', prompt);
 
     const response = await fetch(url, {
       method: 'POST',
@@ -57,15 +51,17 @@ Translation:`;
       body: JSON.stringify({
         contents: [{ parts: [{ text: prompt }] }],
         generationConfig: { 
-          temperature: 0.3,
-          maxOutputTokens: 1024 
+          temperature: 0.1, // Sangat rendah untuk hasil konsisten
+          maxOutputTokens: 512,
+          topP: 0.8,
+          topK: 1
         }
       })
     });
 
     if (!response.ok) {
       const errorData = await response.text();
-      console.error('❌ API Error:', errorData);
+      console.error('API Error:', errorData);
       return NextResponse.json(
         { error: 'Gagal menghubungi AI', details: errorData }, 
         { status: response.status }
@@ -73,7 +69,6 @@ Translation:`;
     }
 
     const data = await response.json();
-    console.log('✅ Response:', data);
 
     if (data.candidates && data.candidates.length > 0) {
       let aiReply = data.candidates[0].content.parts[0].text;
@@ -81,26 +76,54 @@ Translation:`;
       // Bersihkan dari tanda ** dan formatting
       aiReply = aiReply.replace(/\*\*/g, '').trim();
       
-      // Hapus baris pertama jika ada intro
+      // Hapus semua baris yang mengandung kata-kata intro
       const lines = aiReply.split('\n');
-      if (lines[0].toLowerCase().includes('halo') || 
-          lines[0].toLowerCase().includes('terjemahan') ||
-          lines[0].toLowerCase().includes('berikut')) {
-        aiReply = lines.slice(1).join('\n').trim();
-      }
+      const introWords = [
+        'halo', 'hai', 'hello', 'hi',
+        'saya', 'i am', 'i\'m',
+        'berikut', 'following', 'here',
+        'terjemahan', 'translation', 'translate',
+        'catatan', 'note', 'notes',
+        'penjelasan', 'explanation',
+        'artinya', 'means', 'meaning',
+        'adalah', 'is', 'are',
+        'untuk', 'for', 'to',
+        'dalam', 'in', 'into',
+        'bahasa', 'language',
+        'konteks', 'context',
+        'jika', 'if',
+        'gunakan', 'use', 'using',
+        'atau', 'or',
+        'saat', 'when',
+        'sudah', 'already',
+        'belum', 'not yet',
+        'terjadi', 'happened',
+        'sekarang', 'now',
+        'nanti', 'later'
+      ];
       
-      console.log('🎉 Final reply:', aiReply);
-      
-      return NextResponse.json({ 
-        translation: aiReply,
-        targetLang: targetLang
+      // Filter baris yang bukan intro
+      const filteredLines = lines.filter(line => {
+        const lowerLine = line.toLowerCase().trim();
+        // Hapus baris yang terlalu pendek (kurang dari 3 karakter)
+        if (lowerLine.length < 3) return false;
+        // Hapus baris yang mengandung kata intro
+        return !introWords.some(word => lowerLine.includes(word));
       });
+      
+      // Ambil hasil terjemahan (biasanya baris pertama yang valid)
+      aiReply = filteredLines[0] || aiReply;
+      
+      // Hapus karakter aneh di awal/akhir
+      aiReply = aiReply.replace(/^["'`:]+|["'`:]+$/g, '').trim();
+      
+      return NextResponse.json({ translation: aiReply });
     } else {
       throw new Error('Format respons tidak sesuai');
     }
 
   } catch (error) {
-    console.error('❌ API Error:', error);
+    console.error('API Error:', error);
     return NextResponse.json(
       { error: 'Gagal menghubungi AI', details: error.message }, 
       { status: 500 }
