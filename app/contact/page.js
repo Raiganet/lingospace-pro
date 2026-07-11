@@ -1,7 +1,6 @@
 'use client';
 
 import Link from 'next/link';
-import Navbar from '../../components/Navbar';
 import { useState } from 'react';
 
 export default function Contact() {
@@ -32,10 +31,20 @@ export default function Contact() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white">
-      <Navbar />
-      
-      <div className="max-w-6xl mx-auto px-6 py-12">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white py-12">
+      <div className="max-w-6xl mx-auto px-6">
+        
+        {/* ✅ TOMBOL KEMBALI SAMA PERSIS DENGAN BLOG */}
+        <div className="mb-8">
+          <Link 
+            href="/"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full glass text-sm font-semibold hover:scale-105 transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/30 border border-white/10 hover:border-purple-500/50 group"
+          >
+            <span className="transform group-hover:-translate-x-1 transition-transform duration-300">←</span>
+            Kembali ke Beranda
+          </Link>
+        </div>
+
         {/* Header */}
         <div className="text-center mb-12">
           <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-4xl font-bold mx-auto mb-4 shadow-lg">
@@ -52,7 +61,7 @@ export default function Contact() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
           {/* Contact Information */}
           <div className="space-y-6">
-            <div className="glass-modern rounded-2xl p-8">
+            <div className="glass-modern rounded-2xl p-8 border border-white/10">
               <h2 className="text-2xl font-bold mb-6 text-purple-300">📞 Informasi Kontak</h2>
               
               <div className="space-y-6">
@@ -108,24 +117,24 @@ export default function Contact() {
             </div>
 
             {/* Social Media */}
-            <div className="glass-modern rounded-2xl p-8">
-              <h2 className="text-2xl font-bold mb-6 text-purple-300"> Media Sosial</h2>
+            <div className="glass-modern rounded-2xl p-8 border border-white/10">
+              <h2 className="text-2xl font-bold mb-6 text-purple-300">📱 Media Sosial</h2>
               <p className="text-gray-300 mb-6">Ikuti kami di media sosial untuk update terbaru:</p>
               
               <div className="flex gap-4 flex-wrap">
-                <a href="#" className="flex items-center gap-2 px-6 py-3 rounded-full glass-modern hover:bg-white/10 transition-all">
+                <a href="#" className="flex items-center gap-2 px-6 py-3 rounded-full glass-modern hover:bg-white/10 transition-all border border-white/10">
                   <span className="text-2xl">📘</span>
                   <span>Facebook</span>
                 </a>
-                <a href="#" className="flex items-center gap-2 px-6 py-3 rounded-full glass-modern hover:bg-white/10 transition-all">
+                <a href="#" className="flex items-center gap-2 px-6 py-3 rounded-full glass-modern hover:bg-white/10 transition-all border border-white/10">
                   <span className="text-2xl">📸</span>
                   <span>Instagram</span>
                 </a>
-                <a href="#" className="flex items-center gap-2 px-6 py-3 rounded-full glass-modern hover:bg-white/10 transition-all">
+                <a href="#" className="flex items-center gap-2 px-6 py-3 rounded-full glass-modern hover:bg-white/10 transition-all border border-white/10">
                   <span className="text-2xl">🐦</span>
                   <span>Twitter</span>
                 </a>
-                <a href="#" className="flex items-center gap-2 px-6 py-3 rounded-full glass-modern hover:bg-white/10 transition-all">
+                <a href="#" className="flex items-center gap-2 px-6 py-3 rounded-full glass-modern hover:bg-white/10 transition-all border border-white/10">
                   <span className="text-2xl">▶️</span>
                   <span>YouTube</span>
                 </a>
@@ -133,7 +142,7 @@ export default function Contact() {
             </div>
 
             {/* FAQ Quick Links */}
-            <div className="glass-modern rounded-2xl p-8">
+            <div className="glass-modern rounded-2xl p-8 border border-white/10">
               <h2 className="text-2xl font-bold mb-4 text-purple-300">❓ Pertanyaan Umum?</h2>
               <p className="text-gray-300 mb-4">
                 Mungkin jawaban yang Anda cari sudah tersedia di halaman FAQ kami.
@@ -148,7 +157,7 @@ export default function Contact() {
           </div>
 
           {/* Contact Form */}
-          <div className="glass-modern rounded-2xl p-8">
+          <div className="glass-modern rounded-2xl p-8 border border-white/10">
             <h2 className="text-2xl font-bold mb-6 text-purple-300">✉️ Kirim Pesan</h2>
             <p className="text-gray-300 mb-6">
               Isi form di bawah ini dan kami akan menghubungi Anda secepatnya.
@@ -241,7 +250,7 @@ export default function Contact() {
         </div>
 
         {/* Additional Info */}
-        <div className="glass-modern rounded-2xl p-8 text-center">
+        <div className="glass-modern rounded-2xl p-8 text-center border border-white/10">
           <h2 className="text-2xl font-bold mb-4 text-purple-300">💬 Mari Berdiskusi</h2>
           <p className="text-gray-300 max-w-3xl mx-auto">
             Apakah Anda memiliki pertanyaan tentang fitur LingoSpace Pro, cara penggunaan, atau ingin berkolaborasi? 
@@ -249,54 +258,64 @@ export default function Contact() {
             ke email kami. Kami berkomitmen untuk memberikan respons terbaik dalam waktu 1-2 hari kerja.
           </p>
         </div>
-      </div>
 
-      {/* Footer */}
-      <footer className="glass-modern border-t border-white/10 mt-16">
-        <div className="max-w-7xl mx-auto px-6 py-12">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+        {/* ✅ FOOTER SAMA PERSIS DENGAN HALAMAN BLOG & ABOUT */}
+        <div className="mt-16 pt-8 border-t border-white/10">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+            {/* Tentang Kami */}
             <div>
-              <h3 className="font-bold text-lg mb-4 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-                LingoSpace Pro
-              </h3>
+              <h3 className="font-bold text-lg mb-4 text-purple-300">Tentang</h3>
+              <ul className="space-y-2">
+                <li>
+                  <Link href="/about" className="text-gray-400 hover:text-white transition-colors">
+                    Tentang Kami
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/contact" className="text-gray-400 hover:text-white transition-colors">
+                    Kontak
+                  </Link>
+                </li>
+              </ul>
+            </div>
+
+            {/* Legal */}
+            <div>
+              <h3 className="font-bold text-lg mb-4 text-purple-300">Legal</h3>
+              <ul className="space-y-2">
+                <li>
+                  <Link href="/privacy-policy" className="text-gray-400 hover:text-white transition-colors">
+                    Kebijakan Privasi
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/terms" className="text-gray-400 hover:text-white transition-colors">
+                    Syarat & Ketentuan
+                  </Link>
+                </li>
+              </ul>
+            </div>
+
+            {/* Info */}
+            <div>
+              <h3 className="font-bold text-lg mb-4 text-purple-300">Info</h3>
               <p className="text-gray-400 text-sm">
-                Platform pembelajaran bahasa premium untuk Bahasa Arab dan Inggris dengan metode SRS yang efektif.
+                LingoSpace Pro adalah platform pembelajaran bahasa premium untuk Bahasa Arab dan Inggris.
+              </p>
+              <p className="text-gray-400 text-sm mt-2">
+                diky.hermansyah91@gmail.com
               </p>
             </div>
-
-            <div>
-              <h4 className="font-bold mb-4 text-purple-300">Menu</h4>
-              <ul className="space-y-2 text-sm">
-                <li><Link href="/" className="text-gray-400 hover:text-white transition-colors">📊 Dashboard</Link></li>
-                <li><Link href="/blog" className="text-gray-400 hover:text-white transition-colors">📝 Blog</Link></li>
-                <li><Link href="/about" className="text-gray-400 hover:text-white transition-colors">ℹ️ Tentang Kami</Link></li>
-              </ul>
-            </div>
-
-            <div>
-              <h4 className="font-bold mb-4 text-purple-300">Legal</h4>
-              <ul className="space-y-2 text-sm">
-                <li><Link href="/privacy-policy" className="text-gray-400 hover:text-white transition-colors">🔒 Privacy Policy</Link></li>
-                <li><Link href="/terms" className="text-gray-400 hover:text-white transition-colors">📄 Terms of Service</Link></li>
-                <li><Link href="/contact" className="text-gray-400 hover:text-white transition-colors">📧 Contact</Link></li>
-              </ul>
-            </div>
-
-            <div>
-              <h4 className="font-bold mb-4 text-purple-300">Kontak</h4>
-              <ul className="space-y-2 text-sm text-gray-400">
-                <li className="flex items-center gap-2">📧 diky.hermansyah91@gmail.com</li>
-                <li className="flex items-center gap-2">🌐 www.raiganet.my.id</li>
-              </ul>
-            </div>
           </div>
 
-          <div className="border-t border-white/10 pt-6 text-center text-sm text-gray-400">
-            <p>© {new Date().getFullYear()} LingoSpace Pro. All rights reserved.</p>
-            <p className="mt-2 text-xs">Dibuat dengan ❤️ untuk pelajar bahasa di Indonesia</p>
+          <div className="text-center pt-6 border-t border-white/10">
+            <p className="text-gray-400 text-sm">
+              © {new Date().getFullYear()} LingoSpace Pro. All rights reserved.
+            </p>
           </div>
         </div>
-      </footer>
+
+      </div>
     </div>
   );
 }
