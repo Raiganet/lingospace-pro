@@ -1,41 +1,127 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { dictionaryData, dictionaryCategories } from '../data/dictionary';
+import { useState, useEffect, useRef } from 'react';
 
-export default function Dictionary() {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('all');
-  const [viewMode, setViewMode] = useState('grid');
-  const [bookmarks, setBookmarks] = useState([]);
-  const [copiedId, setCopiedId] = useState(null);
-  const [hoveredCard, setHoveredCard] = useState(null);
+export default function SmartTranslator() {
+  const [sourceLang, setSourceLang] = useState('id-ID');
+  const [targetLang, setTargetLang] = useState('ar-SA');
+  const [inputText, setInputText] = useState('');
+  const [chatLog, setChatLog] = useState([]);
+  const [isListening, setIsListening] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [hasSpeechRecognition, setHasSpeechRecognition] = useState(false);
+  const [voiceSetting, setVoiceSetting] = useState('auto');
+  const messagesEndRef = useRef(null);
 
   useEffect(() => {
-    const saved = localStorage.getItem('dictionary_bookmarks');
-    if (saved) setBookmarks(JSON.parse(saved));
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (SpeechRecognition) {
+      setHasSpeechRecognition(true);
+    }
   }, []);
 
-  const toggleBookmark = (id) => {
-    const newBookmarks = bookmarks.includes(id)
-      ? bookmarks.filter(b => b !== id)
-      : [...bookmarks, id];
-    setBookmarks(newBookmarks);
-    localStorage.setItem('dictionary_bookmarks', JSON.stringify(newBookmarks));
+  useEffect(() => {
+    scrollToBottom();
+  }, [chatLog]);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
-  const copyToClipboard = (text, id) => {
-    navigator.clipboard.writeText(text);
-    setCopiedId(id);
-    setTimeout(() => setCopiedId(null), 2000);
+  const startListening = () => {
+    if (!hasSpeechRecognition) {
+      alert('Maaf, browser Anda tidak mendukung fitur mikrofon. Gunakan Google Chrome.');
+      return;
+    }
+    
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    const recognition = new SpeechRecognition();
+    
+    recognition.lang = sourceLang;
+    recognition.interimResults = false;
+    recognition.maxAlternatives = 1;
+
+    recognition.onstart = () => {
+      setIsListening(true);
+    };
+    
+    recognition.onend = () => {
+      setIsListening(false);
+    };
+    
+    recognition.onresult = (event) => {
+      const transcript = event.results[0][0].transcript;
+      setInputText(transcript);
+      handleTranslate(transcript);
+    };
+
+    recognition.onerror = (event) => {
+      console.error('Speech recognition error', event.error);
+      setIsListening(false);
+      alert('Terjadi kesalahan saat mendengarkan. Coba lagi!');
+    };
+
+    recognition.start();
   };
 
-  const playAudio = (text, lang) => {
-    if (!text || text === '-') return;
+  const handleTranslate = async (text) => {
+    if (!text.trim()) return;
+    
+    setIsLoading(true);
+    
+    // Tambahkan pesan user ke chat
+    setChatLog(prev => [...prev, {
+      sender: 'user',
+      text: text,
+      lang: sourceLang,
+      timestamp: new Date()
+    }]);
+
+    try {
+      // Simulasi terjemahan (ganti dengan API translation yang sebenarnya)
+      setTimeout(() => {
+        const targetLangCode = targetLang.split('-')[0];
+        let translatedText = '';
+        
+        // Simple translation simulation (replace with actual API)
+        if (targetLangCode === 'en') {
+          translatedText = `[English] ${text}`;
+        } else if (targetLangCode === 'ar') {
+          translatedText = `[العربية] ${text}`;
+        } else {
+          translatedText = `[Indonesia] ${text}`;
+        }
+        
+        setChatLog(prev => [...prev, {
+          sender: 'assistant',
+          text: translatedText,
+          lang: targetLang,
+          originalText: text,
+          timestamp: new Date()
+        }]);
+        
+        // Auto speak translation
+        speakText(translatedText, targetLang);
+        
+        setIsLoading(false);
+        setInputText('');
+      }, 1000);
+      
+    } catch (error) {
+      console.error('Translation error:', error);
+      setIsLoading(false);
+      alert('Terjadi kesalahan saat menerjemahkan');
+    }
+  };
+
+  const speakText = (text, lang) => {
+    if (!text) return;
+    
     window.speechSynthesis.cancel();
+    
     if ('speechSynthesis' in window) {
       const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = lang === 'ar' ? 'ar-SA' : lang === 'en' ? 'en-US' : 'id-ID';
+      utterance.lang = lang;
       utterance.rate = 0.8;
       utterance.pitch = 1.0;
       utterance.volume = 1.0;
@@ -43,337 +129,210 @@ export default function Dictionary() {
     }
   };
 
-  const filteredData = dictionaryData.filter(item => {
-    const matchCategory = selectedCategory === 'all' || item.category === selectedCategory;
-    const searchLower = searchTerm.toLowerCase().trim();
-    
-    const matchSearch = searchTerm === '' ||
-      (item.id_lang && item.id_lang.toLowerCase().includes(searchLower)) ||
-      (item.en && item.en.toLowerCase().includes(searchLower)) ||
-      (item.ar && item.ar.includes(searchTerm)) ||
-      (item.category && item.category.toLowerCase().includes(searchLower));
-    
-    return matchCategory && matchSearch;
-  });
+  const handleSend = () => {
+    if (inputText.trim()) {
+      handleTranslate(inputText);
+    }
+  };
 
-  const categoryIcons = {
-    'Makanan & Minuman': '️',
-    'Keluarga': '‍👩‍👧👦',
-    'Pekerjaan': '💼',
-    'Angka': '🔢',
-    'Warna': '🎨',
-    'Binatang': '🦁',
-    'Tempat': '🏠',
-    'Waktu': '',
-    'Cuaca': '️',
-    'Perasaan': '😊',
-    'Tubuh Manusia': '',
-    'Kata Kerja': '',
-    'Kata Sifat': ''
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      handleSend();
+    }
+  };
+
+  const clearChat = () => {
+    setChatLog([]);
+  };
+
+  const languages = [
+    { code: 'id-ID', name: 'Indonesia', flag: '🇮🇩' },
+    { code: 'en-US', name: 'English', flag: '🇬🇧' },
+    { code: 'ar-SA', name: 'العربية', flag: '🇸🇦' }
+  ];
+
+  const getLanguageName = (code) => {
+    const lang = languages.find(l => l.code === code);
+    return lang ? lang.name : code;
   };
 
   return (
-    <div className="animate-fade-in max-w-7xl mx-auto px-4 sm:px-6 py-8">
-      {/* Header */}
-      <div className="text-center mb-8 animate-slide-down">
-        <div className="inline-block mb-4">
-          <span className="text-6xl animate-bounce"></span>
-        </div>
-        <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-2 bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 bg-clip-text text-transparent animate-gradient">
-          Kamus Tematik 3 Bahasa
-        </h2>
-        <p className="text-gray-400 text-base sm:text-lg">Indonesia • English • العربية</p>
-        <div className="mt-4 flex justify-center gap-2 flex-wrap">
-          <span className="px-3 py-1 rounded-full bg-purple-500/20 text-purple-300 text-sm">
-            {dictionaryData.length} Kata
-          </span>
-          <span className="px-3 py-1 rounded-full bg-pink-500/20 text-pink-300 text-sm">
-            {dictionaryCategories.length - 1} Kategori
-          </span>
-        </div>
-      </div>
-
-      {/* Search & Filter */}
-      <div className="glass-modern rounded-2xl p-4 sm:p-6 mb-8 animate-fade-in shadow-2xl">
-        <div className="flex flex-col md:flex-row gap-3 sm:gap-4">
-          <div className="flex-1 relative">
-            <span className="absolute left-3 sm:left-4 top-1/2 transform -translate-y-1/2 text-xl sm:text-2xl">🔍</span>
-            <input
-              type="text"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              placeholder="Cari kata dalam bahasa Indonesia, Inggris, atau Arab..."
-              className="w-full pl-10 sm:pl-14 pr-4 sm:pr-6 py-2.5 sm:py-3 rounded-full glass-modern bg-white/5 outline-none text-white placeholder-gray-400 focus:ring-2 focus:ring-purple-500 transition-all text-sm sm:text-base"
-            />
-          </div>
-          
-          <div className="relative">
-            <select
-              value={selectedCategory}
-              onChange={(e) => setSelectedCategory(e.target.value)}
-              className="px-4 sm:px-6 py-2.5 sm:py-3 rounded-full glass-modern bg-white/5 outline-none text-white cursor-pointer focus:ring-2 focus:ring-purple-500 transition-all appearance-none pr-10 sm:pr-12 text-sm sm:text-base"
-            >
-              {dictionaryCategories.map(cat => (
-                <option key={cat.id} value={cat.id} className="bg-slate-800">
-                  {categoryIcons[cat.id] || ''} {cat.name}
-                </option>
-              ))}
-            </select>
-            <span className="absolute right-3 sm:right-4 top-1/2 transform -translate-y-1/2 pointer-events-none text-sm sm:text-base">▼</span>
-          </div>
-
-          <div className="flex gap-2">
-            <button
-              onClick={() => setViewMode('grid')}
-              className={`px-3 sm:px-4 py-2.5 sm:py-3 rounded-full transition-all transform hover:scale-105 text-sm sm:text-base ${
-                viewMode === 'grid' 
-                  ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg' 
-                  : 'glass-modern text-gray-300 hover:bg-white/10'
-              }`}
-            >
-              ⊞ Grid
-            </button>
-            <button
-              onClick={() => setViewMode('list')}
-              className={`px-3 sm:px-4 py-2.5 sm:py-3 rounded-full transition-all transform hover:scale-105 text-sm sm:text-base ${
-                viewMode === 'list' 
-                  ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg' 
-                  : 'glass-modern text-gray-300 hover:bg-white/10'
-              }`}
-            >
-              ☰ List
-            </button>
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-2 sm:p-4 md:p-6">
+      <div className="max-w-4xl mx-auto">
+        {/* Header - Responsive */}
+        <div className="bg-gradient-to-r from-purple-600 to-pink-600 rounded-t-2xl p-3 sm:p-4 md:p-6">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2 sm:gap-3">
+              <div className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 bg-white/20 rounded-full flex items-center justify-center">
+                <span className="text-lg sm:text-xl md:text-2xl">🌐</span>
+              </div>
+              <div>
+                <h1 className="text-sm sm:text-base md:text-xl font-bold text-white">LinguaAI Pro</h1>
+                <p className="text-[10px] sm:text-xs md:text-sm text-white/80">Smart Translation Assistant</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-1 sm:gap-2">
+              <div className="w-2 h-2 sm:w-2.5 sm:h-2.5 bg-green-400 rounded-full animate-pulse"></div>
+              <span className="text-[10px] sm:text-xs text-white">Online</span>
+            </div>
           </div>
         </div>
 
-        <div className="mt-3 sm:mt-4 text-xs sm:text-sm text-gray-400 animate-fade-in">
-          Menampilkan <span className="text-purple-400 font-bold text-base sm:text-lg">{filteredData.length}</span> dari {dictionaryData.length} kata
+        {/* Language Selector - Responsive */}
+        <div className="bg-white/5 backdrop-blur-sm p-3 sm:p-4 border-b border-white/10">
+          <div className="flex flex-col sm:flex-row gap-2 sm:gap-4">
+            <div className="flex-1">
+              <label className="text-[10px] sm:text-xs text-gray-400 mb-1 block">Target Bahasa:</label>
+              <div className="flex gap-1 sm:gap-2 flex-wrap">
+                {['en-US', 'id-ID', 'ar-SA'].map((lang) => (
+                  <button
+                    key={lang}
+                    onClick={() => setTargetLang(lang)}
+                    className={`px-2 sm:px-3 md:px-4 py-1 sm:py-2 rounded-full text-[10px] sm:text-xs md:text-sm font-semibold transition-all ${
+                      targetLang === lang
+                        ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white'
+                        : 'bg-white/10 text-gray-300 hover:bg-white/20'
+                    }`}
+                  >
+                    {lang === 'en-US' ? '🇬🇧 English' : lang === 'id-ID' ? '🇮🇩 Indonesia' : '🇸🇦 العربية'}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
 
-      {/* Dictionary Content */}
-      {viewMode === 'grid' ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-          {filteredData.map((item, index) => (
-            <div 
-              key={item.id} 
-              className="glass-modern rounded-2xl p-4 sm:p-6 hover-lift cursor-pointer transform transition-all duration-300 animate-fade-in-up relative"
-              style={{ animationDelay: `${index * 30}ms` }}
-              onMouseEnter={() => setHoveredCard(item.id)}
-              onMouseLeave={() => setHoveredCard(null)}
-            >
-              <div className="flex justify-between items-start mb-3 sm:mb-4">
-                <span className="px-2 sm:px-3 py-1 rounded-full bg-gradient-to-r from-purple-500/20 to-pink-500/20 text-purple-300 text-[10px] sm:text-xs font-semibold flex items-center gap-1">
-                  {categoryIcons[item.category] || ''} {item.category}
+        {/* Voice Settings - Responsive */}
+        <div className="bg-white/5 backdrop-blur-sm p-3 sm:p-4 border-b border-white/10">
+          <div className="flex flex-col sm:flex-row gap-2 sm:gap-4">
+            <div className="flex-1">
+              <label className="text-[10px] sm:text-xs text-gray-400 mb-1 block">🔊 Voice:</label>
+              <select
+                value={voiceSetting}
+                onChange={(e) => setVoiceSetting(e.target.value)}
+                className="w-full px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg bg-white/10 text-white text-[10px] sm:text-xs md:text-sm outline-none focus:ring-2 focus:ring-purple-500"
+              >
+                <option value="auto" className="bg-slate-800">Auto Detect</option>
+                <option value="id-ID" className="bg-slate-800">Google Bahasa Indonesia (id-ID)</option>
+                <option value="en-US" className="bg-slate-800">Google English (en-US)</option>
+                <option value="ar-SA" className="bg-slate-800">Google Arabic (ar-SA)</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        {/* Chat Area - Responsive dengan tinggi yang sesuai */}
+        <div className="bg-white/5 backdrop-blur-sm min-h-[300px] sm:min-h-[400px] md:min-h-[500px] max-h-[60vh] sm:max-h-[70vh] overflow-y-auto p-3 sm:p-4 md:p-6">
+          {chatLog.length === 0 ? (
+            <div className="flex flex-col items-center justify-center h-full text-center py-8 sm:py-12">
+              <div className="text-4xl sm:text-5xl md:text-6xl mb-3 sm:mb-4">💬</div>
+              <p className="text-sm sm:text-base md:text-lg text-gray-400 mb-2">Mulai percakapan dengan AI</p>
+              <p className="text-[10px] sm:text-xs md:text-sm text-gray-500">
+                Terjemahkan ke <span className="text-purple-400 font-semibold">
+                  {targetLang === 'en-US' ? 'English' : targetLang === 'id-ID' ? 'Indonesia' : 'العربية'}
                 </span>
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    toggleBookmark(item.id);
-                  }}
-                  className="text-xl sm:text-2xl hover:scale-125 transition-transform transform"
-                >
-                  {bookmarks.includes(item.id) ? '⭐' : '☆'}
-                </button>
-              </div>
-
-              <div className="space-y-3 sm:space-y-4 mb-3 sm:mb-4">
-                <div className="transform transition-all duration-300 hover:translate-x-2">
-                  <p className="text-[10px] sm:text-xs text-gray-400 mb-1 flex items-center gap-1">
-                    <span>🇮🇩</span> Indonesia
-                  </p>
-                  <p className="text-lg sm:text-xl md:text-2xl font-bold text-white">{item.id_lang}</p>
+              </p>
+            </div>
+          ) : (
+            <div className="space-y-3 sm:space-y-4">
+              {chatLog.map((chat, idx) => (
+                <div key={idx} className={`flex ${chat.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
+                  <div className={`max-w-[85%] sm:max-w-[75%] rounded-2xl p-3 sm:p-4 ${
+                    chat.sender === 'user' 
+                      ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white' 
+                      : 'bg-white/10 text-white'
+                  }`}>
+                    <p className="text-xs sm:text-sm md:text-base">{chat.text}</p>
+                    {chat.translation && (
+                      <div className="mt-2 pt-2 border-t border-white/20">
+                        <p className="text-[10px] sm:text-xs text-white/70 mb-1">Terjemahan:</p>
+                        <p className="text-xs sm:text-sm md:text-base italic">{chat.translation}</p>
+                      </div>
+                    )}
+                  </div>
                 </div>
-                <div className="transform transition-all duration-300 hover:translate-x-2">
-                  <p className="text-[10px] sm:text-xs text-gray-400 mb-1 flex items-center gap-1">
-                    <span>🇬</span> English
-                  </p>
-                  <p className="text-lg sm:text-xl md:text-2xl font-bold text-blue-300">{item.en}</p>
-                </div>
-                <div className="transform transition-all duration-300 hover:translate-x-2">
-                  <p className="text-[10px] sm:text-xs text-gray-400 mb-1 flex items-center gap-1">
-                    <span>🇸🇦</span> العربية
-                  </p>
-                  <p className="text-xl sm:text-2xl md:text-3xl font-bold text-right text-purple-300 mb-1" dir="rtl">{item.ar}</p>
-                  {item.pronunciation && (
-                    <p className="text-[10px] sm:text-xs text-gray-500 text-center">({item.pronunciation})</p>
-                  )}
-                </div>
-              </div>
-
-              {item.example_id && (
-                <div className="border-t border-white/10 pt-3 sm:pt-4 mb-3 sm:mb-4 bg-white/5 rounded-lg p-2 sm:p-3">
-                  <p className="text-[10px] sm:text-xs text-gray-400 mb-2 flex items-center gap-1">
-                    <span>💬</span> Contoh:
-                  </p>
-                  
-                  <div className="space-y-2">
-                    <div className="flex items-center gap-2">
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          playAudio(item.example_id, 'id');
-                        }}
-                        className="flex-shrink-0 px-2 py-1 rounded-full glass-modern text-[10px] sm:text-xs hover:bg-purple-500/40 transition-all"
-                      >
-                        🔊 ID
-                      </button>
-                      <p className="text-xs sm:text-sm text-gray-300 flex-1">{item.example_id}</p>
-                    </div>
-                    
-                    <div className="flex items-center gap-2">
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          playAudio(item.example_en, 'en');
-                        }}
-                        className="flex-shrink-0 px-2 py-1 rounded-full glass-modern text-[10px] sm:text-xs hover:bg-purple-500/40 transition-all"
-                      >
-                         EN
-                      </button>
-                      <p className="text-xs sm:text-sm text-blue-300 flex-1">{item.example_en}</p>
-                    </div>
-                    
-                    <div className="flex items-center gap-2">
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          playAudio(item.example_ar, 'ar');
-                        }}
-                        className="flex-shrink-0 px-2 py-1 rounded-full glass-modern text-[10px] sm:text-xs hover:bg-purple-500/40 transition-all"
-                      >
-                        🔊 AR
-                      </button>
-                      <p className="text-xs sm:text-sm text-purple-300 flex-1 text-right" dir="rtl">{item.example_ar}</p>
+              ))}
+              {isLoading && (
+                <div className="flex justify-start">
+                  <div className="bg-white/10 rounded-2xl p-4">
+                    <div className="flex gap-2">
+                      <div className="w-2 h-2 bg-purple-500 rounded-full animate-bounce"></div>
+                      <div className="w-2 h-2 bg-pink-500 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+                      <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
                     </div>
                   </div>
                 </div>
               )}
-
-              <div className="flex gap-1.5 sm:gap-2 flex-wrap">
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    playAudio(item.id_lang, 'id');
-                  }}
-                  className="px-2 sm:px-3 py-1.5 sm:py-2 rounded-full glass-modern text-[10px] sm:text-xs hover:bg-gradient-to-r hover:from-purple-500 hover:to-pink-500 transition-all transform hover:scale-105 flex items-center gap-1"
-                >
-                  🔊 ID
-                </button>
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    playAudio(item.en, 'en');
-                  }}
-                  className="px-2 sm:px-3 py-1.5 sm:py-2 rounded-full glass-modern text-[10px] sm:text-xs hover:bg-gradient-to-r hover:from-purple-500 hover:to-pink-500 transition-all transform hover:scale-105 flex items-center gap-1"
-                >
-                  🔊 EN
-                </button>
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    playAudio(item.ar, 'ar');
-                  }}
-                  className="px-2 sm:px-3 py-1.5 sm:py-2 rounded-full glass-modern text-[10px] sm:text-xs hover:bg-gradient-to-r hover:from-purple-500 hover:to-pink-500 transition-all transform hover:scale-105 flex items-center gap-1"
-                >
-                  🔊 AR
-                </button>
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    copyToClipboard(`${item.id_lang} | ${item.en} | ${item.ar}`, item.id);
-                  }}
-                  className="px-2 sm:px-3 py-1.5 sm:py-2 rounded-full glass-modern text-[10px] sm:text-xs hover:bg-gradient-to-r hover:from-purple-500 hover:to-pink-500 transition-all transform hover:scale-105 flex items-center gap-1"
-                >
-                  {copiedId === item.id ? '✓' : '📋'}
-                </button>
-              </div>
-
-              {hoveredCard === item.id && (
-                <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-pink-500/10 rounded-2xl pointer-events-none animate-fade-in"></div>
-              )}
+              <div ref={messagesEndRef} />
             </div>
-          ))}
+          )}
         </div>
-      ) : (
-        <div className="space-y-3 sm:space-y-4">
-          {filteredData.map((item, index) => (
-            <div 
-              key={item.id} 
-              className="glass-modern rounded-2xl p-4 sm:p-6 hover-lift animate-fade-in"
-              style={{ animationDelay: `${index * 20}ms` }}
+
+        {/* Input Area - FIXED: Icon tidak terpotong */}
+        <div className="bg-white rounded-b-2xl p-3 sm:p-4 md:p-6">
+          <div className="flex items-center gap-2 sm:gap-3">
+            {/* Mic Button - Ukuran diperbesar */}
+            <button
+              onClick={startListening}
+              disabled={isListening}
+              className={`flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full flex items-center justify-center transition-all ${
+                isListening 
+                  ? 'bg-red-500 text-white animate-pulse' 
+                  : 'bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:scale-110'
+              }`}
+              title="Klik untuk voice input"
             >
-              <div className="flex items-center justify-between mb-3 sm:mb-4">
-                <span className="px-2 sm:px-3 py-1 rounded-full bg-gradient-to-r from-purple-500/20 to-pink-500/20 text-purple-300 text-[10px] sm:text-xs font-semibold flex items-center gap-1">
-                  {categoryIcons[item.category] || ''} {item.category}
-                </span>
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    toggleBookmark(item.id);
-                  }}
-                  className="text-xl sm:text-2xl hover:scale-125 transition-transform"
-                >
-                  {bookmarks.includes(item.id) ? '⭐' : '☆'}
-                </button>
-              </div>
+              <span className="text-lg sm:text-xl md:text-2xl">🎤</span>
+            </button>
 
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mb-3 sm:mb-4">
-                <div>
-                  <p className="text-[10px] sm:text-xs text-gray-400 mb-1">🇮🇩 Indonesia</p>
-                  <p className="text-base sm:text-lg md:text-xl font-bold">{item.id_lang}</p>
-                </div>
-                <div>
-                  <p className="text-[10px] sm:text-xs text-gray-400 mb-1">🇬🇧 English</p>
-                  <p className="text-base sm:text-lg md:text-xl font-bold text-blue-300">{item.en}</p>
-                </div>
-                <div>
-                  <p className="text-[10px] sm:text-xs text-gray-400 mb-1">🇸🇦 العربية</p>
-                  <p className="text-lg sm:text-xl md:text-2xl font-bold text-right text-purple-300" dir="rtl">{item.ar}</p>
-                  {item.pronunciation && (
-                    <p className="text-[10px] sm:text-xs text-gray-500 text-right">({item.pronunciation})</p>
-                  )}
-                </div>
-              </div>
+            {/* Input Field - Flex-1 agar mengisi ruang */}
+            <input
+              type="text"
+              value={inputText}
+              onChange={(e) => setInputText(e.target.value)}
+              onKeyPress={handleKeyPress}
+              placeholder={`Ketik untuk diterjemahkan ke ${
+                targetLang === 'en-US' ? 'English' : targetLang === 'id-ID' ? 'Indonesia' : 'العربية'
+              }...`}
+              className="flex-1 px-3 sm:px-4 md:px-6 py-2.5 sm:py-3 md:py-4 rounded-full bg-gray-100 text-gray-800 text-xs sm:text-sm md:text-base outline-none focus:ring-2 focus:ring-purple-500 min-w-0"
+            />
 
-              <div className="flex gap-1.5 sm:gap-2 flex-wrap">
-                <button onClick={() => playAudio(item.id_lang, 'id')} className="px-2 sm:px-3 py-1.5 sm:py-2 rounded-full glass-modern text-[10px] sm:text-xs hover:bg-gradient-to-r hover:from-purple-500 hover:to-pink-500 transition-all">🔊 ID</button>
-                <button onClick={() => playAudio(item.en, 'en')} className="px-2 sm:px-3 py-1.5 sm:py-2 rounded-full glass-modern text-[10px] sm:text-xs hover:bg-gradient-to-r hover:from-purple-500 hover:to-pink-500 transition-all">🔊 EN</button>
-                <button onClick={() => playAudio(item.ar, 'ar')} className="px-2 sm:px-3 py-1.5 sm:py-2 rounded-full glass-modern text-[10px] sm:text-xs hover:bg-gradient-to-r hover:from-purple-500 hover:to-pink-500 transition-all">🔊 AR</button>
-                <button onClick={() => copyToClipboard(`${item.id_lang} | ${item.en} | ${item.ar}`, item.id)} className="px-2 sm:px-3 py-1.5 sm:py-2 rounded-full glass-modern text-[10px] sm:text-xs hover:bg-gradient-to-r hover:from-purple-500 hover:to-pink-500 transition-all">
-                  {copiedId === item.id ? '✓' : '📋'}
-                </button>
-              </div>
+            {/* Send Button - Ukuran diperbesar */}
+            <button
+              onClick={handleSend}
+              disabled={!inputText.trim() || isLoading}
+              className={`flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded-full flex items-center justify-center transition-all ${
+                inputText.trim() && !isLoading
+                  ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:scale-110'
+                  : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+              }`}
+              title="Kirim pesan"
+            >
+              <span className="text-lg sm:text-xl md:text-2xl"></span>
+            </button>
+          </div>
+
+          {/* Helper Text - Responsive */}
+          <div className="mt-2 sm:mt-3 text-center">
+            <p className="text-[9px] sm:text-[10px] md:text-xs text-gray-500">
+              Tekan Enter untuk mengirim • Klik mic untuk voice input
+            </p>
+          </div>
+
+          {/* Clear Chat Button */}
+          {chatLog.length > 0 && (
+            <div className="mt-3 text-center">
+              <button
+                onClick={clearChat}
+                className="text-[10px] sm:text-xs text-gray-500 hover:text-red-500 transition-colors"
+              >
+                ️ Hapus percakapan
+              </button>
             </div>
-          ))}
+          )}
         </div>
-      )}
-
-      {filteredData.length === 0 && (
-        <div className="text-center py-12 sm:py-16 text-gray-400 animate-fade-in">
-          <div className="text-4xl sm:text-6xl mb-4 animate-bounce">🔍</div>
-          <p className="text-base sm:text-xl">Tidak ada kata yang ditemukan</p>
-          <p className="text-xs sm:text-sm mt-2">Coba kata kunci atau kategori lain</p>
-        </div>
-      )}
-
-      <style>{`
-        @keyframes fadeInUp {
-          from { opacity: 0; transform: translateY(20px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes slideDown {
-          from { opacity: 0; transform: translateY(-20px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes gradient {
-          0%, 100% { background-size: 200% 200%; background-position: left center; }
-          50% { background-size: 200% 200%; background-position: right center; }
-        }
-        .animate-fade-in-up { animation: fadeInUp 0.5s ease-out forwards; opacity: 0; }
-        .animate-slide-down { animation: slideDown 0.5s ease-out forwards; }
-        .animate-gradient { animation: gradient 3s ease infinite; }
-      `}</style>
+      </div>
     </div>
   );
 }
