@@ -622,25 +622,37 @@ export default function LingoSpacePro() {
               <p className="text-xs uppercase tracking-widest mb-2 opacity-80">🇸🇦 العربية (Arabic)</p>
               <h3 className="text-4xl font-bold text-right" dir="rtl">{item.ar || '-'}</h3>
               {item.pronunciation && (
-                <p className="text-sm mt-2 text-pink-200 italic">({item.pronunciation})</p>
+                <p className="text-sm mt-3 text-pink-200 italic">({item.pronunciation})</p>
               )}
             </div>
           </div>
         </div>
       </div>
 
-      {/* Tombol Audio & Bookmark */}
+      {/* ✅ Tombol Audio 3 Bahasa + Bookmark (DENGAN ICON 🔊) */}
       <div className="flex justify-center gap-3 mt-8 flex-wrap">
-        <button onClick={() => playAudio(item.id_lang, 'id')} className="speaker-btn px-5 py-3 rounded-full glass-modern hover:scale-105 transition-transform flex items-center gap-2 btn-press">
+        <button 
+          onClick={() => playAudio(item.id_lang, 'id')} 
+          className="speaker-btn px-5 py-3 rounded-full glass-modern hover:scale-105 transition-transform flex items-center gap-2 btn-press"
+        >
           🔊 Indonesia
         </button>
-        <button onClick={() => playAudio(item.en, 'en')} className="speaker-btn px-5 py-3 rounded-full glass-modern hover:scale-105 transition-transform flex items-center gap-2 btn-press">
+        <button 
+          onClick={() => playAudio(item.en, 'en')} 
+          className="speaker-btn px-5 py-3 rounded-full glass-modern hover:scale-105 transition-transform flex items-center gap-2 btn-press"
+        >
           🔊 English
         </button>
-        <button onClick={() => playAudio(item.ar, 'ar')} className="speaker-btn px-5 py-3 rounded-full glass-modern hover:scale-105 transition-transform flex items-center gap-2 btn-press">
+        <button 
+          onClick={() => playAudio(item.ar, 'ar')} 
+          className="speaker-btn px-5 py-3 rounded-full glass-modern hover:scale-105 transition-transform flex items-center gap-2 btn-press"
+        >
           🔊 العربية
         </button>
-        <button onClick={() => toggleBookmark(item.id)} className="px-5 py-3 rounded-full glass-modern hover:scale-105 transition-transform flex items-center gap-2 btn-press">
+        <button 
+          onClick={() => toggleBookmark(item.id)} 
+          className="px-5 py-3 rounded-full glass-modern hover:scale-105 transition-transform flex items-center gap-2 btn-press"
+        >
           {isBookmarked ? '⭐ Tersimpan' : '☆ Favorit'}
         </button>
       </div>
@@ -655,20 +667,22 @@ export default function LingoSpacePro() {
         </button>
       </div>
 
-      {/* ✅ CONTOH KALIMAT 3 BAHASA */}
-      {(item.example_en || item.example_ar || item.example_id) && (
+      {/* ✅ CONTOH KALIMAT 3 BAHASA (NAMA FIELD SUDAH DIPERBAIKI) */}
+      {(item.example_id || item.example_en || item.example_ar) && (
         <div className="max-w-2xl mx-auto mt-8 glass-modern rounded-2xl p-6">
-          <p className="text-xs uppercase text-gray-400 mb-4 text-center">💬 Contoh Kalimat</p>
+          <p className="text-xs uppercase text-gray-400 mb-4 text-center tracking-widest">💬 Contoh Kalimat</p>
           
           <div className="space-y-4">
             {/* Contoh Indonesia */}
             {item.example_id && (
               <div className="bg-white/5 rounded-xl p-4">
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-xs text-gray-400">🇮🇩 Indonesia</span>
+                  <span className="text-xs text-gray-400 flex items-center gap-1">
+                    <span>🇮🇩</span> Indonesia
+                  </span>
                   <button 
                     onClick={() => playAudio(item.example_id, 'id')}
-                    className="px-3 py-1 rounded-full bg-purple-500/20 hover:bg-purple-500/40 transition-colors btn-press text-xs"
+                    className="px-3 py-1 rounded-full bg-purple-500/20 hover:bg-purple-500/40 transition-colors btn-press text-xs flex items-center gap-1"
                   >
                     🔊 Dengarkan
                   </button>
@@ -681,33 +695,42 @@ export default function LingoSpacePro() {
             {item.example_en && (
               <div className="bg-white/5 rounded-xl p-4">
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-xs text-gray-400">🇬 English</span>
+                  <span className="text-xs text-gray-400 flex items-center gap-1">
+                    <span>🇬🇧</span> English
+                  </span>
                   <button 
                     onClick={() => playAudio(item.example_en, 'en')}
-                    className="px-3 py-1 rounded-full bg-blue-500/20 hover:bg-blue-500/40 transition-colors btn-press text-xs"
+                    className="px-3 py-1 rounded-full bg-blue-500/20 hover:bg-blue-500/40 transition-colors btn-press text-xs flex items-center gap-1"
                   >
-                     Listen
+                    🔊 Listen
                   </button>
                 </div>
                 <p className="text-base text-blue-200 italic">{item.example_en}</p>
               </div>
             )}
 
-            {/* Contoh Arabic */}
+            {/* Contoh Arabic + PELAFALAN */}
             {item.example_ar && (
               <div className="bg-white/5 rounded-xl p-4">
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-xs text-gray-400">🇸🇦 العربية</span>
+                  <span className="text-xs text-gray-400 flex items-center gap-1">
+                    <span>🇸🇦</span> العربية
+                  </span>
                   <button 
                     onClick={() => playAudio(item.example_ar, 'ar')}
-                    className="px-3 py-1 rounded-full bg-purple-500/20 hover:bg-purple-500/40 transition-colors btn-press text-xs"
+                    className="px-3 py-1 rounded-full bg-pink-500/20 hover:bg-pink-500/40 transition-colors btn-press text-xs flex items-center gap-1"
                   >
-                     استمع
+                    🔊 استمع
                   </button>
                 </div>
-                <p className="text-xl text-purple-300 text-right mb-2" dir="rtl">{item.example_ar}</p>
+                <p className="text-xl text-purple-300 text-right mb-2 leading-loose" dir="rtl">
+                  {item.example_ar}
+                </p>
+                {/* ✅ PELAFALAN ARAB (JIKA ADA) */}
                 {item.example_pronunciation && (
-                  <p className="text-sm text-pink-200 italic text-center">({item.example_pronunciation})</p>
+                  <p className="text-sm text-pink-200 italic text-center mt-2">
+                    ({item.example_pronunciation})
+                  </p>
                 )}
               </div>
             )}
