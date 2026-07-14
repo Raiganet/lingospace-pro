@@ -1562,7 +1562,7 @@ export default function LingoSpacePro() {
     );
   }
 
-  // Menu items untuk reuse di desktop & sidebar
+  
   const menuItems = [
      { id: 'dashboard', label: '📊 Dashboard' },
     { id: 'flashcard', label: '🎴 Flashcard' },
@@ -1910,7 +1910,7 @@ export default function LingoSpacePro() {
       </aside>
 
       {/* Search & Filter - Only for flashcard/quiz/listen */}
-      // ✅ BENAR
+      
 {currentMode !== 'dashboard' &&
  currentMode !== 'bookmarks' &&
  currentMode !== 'roadmap' &&
