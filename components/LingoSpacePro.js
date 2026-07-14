@@ -586,70 +586,137 @@ export default function LingoSpacePro() {
   };
 
   const renderFlashcard = () => {
-    const item = filteredData[currentIndex] || {};
-    const isBookmarked = bookmarks.includes(item.id_lang);
+  const item = filteredData[currentIndex] || {};
+  const isBookmarked = bookmarks.includes(item.id);
 
-    return (
-      <div className="animate-fade-in">
-        <div className="flex justify-between items-center mb-4 md:mb-6 flex-wrap gap-2 md:gap-3">
-          <div>
-            <h2 className="text-xl sm:text-2xl font-bold">🎴 Flashcard Mode</h2>
-            <p className="text-gray-400 text-xs sm:text-sm">Klik kartu untuk membalik</p>
-          </div>
-          <div className="flex items-center gap-2 md:gap-3">
-            <button onClick={prevCard} className="p-2 sm:p-3 rounded-full glass-modern hover:scale-110 transition-transform btn-press">←</button>
-            <span className="text-xs sm:text-sm font-semibold">{currentIndex + 1} / {filteredData.length}</span>
-            <button onClick={nextCard} className="p-2 sm:p-3 rounded-full glass-modern hover:scale-110 transition-transform btn-press">→</button>
-          </div>
+  return (
+    <div className="animate-fade-in">
+      <div className="flex justify-between items-center mb-6 flex-wrap gap-3">
+        <div>
+          <h2 className="text-2xl font-bold">🎴 Flashcard Mode</h2>
+          <p className="text-gray-400 text-sm">Klik kartu untuk membalik</p>
         </div>
-
-        <div className="perspective-1000 w-full max-w-2xl mx-auto h-64 sm:h-80 md:h-96 cursor-pointer" onClick={flipCard}>
-          <div className={`relative w-full h-full transition-transform duration-600 transform-style-3d ${isFlipped ? 'rotate-y-180' : ''}`}>
-            <div className="absolute inset-0 backface-hidden bg-gradient-to-br from-purple-600 to-pink-600 rounded-xl sm:rounded-2xl flex flex-col items-center justify-center p-4 sm:p-6 md:p-8 shadow-2xl">
-              <p className="text-[10px] sm:text-xs uppercase tracking-widest mb-2 md:mb-4 opacity-80">Bahasa Indonesia</p>
-              <h2 className="text-2xl sm:text-3xl md:text-5xl font-bold text-center">{item.id_lang || '-'}</h2>
-              <p className="text-xs sm:text-sm mt-4 md:mt-8 opacity-60">Tap untuk melihat jawaban</p>
-            </div>
-
-            <div className="absolute inset-0 backface-hidden bg-gradient-to-br from-pink-600 to-red-600 rounded-xl sm:rounded-2xl flex flex-col items-center justify-center p-4 sm:p-6 md:p-8 shadow-2xl rotate-y-180">
-              <div className="text-center w-full">
-                <p className="text-[10px] sm:text-xs uppercase tracking-widest mb-2 opacity-80">English</p>
-                <h3 className="text-xl sm:text-2xl md:text-3xl font-bold mb-2 md:mb-4">{item.en || '-'}</h3>
-                <div className="border-t border-white/30 my-2 md:my-3"></div>
-                <p className="text-[10px] sm:text-xs uppercase tracking-widest mb-2 opacity-80">العربية (Arabic)</p>
-                <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold text-right" dir="rtl">{item.ar || '-'}</h3>
-              </div>
-            </div>
-          </div>
+        <div className="flex items-center gap-3">
+          <button onClick={prevCard} className="p-3 rounded-full glass-modern hover:scale-110 transition-transform btn-press">←</button>
+          <span className="text-sm font-semibold">{currentIndex + 1} / {filteredData.length}</span>
+          <button onClick={nextCard} className="p-3 rounded-full glass-modern hover:scale-110 transition-transform btn-press">→</button>
         </div>
-
-        <div className="flex justify-center gap-2 sm:gap-3 mt-4 md:mt-8 flex-wrap">
-          <button onClick={() => playAudio(item.en, 'en')} className="speaker-btn px-3 sm:px-4 md:px-5 py-2 md:py-3 rounded-full glass-modern hover:scale-105 transition-transform flex items-center gap-2 btn-press text-xs sm:text-sm">🔊 English</button>
-          <button onClick={() => playAudio(item.ar, 'ar')} className="speaker-btn px-3 sm:px-4 md:px-5 py-2 md:py-3 rounded-full glass-modern hover:scale-105 transition-transform flex items-center gap-2 btn-press text-xs sm:text-sm">🔊 العربية</button>
-          <button onClick={() => toggleBookmark(item.id_lang)} className="px-3 sm:px-4 md:px-5 py-2 md:py-3 rounded-full glass-modern hover:scale-105 transition-transform flex items-center gap-2 btn-press text-xs sm:text-sm">
-            {isBookmarked ? '⭐ Tersimpan' : '☆ Favorit'}
-          </button>
-        </div>
-
-        <div className="flex justify-center gap-2 sm:gap-3 mt-3 md:mt-4">
-          <button onClick={() => rateCard(false)} className="px-4 sm:px-5 md:px-6 py-2 md:py-3 rounded-full bg-red-500/20 border border-red-500/50 hover:bg-red-500/40 transition-colors btn-press text-xs sm:text-sm">😓 Sulit</button>
-          <button onClick={() => rateCard(true)} className="px-4 sm:px-5 md:px-6 py-2 md:py-3 rounded-full bg-green-500/20 border border-green-500/50 hover:bg-green-500/40 transition-colors btn-press text-xs sm:text-sm">😊 Mudah</button>
-        </div>
-
-        {(item.ex_en || item.ex_ar) && (
-          <div className="max-w-2xl mx-auto mt-4 md:mt-8 glass-modern rounded-xl sm:rounded-2xl p-4 sm:p-6 text-center">
-            <p className="text-[10px] sm:text-xs uppercase text-gray-400 mb-2 md:mb-3">Contoh Kalimat</p>
-            <p className="text-sm sm:text-base md:text-lg mb-2 text-blue-200">{item.ex_en}</p>
-            <p className="text-lg sm:text-xl md:text-2xl text-pink-200 text-right" dir="rtl">{item.ex_ar}</p>
-            <div className="flex justify-center gap-2 mt-3 md:mt-4">
-              <button onClick={() => playAudio(item.ex_en, 'en')} className="speaker-btn px-3 sm:px-4 py-2 rounded-lg glass-modern text-xs sm:text-sm hover:scale-105 transition-transform btn-press">🔊 EN</button>
-              <button onClick={() => playAudio(item.ex_ar, 'ar')} className="speaker-btn px-3 sm:px-4 py-2 rounded-lg glass-modern text-xs sm:text-sm hover:scale-105 transition-transform btn-press">🔊 AR</button>
-            </div>
-          </div>
-        )}
       </div>
-    );
-  };
+
+      {/* Kartu Flashcard */}
+      <div className="perspective-1000 w-full max-w-2xl mx-auto h-96 cursor-pointer" onClick={flipCard}>
+        <div className={`relative w-full h-full transition-transform duration-600 transform-style-3d ${isFlipped ? 'rotate-y-180' : ''}`}>
+          {/* Sisi Depan - Indonesia */}
+          <div className="absolute inset-0 backface-hidden bg-gradient-to-br from-purple-600 to-pink-600 rounded-2xl flex flex-col items-center justify-center p-8 shadow-2xl">
+            <p className="text-sm uppercase tracking-widest mb-4 opacity-80">🇮🇩 Bahasa Indonesia</p>
+            <h2 className="text-4xl md:text-5xl font-bold text-center">{item.id_lang || '-'}</h2>
+            <p className="text-sm mt-8 opacity-60">Tap untuk melihat jawaban</p>
+          </div>
+
+          {/* Sisi Belakang - English & Arabic */}
+          <div className="absolute inset-0 backface-hidden bg-gradient-to-br from-pink-600 to-red-600 rounded-2xl flex flex-col items-center justify-center p-8 shadow-2xl rotate-y-180">
+            <div className="text-center w-full">
+              <p className="text-xs uppercase tracking-widest mb-2 opacity-80">🇬🇧 English</p>
+              <h3 className="text-3xl font-bold mb-4">{item.en || '-'}</h3>
+              <div className="border-t border-white/30 my-3"></div>
+              <p className="text-xs uppercase tracking-widest mb-2 opacity-80">🇸🇦 العربية (Arabic)</p>
+              <h3 className="text-4xl font-bold text-right" dir="rtl">{item.ar || '-'}</h3>
+              {item.pronunciation && (
+                <p className="text-sm mt-2 text-pink-200 italic">({item.pronunciation})</p>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Tombol Audio & Bookmark */}
+      <div className="flex justify-center gap-3 mt-8 flex-wrap">
+        <button onClick={() => playAudio(item.id_lang, 'id')} className="speaker-btn px-5 py-3 rounded-full glass-modern hover:scale-105 transition-transform flex items-center gap-2 btn-press">
+          🔊 Indonesia
+        </button>
+        <button onClick={() => playAudio(item.en, 'en')} className="speaker-btn px-5 py-3 rounded-full glass-modern hover:scale-105 transition-transform flex items-center gap-2 btn-press">
+          🔊 English
+        </button>
+        <button onClick={() => playAudio(item.ar, 'ar')} className="speaker-btn px-5 py-3 rounded-full glass-modern hover:scale-105 transition-transform flex items-center gap-2 btn-press">
+          🔊 العربية
+        </button>
+        <button onClick={() => toggleBookmark(item.id)} className="px-5 py-3 rounded-full glass-modern hover:scale-105 transition-transform flex items-center gap-2 btn-press">
+          {isBookmarked ? '⭐ Tersimpan' : '☆ Favorit'}
+        </button>
+      </div>
+
+      {/* Tombol Rating */}
+      <div className="flex justify-center gap-3 mt-4">
+        <button onClick={() => rateCard(false)} className="px-6 py-3 rounded-full bg-red-500/20 border border-red-500/50 hover:bg-red-500/40 transition-colors btn-press">
+          😓 Sulit
+        </button>
+        <button onClick={() => rateCard(true)} className="px-6 py-3 rounded-full bg-green-500/20 border border-green-500/50 hover:bg-green-500/40 transition-colors btn-press">
+          😊 Mudah
+        </button>
+      </div>
+
+      {/* ✅ CONTOH KALIMAT 3 BAHASA */}
+      {(item.example_en || item.example_ar || item.example_id) && (
+        <div className="max-w-2xl mx-auto mt-8 glass-modern rounded-2xl p-6">
+          <p className="text-xs uppercase text-gray-400 mb-4 text-center">💬 Contoh Kalimat</p>
+          
+          <div className="space-y-4">
+            {/* Contoh Indonesia */}
+            {item.example_id && (
+              <div className="bg-white/5 rounded-xl p-4">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-xs text-gray-400">🇮🇩 Indonesia</span>
+                  <button 
+                    onClick={() => playAudio(item.example_id, 'id')}
+                    className="px-3 py-1 rounded-full bg-purple-500/20 hover:bg-purple-500/40 transition-colors btn-press text-xs"
+                  >
+                    🔊 Dengarkan
+                  </button>
+                </div>
+                <p className="text-base text-gray-200">{item.example_id}</p>
+              </div>
+            )}
+
+            {/* Contoh English */}
+            {item.example_en && (
+              <div className="bg-white/5 rounded-xl p-4">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-xs text-gray-400">🇬 English</span>
+                  <button 
+                    onClick={() => playAudio(item.example_en, 'en')}
+                    className="px-3 py-1 rounded-full bg-blue-500/20 hover:bg-blue-500/40 transition-colors btn-press text-xs"
+                  >
+                     Listen
+                  </button>
+                </div>
+                <p className="text-base text-blue-200 italic">{item.example_en}</p>
+              </div>
+            )}
+
+            {/* Contoh Arabic */}
+            {item.example_ar && (
+              <div className="bg-white/5 rounded-xl p-4">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-xs text-gray-400">🇸🇦 العربية</span>
+                  <button 
+                    onClick={() => playAudio(item.example_ar, 'ar')}
+                    className="px-3 py-1 rounded-full bg-purple-500/20 hover:bg-purple-500/40 transition-colors btn-press text-xs"
+                  >
+                     استمع
+                  </button>
+                </div>
+                <p className="text-xl text-purple-300 text-right mb-2" dir="rtl">{item.example_ar}</p>
+                {item.example_pronunciation && (
+                  <p className="text-sm text-pink-200 italic text-center">({item.example_pronunciation})</p>
+                )}
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
 
   // PERBAIKAN BESAR: renderQuiz dengan logika yang benar
   const renderQuiz = () => {
