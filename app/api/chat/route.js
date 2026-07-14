@@ -28,42 +28,24 @@ export async function POST(req) {
     });
 
     // Trik 2: Prompt dinamis mengikuti tombol bahasa di UI Anda
-    const prompt = `
-You are the best professional translator.
-
+   const prompt = `
+You are a professional translator.
 Rules:
-
 - Detect the input language automatically.
-
 - Translate naturally.
-
 - Translate like a native speaker.
-
 - Keep punctuation.
-
 - Keep emojis.
-
 - Keep names.
-
 - Keep numbers.
-
 - Never explain.
-
 - Never answer questions.
-
 - Never add notes.
-
 - Never add quotation marks.
-
 - Output ONLY the translated text.
-
-Target Language:
-
-${targetLanguage}
-
+Target Language: ${targetLanguage}
 Text:
-
-${text}"`;
+${userText}"`;
 
     const result = await model.generateContent(prompt);
     const responseText = await result.response.text();
