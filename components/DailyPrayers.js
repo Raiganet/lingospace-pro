@@ -9,7 +9,11 @@ export default function DailyPrayers() {
   const [copiedId, setCopiedId] = useState(null);
   const [favorites, setFavorites] = useState([]);
 
+  // Load voices saat komponen dimuat (untuk mencegah delay pemuatan suara di beberapa browser)
   useEffect(() => {
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.getVoices();
+    }
     const saved = localStorage.getItem('dailyPrayers_favorites');
     if (saved) {
       setFavorites(JSON.parse(saved));
@@ -19,7 +23,7 @@ export default function DailyPrayers() {
   const filteredPrayers = dailyPrayers.filter(prayer => {
     const matchCategory = selectedCategory === 'Semua' || prayer.category === selectedCategory;
     const matchSearch = prayer.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                       prayer.translation.toLowerCase().includes(searchTerm.toLowerCase());
+                        prayer.translation.toLowerCase().includes(searchTerm.toLowerCase());
     return matchCategory && matchSearch;
   });
 
@@ -44,170 +48,202 @@ export default function DailyPrayers() {
     }
   };
 
+  // Fungsi Audio yang sudah dioptimalkan untuk pelafalan Arab yang lebih baik
   const playAudio = (text) => {
     if ('speechSynthesis' in window) {
+      // Hentikan suara yang mungkin sedang berjalan sebelumnya
+      window.speechSynthesis.cancel();
+
       const utterance = new SpeechSynthesisUtterance(text);
       utterance.lang = 'ar-SA';
-      utterance.rate = 0.7;
+      
+      // Pengaturan kecepatan dan nada untuk melancarkan tajwid/makhroj
+      utterance.rate = 0.75; // Sedikit dinaikkan dari 0.7 agar tidak terlalu putus-putus
+      utterance.pitch = 0.9; // Nada sedikit diturunkan agar terdengar lebih berat dan natural
+
+      // Mengambil daftar suara yang tersedia di perangkat pengguna
+      const voices = window.speechSynthesis.getVoices();
+      
+      // Prioritaskan suara "Premium" atau suara dari Google yang kualitasnya jauh lebih baik
+      const premiumVoice = voices.find(
+        voice => voice.lang.includes('ar') && 
+        (voice.name.includes('Google') || voice.name.includes('Premium') || voice.name.includes('Majed') || voice.name.includes('Tariq'))
+      );
+      
+      // Fallback ke suara Arab standar jika yang premium tidak ada
+      const defaultArabicVoice = voices.find(voice => voice.lang.includes('ar'));
+
+      if (premiumVoice) {
+        utterance.voice = premiumVoice;
+      } else if (defaultArabicVoice) {
+        utterance.voice = defaultArabicVoice;
+      }
+
       window.speechSynthesis.speak(utterance);
+    } else {
+      alert("Maaf, browser Anda tidak mendukung fitur pemutar suara.");
     }
   };
 
   return (
-  <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white p-4 md:p-6">
-    <div className="max-w-6xl mx-auto">
-      {/* Header */}
-      <div className="text-center mb-8 animate-fade-in">
-        <div className="text-5xl md:text-6xl mb-4">🤲</div>
-        <h1 className="text-3xl md:text-4xl font-bold mb-2 bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 bg-clip-text text-transparent">
-          Kumpulan Doa Sehari-hari
-        </h1>
-        <p className="text-gray-400 text-sm md:text-base">
-          Doa-doa pilihan untuk kehidupan Muslim sehari-hari
-        </p>
-      </div>
-
-      {/* Search & Filter */}
-      <div className="glass-modern rounded-2xl p-4 md:p-6 mb-6">
-        <div className="flex flex-col md:flex-row gap-4 mb-4">
-          <input
-            type="text"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            placeholder=" Cari doa..."
-            className="flex-1 px-4 py-3 rounded-xl glass-modern bg-white/5 outline-none text-white placeholder-gray-400 focus:ring-2 focus:ring-purple-500"
-          />
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white p-4 md:p-6">
+      <div className="max-w-6xl mx-auto">
+        {/* Header */}
+        <div className="text-center mb-8 animate-fade-in">
+          <div className="text-5xl md:text-6xl mb-4">🤲</div>
+          <h1 className="text-3xl md:text-4xl font-bold mb-2 bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 bg-clip-text text-transparent">
+            Kumpulan Doa Sehari-hari
+          </h1>
+          <p className="text-gray-400 text-sm md:text-base">
+            Doa-doa pilihan untuk kehidupan Muslim sehari-hari
+          </p>
         </div>
-        
-        <div className="flex flex-wrap gap-2">
-          {prayerCategories.map((cat) => (
-            <button
-              key={cat}
-              onClick={() => setSelectedCategory(cat)}
-              className={`px-4 py-2 rounded-full text-sm font-semibold transition-all ${
-                selectedCategory === cat
-                  ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg'
-                  : 'glass-modern text-gray-300 hover:bg-white/10'
-              }`}
+
+        {/* Search & Filter */}
+        <div className="glass-modern rounded-2xl p-4 md:p-6 mb-6">
+          <div className="flex flex-col md:flex-row gap-4 mb-4">
+            <input
+              type="text"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              placeholder=" Cari doa..."
+              className="flex-1 px-4 py-3 rounded-xl glass-modern bg-white/5 outline-none text-white placeholder-gray-400 focus:ring-2 focus:ring-purple-500"
+            />
+          </div>
+          
+          <div className="flex flex-wrap gap-2">
+            {prayerCategories.map((cat) => (
+              <button
+                key={cat}
+                onClick={() => setSelectedCategory(cat)}
+                className={`px-4 py-2 rounded-full text-sm font-semibold transition-all ${
+                  selectedCategory === cat
+                    ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg'
+                    : 'glass-modern text-gray-300 hover:bg-white/10'
+                }`}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Stats */}
+        <div className="mb-6 text-center">
+          <p className="text-gray-400">
+            Menampilkan <span className="text-purple-400 font-bold">{filteredPrayers.length}</span> dari {dailyPrayers.length} doa
+          </p>
+        </div>
+
+        {/* Prayer Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {filteredPrayers.map((prayer, index) => (
+            <div
+              key={prayer.id}
+              className="glass-modern rounded-2xl p-6 hover-lift animate-fade-in"
+              style={{ animationDelay: `${index * 50}ms` }}
             >
-              {cat}
-            </button>
+              {/* Header */}
+              <div className="flex justify-between items-start mb-4">
+                <div>
+                  <span className="px-3 py-1 rounded-full bg-purple-500/20 text-purple-300 text-xs font-semibold">
+                    {prayer.category}
+                  </span>
+                  <h3 className="text-xl font-bold mt-2">{prayer.title}</h3>
+                </div>
+                <button
+                  onClick={() => toggleFavorite(prayer.id)}
+                  className="text-2xl hover:scale-125 transition-transform"
+                >
+                  {favorites.includes(prayer.id) ? '⭐' : '☆'}
+                </button>
+              </div>
+
+              {/* Arabic Text */}
+              <div className="mb-4 p-4 bg-white/5 rounded-xl">
+                <p className="text-2xl md:text-3xl text-right text-purple-300 leading-loose font-arabic" dir="rtl">
+                  {prayer.arabic}
+                </p>
+              </div>
+
+              {/* Transliteration */}
+              <div className="mb-3">
+                <p className="text-xs text-gray-400 mb-1">Latin:</p>
+                <p className="text-sm italic text-gray-300">{prayer.transliteration}</p>
+              </div>
+
+              {/* Translation */}
+              <div className="mb-4">
+                <p className="text-xs text-gray-400 mb-1">Terjemahan:</p>
+                <p className="text-sm text-gray-200">{prayer.translation}</p>
+              </div>
+
+              {/* Reference */}
+              <div className="mb-4 text-xs text-gray-400">
+                 {prayer.reference}
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex gap-2 flex-wrap">
+                <button
+                  onClick={() => playAudio(prayer.arabic)}
+                  className="flex-1 px-4 py-2 rounded-full glass-modern hover:bg-purple-500/40 transition-all text-sm font-semibold"
+                >
+                  🔊 Dengarkan
+                </button>
+                <button
+                  onClick={() => copyToClipboard(`${prayer.arabic}\n\n${prayer.transliteration}\n\n${prayer.translation}`, prayer.id)}
+                  className="flex-1 px-4 py-2 rounded-full glass-modern hover:bg-pink-500/40 transition-all text-sm font-semibold"
+                >
+                  {copiedId === prayer.id ? '✓ Tersalin' : '📋 Salin'}
+                </button>
+              </div>
+            </div>
           ))}
         </div>
-      </div>
 
-      {/* Stats */}
-      <div className="mb-6 text-center">
-        <p className="text-gray-400">
-          Menampilkan <span className="text-purple-400 font-bold">{filteredPrayers.length}</span> dari {dailyPrayers.length} doa
-        </p>
-      </div>
-
-      {/* Prayer Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {filteredPrayers.map((prayer, index) => (
-          <div
-            key={prayer.id}
-            className="glass-modern rounded-2xl p-6 hover-lift animate-fade-in"
-            style={{ animationDelay: `${index * 50}ms` }}
-          >
-            {/* Header */}
-            <div className="flex justify-between items-start mb-4">
-              <div>
-                <span className="px-3 py-1 rounded-full bg-purple-500/20 text-purple-300 text-xs font-semibold">
-                  {prayer.category}
-                </span>
-                <h3 className="text-xl font-bold mt-2">{prayer.title}</h3>
-              </div>
-              <button
-                onClick={() => toggleFavorite(prayer.id)}
-                className="text-2xl hover:scale-125 transition-transform"
-              >
-                {favorites.includes(prayer.id) ? '⭐' : '☆'}
-              </button>
-            </div>
-
-            {/* Arabic Text */}
-            <div className="mb-4 p-4 bg-white/5 rounded-xl">
-              <p className="text-2xl md:text-3xl text-right text-purple-300 leading-loose" dir="rtl">
-                {prayer.arabic}
-              </p>
-            </div>
-
-            {/* Transliteration */}
-            <div className="mb-3">
-              <p className="text-xs text-gray-400 mb-1">Latin:</p>
-              <p className="text-sm italic text-gray-300">{prayer.transliteration}</p>
-            </div>
-
-            {/* Translation */}
-            <div className="mb-4">
-              <p className="text-xs text-gray-400 mb-1">Terjemahan:</p>
-              <p className="text-sm text-gray-200">{prayer.translation}</p>
-            </div>
-
-            {/* Reference */}
-            <div className="mb-4 text-xs text-gray-400">
-               {prayer.reference}
-            </div>
-
-            {/* Action Buttons */}
-            <div className="flex gap-2 flex-wrap">
-              <button
-                onClick={() => playAudio(prayer.arabic)}
-                className="flex-1 px-4 py-2 rounded-full glass-modern hover:bg-purple-500/40 transition-all text-sm font-semibold"
-              >
-                🔊 Dengarkan
-              </button>
-              <button
-                onClick={() => copyToClipboard(`${prayer.arabic}\n\n${prayer.transliteration}\n\n${prayer.translation}`, prayer.id)}
-                className="flex-1 px-4 py-2 rounded-full glass-modern hover:bg-pink-500/40 transition-all text-sm font-semibold"
-              >
-                {copiedId === prayer.id ? '✓ Tersalin' : '📋 Salin'}
-              </button>
-            </div>
+        {/* Empty State */}
+        {filteredPrayers.length === 0 && (
+          <div className="text-center py-16 text-gray-400">
+            <div className="text-6xl mb-4"></div>
+            <p className="text-xl">Tidak ada doa yang ditemukan</p>
+            <p className="text-sm mt-2">Coba kata kunci atau kategori lain</p>
           </div>
-        ))}
+        )}
       </div>
 
-      {/* Empty State */}
-      {filteredPrayers.length === 0 && (
-        <div className="text-center py-16 text-gray-400">
-          <div className="text-6xl mb-4"></div>
-          <p className="text-xl">Tidak ada doa yang ditemukan</p>
-          <p className="text-sm mt-2">Coba kata kunci atau kategori lain</p>
-        </div>
-      )}
-    </div>
-
-    <style jsx>{`
-      .glass-modern {
-        background: rgba(255, 255, 255, 0.05);
-        backdrop-filter: blur(20px) saturate(180%);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-      }
-      .hover-lift {
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-      }
-      .hover-lift:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-      }
-      .animate-fade-in {
-        animation: fadeIn 0.5s ease-out forwards;
-        opacity: 0;
-      }
-      @keyframes fadeIn {
-        from {
+      <style jsx>{`
+        .glass-modern {
+          background: rgba(255, 255, 255, 0.05);
+          backdrop-filter: blur(20px) saturate(180%);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .hover-lift {
+          transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .hover-lift:hover {
+          transform: translateY(-4px);
+          box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        .animate-fade-in {
+          animation: fadeIn 0.5s ease-out forwards;
           opacity: 0;
-          transform: translateY(20px);
         }
-        to {
-          opacity: 1;
-          transform: translateY(0);
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
         }
-      }
-    `}</style>
-  </div>
-);
+        /* Tambahan font opsional untuk Arabic agar harakat lebih jelas terbaca engine */
+        .font-arabic {
+          font-family: 'Amiri', 'Traditional Arabic', serif;
+        }
+      `}</style>
+    </div>
+  );
 }
