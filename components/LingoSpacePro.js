@@ -1953,8 +1953,8 @@ export default function LingoSpacePro() {
         {currentMode === 'nahwu' && renderNahwu()}
         {currentMode === 'english' && renderEnglish()}
         {currentMode === 'dictionary' && <Dictionary />}
-        {/* PERBAIKAN: Me-render komponen asli SmartTranslator ketika menu dipilih */}
         {currentMode === 'smarttranslator' && <SmartTranslator />}
+{currentMode === 'prayers' && <DailyPrayers />}
       </main>
 
       {/* Footer */}
