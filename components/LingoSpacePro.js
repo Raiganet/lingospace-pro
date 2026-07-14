@@ -1910,39 +1910,37 @@ export default function LingoSpacePro() {
       </aside>
 
       {/* Search & Filter - Only for flashcard/quiz/listen */}
-      {currentMode !== 'dictionary' &&
-       currentMode !== 'quiz' &&
-        currentMode !== 'dashboard' &&
-       currentMode !== 'bookmarks' &&
-       currentMode !== 'roadmap' &&
-       currentMode !== 'nahwu' &&
-       currentMode !== 'english' &&
-        currentMode !== 'listen' &&
-        currentMode !== 'smarttranslator' &&
-        {currentMode === 'prayers' && <DailyPrayers />}
- (
-        <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 mt-4 md:mt-6">
-          <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
-            <select
-              value={categoryFilter}
-              onChange={(e) => setCategoryFilter(e.target.value)}
-              className="w-full sm:w-auto px-3 sm:px-4 py-2 sm:py-2.5 rounded-full glass-modern text-xs sm:text-sm bg-transparent outline-none cursor-pointer text-white"
-            >
-              <option value="all" className="bg-slate-800">Semua Kategori</option>
-              {categories.map((cat, idx) => (
-                <option key={idx} value={cat.name} className="bg-slate-800">{cat.name}</option>
-              ))}
-            </select>
-            <input
-              type="text"
-              value={searchInput}
-              onChange={(e) => setSearchInput(e.target.value)}
-              placeholder="🔍 Cari kosakata..."
-              className="w-full sm:flex-1 px-3 sm:px-4 py-2 sm:py-2.5 rounded-full glass-modern text-xs sm:text-sm bg-transparent outline-none text-white placeholder-gray-400"
-            />
-          </div>
-        </div>
-      )}
+      // ✅ BENAR
+{currentMode !== 'dashboard' &&
+ currentMode !== 'bookmarks' &&
+ currentMode !== 'roadmap' &&
+ currentMode !== 'nahwu' &&
+ currentMode !== 'english' &&
+ currentMode !== 'dictionary' &&
+ currentMode !== 'prayers' && 
+ currentMode !== 'smarttranslator' && (
+  <div className="max-w-7xl mx-auto px-6 mt-6">
+    <div className="flex flex-wrap gap-3">
+      <select
+        value={categoryFilter}
+        onChange={(e) => setCategoryFilter(e.target.value)}
+        className="px-4 py-2 rounded-full glass-modern text-sm bg-transparent outline-none cursor-pointer text-white"
+      >
+        <option value="all" className="bg-slate-800">Semua Kategori</option>
+        {categories.map((cat, idx) => (
+          <option key={idx} value={cat.name} className="bg-slate-800">{cat.name}</option>
+        ))}
+      </select>
+      <input
+        type="text"
+        value={searchInput}
+        onChange={(e) => setSearchInput(e.target.value)}
+        placeholder="🔍 Cari kosakata..."
+        className="px-4 py-2 rounded-full glass-modern text-sm bg-transparent outline-none flex-1 min-w-[200px] text-white placeholder-gray-400"
+      />
+    </div>
+  </div>
+)}
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 py-4 sm:py-6 md:py-8 safe-area-bottom">
