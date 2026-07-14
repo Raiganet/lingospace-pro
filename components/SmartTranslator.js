@@ -1,6 +1,12 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import {
+  useState,
+  useEffect,
+  useRef,
+  useCallback,
+  useMemo,
+} from 'react';
 
 export default function SmartTranslator() {
   const [sourceLang, setSourceLang] = useState('id-ID');
@@ -12,6 +18,9 @@ export default function SmartTranslator() {
   const [hasSpeechRecognition, setHasSpeechRecognition] = useState(false);
   const [voiceSetting, setVoiceSetting] = useState('auto');
   const messagesEndRef = useRef(null);
+const recognitionRef = useRef(null);
+const voicesRef = useRef([]);
+const speechReadyRef = useRef(false);
 
   useEffect(() => {
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -19,14 +28,36 @@ export default function SmartTranslator() {
       setHasSpeechRecognition(true);
     }
   }, []);
+  useEffect(() => {
+  if (!("speechSynthesis" in window)) return;
+
+  const loadVoices = () => {
+    const voices = window.speechSynthesis.getVoices();
+
+    voicesRef.current = voices;
+
+    speechReadyRef.current = voices.length > 0;
+  };
+
+  loadVoices();
+
+  window.speechSynthesis.onvoiceschanged = loadVoices;
+
+  return () => {
+    window.speechSynthesis.onvoiceschanged = null;
+  };
+}, []);
 
   useEffect(() => {
     scrollToBottom();
   }, [chatLog]);
 
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  };
+ const scrollToBottom = useCallback(() => {
+  messagesEndRef.current?.scrollIntoView({
+    behavior: "smooth",
+    block: "end",
+  });
+}, []);
 
   const startListening = () => {
     if (!hasSpeechRecognition) {
