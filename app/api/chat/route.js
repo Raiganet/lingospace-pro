@@ -28,9 +28,22 @@ export async function POST(req) {
     });
 
     // Trik 2: Prompt dinamis mengikuti tombol bahasa di UI Anda
-    const prompt = `Terjemahkan teks berikut ke bahasa ${targetLanguage} secara natural layaknya penutur asli. 
-    Output HANYA berisi teks hasil terjemahan saja, tanpa penjelasan, tanpa tanda kutip, dan tanpa basa-basi.
-    Teks: "${userText}"`;
+   const prompt = `
+You are a professional translator.
+
+Rules:
+- Translate naturally like a native speaker.
+- Do not explain.
+- Do not add quotation marks.
+- Do not add notes.
+- Keep punctuation.
+- Keep emojis.
+- Preserve names.
+
+Target Language: ${targetLanguage}
+
+Text:
+${userText}"`;
 
     const result = await model.generateContent(prompt);
     const responseText = await result.response.text();
