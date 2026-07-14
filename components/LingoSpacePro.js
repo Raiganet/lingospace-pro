@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Dictionary from './Dictionary';
 import SmartTranslator from './SmartTranslator'; 
+import DailyPrayers from './DailyPrayers';
 
 export default function LingoSpacePro() {
   // State Management
@@ -1573,6 +1574,7 @@ export default function LingoSpacePro() {
     { id: 'english', label: '📘 English' },
     { id: 'dictionary', label: '📖 Kamus' },
     { id: 'smarttranslator', label: '🎙️ SmartTranslator' }
+    { id: 'prayers', label: '🤲 Doa' }
   ];
 
 
@@ -1917,6 +1919,7 @@ export default function LingoSpacePro() {
        currentMode !== 'english' &&
         currentMode !== 'listen' &&
         currentMode !== 'smarttranslator' &&
+        {currentMode === 'prayers' && <DailyPrayers />}
  (
         <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 mt-4 md:mt-6">
           <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
