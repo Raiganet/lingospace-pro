@@ -1,61 +1,192 @@
-import { NextResponse } from 'next/server';
+import { NextResponse } from "next/server";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
-// Trik 1: Paksa Vercel untuk menunggu hingga 60 detik (batas maksimal akun gratis)
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
 export const maxDuration = 60;
-export const dynamic = 'force-dynamic';
 
 export async function POST(req) {
-  try {
-    const body = await req.json();
-    
-    // Ambil teks pesan dan target bahasa yang dikirim dari Frontend
-    const userText = body.text || body.message || body.input;
-    // Default ke bahasa Inggris jika frontend tidak mengirimkan target bahasa
-    const targetLanguage = body.targetLang || body.target || "Inggris"; 
+    try {
 
-    if (!userText) {
-      return NextResponse.json({ error: "Pesan tidak boleh kosong" }, { status: 400 });
-    }
+        const body = await req.json();
 
-    const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-    const model = genAI.getGenerativeModel({ 
-      model: "gemini-3.5-flash",
-      generationConfig: {
-        temperature: 0.2, // Turunkan sedikit lagi agar respon lebih cepat & presisi
-        maxOutputTokens: 800, 
-      }
-    });
+        const text =
+            body.text ||
+            body.message ||
+            body.input ||
+            "";
 
-    // Trik 2: Prompt dinamis mengikuti tombol bahasa di UI Anda
-   const prompt = `
-You are a professional translator.
+        const targetLanguage =
+            body.targetLang ||
+            body.target ||
+            "English";
+
+        if (!text.trim()) {
+            return NextResponse.json(
+                {
+                    success: false,
+                    error: "Text is empty."
+                },
+                {
+                    status: 400
+                }
+            );
+        }
+
+        if (!process.env.GEMINI_API_KEY) {
+            return NextResponse.json(
+                {
+                    success: false,
+                    error: "GEMINI_API_KEY not found."
+                },
+                {
+                    status: 500
+                }
+            );
+        }
+
+        const genAI = new GoogleGenerativeAI(
+            process.env.GEMINI_API_KEY
+        );
+
+        const model = genAI.getGenerativeModel({
+            model: "gemini-3.5-flash",
+
+            generationConfig: {
+
+                temperature: 0,
+
+                topP: 0.8,
+
+                topK: 20,
+
+                maxOutputTokens: 300
+
+            }
+        });
+
+        const prompt = `
+You are the best professional translator.
 
 Rules:
-- Translate naturally like a native speaker.
-- Do not explain.
-- Do not add quotation marks.
-- Do not add notes.
-- Keep punctuation.
-- Keep emojis.
-- Preserve names.
 
-Target Language: ${targetLanguage}
+- Detect the input language automatically.
+
+- Translate naturally.
+
+- Translate like a native speaker.
+
+- Keep punctuation.
+
+- Keep emojis.
+
+- Keep names.
+
+- Keep numbers.
+
+- Never explain.
+
+- Never answer questions.
+
+- Never add notes.
+
+- Never add quotation marks.
+
+- Output ONLY the translated text.
+
+Target Language:
+
+${targetLanguage}
 
 Text:
-${userText}"`;
 
-    const result = await model.generateContent(prompt);
-    const responseText = await result.response.text();
+${text}
+`;
 
-    return NextResponse.json({ 
-      reply: responseText, 
-      translation: responseText,
-      text: responseText
-    });
+        const timeoutPromise = new Promise((_, reject) =>
+            setTimeout(() => reject(new Error("TIMEOUT")), 25000)
+        );
 
-  } catch (error) {
-    console.error("Lingua AI Server Error:", error);
-    return NextResponse.json({ error: "Gagal memproses data di server AI." }, { status: 500 });
-  }
+        const translatePromise = model.generateContent(prompt);
+
+        const result = await Promise.race([
+            translatePromise,
+            timeoutPromise
+        ]);
+
+        const response = await result.response;
+
+        const translated = response.text().trim();
+
+        return NextResponse.json({
+            success: true,
+
+            translation: translated,
+
+            reply: translated,
+
+            text: translated
+        });
+
+    } catch (error) {
+
+        console.error("Gemini Error:", error);
+
+        if (error.message === "TIMEOUT") {
+
+            return NextResponse.json(
+                {
+                    success: false,
+                    error: "AI response timeout."
+                },
+                {
+                    status: 504
+                }
+            );
+
+        }
+
+        if (
+            error.message?.includes("API key")
+        ) {
+
+            return NextResponse.json(
+                {
+                    success: false,
+                    error: "Invalid Gemini API Key."
+                },
+                {
+                    status: 401
+                }
+            );
+
+        }
+
+        if (
+            error.message?.includes("quota")
+        ) {
+
+            return NextResponse.json(
+                {
+                    success: false,
+                    error: "Gemini quota exceeded."
+                },
+                {
+                    status: 429
+                }
+            );
+
+        }
+
+        return NextResponse.json(
+            {
+                success: false,
+                error: error.message || "Unknown server error."
+            },
+            {
+                status: 500
+            }
+        );
+
+    }
 }
