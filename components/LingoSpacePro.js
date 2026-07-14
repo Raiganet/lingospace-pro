@@ -1573,7 +1573,7 @@ export default function LingoSpacePro() {
     { id: 'nahwu', label: '📖 Nahwu' },
     { id: 'english', label: '📘 English' },
     { id: 'dictionary', label: '📖 Kamus' },
-    { id: 'smarttranslator', label: '🎙️ SmartTranslator' }
+    { id: 'smarttranslator', label: '🎙️ SmartTranslator' },
     { id: 'prayers', label: '🤲 Doa' }
   ];
 
