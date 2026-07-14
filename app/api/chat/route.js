@@ -1,34 +1,36 @@
 import { NextResponse } from 'next/server';
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
-// Trik Rahasia 1: Gunakan Edge Runtime agar respons super cepat & tanpa Cold Start
-export const runtime = 'edge';
+// Trik 1: Paksa Vercel untuk menunggu hingga 60 detik (batas maksimal akun gratis)
+export const maxDuration = 60;
+export const dynamic = 'force-dynamic';
 
 export async function POST(req) {
   try {
     const body = await req.json();
+    
+    // Ambil teks pesan dan target bahasa yang dikirim dari Frontend
     const userText = body.text || body.message || body.input;
+    // Default ke bahasa Inggris jika frontend tidak mengirimkan target bahasa
+    const targetLanguage = body.targetLang || body.target || "Inggris"; 
 
     if (!userText) {
       return NextResponse.json({ error: "Pesan tidak boleh kosong" }, { status: 400 });
     }
 
     const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-    
-    // Trik Rahasia 2: Gunakan model 'flash' yang dirancang khusus untuk kecepatan
     const model = genAI.getGenerativeModel({ 
       model: "gemini-3.5-flash",
       generationConfig: {
-        temperature: 0.3, // Menurunkan kreativitas agar AI lebih fokus, stabil, dan cepat
-        maxOutputTokens: 500, // Batasi panjang output agar tidak nge-lag
+        temperature: 0.2, // Turunkan sedikit lagi agar respon lebih cepat & presisi
+        maxOutputTokens: 800, 
       }
     });
 
-    // Trik Rahasia 3: Prompt yang padat dan jelas
-    const prompt = `Terjemahkan teks berikut. 
-    Aturan: Jika bahasa Indonesia -> Inggris. Jika Inggris -> Indonesia. 
-    Output HANYA teks terjemahan tanpa tanda kutip, tanpa penjelasan, dan tanpa basa-basi.
-    Teks: ${userText}`;
+    // Trik 2: Prompt dinamis mengikuti tombol bahasa di UI Anda
+    const prompt = `Terjemahkan teks berikut ke bahasa ${targetLanguage} secara natural layaknya penutur asli. 
+    Output HANYA berisi teks hasil terjemahan saja, tanpa penjelasan, tanpa tanda kutip, dan tanpa basa-basi.
+    Teks: "${userText}"`;
 
     const result = await model.generateContent(prompt);
     const responseText = await result.response.text();
