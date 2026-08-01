@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 
 export default function SmartTranslator() {
-  const [sourceLang, setSourceLang] = useState('id-ID');
+  const [sourceLang, setSourceLang] = useState('auto');
   const [targetLang, setTargetLang] = useState('en-US');
   const [inputText, setInputText] = useState('');
   const [chatLog, setChatLog] = useState([]);
@@ -102,83 +102,72 @@ useEffect(() => {
 
   // Fungsi untuk menerjemahkan teks menggunakan Google Apps Script
   const handleTranslate = async (text) => {
-    if (!text.trim()) return;
+  if (!text.trim()) return;
+  
+  setIsLoading(true);
+  
+  setChatLog(prev => [...prev, {
+    id: Date.now(),
+    sender: 'user',
+    text: text,
+    lang: sourceLang,
+    timestamp: new Date()
+  }]);
+
+  try {
+    const GAS_API_URL = "https://script.google.com/macros/s/.../exec";
     
-    setIsLoading(true);
-    
-    // Tambahkan pesan user ke chat
-    setChatLog(prev => [...prev, {
-      id: Date.now(),
-      sender: 'user',
-      text: text,
-      lang: sourceLang,
-      timestamp: new Date()
-    }]);
+    // Tentukan source code
+    let sourceCode = sourceLang === 'auto' ? detectLanguage(text) : sourceLang.split('-')[0].toLowerCase();
+    let targetCode = targetLang.split('-')[0].toLowerCase().trim();
 
-    try {
-      const GAS_API_URL = "https://script.google.com/macros/s/AKfycbw3wHhpZp9nTUoV7SMHdg_ql5aqLfppRcgKK2HJtryKjTM9ubDEtw8Ky5c3yHshS1pkmw/exec";
-      
-      // ✅ PERBAIKAN KRUSIAL: Bersihkan kode bahasa secara agresif
-      // Mengambil 2 huruf pertama, lowercase, dan trim spasi
-      let sourceCode = String(sourceLang).split('-')[0].toLowerCase().trim();
-      let targetCode = String(targetLang).split('-')[0].toLowerCase().trim();
+    // Fallback jika deteksi gagal atau source == target
+    if (sourceCode === 'auto') sourceCode = 'en'; // Default fallback
+    if (sourceCode === targetCode) {
+        // Jika source dan target sama, coba ganti source ke bahasa lain yang mungkin
+        // Atau tampilkan pesan bahwa bahasa sudah sama
+        throw new Error(`Teks sudah dalam bahasa ${targetCode}.`);
+    }
 
-      // Validasi: Pastikan source dan target berbeda
-      if (sourceCode === targetCode) {
-        throw new Error(`Bahasa asal dan tujuan sama (${sourceCode}). Tidak perlu diterjemahkan.`);
-      }
+    console.log(`Translating: ${sourceCode} -> ${targetCode}`);
 
-      // Validasi: Pastikan hanya id, en, ar
-      const validCodes = ['id', 'en', 'ar'];
-      if (!validCodes.includes(sourceCode) || !validCodes.includes(targetCode)) {
-        throw new Error(`Kode bahasa tidak valid: ${sourceCode} -> ${targetCode}`);
-      }
+    const response = await fetch(GAS_API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify({ text, source: sourceCode, target: targetCode }),
+      redirect: 'follow'
+    });
 
-      console.log(`✅ Translating: ${sourceCode} -> ${targetCode}`);
+    const data = await response.json();
 
-      const response = await fetch(GAS_API_URL, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'text/plain;charset=utf-8',
-        },
-        body: JSON.stringify({
-          text: text,
-          source: sourceCode,
-          target: targetCode
-        }),
-        redirect: 'follow' // Wajib untuk GAS
-      });
-
-      const data = await response.json();
-
-      if (data.success) {
-        setChatLog(prev => [...prev, {
-          id: Date.now() + 1,
-          sender: 'assistant',
-          text: data.translatedText,
-          lang: targetLang,
-          originalText: text,
-          timestamp: new Date()
-        }]);
-        speakText(data.translatedText, targetLang);
-      } else {
-        throw new Error(data.error || 'Translation failed');
-      }
-
-    } catch (error) {
-      console.error('Translation error:', error);
+    if (data.success) {
       setChatLog(prev => [...prev, {
         id: Date.now() + 1,
         sender: 'assistant',
-        text: `️ Error: ${error.message}`,
+        text: data.translatedText,
         lang: targetLang,
+        originalText: text,
         timestamp: new Date()
       }]);
-    } finally {
-      setIsLoading(false);
-      setInputText('');
+      speakText(data.translatedText, targetLang);
+    } else {
+      throw new Error(data.error);
     }
-  };
+
+  } catch (error) {
+    console.error(error);
+    setChatLog(prev => [...prev, {
+      id: Date.now() + 1,
+      sender: 'assistant',
+      text: `⚠️ ${error.message}`,
+      lang: targetLang,
+      timestamp: new Date()
+    }]);
+  } finally {
+    setIsLoading(false);
+    setInputText('');
+  }
+};
 
   // Fungsi untuk membacakan teks (Speaker)
   const speakText = (text, lang) => {
@@ -212,6 +201,20 @@ useEffect(() => {
     setChatLog([]);
     window.speechSynthesis.cancel();
   };
+  const detectLanguage = (text) => {
+  // Regex sederhana untuk mendeteksi karakter Arab
+  const arabicRegex = /[\u0600-\u06FF]/;
+  
+  if (arabicRegex.test(text)) {
+    return 'ar';
+  }
+  
+  // Jika tidak ada karakter Arab, asumsikan Latin (bisa EN atau ID)
+  // Untuk akurasi lebih tinggi, Anda bisa pakai library 'franc' atau similar
+  // Tapi untuk sekarang, kita biarkan user memilih atau default ke 'en' jika input bukan Arab
+  // ATAU, kirim 'auto' ke GAS dan handle di sana (lihat langkah 3)
+  return 'auto'; 
+};
 
   const languages = [
     { code: 'id-ID', name: 'Indonesia', flag: '🇮🇩' },
