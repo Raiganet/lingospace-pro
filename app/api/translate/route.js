@@ -1,29 +1,32 @@
-export const dynamic = 'force-dynamic';
+// app/api/translate/route.js
 import { NextResponse } from 'next/server';
 
-export async function POST(req) {
+export async function POST(request) {
   try {
-    // 1. Ambil input dari frontend
-    const body = await req.json();
-    const text = body.text || '';
-    const target = body.target || 'ar'; // Default ke Arab jika tidak ada
+    const body = await request.json();
+    const { text, source, target } = body;
 
-    if (!text) {
-      return NextResponse.json({ error: 'Teks kosong' }, { status: 400 });
-    }
+    // URL Web App Google Apps Script Anda
+    const GAS_URL = "https://script.google.com/macros/s/AKfycbw3wHhpZp9nTUoV7SMHdg_ql5aqLfppRcgKK2HJtryKjTM9ubDEtw8Ky5c3yHshS1pkmw/exec";
 
-    // 2. Buat URL dengan variabel yang unik (tidak duplikat)
-    const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=id&tl=${target}&dt=t&q=${encodeURIComponent(text)}`;
-    
-    // 3. Panggil API Google
-    const response = await fetch(url);
+    // Server-side fetch TIDAK TERKENA BLOKIR CORS
+    const response = await fetch(GAS_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'text/plain;charset=utf-8',
+      },
+      body: JSON.stringify({ text, source, target }),
+      redirect: 'follow'
+    });
+
     const data = await response.json();
-
-    // 4. Kirim hasil
-    return NextResponse.json({ result: data[0][0][0] });
+    
+    return NextResponse.json(data);
 
   } catch (error) {
-    console.error('Translation error:', error);
-    return NextResponse.json({ error: 'Gagal menghubungi server' }, { status: 500 });
+    return NextResponse.json(
+      { success: false, error: error.message },
+      { status: 500 }
+    );
   }
 }
