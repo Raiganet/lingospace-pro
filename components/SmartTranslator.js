@@ -101,74 +101,72 @@ useEffect(() => {
   };
 
   // Fungsi untuk menerjemahkan teks menggunakan Google Apps Script
-  const handleTranslate = async (text) => {
-    if (!text.trim()) return;
+const handleTranslate = async (text) => {
+  if (!text.trim()) return;
+  
+  setIsLoading(true);
+  
+  // Tambahkan pesan user ke chat
+  setChatLog(prev => [...prev, {
+    id: Date.now(),
+    sender: 'user',
+    text: text,
+    lang: sourceLang,
+    timestamp: new Date()
+  }]);
+
+  try {
+    const GAS_API_URL = "https://script.google.com/macros/s/AKfycbw3wHhpZp9nTUoV7SMHdg_ql5aqLfppRcgKK2HJtryKjTM9ubDEtw8Ky5c3yHshS1pkmw/exec";
     
-    setIsLoading(true);
-    
-    // Tambahkan pesan user ke chat
-    setChatLog(prev => [...prev, {
-      id: Date.now(),
-      sender: 'user',
-      text: text,
-      lang: sourceLang,
-      timestamp: new Date()
-    }]);
+    // Pastikan kode bahasa hanya 2 huruf dan lowercase
+    const sourceCode = sourceLang.split('-')[0].toLowerCase().trim(); 
+    const targetCode = targetLang.split('-')[0].toLowerCase().trim();
 
-    try {
-      // ✅ DIPERBAIKI: Tanda kutip penutup ("") sudah ditambahkan di akhir URL
-      const GAS_API_URL = "https://script.google.com/macros/s/AKfycbw3wHhpZp9nTUoV7SMHdg_ql5aqLfppRcgKK2HJtryKjTM9ubDEtw8Ky5c3yHshS1pkmw/exec";
-      
-      const sourceCode = sourceLang.split('-')[0]; // 'id', 'en', atau 'ar'
-      const targetCode = targetLang.split('-')[0]; // 'id', 'en', atau 'ar'
+    console.log(`Translating: ${sourceCode} -> ${targetCode}`); // Debugging
 
-      // Kirim request ke Google Apps Script
-      const response = await fetch(GAS_API_URL, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'text/plain;charset=utf-8', // Trik agar tidak kena blokir CORS di Apps Script
-        },
-        body: JSON.stringify({
-          text: text,
-          source: sourceCode,
-          target: targetCode
-        })
-      });
+    const response = await fetch(GAS_API_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'text/plain;charset=utf-8',
+      },
+      body: JSON.stringify({
+        text: text,
+        source: sourceCode,
+        target: targetCode
+      }),
+      redirect: 'follow' // ← INI KRUSIAL! Apps Script sering redirect
+    });
 
-      const data = await response.json();
+    const data = await response.json();
 
-      if (data.success) {
-        const translatedText = data.translatedText;
-        
-        setChatLog(prev => [...prev, {
-          id: Date.now() + 1,
-          sender: 'assistant',
-          text: translatedText,
-          lang: targetLang,
-          originalText: text,
-          timestamp: new Date()
-        }]);
-        
-        // Auto speak terjemahan
-        speakText(translatedText, targetLang);
-      } else {
-        throw new Error(data.error || 'Translation failed');
-      }
-
-    } catch (error) {
-      console.error('Translation error:', error);
+    if (data.success) {
       setChatLog(prev => [...prev, {
         id: Date.now() + 1,
         sender: 'assistant',
-        text: '⚠️ Gagal menerjemahkan. Pastikan koneksi internet Anda baik.',
+        text: data.translatedText,
         lang: targetLang,
+        originalText: text,
         timestamp: new Date()
       }]);
-    } finally {
-      setIsLoading(false);
-      setInputText('');
+      speakText(data.translatedText, targetLang);
+    } else {
+      throw new Error(data.error || 'Translation failed');
     }
-  };
+
+  } catch (error) {
+    console.error('Translation error:', error);
+    setChatLog(prev => [...prev, {
+      id: Date.now() + 1,
+      sender: 'assistant',
+      text: `⚠️ Error: ${error.message}`,
+      lang: targetLang,
+      timestamp: new Date()
+    }]);
+  } finally {
+    setIsLoading(false);
+    setInputText('');
+  }
+};
 
   // Fungsi untuk membacakan teks (Speaker)
   const speakText = (text, lang) => {
