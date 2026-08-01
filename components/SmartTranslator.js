@@ -20,11 +20,21 @@ export default function SmartTranslator() {
     }
   }, []);
 
-  // Auto scroll ke bawah saat ada pesan baru
-  useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [chatLog]);
-
+ // Auto scroll ke bawah saat ada pesan baru
+useEffect(() => {
+  // Hanya scroll jika ada pesan di chatLog
+  if (chatLog.length > 0) {
+    // Delay sedikit untuk memastikan elemen sudah ter-render
+    const timeoutId = setTimeout(() => {
+      messagesEndRef.current?.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'end'
+      });
+    }, 100);
+    
+    return () => clearTimeout(timeoutId);
+  }
+}, [chatLog]);
   // Fungsi untuk memulai input suara (Mic)
   const startListening = () => {
     // Cek dukungan Speech Recognition
