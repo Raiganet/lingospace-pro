@@ -75,66 +75,76 @@ export default function SmartTranslator() {
 };
 
   // Fungsi untuk menerjemahkan teks menggunakan MyMemory API
-  const handleTranslate = async (text) => {
-    if (!text.trim()) return;
-    
-    setIsLoading(true);
-    
-    // Tambahkan pesan user ke chat
-    const userMessage = {
-      id: Date.now(),
-      sender: 'user',
-      text: text,
-      lang: sourceLang,
-      timestamp: new Date()
-    };
-    setChatLog(prev => [...prev, userMessage]);
+ const handleTranslate = async (text) => {
+  if (!text.trim()) return;
+  
+  setIsLoading(true);
+  
+  // Tambahkan pesan user ke chat
+  setChatLog(prev => [...prev, {
+    id: Date.now(),
+    sender: 'user',
+    text: text,
+    lang: sourceLang,
+    timestamp: new Date()
+  }]);
 
-    try {
-      const sourceCode = sourceLang.split('-')[0]; // 'id', 'en', atau 'ar'
-      const targetCode = targetLang.split('-')[0]; // 'id', 'en', atau 'ar'
+  try {
+    // GANTI URL INI dengan URL Web App Apps Script Anda
+    const GAS_API_URL = "https://script.google.com/macros/s/AKfycbw3wHhpZp9nTUoV7SMHdg_ql5aqLfppRcgKK2HJtryKjTM9ubDEtw8Ky5c3yHshS1pkmw/exec;
+    
+    const sourceCode = sourceLang.split('-')[0]; // 'id', 'en', atau 'ar'
+    const targetCode = targetLang.split('-')[0]; // 'id', 'en', atau 'ar'
+
+    // Kirim request ke Google Apps Script
+    const response = await fetch(GAS_API_URL, {
+      method: 'POST',
+      // Mode no-cors tidak bisa membaca response, jadi kita pakai mode cors
+      // Apps Script Web App otomatis menangani CORS untuk POST request
+      headers: {
+        'Content-Type': 'text/plain;charset=utf-8', // Apps Script memerlukan text/plain untuk menghindari preflight OPTIONS request yang rumit
+      },
+      body: JSON.stringify({
+        text: text,
+        source: sourceCode,
+        target: targetCode
+      })
+    });
+
+    const data = await response.json();
+
+    if (data.success) {
+      const translatedText = data.translatedText;
       
-      // Panggil API MyMemory (Gratis)
-      const response = await fetch(
-        `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${sourceCode}|${targetCode}`
-      );
-      
-      const data = await response.json();
-      
-      if (data.responseStatus === 200 && data.responseData) {
-        const translatedText = data.responseData.translatedText;
-        
-        const assistantMessage = {
-          id: Date.now() + 1,
-          sender: 'assistant',
-          text: translatedText,
-          lang: targetLang,
-          originalText: text,
-          timestamp: new Date()
-        };
-        
-        setChatLog(prev => [...prev, assistantMessage]);
-        
-        // Auto speak terjemahan
-        speakText(translatedText, targetLang);
-      } else {
-        throw new Error('Translation failed');
-      }
-      
-    } catch (error) {
-      console.error('Translation error:', error);
       setChatLog(prev => [...prev, {
         id: Date.now() + 1,
         sender: 'assistant',
-        text: '⚠️ Gagal menerjemahkan. Pastikan koneksi internet Anda baik.',
+        text: translatedText,
         lang: targetLang,
+        originalText: text,
         timestamp: new Date()
       }]);
-    } finally {
-      setIsLoading(false);
-      setInputText('');
+      
+      // Auto speak terjemahan
+      speakText(translatedText, targetLang);
+    } else {
+      throw new Error(data.error || 'Translation failed');
     }
-  };
+
+  } catch (error) {
+    console.error('Translation error:', error);
+    setChatLog(prev => [...prev, {
+      id: Date.now() + 1,
+      sender: 'assistant',
+      text: '⚠️ Gagal menerjemahkan. Pastikan koneksi internet Anda baik.',
+      lang: targetLang,
+      timestamp: new Date()
+    }]);
+  } finally {
+    setIsLoading(false);
+    setInputText('');
+  }
+};
 
   // Fungsi untuk membacakan teks (Speaker)
   const speakText = (text, lang) => {
