@@ -27,124 +27,122 @@ export default function SmartTranslator() {
 
   // Fungsi untuk memulai input suara (Mic)
   const startListening = () => {
-  // Cek dukungan Speech Recognition
-  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-  
-  if (!SpeechRecognition) {
-    // Fallback: tampilkan prompt manual
-    const text = prompt('Fitur suara tidak tersedia. Silakan ketik teks Anda:');
-    if (text) {
-      setInputText(text);
-      handleTranslate(text);
-    }
-    return;
-  }
-
-  try {
-    const recognition = new SpeechRecognition();
-    recognition.lang = sourceLang;
-    recognition.interimResults = false;
-    recognition.maxAlternatives = 1;
-
-    recognition.onstart = () => setIsListening(true);
-    recognition.onend = () => setIsListening(false);
+    // Cek dukungan Speech Recognition
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     
-    recognition.onresult = (event) => {
-      const transcript = event.results[0][0].transcript;
-      setInputText(transcript);
-      handleTranslate(transcript);
-    };
-
-    recognition.onerror = (event) => {
-      console.error('Speech error:', event.error);
-      setIsListening(false);
-      
-      // Fallback jika error
-      if (event.error === 'not-allowed') {
-        alert('Izin mikrofon ditolak. Silakan izinkan akses mikrofon di pengaturan browser.');
-      } else if (event.error === 'no-speech') {
-        alert('Tidak ada suara terdeteksi. Coba lagi.');
+    if (!SpeechRecognition) {
+      // Fallback: tampilkan prompt manual
+      const text = prompt('Fitur suara tidak tersedia. Silakan ketik teks Anda:');
+      if (text) {
+        setInputText(text);
+        handleTranslate(text);
       }
-    };
+      return;
+    }
 
-    recognition.start();
-  } catch (error) {
-    console.error('Speech recognition failed:', error);
-    alert('Fitur suara tidak tersedia di browser ini.');
-  }
-};
+    try {
+      const recognition = new SpeechRecognition();
+      recognition.lang = sourceLang;
+      recognition.interimResults = false;
+      recognition.maxAlternatives = 1;
 
-  // Fungsi untuk menerjemahkan teks menggunakan MyMemory API
- const handleTranslate = async (text) => {
-  if (!text.trim()) return;
-  
-  setIsLoading(true);
-  
-  // Tambahkan pesan user ke chat
-  setChatLog(prev => [...prev, {
-    id: Date.now(),
-    sender: 'user',
-    text: text,
-    lang: sourceLang,
-    timestamp: new Date()
-  }]);
-
-  try {
-    // GANTI URL INI dengan URL Web App Apps Script Anda
-    const GAS_API_URL = "https://script.google.com/macros/s/AKfycbw3wHhpZp9nTUoV7SMHdg_ql5aqLfppRcgKK2HJtryKjTM9ubDEtw8Ky5c3yHshS1pkmw/exec;
-    
-    const sourceCode = sourceLang.split('-')[0]; // 'id', 'en', atau 'ar'
-    const targetCode = targetLang.split('-')[0]; // 'id', 'en', atau 'ar'
-
-    // Kirim request ke Google Apps Script
-    const response = await fetch(GAS_API_URL, {
-      method: 'POST',
-      // Mode no-cors tidak bisa membaca response, jadi kita pakai mode cors
-      // Apps Script Web App otomatis menangani CORS untuk POST request
-      headers: {
-        'Content-Type': 'text/plain;charset=utf-8', // Apps Script memerlukan text/plain untuk menghindari preflight OPTIONS request yang rumit
-      },
-      body: JSON.stringify({
-        text: text,
-        source: sourceCode,
-        target: targetCode
-      })
-    });
-
-    const data = await response.json();
-
-    if (data.success) {
-      const translatedText = data.translatedText;
+      recognition.onstart = () => setIsListening(true);
+      recognition.onend = () => setIsListening(false);
       
+      recognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript;
+        setInputText(transcript);
+        handleTranslate(transcript);
+      };
+
+      recognition.onerror = (event) => {
+        console.error('Speech error:', event.error);
+        setIsListening(false);
+        
+        // Fallback jika error
+        if (event.error === 'not-allowed') {
+          alert('Izin mikrofon ditolak. Silakan izinkan akses mikrofon di pengaturan browser.');
+        } else if (event.error === 'no-speech') {
+          alert('Tidak ada suara terdeteksi. Coba lagi.');
+        }
+      };
+
+      recognition.start();
+    } catch (error) {
+      console.error('Speech recognition failed:', error);
+      alert('Fitur suara tidak tersedia di browser ini.');
+    }
+  };
+
+  // Fungsi untuk menerjemahkan teks menggunakan Google Apps Script
+  const handleTranslate = async (text) => {
+    if (!text.trim()) return;
+    
+    setIsLoading(true);
+    
+    // Tambahkan pesan user ke chat
+    setChatLog(prev => [...prev, {
+      id: Date.now(),
+      sender: 'user',
+      text: text,
+      lang: sourceLang,
+      timestamp: new Date()
+    }]);
+
+    try {
+      // ✅ DIPERBAIKI: Tanda kutip penutup ("") sudah ditambahkan di akhir URL
+      const GAS_API_URL = "https://script.google.com/macros/s/AKfycbw3wHhpZp9nTUoV7SMHdg_ql5aqLfppRcgKK2HJtryKjTM9ubDEtw8Ky5c3yHshS1pkmw/exec";
+      
+      const sourceCode = sourceLang.split('-')[0]; // 'id', 'en', atau 'ar'
+      const targetCode = targetLang.split('-')[0]; // 'id', 'en', atau 'ar'
+
+      // Kirim request ke Google Apps Script
+      const response = await fetch(GAS_API_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'text/plain;charset=utf-8', // Trik agar tidak kena blokir CORS di Apps Script
+        },
+        body: JSON.stringify({
+          text: text,
+          source: sourceCode,
+          target: targetCode
+        })
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        const translatedText = data.translatedText;
+        
+        setChatLog(prev => [...prev, {
+          id: Date.now() + 1,
+          sender: 'assistant',
+          text: translatedText,
+          lang: targetLang,
+          originalText: text,
+          timestamp: new Date()
+        }]);
+        
+        // Auto speak terjemahan
+        speakText(translatedText, targetLang);
+      } else {
+        throw new Error(data.error || 'Translation failed');
+      }
+
+    } catch (error) {
+      console.error('Translation error:', error);
       setChatLog(prev => [...prev, {
         id: Date.now() + 1,
         sender: 'assistant',
-        text: translatedText,
+        text: '⚠️ Gagal menerjemahkan. Pastikan koneksi internet Anda baik.',
         lang: targetLang,
-        originalText: text,
         timestamp: new Date()
       }]);
-      
-      // Auto speak terjemahan
-      speakText(translatedText, targetLang);
-    } else {
-      throw new Error(data.error || 'Translation failed');
+    } finally {
+      setIsLoading(false);
+      setInputText('');
     }
-
-  } catch (error) {
-    console.error('Translation error:', error);
-    setChatLog(prev => [...prev, {
-      id: Date.now() + 1,
-      sender: 'assistant',
-      text: '⚠️ Gagal menerjemahkan. Pastikan koneksi internet Anda baik.',
-      lang: targetLang,
-      timestamp: new Date()
-    }]);
-  } finally {
-    setIsLoading(false);
-    setInputText('');
-  }
-};
+  };
 
   // Fungsi untuk membacakan teks (Speaker)
   const speakText = (text, lang) => {
@@ -193,7 +191,7 @@ export default function SmartTranslator() {
         <div className="bg-gradient-to-r from-purple-600 to-pink-600 p-4 sm:p-6 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 sm:w-12 sm:h-12 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
-              <span className="text-xl sm:text-2xl"></span>
+              <span className="text-xl sm:text-2xl">🌐</span>
             </div>
             <div>
               <h1 className="text-lg sm:text-xl font-bold text-white">LinguaAI Pro</h1>
