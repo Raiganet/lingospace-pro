@@ -210,7 +210,7 @@ useEffect(() => {
   ];
 
   return (
-   <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-2 sm:p-4 md:p-6 flex items-center justify-center" style={{ scrollBehavior: 'auto' }}>
+   <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-2 sm:p-4 md:p-6 flex items-center justify-center smart-translator-container">
     <div className="w-full max-w-3xl bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 shadow-2xl overflow-hidden flex flex-col h-[85vh] sm:h-[800px]" style={{ scrollBehavior: 'auto' }}>
         
         {/* Header */}
