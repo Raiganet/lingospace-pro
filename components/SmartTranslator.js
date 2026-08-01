@@ -19,7 +19,23 @@ export default function SmartTranslator() {
       setHasSpeechRecognition(true);
     }
   }, []);
-
+// Mencegah scroll otomatis di mobile
+useEffect(() => {
+  // Disable scroll restoration browser
+  if ('scrollRestoration' in window.history) {
+    window.history.scrollRestoration = 'manual';
+  }
+  
+  // Scroll ke atas saat component mount
+  window.scrollTo(0, 0);
+  
+  // Cleanup
+  return () => {
+    if ('scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'auto';
+    }
+  };
+}, []);
  // Auto scroll ke bawah saat ada pesan baru
 useEffect(() => {
   // Hanya scroll jika ada pesan di chatLog
