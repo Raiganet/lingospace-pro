@@ -366,3 +366,24 @@ nav { transition: transform 0.3s ease-in-out; }
 @media (max-width: 640px) {
   .glass-modern { padding: 0.5rem; }
 }
+/* ==========================================
+   FIX: HANYA UNTUK SMARTTRANSLATOR
+   ========================================== */
+
+/* Hanya terapkan pada container SmartTranslator */
+.smart-translator-container {
+  overscroll-behavior-y: contain;
+  scroll-behavior: auto;
+}
+
+/* Fix viewport untuk SmartTranslator di mobile */
+@supports (-webkit-touch-callout: none) {
+  .smart-translator-height {
+    height: -webkit-fill-available;
+  }
+}
+
+/* Input di SmartTranslator - cegah auto-zoom */
+.smart-translator-container input {
+  font-size: 16px !important;
+}
