@@ -1,9 +1,9 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
- 
+
 export default function SmartTranslator() {
-  const [sourceLang, setSourceLang] = useState('auto');
+  const [sourceLang, setSourceLang] = useState('id-ID');
   const [targetLang, setTargetLang] = useState('en-US');
   const [inputText, setInputText] = useState('');
   const [chatLog, setChatLog] = useState([]);
@@ -101,74 +101,69 @@ useEffect(() => {
   };
 
   // Fungsi untuk menerjemahkan teks menggunakan Google Apps Script
-    const handleTranslate = async (text) => {
+  const handleTranslate = async (text) => {
     if (!text.trim()) return;
-
+    
     setIsLoading(true);
-
-    // Catat pesan user
-    setChatLog((prev) => [
-      ...prev,
-      {
-        id: Date.now(),
-        sender: 'user',
-        text: text,
-        lang: sourceLang,
-        timestamp: new Date(),
-      },
-    ]);
+    
+    // Tambahkan pesan user ke chat
+    setChatLog(prev => [...prev, {
+      id: Date.now(),
+      sender: 'user',
+      text: text,
+      lang: sourceLang,
+      timestamp: new Date()
+    }]);
 
     try {
-      const targetCode = targetLang.split('-')[0].toLowerCase().trim();
+      // ✅ DIPERBAIKI: Tanda kutip penutup ("") sudah ditambahkan di akhir URL
+      const GAS_API_URL = "https://script.google.com/macros/s/AKfycbw3wHhpZp9nTUoV7SMHdg_ql5aqLfppRcgKK2HJtryKjTM9ubDEtw8Ky5c3yHshS1pkmw/exec";
+      
+      const sourceCode = sourceLang.split('-')[0]; // 'id', 'en', atau 'ar'
+      const targetCode = targetLang.split('-')[0]; // 'id', 'en', atau 'ar'
 
-      // ✅ KUNCI: source kosong = biarkan Google auto-detect bahasa asal.
-      //    Tidak perlu regex, tidak perlu tebak-tebakan, tidak akan pernah
-      //    terjadi "asal sama dengan tujuan" yang salah.
-      const sourceCode = '';
-
-      console.log(`Proxying translation: (auto) -> ${targetCode}`);
-
-      // Panggil API route milik sendiri (bebas CORS)
-      const response = await fetch('/api/translate', {
+      // Kirim request ke Google Apps Script
+      const response = await fetch(GAS_API_URL, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'text/plain;charset=utf-8', // Trik agar tidak kena blokir CORS di Apps Script
+        },
         body: JSON.stringify({
           text: text,
           source: sourceCode,
-          target: targetCode,
-        }),
+          target: targetCode
+        })
       });
 
       const data = await response.json();
 
       if (data.success) {
-        setChatLog((prev) => [
-          ...prev,
-          {
-            id: Date.now() + 1,
-            sender: 'assistant',
-            text: data.translatedText,
-            lang: targetLang,
-            originalText: text,
-            timestamp: new Date(),
-          },
-        ]);
-        speakText(data.translatedText, targetLang);
-      } else {
-        throw new Error(data.error || 'Terjemahan gagal');
-      }
-    } catch (error) {
-      console.error('Translation error:', error);
-      setChatLog((prev) => [
-        ...prev,
-        {
+        const translatedText = data.translatedText;
+        
+        setChatLog(prev => [...prev, {
           id: Date.now() + 1,
           sender: 'assistant',
-          text: `⚠️ ${error.message}`,
+          text: translatedText,
           lang: targetLang,
-          timestamp: new Date(),
-        },
-      ]);
+          originalText: text,
+          timestamp: new Date()
+        }]);
+        
+        // Auto speak terjemahan
+        speakText(translatedText, targetLang);
+      } else {
+        throw new Error(data.error || 'Translation failed');
+      }
+
+    } catch (error) {
+      console.error('Translation error:', error);
+      setChatLog(prev => [...prev, {
+        id: Date.now() + 1,
+        sender: 'assistant',
+        text: '⚠️ Gagal menerjemahkan. Pastikan koneksi internet Anda baik.',
+        lang: targetLang,
+        timestamp: new Date()
+      }]);
     } finally {
       setIsLoading(false);
       setInputText('');
@@ -207,20 +202,6 @@ useEffect(() => {
     setChatLog([]);
     window.speechSynthesis.cancel();
   };
-  const detectLanguage = (text) => {
-  // Regex sederhana untuk mendeteksi karakter Arab
-  const arabicRegex = /[\u0600-\u06FF]/;
-  
-  if (arabicRegex.test(text)) {
-    return 'ar';
-  }
-  
-  // Jika tidak ada karakter Arab, asumsikan Latin (bisa EN atau ID)
-  // Untuk akurasi lebih tinggi, Anda bisa pakai library 'franc' atau similar
-  // Tapi untuk sekarang, kita biarkan user memilih atau default ke 'en' jika input bukan Arab
-  // ATAU, kirim 'auto' ke GAS dan handle di sana (lihat langkah 3)
-  return 'auto'; 
-};
 
   const languages = [
     { code: 'id-ID', name: 'Indonesia', flag: '🇮🇩' },
