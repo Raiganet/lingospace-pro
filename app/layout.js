@@ -1,6 +1,6 @@
 import { Inter } from 'next/font/google';
 import './globals.css';
-
+import BrowserCheck from '@/components/BrowserCheck';
 const inter = Inter({ subsets: ['latin'] });
 
 // ✅ HANYA 1 METADATA - GABUNGAN SEMUA
