@@ -101,72 +101,84 @@ useEffect(() => {
   };
 
   // Fungsi untuk menerjemahkan teks menggunakan Google Apps Script
-const handleTranslate = async (text) => {
-  if (!text.trim()) return;
-  
-  setIsLoading(true);
-  
-  // Tambahkan pesan user ke chat
-  setChatLog(prev => [...prev, {
-    id: Date.now(),
-    sender: 'user',
-    text: text,
-    lang: sourceLang,
-    timestamp: new Date()
-  }]);
-
-  try {
-    const GAS_API_URL = "https://script.google.com/macros/s/AKfycbw3wHhpZp9nTUoV7SMHdg_ql5aqLfppRcgKK2HJtryKjTM9ubDEtw8Ky5c3yHshS1pkmw/exec";
+  const handleTranslate = async (text) => {
+    if (!text.trim()) return;
     
-    // Pastikan kode bahasa hanya 2 huruf dan lowercase
-    const sourceCode = sourceLang.split('-')[0].toLowerCase().trim(); 
-    const targetCode = targetLang.split('-')[0].toLowerCase().trim();
+    setIsLoading(true);
+    
+    // Tambahkan pesan user ke chat
+    setChatLog(prev => [...prev, {
+      id: Date.now(),
+      sender: 'user',
+      text: text,
+      lang: sourceLang,
+      timestamp: new Date()
+    }]);
 
-    console.log(`Translating: ${sourceCode} -> ${targetCode}`); // Debugging
+    try {
+      const GAS_API_URL = "https://script.google.com/macros/s/AKfycbw3wHhpZp9nTUoV7SMHdg_ql5aqLfppRcgKK2HJtryKjTM9ubDEtw8Ky5c3yHshS1pkmw/exec";
+      
+      // ✅ PERBAIKAN KRUSIAL: Bersihkan kode bahasa secara agresif
+      // Mengambil 2 huruf pertama, lowercase, dan trim spasi
+      let sourceCode = String(sourceLang).split('-')[0].toLowerCase().trim();
+      let targetCode = String(targetLang).split('-')[0].toLowerCase().trim();
 
-    const response = await fetch(GAS_API_URL, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'text/plain;charset=utf-8',
-      },
-      body: JSON.stringify({
-        text: text,
-        source: sourceCode,
-        target: targetCode
-      }),
-      redirect: 'follow' // ← INI KRUSIAL! Apps Script sering redirect
-    });
+      // Validasi: Pastikan source dan target berbeda
+      if (sourceCode === targetCode) {
+        throw new Error(`Bahasa asal dan tujuan sama (${sourceCode}). Tidak perlu diterjemahkan.`);
+      }
 
-    const data = await response.json();
+      // Validasi: Pastikan hanya id, en, ar
+      const validCodes = ['id', 'en', 'ar'];
+      if (!validCodes.includes(sourceCode) || !validCodes.includes(targetCode)) {
+        throw new Error(`Kode bahasa tidak valid: ${sourceCode} -> ${targetCode}`);
+      }
 
-    if (data.success) {
+      console.log(`✅ Translating: ${sourceCode} -> ${targetCode}`);
+
+      const response = await fetch(GAS_API_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'text/plain;charset=utf-8',
+        },
+        body: JSON.stringify({
+          text: text,
+          source: sourceCode,
+          target: targetCode
+        }),
+        redirect: 'follow' // Wajib untuk GAS
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setChatLog(prev => [...prev, {
+          id: Date.now() + 1,
+          sender: 'assistant',
+          text: data.translatedText,
+          lang: targetLang,
+          originalText: text,
+          timestamp: new Date()
+        }]);
+        speakText(data.translatedText, targetLang);
+      } else {
+        throw new Error(data.error || 'Translation failed');
+      }
+
+    } catch (error) {
+      console.error('Translation error:', error);
       setChatLog(prev => [...prev, {
         id: Date.now() + 1,
         sender: 'assistant',
-        text: data.translatedText,
+        text: `️ Error: ${error.message}`,
         lang: targetLang,
-        originalText: text,
         timestamp: new Date()
       }]);
-      speakText(data.translatedText, targetLang);
-    } else {
-      throw new Error(data.error || 'Translation failed');
+    } finally {
+      setIsLoading(false);
+      setInputText('');
     }
-
-  } catch (error) {
-    console.error('Translation error:', error);
-    setChatLog(prev => [...prev, {
-      id: Date.now() + 1,
-      sender: 'assistant',
-      text: `⚠️ Error: ${error.message}`,
-      lang: targetLang,
-      timestamp: new Date()
-    }]);
-  } finally {
-    setIsLoading(false);
-    setInputText('');
-  }
-};
+  };
 
   // Fungsi untuk membacakan teks (Speaker)
   const speakText = (text, lang) => {
