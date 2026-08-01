@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 
 export default function SmartTranslator() {
-  const [sourceLang, setSourceLang] = useState('auto');
+  const [sourceLang, setSourceLang] = useState('id-ID');
   const [targetLang, setTargetLang] = useState('en-US');
   const [inputText, setInputText] = useState('');
   const [chatLog, setChatLog] = useState([]);
