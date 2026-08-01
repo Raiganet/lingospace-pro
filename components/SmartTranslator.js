@@ -103,72 +103,72 @@ useEffect(() => {
   // Fungsi untuk menerjemahkan teks menggunakan Google Apps Script
     const handleTranslate = async (text) => {
     if (!text.trim()) return;
-    
+
     setIsLoading(true);
-    
-    // Tambahkan pesan user ke chat
-    setChatLog(prev => [...prev, {
-      id: Date.now(),
-      sender: 'user',
-      text: text,
-      lang: sourceLang,
-      timestamp: new Date()
-    }]);
+
+    // Catat pesan user
+    setChatLog((prev) => [
+      ...prev,
+      {
+        id: Date.now(),
+        sender: 'user',
+        text: text,
+        lang: sourceLang,
+        timestamp: new Date(),
+      },
+    ]);
 
     try {
-      // Deteksi bahasa asal sederhana jika mode auto
-      let sourceCode = sourceLang === 'auto' || !sourceLang ? 'auto' : sourceLang.split('-')[0].toLowerCase();
       const targetCode = targetLang.split('-')[0].toLowerCase().trim();
 
-      // Jika auto, deteksi berdasarkan karakter Arab
-      if (sourceCode === 'auto') {
-        sourceCode = /[\u0600-\u06FF]/.test(text) ? 'ar' : 'en'; 
-      }
+      // ✅ KUNCI: source kosong = biarkan Google auto-detect bahasa asal.
+      //    Tidak perlu regex, tidak perlu tebak-tebakan, tidak akan pernah
+      //    terjadi "asal sama dengan tujuan" yang salah.
+      const sourceCode = '';
 
-      // Validasi: Jangan translate jika bahasa sama
-      if (sourceCode === targetCode) {
-        throw new Error(`Teks sudah dalam bahasa ${targetCode}.`);
-      }
+      console.log(`Proxying translation: (auto) -> ${targetCode}`);
 
-      console.log(`Proxying translation: ${sourceCode} -> ${targetCode}`);
-
-      // ✅ PANGGIL API ROUTE SENDIRI (Bukan URL GAS Langsung)
-      // Ini akan melewati server Next.js Anda, sehingga tidak kena blokir CORS
+      // Panggil API route milik sendiri (bebas CORS)
       const response = await fetch('/api/translate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           text: text,
           source: sourceCode,
-          target: targetCode
-        })
+          target: targetCode,
+        }),
       });
 
       const data = await response.json();
 
       if (data.success) {
-        setChatLog(prev => [...prev, {
-          id: Date.now() + 1,
-          sender: 'assistant',
-          text: data.translatedText,
-          lang: targetLang,
-          originalText: text,
-          timestamp: new Date()
-        }]);
+        setChatLog((prev) => [
+          ...prev,
+          {
+            id: Date.now() + 1,
+            sender: 'assistant',
+            text: data.translatedText,
+            lang: targetLang,
+            originalText: text,
+            timestamp: new Date(),
+          },
+        ]);
         speakText(data.translatedText, targetLang);
       } else {
-        throw new Error(data.error || 'Translation failed');
+        throw new Error(data.error || 'Terjemahan gagal');
       }
-
     } catch (error) {
       console.error('Translation error:', error);
-      setChatLog(prev => [...prev, {
-        id: Date.now() + 1,
-        sender: 'assistant',
-        text: `️ ${error.message}`,
-        lang: targetLang,
-        timestamp: new Date()
-      }]);
+      setChatLog((prev) => [
+        ...prev,
+        {
+          id: Date.now() + 1,
+          sender: 'assistant',
+          text: `⚠️ ${error.message}`,
+          lang: targetLang,
+          timestamp: new Date(),
+        },
+      ]);
     } finally {
       setIsLoading(false);
       setInputText('');
