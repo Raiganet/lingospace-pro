@@ -366,36 +366,3 @@ nav { transition: transform 0.3s ease-in-out; }
 @media (max-width: 640px) {
   .glass-modern { padding: 0.5rem; }
 }
-/* ==========================================
-   FIX: MENCEGAH SCROLL OTOMIS DI MOBILE
-   ========================================== */
-
-/* Mencegah scroll behavior yang tidak diinginkan di mobile */
-html, body {
-  overscroll-behavior-y: none;
-  scroll-behavior: auto !important;
-}
-
-/* Fix viewport height di mobile browser */
-@supports (-webkit-touch-callout: none) {
-  .min-h-screen {
-    min-height: -webkit-fill-available;
-  }
-}
-
-/* Mencegah zoom dan scroll yang tidak diinginkan pada input */
-input, textarea, select {
-  font-size: 16px !important; /* Mencegah auto-zoom di iOS */
-}
-
-/* Fix untuk mobile Safari */
-@supports (-webkit-touch-callout: none) {
-  .h-\[85vh\], .h-\[800px\] {
-    height: -webkit-fill-available;
-  }
-}
-
-/* Mencegah scroll snap yang tidak diinginkan */
-* {
-  scroll-snap-type: none !important;
-}
