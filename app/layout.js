@@ -21,6 +21,8 @@ export const metadata = {
     width: 'device-width',
     initialScale: 1,
     maximumScale: 1,
+    userScalable: false, // Mencegah zoom yang bisa trigger scroll
+    viewportFit: 'cover',
   },
   icons: {
     icon: [
