@@ -101,73 +101,79 @@ useEffect(() => {
   };
 
   // Fungsi untuk menerjemahkan teks menggunakan Google Apps Script
-  const handleTranslate = async (text) => {
-  if (!text.trim()) return;
-  
-  setIsLoading(true);
-  
-  setChatLog(prev => [...prev, {
-    id: Date.now(),
-    sender: 'user',
-    text: text,
-    lang: sourceLang,
-    timestamp: new Date()
-  }]);
-
-  try {
-    const GAS_API_URL = "https://script.google.com/macros/s/.../exec";
+    const handleTranslate = async (text) => {
+    if (!text.trim()) return;
     
-    // Tentukan source code
-    let sourceCode = sourceLang === 'auto' ? detectLanguage(text) : sourceLang.split('-')[0].toLowerCase();
-    let targetCode = targetLang.split('-')[0].toLowerCase().trim();
+    setIsLoading(true);
+    
+    // Tambahkan pesan user ke chat
+    setChatLog(prev => [...prev, {
+      id: Date.now(),
+      sender: 'user',
+      text: text,
+      lang: sourceLang,
+      timestamp: new Date()
+    }]);
 
-    // Fallback jika deteksi gagal atau source == target
-    if (sourceCode === 'auto') sourceCode = 'en'; // Default fallback
-    if (sourceCode === targetCode) {
-        // Jika source dan target sama, coba ganti source ke bahasa lain yang mungkin
-        // Atau tampilkan pesan bahwa bahasa sudah sama
+    try {
+      // Deteksi bahasa asal sederhana jika mode auto
+      let sourceCode = sourceLang === 'auto' || !sourceLang ? 'auto' : sourceLang.split('-')[0].toLowerCase();
+      const targetCode = targetLang.split('-')[0].toLowerCase().trim();
+
+      // Jika auto, deteksi berdasarkan karakter Arab
+      if (sourceCode === 'auto') {
+        sourceCode = /[\u0600-\u06FF]/.test(text) ? 'ar' : 'en'; 
+      }
+
+      // Validasi: Jangan translate jika bahasa sama
+      if (sourceCode === targetCode) {
         throw new Error(`Teks sudah dalam bahasa ${targetCode}.`);
-    }
+      }
 
-    console.log(`Translating: ${sourceCode} -> ${targetCode}`);
+      console.log(`Proxying translation: ${sourceCode} -> ${targetCode}`);
 
-    const response = await fetch(GAS_API_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-      body: JSON.stringify({ text, source: sourceCode, target: targetCode }),
-      redirect: 'follow'
-    });
+      // ✅ PANGGIL API ROUTE SENDIRI (Bukan URL GAS Langsung)
+      // Ini akan melewati server Next.js Anda, sehingga tidak kena blokir CORS
+      const response = await fetch('/api/translate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          text: text,
+          source: sourceCode,
+          target: targetCode
+        })
+      });
 
-    const data = await response.json();
+      const data = await response.json();
 
-    if (data.success) {
+      if (data.success) {
+        setChatLog(prev => [...prev, {
+          id: Date.now() + 1,
+          sender: 'assistant',
+          text: data.translatedText,
+          lang: targetLang,
+          originalText: text,
+          timestamp: new Date()
+        }]);
+        speakText(data.translatedText, targetLang);
+      } else {
+        throw new Error(data.error || 'Translation failed');
+      }
+
+    } catch (error) {
+      console.error('Translation error:', error);
       setChatLog(prev => [...prev, {
         id: Date.now() + 1,
         sender: 'assistant',
-        text: data.translatedText,
+        text: `️ ${error.message}`,
         lang: targetLang,
-        originalText: text,
         timestamp: new Date()
       }]);
-      speakText(data.translatedText, targetLang);
-    } else {
-      throw new Error(data.error);
+    } finally {
+      setIsLoading(false);
+      setInputText('');
     }
-
-  } catch (error) {
-    console.error(error);
-    setChatLog(prev => [...prev, {
-      id: Date.now() + 1,
-      sender: 'assistant',
-      text: `⚠️ ${error.message}`,
-      lang: targetLang,
-      timestamp: new Date()
-    }]);
-  } finally {
-    setIsLoading(false);
-    setInputText('');
-  }
-};
+  };
 
   // Fungsi untuk membacakan teks (Speaker)
   const speakText = (text, lang) => {
