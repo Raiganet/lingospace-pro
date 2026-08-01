@@ -1,3 +1,43 @@
+/* Fallback untuk browser lama (Android 8 ke bawah) */
+@supports not (backdrop-filter: blur(10px)) {
+  .glass-modern {
+    background: rgba(30, 20, 50, 0.95) !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+}
+
+/* Fallback untuk CSS Grid */
+@supports not (display: grid) {
+  .grid {
+    display: block !important;
+  }
+  .grid > * {
+    margin-bottom: 1rem;
+  }
+}
+
+/* Fallback untuk flex-wrap */
+@supports not (flex-wrap: wrap) {
+  .flex-wrap {
+    display: block !important;
+  }
+}
+
+/* Performance boost untuk device low-end */
+@media (max-width: 640px) and (max-device-memory: 3GB) {
+  .glass-modern {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background: rgba(30, 20, 50, 0.95) !important;
+  }
+  
+  .animate-bounce,
+  .animate-pulse,
+  .animate-spin {
+    animation: none !important;
+  }
+}
 /* =========================================================
    ✅ TAILWIND CSS v4 — NEXT.JS 16 • TURBOPACK SAFE
    ❌ TIDAK ADA @apply DENGAN sm: md: lg: → PASTI BUILD LOLOS
