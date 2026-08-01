@@ -27,14 +27,21 @@ export default function SmartTranslator() {
 
   // Fungsi untuk memulai input suara (Mic)
   const startListening = () => {
-    if (!hasSpeechRecognition) {
-      alert('Maaf, browser Anda tidak mendukung fitur mikrofon. Silakan gunakan Google Chrome.');
-      return;
+  // Cek dukungan Speech Recognition
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  
+  if (!SpeechRecognition) {
+    // Fallback: tampilkan prompt manual
+    const text = prompt('Fitur suara tidak tersedia. Silakan ketik teks Anda:');
+    if (text) {
+      setInputText(text);
+      handleTranslate(text);
     }
-    
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    return;
+  }
+
+  try {
     const recognition = new SpeechRecognition();
-    
     recognition.lang = sourceLang;
     recognition.interimResults = false;
     recognition.maxAlternatives = 1;
@@ -49,12 +56,23 @@ export default function SmartTranslator() {
     };
 
     recognition.onerror = (event) => {
-      console.error('Speech recognition error', event.error);
+      console.error('Speech error:', event.error);
       setIsListening(false);
+      
+      // Fallback jika error
+      if (event.error === 'not-allowed') {
+        alert('Izin mikrofon ditolak. Silakan izinkan akses mikrofon di pengaturan browser.');
+      } else if (event.error === 'no-speech') {
+        alert('Tidak ada suara terdeteksi. Coba lagi.');
+      }
     };
 
     recognition.start();
-  };
+  } catch (error) {
+    console.error('Speech recognition failed:', error);
+    alert('Fitur suara tidak tersedia di browser ini.');
+  }
+};
 
   // Fungsi untuk menerjemahkan teks menggunakan MyMemory API
   const handleTranslate = async (text) => {
