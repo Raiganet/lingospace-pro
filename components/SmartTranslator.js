@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-
+ 
 export default function SmartTranslator() {
   const [sourceLang, setSourceLang] = useState('id-ID');
   const [targetLang, setTargetLang] = useState('en-US');
