@@ -74,11 +74,9 @@ export default function Navbar() {
     return false;
   };
 
-  const handleModeChange = (mode) => {
-    // Jika menggunakan state global untuk mode, trigger di sini
-    // Contoh: window.dispatchEvent(new CustomEvent('changeMode', { detail: mode }));
-    console.log('Switch to mode:', mode);
-  };
+const handleModeChange = (mode) => {
+  window.dispatchEvent(new CustomEvent('changeMode', { detail: mode }));
+};
 
   return (
     <nav
