@@ -5,7 +5,6 @@ const jsonError = (message, status = 500) =>
   NextResponse.json({ success: false, error: message }, { status });
 
 export async function POST(request) {
-  // 1. Baca body dari frontend
   let body;
   try {
     body = await request.json();
@@ -15,41 +14,38 @@ export async function POST(request) {
 
   const { text, source, target } = body || {};
 
-  // ✅ PERBAIKAN: Hanya periksa text dan target. Source boleh kosong (auto-detect).
+  // Periksa text dan target saja. Source boleh kosong.
   if (!text || !target) {
     return jsonError('Parameter "text" dan "target" wajib diisi', 400);
   }
 
-  // 2. Panggil Google Apps Script
-  const GAS_URL =
-    'https://script.google.com/macros/s/AKfycbw3wHhpZp9nTUoV7SMHdg_ql5aqLfppRcgKK2HJtryKjTM9ubDEtw8Ky5c3yHshS1pkmw/exec';
+  // ✅ Pastikan URL ini adalah URL hasil "New Deployment" terbaru dari Apps Script
+  const GAS_URL = 'https://script.google.com/macros/s/AKfycbw3wHhpZp9nTUoV7SMHdg_ql5aqLfppRcgKK2HJtryKjTM9ubDEtw8Ky5c3yHshS1pkmw/exec';
 
   let res;
   try {
     res = await fetch(GAS_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-      // Source kosong = Google auto-detect bahasa asal
-      body: JSON.stringify({ text, source: source || '', target }),
+      body: JSON.stringify({ 
+        text: text, 
+        source: source || '', // Jika kosong, Google akan auto-detect
+        target: target 
+      }),
       redirect: 'follow',
     });
   } catch (e) {
     return jsonError('Gagal menghubungi mesin terjemahan: ' + e.message, 502);
   }
 
-  // 3. Baca sebagai teks dulu
   const raw = await res.text();
 
   let data;
   try {
     data = JSON.parse(raw);
   } catch {
-    return jsonError(
-      'Mesin terjemahan membalas format tak terduga. Coba lagi sebentar lagi.',
-      502
-    );
+    return jsonError('Mesin terjemahan membalas format tak terduga. Coba lagi sebentar lagi.', 502);
   }
 
-  // 4. Teruskan ke frontend
   return NextResponse.json(data);
 }
