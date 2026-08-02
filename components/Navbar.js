@@ -87,22 +87,26 @@ const handleModeChange = (mode) => {
         <div className="flex items-center justify-between h-16 sm:h-20">
           
           {/* LOGO */}
-          <Link
-            href="/"
-            onClick={() => handleModeChange('dashboard')}
-            className="flex items-center gap-2 sm:gap-3 flex-shrink-0"
-          >
-            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br from-purple-500 via-pink-500 to-purple-600 flex items-center justify-center shadow-lg shadow-purple-500/30 relative overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/20 to-transparent"></div>
-              <span className="text-white font-bold text-lg sm:text-xl relative z-10">L</span>
-            </div>
-            <div className="hidden sm:block">
-              <h1 className="text-base sm:text-lg font-bold bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 bg-clip-text text-transparent leading-tight">
-                LingoSpace Pro
-              </h1>
-              <p className="text-[10px] text-gray-400 leading-tight">Learn • Practice • Master</p>
-            </div>
-          </Link>
+      
+<Link
+  href="/"
+  onClick={() => handleModeChange('dashboard')}
+  className="flex items-center gap-2 sm:gap-3 flex-shrink-0"
+>
+  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl overflow-hidden bg-gradient-to-br from-violet-500 to-fuchsia-600 p-[2px] shadow-lg shadow-violet-500/30">
+    <img
+      src="/logo.png"
+      alt="LingoSpace Pro"
+      className="w-full h-full object-contain rounded-xl bg-slate-900"
+    />
+  </div>
+  <div className="hidden sm:block">
+    <h1 className="text-base sm:text-lg font-bold bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 bg-clip-text text-transparent leading-tight">
+      LingoSpace Pro
+    </h1>
+    <p className="text-[10px] text-gray-400 leading-tight">Learn • Practice • Master</p>
+  </div>
+</Link>
 
           {/* DESKTOP NAVIGATION */}
           <div className="hidden lg:flex items-center gap-1">
