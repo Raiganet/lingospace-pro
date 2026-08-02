@@ -1,11 +1,9 @@
 "use client";
 
-// ✅ PASTIKAN BARIS INI ADA DI PALING ATAS
 import { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import Navbar from '../components/Navbar';
 
-// Dynamic Import untuk mencegah error SSR
 const LingoSpacePro = dynamic(() => import('../components/LingoSpacePro'), {
   ssr: false,
   loading: () => (
@@ -40,7 +38,7 @@ export default function Page() {
   useEffect(() => {
     setMounted(true);
     
-    // ✅ Listener untuk menangkap event perubahan mode dari Navbar
+    // Listener untuk menangkap event perubahan mode dari Navbar
     const handleModeChange = (event) => {
       if (event.detail) {
         setActiveTab(event.detail);
@@ -48,47 +46,41 @@ export default function Page() {
     };
     
     window.addEventListener('changeMode', handleModeChange);
-    
-    // Cleanup listener saat komponen unmount
-    return () => {
-      window.removeEventListener('changeMode', handleModeChange);
-    };
+    return () => window.removeEventListener('changeMode', handleModeChange);
   }, []);
 
-  if (!mounted) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center justify-center">
-        <div className="text-center">
-          <div className="w-16 h-16 border-4 border-white/20 border-t-purple-500 rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-lg font-semibold text-white">Memuat LingoSpace Pro...</p>
-        </div>
-      </div>
-    );
-  }
+  if (!mounted) return null;
+
+  // Mode yang menggunakan komponen terpisah
+  const separateComponents = {
+    'smarttranslator': <SmartTranslator />,
+    'dictionary': <Dictionary />,
+    'prayers': <DailyPrayers />,
+  };
+
+  // Mode yang menggunakan LingoSpacePro (dengan mode tertentu)
+  const lingoSpaceModes = [
+    'dashboard', 'flashcard', 'quiz', 'listen', 
+    'bookmarks', 'roadmap', 'nahwu', 'english'
+  ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white overflow-x-hidden">
-      
-      {/* ✅ Navbar Component */}
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white">
+      {/* Navbar Component */}
       <Navbar />
 
-      {/* Main Content Area */}
+      {/* Main Content */}
       <main className="max-w-7xl mx-auto px-3 sm:px-6 py-4 sm:py-8 safe-area-bottom">
-        {activeTab === 'dashboard' && <LingoSpacePro />}
-        {activeTab === 'smarttranslator' && <SmartTranslator />}
-        {activeTab === 'dictionary' && <Dictionary />}
-        {activeTab === 'prayers' && <DailyPrayers />}
+        {/* Render komponen terpisah */}
+        {separateComponents[activeTab] && separateComponents[activeTab]}
         
-        {/* Fallback untuk tab lain yang belum diimplementasi di page.js */}
-        {!['dashboard', 'smarttranslator', 'dictionary', 'prayers'].includes(activeTab) && (
-          <div className="text-center py-20 animate-fade-in">
-            <h2 className="text-2xl font-bold mb-4">Fitur "{activeTab}" sedang dalam pengembangan</h2>
-            <p className="text-gray-400">Silakan gunakan menu Dashboard untuk mengakses fitur utama.</p>
-          </div>
+        {/* Render LingoSpacePro untuk mode lainnya */}
+        {lingoSpaceModes.includes(activeTab) && (
+          <LingoSpaceProWrapper mode={activeTab} />
         )}
       </main>
 
-      {/* Footer Sederhana */}
+      {/* Footer */}
       <footer className="glass-modern border-t border-white/10 mt-12 md:mt-16">
         <div className="max-w-7xl mx-auto px-6 py-8 text-center text-xs sm:text-sm text-gray-400">
           <p>© {new Date().getFullYear()} LingoSpace Pro. All rights reserved.</p>
@@ -96,7 +88,6 @@ export default function Page() {
         </div>
       </footer>
 
-      {/* Global Styles */}
       <style jsx global>{`
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         .hide-scrollbar::-webkit-scrollbar { display: none; }
@@ -113,4 +104,14 @@ export default function Page() {
       `}</style>
     </div>
   );
+}
+
+// Wrapper component untuk mengirim mode ke LingoSpacePro
+function LingoSpaceProWrapper({ mode }) {
+  useEffect(() => {
+    // Kirim event ke LingoSpacePro untuk mengubah mode
+    window.dispatchEvent(new CustomEvent('changeMode', { detail: mode }));
+  }, [mode]);
+
+  return <LingoSpacePro />;
 }
