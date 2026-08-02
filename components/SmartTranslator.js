@@ -101,7 +101,7 @@ useEffect(() => {
   };
 
   // Fungsi untuk menerjemahkan teks menggunakan Google Apps Script
-  // Fungsi untuk menerjemahkan teks
+ // Fungsi untuk menerjemahkan teks menggunakan Google Apps Script
   const handleTranslate = async (text) => {
     if (!text.trim()) return;
     
@@ -112,22 +112,24 @@ useEffect(() => {
       id: Date.now(),
       sender: 'user',
       text: text,
-      lang: sourceLang,
+      lang: sourceLang, // Ini hanya untuk UI (kanan/kiri)
       timestamp: new Date()
     }]);
 
     try {
+      // ✅ Tembak langsung dari Frontend (Browser pintar menangani 302 Redirect Google)
+      const GAS_API_URL = "https://script.google.com/macros/s/AKfycbw3wHhpZp9nTUoV7SMHdg_ql5aqLfppRcgKK2HJtryKjTM9ubDEtw8Ky5c3yHshS1pkmw/exec";
+      
       const targetCode = targetLang.split('-')[0]; // 'id', 'en', atau 'ar'
 
-      // ✅ PERBAIKAN: Panggil API Next.js lokal, JANGAN panggil GAS langsung dari sini
-      const response = await fetch('/api/translate', {
+      const response = await fetch(GAS_API_URL, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json', // Bisa pakai JSON biasa karena ini internal
+          'Content-Type': 'text/plain;charset=utf-8', // Wajib text/plain agar tidak error CORS
         },
         body: JSON.stringify({
           text: text,
-          source: '', // ✅ Paksa kosong agar Google mendeteksi otomatis bahasanya (Inggris/Arab/dll)
+          source: '', // ✅ KOSONGKAN: Memaksa mesin Google melakukan auto-detect (Inggris/Arab/dll)
           target: targetCode
         })
       });
@@ -157,7 +159,7 @@ useEffect(() => {
       setChatLog(prev => [...prev, {
         id: Date.now() + 1,
         sender: 'assistant',
-        text: '⚠️ Gagal menerjemahkan. Pastikan koneksi internet Anda baik.',
+        text: '⚠️ Gagal menerjemahkan. Pastikan Apps Script sudah di-deploy dengan versi terbaru.',
         lang: targetLang,
         timestamp: new Date()
       }]);
