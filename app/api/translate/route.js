@@ -38,14 +38,25 @@ export async function POST(request) {
     return jsonError('Gagal menghubungi mesin terjemahan: ' + e.message, 502);
   }
 
+  // ... (kode atas biarkan sama) ...
+  
   const raw = await res.text();
 
   let data;
   try {
     data = JSON.parse(raw);
   } catch {
-    return jsonError('Mesin terjemahan membalas format tak terduga. Coba lagi sebentar lagi.', 502);
+    // 🛠️ Tampilkan pesan asli dari Google untuk mempermudah debugging
+    console.error("GAS HTML Error Raw:", raw); // Akan muncul di terminal Vercel
+    
+    // Ambil sedikit potongan error asli dari Google (hilangkan tag HTML)
+    const snippet = raw.substring(0, 60).replace(/<[^>]*>?/gm, '').trim(); 
+    return jsonError(
+      `Google API Crash. Balasan server: ${snippet}...`,
+      502
+    );
   }
 
+  // 4. Teruskan ke frontend
   return NextResponse.json(data);
 }
