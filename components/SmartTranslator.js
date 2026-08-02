@@ -101,6 +101,7 @@ useEffect(() => {
   };
 
   // Fungsi untuk menerjemahkan teks menggunakan Google Apps Script
+  // Fungsi untuk menerjemahkan teks
   const handleTranslate = async (text) => {
     if (!text.trim()) return;
     
@@ -116,21 +117,17 @@ useEffect(() => {
     }]);
 
     try {
-      // ✅ DIPERBAIKI: Tanda kutip penutup ("") sudah ditambahkan di akhir URL
-      const GAS_API_URL = "https://script.google.com/macros/s/AKfycbw3wHhpZp9nTUoV7SMHdg_ql5aqLfppRcgKK2HJtryKjTM9ubDEtw8Ky5c3yHshS1pkmw/exec";
-      
-      const sourceCode = sourceLang.split('-')[0]; // 'id', 'en', atau 'ar'
       const targetCode = targetLang.split('-')[0]; // 'id', 'en', atau 'ar'
 
-      // Kirim request ke Google Apps Script
-      const response = await fetch(GAS_API_URL, {
+      // ✅ PERBAIKAN: Panggil API Next.js lokal, JANGAN panggil GAS langsung dari sini
+      const response = await fetch('/api/translate', {
         method: 'POST',
         headers: {
-          'Content-Type': 'text/plain;charset=utf-8', // Trik agar tidak kena blokir CORS di Apps Script
+          'Content-Type': 'application/json', // Bisa pakai JSON biasa karena ini internal
         },
         body: JSON.stringify({
           text: text,
-          source: sourceCode,
+          source: '', // ✅ Paksa kosong agar Google mendeteksi otomatis bahasanya (Inggris/Arab/dll)
           target: targetCode
         })
       });
