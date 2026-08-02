@@ -17,3 +17,12 @@ const LingoSpacePro = dynamic(() => import('../components/LingoSpacePro'), {
 export default function Page() {
   return <LingoSpacePro />;
 }
+// Di dalam komponen Page(), tambahkan useEffect ini:
+useEffect(() => {
+  const handleModeChange = (event) => {
+    setActiveTab(event.detail);
+  };
+  
+  window.addEventListener('changeMode', handleModeChange);
+  return () => window.removeEventListener('changeMode', handleModeChange);
+}, []);
