@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
+import ProductionBridge from '../components/ProductionBridge';
 
 const LingoSpacePro = dynamic(() => import('../components/LingoSpacePro'), {
   ssr: false,
@@ -25,6 +26,16 @@ const DailyPrayers = dynamic(() => import('../components/DailyPrayers'), {
   loading: () => <PageLoader label="Memuat doa harian..." />,
 });
 
+const PremiumLearningCenter = dynamic(() => import('../components/PremiumLearningCenter'), {
+  ssr: false,
+  loading: () => <PageLoader label="Menyiapkan Premium Learning..." />,
+});
+
+const AccountCenter = dynamic(() => import('../components/AccountCenter'), {
+  ssr: false,
+  loading: () => <PageLoader label="Menyiapkan akun & data..." />,
+});
+
 function PageLoader({ label }) {
   return (
     <div className="app-loader">
@@ -34,7 +45,7 @@ function PageLoader({ label }) {
   );
 }
 
-const VALID_MODES = new Set(['dashboard','flashcard','quiz','listen','bookmarks','roadmap','nahwu','english','smarttranslator','dictionary','prayers']);
+const VALID_MODES = new Set(['dashboard','flashcard','quiz','listen','review','mistakes','bookmarks','roadmap','nahwu','english','speaking','games','analytics','smarttranslator','dictionary','prayers','account']);
 
 export default function Page() {
   const [mounted, setMounted] = useState(false);
@@ -42,8 +53,10 @@ export default function Page() {
 
   useEffect(() => {
     setMounted(true);
+    const requestedMode = new URLSearchParams(window.location.search).get('mode');
     const savedMode = localStorage.getItem('lingospace_active_mode');
-    if (savedMode && VALID_MODES.has(savedMode)) setActiveTab(savedMode);
+    if (requestedMode && VALID_MODES.has(requestedMode)) setActiveTab(requestedMode);
+    else if (savedMode && VALID_MODES.has(savedMode)) setActiveTab(savedMode);
 
     const handleModeChange = (event) => {
       if (!event.detail || !VALID_MODES.has(event.detail)) return;
@@ -66,15 +79,20 @@ export default function Page() {
     smarttranslator: <SmartTranslator />,
     dictionary: <Dictionary />,
     prayers: <DailyPrayers />,
+    speaking: <PremiumLearningCenter view="speaking" />,
+    games: <PremiumLearningCenter view="games" />,
+    analytics: <PremiumLearningCenter view="analytics" />,
+    account: <AccountCenter />,
   };
 
   const lingoSpaceModes = [
-    'dashboard', 'flashcard', 'quiz', 'listen',
+    'dashboard', 'flashcard', 'quiz', 'listen', 'review', 'mistakes',
     'bookmarks', 'roadmap', 'nahwu', 'english'
   ];
 
   return (
     <div className="app-root">
+      <ProductionBridge />
       <Navbar activeMode={activeTab} onModeChange={changeMode} />
 
       <div className="app-content-column">

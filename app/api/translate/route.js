@@ -1,62 +1,62 @@
-// app/api/translate/route.js
 import { NextResponse } from 'next/server';
+import { guardApiRequest } from '@/lib/serverGuards';
+
+export const dynamic = 'force-dynamic';
 
 const jsonError = (message, status = 500) =>
   NextResponse.json({ success: false, error: message }, { status });
 
+const ALLOWED_LANGUAGES = new Set(['id', 'en', 'ar']);
+
 export async function POST(request) {
+  const guard = guardApiRequest(request, {
+    namespace: 'translate',
+    limit: Number(process.env.TRANSLATE_RATE_LIMIT_MAX) || 30,
+    windowMs: Number(process.env.AI_RATE_LIMIT_WINDOW_MS) || 60000,
+    maxBytes: 12000,
+  });
+  if (guard) return guard;
+
   let body;
+  try { body = await request.json(); }
+  catch { return jsonError('Request body tidak valid', 400); }
+
+  const text = String(body?.text || '').trim();
+  const source = String(body?.source || '').trim();
+  const target = String(body?.target || '').trim();
+
+  if (!text || !target) return jsonError('Parameter "text" dan "target" wajib diisi', 400);
+  if (text.length > 3000) return jsonError('Teks terlalu panjang. Maksimal 3000 karakter.', 400);
+  if (!ALLOWED_LANGUAGES.has(target)) return jsonError('Bahasa target tidak didukung.', 400);
+  if (source && !ALLOWED_LANGUAGES.has(source)) return jsonError('Bahasa sumber tidak didukung.', 400);
+
+  const GAS_URL = process.env.TRANSLATE_GAS_URL || 'https://script.google.com/macros/s/AKfycbw3wHhpZp9nTUoV7SMHdg_ql5aqLfppRcgKK2HJtryKjTM9ubDEtw8Ky5c3yHshS1pkmw/exec';
+
   try {
-    body = await request.json();
-  } catch {
-    return jsonError('Request body tidak valid', 400);
-  }
-
-  const { text, source, target } = body || {};
-
-  // Periksa text dan target saja. Source boleh kosong.
-  if (!text || !target) {
-    return jsonError('Parameter "text" dan "target" wajib diisi', 400);
-  }
-
-  // ✅ Pastikan URL ini adalah URL hasil "New Deployment" terbaru dari Apps Script
-  const GAS_URL = 'https://script.google.com/macros/s/AKfycbw3wHhpZp9nTUoV7SMHdg_ql5aqLfppRcgKK2HJtryKjTM9ubDEtw8Ky5c3yHshS1pkmw/exec';
-
-  let res;
-  try {
-    res = await fetch(GAS_URL, {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 15000);
+    const res = await fetch(GAS_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-      body: JSON.stringify({ 
-        text: text, 
-        source: source || '', // Jika kosong, Google akan auto-detect
-        target: target 
-      }),
+      body: JSON.stringify({ text, source, target }),
       redirect: 'follow',
+      signal: controller.signal,
+      cache: 'no-store',
     });
-  } catch (e) {
-    return jsonError('Gagal menghubungi mesin terjemahan: ' + e.message, 502);
+    clearTimeout(timeout);
+
+    if (!res.ok) return jsonError(`Mesin terjemahan merespons HTTP ${res.status}.`, 502);
+    const raw = await res.text();
+    let data;
+    try { data = JSON.parse(raw); }
+    catch {
+      const snippet = raw.substring(0, 80).replace(/<[^>]*>?/gm, '').trim();
+      console.error('Translator returned non-JSON:', snippet);
+      return jsonError('Respons mesin terjemahan tidak valid.', 502);
+    }
+    return NextResponse.json(data);
+  } catch (error) {
+    const timeout = error?.name === 'AbortError';
+    return jsonError(timeout ? 'Mesin terjemahan timeout. Coba lagi.' : 'Gagal menghubungi mesin terjemahan.', 502);
   }
-
-  // ... (kode atas biarkan sama) ...
-  
-  const raw = await res.text();
-
-  let data;
-  try {
-    data = JSON.parse(raw);
-  } catch {
-    // 🛠️ Tampilkan pesan asli dari Google untuk mempermudah debugging
-    console.error("GAS HTML Error Raw:", raw); // Akan muncul di terminal Vercel
-    
-    // Ambil sedikit potongan error asli dari Google (hilangkan tag HTML)
-    const snippet = raw.substring(0, 60).replace(/<[^>]*>?/gm, '').trim(); 
-    return jsonError(
-      `Google API Crash. Balasan server: ${snippet}...`,
-      502
-    );
-  }
-
-  // 4. Teruskan ke frontend
-  return NextResponse.json(data);
 }

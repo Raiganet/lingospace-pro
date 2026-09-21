@@ -1,5 +1,7 @@
 'use client';
 
+import { markSyncDirty } from '../lib/cloudSync';
+
 import { useState, useEffect } from 'react';
 import legacyDictionaryIdMap from '../data/legacy-dictionary-id-map.json';
 
@@ -59,6 +61,7 @@ export default function Dictionary() {
         const mergedBookmarks = [...new Set([...sharedIds, ...legacyIds])];
         setBookmarks(mergedBookmarks);
         localStorage.setItem('lingospace_bookmarks', JSON.stringify(mergedBookmarks));
+        markSyncDirty('dictionary-bookmarks-migration');
         if (legacyDictionaryStored.length > 0) localStorage.removeItem('dictionary_bookmarks');
       } catch (error) {
         console.error('Error loading dictionary:', error);
@@ -76,6 +79,17 @@ export default function Dictionary() {
     return () => { cancelled = true; };
   }, []);
 
+  useEffect(() => {
+    const refreshBookmarks = () => {
+      try {
+        const saved = JSON.parse(localStorage.getItem('lingospace_bookmarks') || '[]');
+        setBookmarks([...new Set(saved.map(Number).filter(Number.isFinite))]);
+      } catch { setBookmarks([]); }
+    };
+    window.addEventListener('lingospace:local-data-restored', refreshBookmarks);
+    return () => window.removeEventListener('lingospace:local-data-restored', refreshBookmarks);
+  }, []);
+
   const toggleBookmark = (id) => {
     const numericId = Number(id);
     const newBookmarks = bookmarks.includes(numericId)
@@ -84,6 +98,7 @@ export default function Dictionary() {
     setBookmarks(newBookmarks);
     try {
       localStorage.setItem('lingospace_bookmarks', JSON.stringify(newBookmarks));
+      markSyncDirty('dictionary-bookmarks');
     } catch (e) {
       console.error('Error saving bookmarks:', e);
     }

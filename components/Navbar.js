@@ -2,11 +2,16 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
+import { markSyncDirty } from '../lib/cloudSync';
 import {
+  BarChart3,
   BookMarked,
   BookOpen,
   Brain,
+  CalendarClock,
+  AlertTriangle,
   ChevronRight,
+  Gamepad2,
   GraduationCap,
   Headphones,
   Heart,
@@ -15,6 +20,7 @@ import {
   LayoutDashboard,
   Library,
   Map,
+  Mic,
   Menu,
   Moon,
   MoreHorizontal,
@@ -22,6 +28,7 @@ import {
   Sparkles,
   Sun,
   X,
+  UserRound,
 } from 'lucide-react';
 
 const navigationGroups = [
@@ -29,6 +36,8 @@ const navigationGroups = [
     label: 'Utama',
     items: [
       { mode: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, description: 'Ringkasan progres belajar' },
+      { mode: 'review', label: 'Review Hari Ini', icon: CalendarClock, description: 'SRS kosakata yang jatuh tempo' },
+      { mode: 'mistakes', label: 'Mistake Book', icon: AlertTriangle, description: 'Kata yang masih sering salah' },
       { mode: 'bookmarks', label: 'Favorit', icon: Heart, description: 'Kosakata yang disimpan' },
     ],
   },
@@ -50,10 +59,24 @@ const navigationGroups = [
     ],
   },
   {
+    label: 'Premium Learning',
+    items: [
+      { mode: 'speaking', label: 'Speaking', icon: Mic, description: 'Latihan pronunciation dengan mikrofon' },
+      { mode: 'games', label: 'Mini Games', icon: Gamepad2, description: 'Match, susun kata & speed challenge' },
+      { mode: 'analytics', label: 'Analytics', icon: BarChart3, description: 'XP, level & pola belajar' },
+    ],
+  },
+  {
     label: 'Tools',
     items: [
-      { mode: 'smarttranslator', label: 'LingoSpace AI', icon: Sparkles, description: 'Translator & asisten bahasa' },
+      { mode: 'smarttranslator', label: 'LingoSpace AI', icon: Sparkles, description: 'Translator & tutor bahasa' },
       { mode: 'prayers', label: 'Doa Harian', icon: Languages, description: 'Kumpulan doa sehari-hari' },
+    ],
+  },
+  {
+    label: 'Akun & Data',
+    items: [
+      { mode: 'account', label: 'Akun & Sinkronisasi', icon: UserRound, description: 'Cloud sync, backup, PWA & reminder' },
     ],
   },
 ];
@@ -97,6 +120,7 @@ export default function Navbar({ activeMode = 'dashboard', onModeChange }) {
     setTheme(nextTheme);
     document.documentElement.dataset.theme = nextTheme;
     localStorage.setItem('lingospace_theme', nextTheme);
+    markSyncDirty('theme');
   };
 
   useEffect(() => {
@@ -185,6 +209,9 @@ export default function Navbar({ activeMode = 'dashboard', onModeChange }) {
             <span>Cari kosakata</span>
             <kbd>Ctrl K</kbd>
           </button>
+          <button type="button" onClick={() => selectMode('account')} className={`icon-button ${activeMode === 'account' ? 'is-active' : ''}`} aria-label="Akun dan sinkronisasi">
+            <UserRound size={19} />
+          </button>
           <button type="button" onClick={toggleTheme} className="icon-button" aria-label="Ganti tema">
             {theme === 'dark' ? <Sun size={19} /> : <Moon size={19} />}
           </button>
@@ -194,7 +221,7 @@ export default function Navbar({ activeMode = 'dashboard', onModeChange }) {
       <nav className="mobile-bottom-nav lg:hidden" aria-label="Navigasi mobile">
         {mobilePrimary.map((item) => {
           const Icon = item.icon;
-          const active = activeMode === item.mode || (item.mode === 'flashcard' && ['quiz', 'listen', 'roadmap'].includes(activeMode));
+          const active = activeMode === item.mode || (item.mode === 'flashcard' && ['quiz', 'listen', 'review', 'mistakes', 'roadmap'].includes(activeMode));
           return (
             <button
               type="button"

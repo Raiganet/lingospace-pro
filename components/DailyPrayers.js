@@ -1,5 +1,7 @@
 'use client';
 
+import { markSyncDirty } from '../lib/cloudSync';
+
 import { useState, useEffect } from 'react';
 import { dailyPrayers, prayerCategories } from '../data/dailyPrayers';
 
@@ -27,6 +29,17 @@ export default function DailyPrayers() {
     return matchCategory && matchSearch;
   });
 
+  useEffect(() => {
+    const refreshFavorites = () => {
+      try {
+        const saved = localStorage.getItem('dailyPrayers_favorites');
+        setFavorites(saved ? JSON.parse(saved) : []);
+      } catch { setFavorites([]); }
+    };
+    window.addEventListener('lingospace:local-data-restored', refreshFavorites);
+    return () => window.removeEventListener('lingospace:local-data-restored', refreshFavorites);
+  }, []);
+
   const toggleFavorite = (id) => {
     let newFavorites;
     if (favorites.includes(id)) {
@@ -36,6 +49,7 @@ export default function DailyPrayers() {
     }
     setFavorites(newFavorites);
     localStorage.setItem('dailyPrayers_favorites', JSON.stringify(newFavorites));
+    markSyncDirty('prayer-favorites');
   };
 
   const copyToClipboard = async (text, id) => {

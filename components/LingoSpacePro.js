@@ -1,6 +1,11 @@
 'use client';
+
+import { markSyncDirty } from '../lib/cloudSync';
 import { useState, useEffect } from 'react';
-import { ArrowRight, BookOpen, Brain, CheckCircle2, Heart, Library, Sparkles, Target, Trophy, TrendingUp } from 'lucide-react';
+import { ArrowRight, BookOpen, Brain, CheckCircle2, Heart, Library, Sparkles, Target, Trophy, TrendingUp, CalendarClock, Flame, AlertTriangle, RotateCcw, Check, Volume2, Headphones } from 'lucide-react';
+import { SRS_GRADES, readSrsState, gradeSrsWord, getDueVocabulary, readDailyGoal, saveDailyGoal, recordActivity, readActivity, getActivitySummary, recordMistake, resolveMistake, readMistakes, getOpenMistakes } from '../lib/learningEngine';
+import LessonPractice from './LessonPractice';
+import { addXp, getLevelInfo, getLessonSummary, PREMIUM_UPDATE_EVENT, readLessonProgress, readXp } from '../lib/premiumLearning';
 
 
 const normalizeWordKey = (value) => String(value ?? '').trim().toLocaleLowerCase('id-ID');
@@ -24,44 +29,7 @@ const normalizeBookmarkIds = (storedBookmarks, vocabulary) => {
   return [...new Set(normalized)];
 };
 
-const readAndMigrateSrs = (vocabulary) => {
-  try {
-    const stored = JSON.parse(localStorage.getItem('lingospace_srs') || '{}');
-    const idSet = new Set(vocabulary.map((item) => Number(item.id)));
-    const legacyWordToId = new Map(
-      vocabulary.map((item) => [normalizeWordKey(item.id_lang), Number(item.id)])
-    );
-    const migrated = {};
-
-    Object.entries(stored || {}).forEach(([rawKey, value]) => {
-      const numeric = Number(rawKey);
-      const resolvedId = Number.isInteger(numeric) && idSet.has(numeric)
-        ? numeric
-        : legacyWordToId.get(normalizeWordKey(rawKey));
-
-      if (!Number.isInteger(resolvedId) || !value || typeof value !== 'object') return;
-
-      const key = String(resolvedId);
-      const existing = migrated[key] || { level: 0, correct: 0, wrong: 0 };
-      migrated[key] = {
-        ...existing,
-        ...value,
-        level: Math.max(existing.level || 0, value.level || 0),
-        correct: Math.max(existing.correct || 0, value.correct || 0),
-        wrong: Math.max(existing.wrong || 0, value.wrong || 0),
-      };
-    });
-
-    if (JSON.stringify(stored) !== JSON.stringify(migrated)) {
-      localStorage.setItem('lingospace_srs', JSON.stringify(migrated));
-    }
-
-    return migrated;
-  } catch (error) {
-    console.error('Error migrating SRS data:', error);
-    return {};
-  }
-};
+const readAndMigrateSrs = (vocabulary) => readSrsState(vocabulary);
 
 export default function LingoSpacePro() {
   // State Management
@@ -77,6 +45,14 @@ export default function LingoSpacePro() {
   const [bookmarks, setBookmarks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [srsVersion, setSrsVersion] = useState(0);
+  const [learningVersion, setLearningVersion] = useState(0);
+  const [learningStats, setLearningStats] = useState({ dueCount: 0, todayWords: 0, todayActions: 0, streak: 0, activeToday: false, dailyGoal: 20, mistakes: 0 });
+  const [lessonProgress, setLessonProgress] = useState({ english: {}, nahwu: {} });
+  const [premiumStats, setPremiumStats] = useState({ level: 1, totalXp: 0, progress: 0, remaining: 120, title: 'New Explorer', lessonPct: 0 });
+  const [reviewQueue, setReviewQueue] = useState([]);
+  const [reviewIndex, setReviewIndex] = useState(0);
+  const [reviewComplete, setReviewComplete] = useState(false);
+  const [reviewRevealed, setReviewRevealed] = useState(false);
 
   // Stats State
   const [stats, setStats] = useState({
@@ -104,6 +80,9 @@ export default function LingoSpacePro() {
   const [listenIndex, setListenIndex] = useState(0);
   const [listenAnswered, setListenAnswered] = useState(false);
   const [listenSelected, setListenSelected] = useState(null);
+  const [listenScore, setListenScore] = useState(0);
+  const [listenHistory, setListenHistory] = useState([]);
+  const [listenStarted, setListenStarted] = useState(false);
 
   // Lessons & Roadmap State
   const [englishLessons, setEnglishLessons] = useState([]);
@@ -155,6 +134,21 @@ export default function LingoSpacePro() {
       window.removeEventListener('changeMode', handleModeChange);
     };
   }, []);
+
+
+  useEffect(() => {
+    if (!mounted) return undefined;
+    const refreshPremium = () => {
+      const progress = readLessonProgress();
+      const level = getLevelInfo(readXp());
+      const lessonSummary = getLessonSummary(englishLessons.length, nahwuLessons.length, progress);
+      setLessonProgress(progress);
+      setPremiumStats({ ...level, lessonPct: lessonSummary.percentage });
+    };
+    refreshPremium();
+    window.addEventListener(PREMIUM_UPDATE_EVENT, refreshPremium);
+    return () => window.removeEventListener(PREMIUM_UPDATE_EVENT, refreshPremium);
+  }, [mounted, englishLessons.length, nahwuLessons.length]);
 
   const handleInstall = async () => {
     if (!installPrompt) return;
@@ -304,12 +298,109 @@ export default function LingoSpacePro() {
     }
   }, [allData, bookmarks, mounted, srsVersion]);
 
+  useEffect(() => {
+    if (!mounted || allData.length === 0) return;
+    try {
+      const srsData = readAndMigrateSrs(allData);
+      const activitySummary = getActivitySummary(readActivity());
+      const dailyGoal = readDailyGoal();
+      const openMistakes = getOpenMistakes(allData, readMistakes());
+      const due = getDueVocabulary(allData, srsData);
+      setLearningStats({
+        dueCount: due.length,
+        todayWords: activitySummary.todayWords,
+        todayActions: activitySummary.todayActions,
+        streak: activitySummary.streak,
+        activeToday: activitySummary.activeToday,
+        dailyGoal,
+        mistakes: openMistakes.length,
+      });
+    } catch (error) {
+      console.error('Error calculating learning engine stats:', error);
+    }
+  }, [allData, mounted, srsVersion, learningVersion]);
+
+  const refreshLearningEngine = () => {
+    setSrsVersion((version) => version + 1);
+    setLearningVersion((version) => version + 1);
+  };
+
+  const applyLearningGrade = (item, grade, source = 'flashcard') => {
+    if (!item?.id) return null;
+    try {
+      const srsData = readAndMigrateSrs(allData);
+      const result = gradeSrsWord(srsData, item.id, grade);
+      const isCorrect = grade !== 'again';
+      recordActivity({ wordId: item.id, type: source, correct: isCorrect });
+      if (grade === 'again') recordMistake(item.id, source);
+      if (grade === 'good' || grade === 'easy') resolveMistake(item.id);
+      if (grade === 'easy') addXp(4, source);
+      else if (grade === 'good') addXp(3, source);
+      else if (grade === 'hard') addXp(1, source);
+      refreshLearningEngine();
+      return result.record;
+    } catch (error) {
+      console.error('Error applying SRS grade:', error);
+      return null;
+    }
+  };
+
+  const updateDailyGoal = (goal) => {
+    const numericGoal = Number(goal);
+    saveDailyGoal(numericGoal);
+    setLearningStats((current) => ({ ...current, dailyGoal: numericGoal }));
+  };
+
+  const startReviewSession = () => {
+    const srsData = readAndMigrateSrs(allData);
+    const due = getDueVocabulary(allData, srsData).slice(0, 30);
+    setReviewQueue(due);
+    setReviewIndex(0);
+    setReviewComplete(false);
+    setReviewRevealed(false);
+  };
+
+  const rateReviewCard = (grade) => {
+    const item = reviewQueue[reviewIndex];
+    if (!item) return;
+    applyLearningGrade(item, grade, 'review');
+    setReviewRevealed(false);
+    if (reviewIndex >= reviewQueue.length - 1) {
+      setReviewComplete(true);
+      setReviewIndex(reviewQueue.length);
+    } else {
+      setReviewIndex((index) => index + 1);
+    }
+  };
+
+  useEffect(() => {
+    if (!mounted) return undefined;
+    const handleRestoredData = () => {
+      if (allData.length) {
+        try {
+          const saved = JSON.parse(localStorage.getItem('lingospace_bookmarks') || '[]');
+          setBookmarks(normalizeBookmarkIds(saved, allData));
+        } catch { setBookmarks([]); }
+      }
+      setSrsVersion((version) => version + 1);
+      setLearningVersion((version) => version + 1);
+      const progress = readLessonProgress();
+      const level = getLevelInfo(readXp());
+      const lessonSummary = getLessonSummary(englishLessons.length, nahwuLessons.length, progress);
+      setLessonProgress(progress);
+      setPremiumStats({ ...level, lessonPct: lessonSummary.percentage });
+    };
+    window.addEventListener('lingospace:local-data-restored', handleRestoredData);
+    return () => window.removeEventListener('lingospace:local-data-restored', handleRestoredData);
+  }, [mounted, allData, englishLessons.length, nahwuLessons.length]);
+
   const loadBookmarks = (vocabulary) => {
     try {
       const saved = JSON.parse(localStorage.getItem('lingospace_bookmarks') || '[]');
       const normalized = normalizeBookmarkIds(saved, vocabulary);
       setBookmarks(normalized);
       localStorage.setItem('lingospace_bookmarks', JSON.stringify(normalized));
+      markSyncDirty('bookmarks-migration');
     } catch (e) {
       console.error('Error loading bookmarks:', e);
       setBookmarks([]);
@@ -340,37 +431,19 @@ export default function LingoSpacePro() {
     setBookmarks(newBookmarks);
     try {
       localStorage.setItem('lingospace_bookmarks', JSON.stringify(newBookmarks));
+      markSyncDirty('bookmarks');
     } catch (e) {
       console.error('Error saving bookmarks:', e);
     }
   };
 
-  const rateCard = (isCorrect) => {
+  const rateCard = (grade) => {
     if (filteredData.length === 0) return;
     const item = filteredData[currentIndex];
-    
-    try {
-      const srsData = readAndMigrateSrs(allData);
-      const srsKey = String(item.id);
-      const current = srsData[srsKey] || { level: 0, correct: 0, wrong: 0 };
-      
-      if (isCorrect) {
-        current.level = Math.min(current.level + 1, 5);
-        current.correct = (current.correct || 0) + 1;
-      } else {
-        current.level = 0;
-        current.wrong = (current.wrong || 0) + 1;
-      }
-      
-      srsData[srsKey] = current;
-      localStorage.setItem('lingospace_srs', JSON.stringify(srsData));
-      setSrsVersion((version) => version + 1);
-    } catch (e) {
-      console.error('Error saving SRS:', e);
-    }
-    
+    applyLearningGrade(item, grade, 'flashcard');
     nextCard();
   };
+
 
   const startQuiz = () => {
     if (filteredData.length < 4) {
@@ -430,6 +503,9 @@ export default function LingoSpacePro() {
     setQuizSelected(selectedIndex);
     setQuizAnswered(true);
     
+    const word = allData.find((item) => item.id === q.wordId);
+    if (word) applyLearningGrade(word, isCorrect ? 'good' : 'again', 'quiz');
+
     if (isCorrect) {
       setQuizScore(prev => prev + 1);
     } else {
@@ -464,26 +540,65 @@ export default function LingoSpacePro() {
       alert('Minimal 4 kosakata diperlukan');
       return;
     }
-    
-    const shuffled = [...filteredData].sort(() => 0.5 - Math.random()).slice(0, 4);
-    setListenData(shuffled);
-    setListenIndex(Math.floor(Math.random() * 4));
+
+    const selected = [...filteredData].sort(() => 0.5 - Math.random()).slice(0, Math.min(10, filteredData.length));
+    const questions = selected.map((item) => {
+      const seen = new Set([normalizeWordKey(item.id_lang)]);
+      const wrong = [];
+      [...filteredData].sort(() => 0.5 - Math.random()).forEach((candidate) => {
+        const label = normalizeWordKey(candidate.id_lang);
+        if (candidate.id === item.id || !label || seen.has(label) || wrong.length >= 3) return;
+        seen.add(label);
+        wrong.push(candidate);
+      });
+      const options = [
+        { id: item.id, text: item.id_lang, correct: true },
+        ...wrong.map((entry) => ({ id: entry.id, text: entry.id_lang, correct: false })),
+      ].sort(() => 0.5 - Math.random());
+      return { wordId: item.id, item, options };
+    });
+
+    setListenData(questions);
+    setListenIndex(0);
+    setListenScore(0);
+    setListenHistory([]);
     setListenAnswered(false);
     setListenSelected(null);
+    setListenStarted(true);
   };
 
   const answerListen = (selectedIndex) => {
-    if (listenAnswered) return;
-    
+    if (listenAnswered || !listenStarted) return;
+    const question = listenData[listenIndex];
+    if (!question) return;
+    const selected = question.options[selectedIndex];
+    const isCorrect = Boolean(selected?.correct);
+
     setListenSelected(selectedIndex);
     setListenAnswered(true);
-    
+    if (isCorrect) setListenScore((score) => score + 1);
+    applyLearningGrade(question.item, isCorrect ? 'good' : 'again', 'listening');
+    setListenHistory((history) => [...history, {
+      wordId: question.wordId,
+      prompt: listenLang === 'en' ? question.item.en : question.item.ar,
+      selectedAnswer: selected?.text,
+      correctAnswer: question.item.id_lang,
+      isCorrect,
+    }]);
+
+    const isLast = listenIndex >= listenData.length - 1;
     setTimeout(() => {
-      setListenIndex(Math.floor(Math.random() * 4));
-      setListenAnswered(false);
-      setListenSelected(null);
-    }, 2500);
+      if (isLast) {
+        setListenStarted(false);
+        setListenIndex(listenData.length);
+      } else {
+        setListenIndex((index) => index + 1);
+        setListenAnswered(false);
+        setListenSelected(null);
+      }
+    }, 1500);
   };
+
 
   const playAudio = (text, lang) => {
     if (!text || text === '-') return;
@@ -578,11 +693,12 @@ export default function LingoSpacePro() {
             <span className="eyebrow-badge"><Sparkles size={14} /> Belajar lebih terarah</span>
             <h2 className="dashboard-title">Bangun kebiasaan bahasa, sedikit demi sedikit.</h2>
             <p className="dashboard-subtitle">
-              Lanjutkan kosakata yang belum dikuasai, uji pemahaman lewat quiz, dan pantau progresmu dalam satu ruang belajar.
+              Selesaikan target harian, review kosakata tepat waktu, dan fokuskan latihan pada kata yang masih sering salah.
             </p>
             <div className="flex flex-wrap gap-3 mt-6">
-              <button onClick={() => goTo('flashcard')} className="dashboard-primary-cta">
-                <BookOpen size={18} /> Lanjutkan Flashcard <ArrowRight size={17} />
+              <button onClick={() => goTo(learningStats.dueCount > 0 ? 'review' : 'flashcard')} className="dashboard-primary-cta">
+                {learningStats.dueCount > 0 ? <CalendarClock size={18} /> : <BookOpen size={18} />}
+                {learningStats.dueCount > 0 ? `Review ${learningStats.dueCount} kata` : 'Lanjutkan Flashcard'} <ArrowRight size={17} />
               </button>
               <button onClick={() => goTo('quiz')} className="dashboard-secondary-cta">
                 <Brain size={18} /> Mulai Quiz
@@ -599,6 +715,35 @@ export default function LingoSpacePro() {
             </div>
             <p className="text-xs app-muted text-center mt-3">{learnedTotal} dari {stats.totalWords} kosakata</p>
           </div>
+        </section>
+
+        <section className="learning-pulse-grid">
+          <article className="learning-pulse-card">
+            <span className="learning-pulse-icon tone-violet"><Target size={20} /></span>
+            <div className="min-w-0 flex-1"><p className="text-xs app-muted">Target hari ini</p><p className="text-lg font-black app-heading mt-1">{learningStats.todayWords}/{learningStats.dailyGoal} kata</p><div className="progress-track-v2 mt-3"><div className="progress-bar-v2 progress-primary" style={{ width: `${Math.min(100, Math.round((learningStats.todayWords / Math.max(1, learningStats.dailyGoal)) * 100))}%` }} /></div></div>
+            <select value={learningStats.dailyGoal} onChange={(e) => updateDailyGoal(e.target.value)} className="goal-select" aria-label="Target harian">{[5,10,20,30,50].map((goal) => <option key={goal} value={goal}>{goal}</option>)}</select>
+          </article>
+          <button onClick={() => goTo('review')} className="learning-pulse-card text-left">
+            <span className="learning-pulse-icon tone-cyan"><CalendarClock size={20} /></span><div><p className="text-xs app-muted">Review hari ini</p><p className="text-lg font-black app-heading mt-1">{learningStats.dueCount} kata</p><p className="text-xs app-muted mt-1">SRS siap dijalankan</p></div><ArrowRight size={17} className="ml-auto app-muted" />
+          </button>
+          <button onClick={() => goTo('mistakes')} className="learning-pulse-card text-left">
+            <span className="learning-pulse-icon tone-amber"><AlertTriangle size={20} /></span><div><p className="text-xs app-muted">Mistake Book</p><p className="text-lg font-black app-heading mt-1">{learningStats.mistakes} kata</p><p className="text-xs app-muted mt-1">Perlu diperkuat</p></div><ArrowRight size={17} className="ml-auto app-muted" />
+          </button>
+          <article className="learning-pulse-card"><span className="learning-pulse-icon tone-emerald"><Flame size={20} /></span><div><p className="text-xs app-muted">Streak belajar</p><p className="text-lg font-black app-heading mt-1">{learningStats.streak} hari</p><p className="text-xs app-muted mt-1">{learningStats.activeToday ? 'Aktif hari ini' : 'Belum belajar hari ini'}</p></div></article>
+        </section>
+
+        <section className="premium-dashboard-strip">
+          <div className="premium-level-summary">
+            <span className="premium-level-icon"><Trophy size={22} /></span>
+            <div className="min-w-0 flex-1">
+              <p className="text-xs app-muted">Level {premiumStats.level} • {premiumStats.title}</p>
+              <div className="flex items-end justify-between gap-3 mt-1"><strong className="app-heading">{premiumStats.totalXp} XP</strong><span className="text-xs app-muted">{premiumStats.remaining} XP ke level berikutnya</span></div>
+              <div className="progress-track-v2 mt-2"><div className="progress-bar-v2 progress-primary" style={{ width: `${premiumStats.progress}%` }} /></div>
+            </div>
+          </div>
+          <button onClick={() => goTo('speaking')}><Sparkles size={18} /><span><strong>Speaking</strong><small>Latih pronunciation</small></span><ArrowRight size={16} /></button>
+          <button onClick={() => goTo('games')}><Brain size={18} /><span><strong>Mini Games</strong><small>Belajar lebih seru</small></span><ArrowRight size={16} /></button>
+          <button onClick={() => goTo('analytics')}><TrendingUp size={18} /><span><strong>Analytics</strong><small>{premiumStats.lessonPct}% lesson selesai</small></span><ArrowRight size={16} /></button>
         </section>
 
         <section className="dashboard-stat-grid">
@@ -665,9 +810,11 @@ export default function LingoSpacePro() {
 
             <div className="quick-action-grid mt-6">
               {[
+                { mode: 'review', icon: CalendarClock, label: 'Review', note: `${learningStats.dueCount} jatuh tempo` },
                 { mode: 'flashcard', icon: BookOpen, label: 'Flashcard', note: `${stats.newWords} kata baru` },
                 { mode: 'quiz', icon: Brain, label: 'Quiz', note: 'Uji pemahaman' },
-                { mode: 'dictionary', icon: Library, label: 'Kamus', note: 'Cari 3 bahasa' },
+                { mode: 'listen', icon: Volume2, label: 'Listening', note: 'Sesi 10 soal' },
+                { mode: 'mistakes', icon: AlertTriangle, label: 'Mistake Book', note: `${learningStats.mistakes} perlu dilatih` },
                 { mode: 'bookmarks', icon: Heart, label: 'Favorit', note: `${stats.bookmarks} tersimpan` },
               ].map((item) => {
                 const Icon = item.icon;
@@ -770,10 +917,15 @@ export default function LingoSpacePro() {
           </button>
         </div>
 
-        <div className="flex justify-center gap-3 mt-4">
-          <button onClick={() => rateCard(false)} className="px-6 py-3 rounded-full bg-red-500/20 border border-red-500/50 hover:bg-red-500/40 transition-colors btn-press">😓 Sulit</button>
-          <button onClick={() => rateCard(true)} className="px-6 py-3 rounded-full bg-green-500/20 border border-green-500/50 hover:bg-green-500/40 transition-colors btn-press">😊 Mudah</button>
-        </div>
+        {isFlipped && (
+          <div className="srs-rating-grid max-w-2xl mx-auto mt-4 animate-fade-in">
+            {Object.entries(SRS_GRADES).map(([grade, meta]) => (
+              <button key={grade} onClick={() => rateCard(grade)} className={`srs-grade-button grade-${meta.tone}`}>
+                <span>{meta.label}</span><small>{meta.hint}</small>
+              </button>
+            ))}
+          </div>
+        )}
 
         {(item.example_id || item.example_en || item.example_ar) && (
           <div className="max-w-2xl mx-auto mt-8 glass-modern rounded-2xl p-6">
@@ -975,70 +1127,173 @@ export default function LingoSpacePro() {
   };
 
   const renderListen = () => {
-    if (listenData.length === 0) {
+    if (!listenStarted && listenData.length > 0 && listenIndex >= listenData.length) {
+      const pct = Math.round((listenScore / listenData.length) * 100);
       return (
-        <div className="max-w-2xl mx-auto text-center">
-          <div className="glass-modern rounded-xl sm:rounded-2xl p-6 sm:p-8">
-            <h2 className="text-xl sm:text-2xl font-bold mb-2">🎧 Listen & Learn</h2>
-            <p className="text-gray-400 text-xs sm:text-sm mb-6 md:mb-8">Dengarkan dan tebak artinya</p>
-            <button onClick={startListen} className="px-5 sm:px-6 py-2 md:py-3 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 font-semibold hover:scale-105 transition-transform btn-press text-sm sm:text-base">Mulai</button>
+        <div className="learning-session-wrap animate-fade-in">
+          <div className="learning-result-card">
+            <span className="learning-result-icon"><Headphones size={30} /></span>
+            <p className="panel-kicker">LISTENING SELESAI</p>
+            <h2 className="text-3xl font-black app-heading mt-2">{listenScore}/{listenData.length} benar</h2>
+            <p className="app-muted mt-2">Akurasi sesi {pct}%. Kata yang salah otomatis masuk Mistake Book dan dijadwalkan ulang.</p>
+            <div className="flex flex-wrap justify-center gap-3 mt-6">
+              <button onClick={startListen} className="dashboard-primary-cta"><RotateCcw size={17} /> Ulangi Sesi</button>
+              <button onClick={() => window.dispatchEvent(new CustomEvent('changeMode', { detail: 'mistakes' }))} className="dashboard-secondary-cta"><AlertTriangle size={17} /> Mistake Book</button>
+            </div>
           </div>
         </div>
       );
     }
 
-    const item = listenData[listenIndex];
-    return (
-      <div className="max-w-2xl mx-auto">
-        <div className="glass-modern rounded-xl sm:rounded-2xl p-4 sm:p-6 md:p-8 text-center">
-          <h2 className="text-xl sm:text-2xl font-bold mb-2">🎧 Listen & Learn</h2>
-          <p className="text-gray-400 text-xs sm:text-sm mb-4 md:mb-8">Dengarkan dan tebak artinya</p>
-          <button onClick={() => playAudio(listenLang === 'en' ? item.en : item.ar, listenLang)} className="big-play-btn mx-auto mb-4 md:mb-8 w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 text-3xl sm:text-4xl md:text-5xl hover:scale-110 transition-all duration-300 shadow-2xl btn-press hover:shadow-purple-500/50">🔊</button>
-          <div className="flex gap-3 mb-6 md:mb-8 justify-center">
-            <button onClick={() => setListenLang('en')} className={`px-5 sm:px-6 py-2.5 rounded-full font-semibold transition-all duration-300 btn-press text-sm ${listenLang === 'en' ? 'bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white shadow-xl shadow-violet-500/50 scale-110 border-2 border-white/30' : 'bg-white/5 border border-white/20 text-gray-300 hover:bg-white/10 hover:scale-105 hover:border-violet-400/50'}`}>🇬🇧 English</button>
-            <button onClick={() => setListenLang('ar')} className={`px-5 sm:px-6 py-2.5 rounded-full font-semibold transition-all duration-300 btn-press text-sm ${listenLang === 'ar' ? 'bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white shadow-xl shadow-violet-500/50 scale-110 border-2 border-white/30' : 'bg-white/5 border border-white/20 text-gray-300 hover:bg-white/10 hover:scale-105 hover:border-violet-400/50'}`}>🇦 العربية</button>
+    if (!listenStarted || listenData.length === 0) {
+      return (
+        <div className="learning-session-wrap">
+          <div className="learning-start-card">
+            <span className="learning-start-icon"><Headphones size={28} /></span>
+            <p className="panel-kicker">LISTEN & LEARN</p>
+            <h2 className="text-2xl sm:text-3xl font-black app-heading mt-2">Sesi listening 10 soal</h2>
+            <p className="app-muted mt-2">Setiap soal mengambil kosakata dan opsi baru. Jawaban salah akan masuk ke Mistake Book.</p>
+            <div className="flex gap-3 mt-5 justify-center">
+              <button onClick={() => setListenLang('en')} className={`language-pill ${listenLang === 'en' ? 'is-active' : ''}`}>English</button>
+              <button onClick={() => setListenLang('ar')} className={`language-pill ${listenLang === 'ar' ? 'is-active' : ''}`}>العربية</button>
+            </div>
+            <button onClick={startListen} className="dashboard-primary-cta mt-6"><Volume2 size={18} /> Mulai Listening</button>
           </div>
-          <div className="grid grid-cols-2 gap-3 sm:gap-4">
-            {listenData.map((opt, i) => {
-              const isSelected = listenSelected === i;
-              const isCorrect = i === listenIndex;
-              let buttonClass = 'bg-white/5 border border-white/20 text-white hover:bg-white/10 hover:scale-105 hover:border-violet-400/50 hover:shadow-lg hover:shadow-violet-500/20';
-              
-              if (listenAnswered) {
-                if (isCorrect) {
-                  buttonClass = 'bg-gradient-to-r from-green-500 to-emerald-500 text-white border-2 border-green-300 scale-105 shadow-xl shadow-green-500/50 animate-pulse';
-                } else if (isSelected && !isCorrect) {
-                  buttonClass = 'bg-gradient-to-r from-red-500 to-rose-500 text-white border-2 border-red-300 scale-95 shadow-xl shadow-red-500/50';
-                } else {
-                  buttonClass = 'bg-white/5 border border-white/10 text-gray-500 opacity-50';
-                }
-              } else if (isSelected) {
-                buttonClass = 'bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white border-2 border-violet-300 scale-105 shadow-xl shadow-violet-500/50';
-              }
+        </div>
+      );
+    }
 
+    const question = listenData[listenIndex];
+    const item = question?.item || {};
+    return (
+      <div className="learning-session-wrap">
+        <div className="glass-modern rounded-2xl p-5 sm:p-8 text-center">
+          <div className="session-meta-row">
+            <span>Soal {listenIndex + 1}/{listenData.length}</span>
+            <strong>{listenScore} benar</strong>
+          </div>
+          <div className="progress-track-v2 mt-3 mb-8"><div className="progress-bar-v2 progress-primary" style={{ width: `${((listenIndex + 1) / listenData.length) * 100}%` }} /></div>
+          <button onClick={() => playAudio(listenLang === 'en' ? item.en : item.ar, listenLang)} className="listening-play-button" aria-label="Putar audio"><Volume2 size={38} /></button>
+          <p className="app-muted text-sm mt-4">Dengarkan lalu pilih arti Bahasa Indonesia.</p>
+          <div className="flex gap-2 mt-4 justify-center">
+            <button onClick={() => setListenLang('en')} className={`language-pill ${listenLang === 'en' ? 'is-active' : ''}`}>English</button>
+            <button onClick={() => setListenLang('ar')} className={`language-pill ${listenLang === 'ar' ? 'is-active' : ''}`}>العربية</button>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-7">
+            {question.options.map((opt, i) => {
+              const selected = listenSelected === i;
+              const stateClass = listenAnswered ? (opt.correct ? 'is-correct' : selected ? 'is-wrong' : 'is-dimmed') : '';
               return (
-                <button
-                  key={i}
-                  onClick={() => answerListen(i)}
-                  disabled={listenAnswered}
-                  className={`p-4 sm:p-5 rounded-xl font-semibold transition-all duration-300 btn-press text-sm sm:text-base ${buttonClass}`}
-                >
-                  {opt.id_lang}
-                  {listenAnswered && isCorrect && <span className="ml-2">✓</span>}
-                  {listenAnswered && isSelected && !isCorrect && <span className="ml-2">✕</span>}
+                <button key={`${question.wordId}-${opt.id}`} onClick={() => answerListen(i)} disabled={listenAnswered} className={`learning-option ${stateClass}`}>
+                  <span>{String.fromCharCode(65 + i)}</span><strong>{opt.text}</strong>
+                  {listenAnswered && opt.correct && <Check size={18} />}
                 </button>
               );
             })}
           </div>
-          {listenAnswered && (
-            <div className={`mt-6 p-4 rounded-xl font-semibold text-lg transition-all duration-300 ${listenSelected === listenIndex ? 'bg-green-500/20 text-green-300 border border-green-500/30' : 'bg-red-500/20 text-red-300 border border-red-500/30'}`}>
-              {listenSelected === listenIndex ? ' Benar! Hebat!' : '❌ Salah! Coba lagi ya!'}
-            </div>
-          )}
         </div>
       </div>
     );
   };
+
+  const renderReview = () => {
+    const dueNow = getDueVocabulary(allData, readAndMigrateSrs(allData));
+    if (reviewComplete) {
+      return (
+        <div className="learning-session-wrap animate-fade-in">
+          <div className="learning-result-card">
+            <span className="learning-result-icon"><CheckCircle2 size={30} /></span>
+            <p className="panel-kicker">REVIEW SELESAI</p>
+            <h2 className="text-3xl font-black app-heading mt-2">Sesi review beres</h2>
+            <p className="app-muted mt-2">Kamu menyelesaikan {reviewQueue.length} kartu. Jadwal berikutnya sudah dihitung otomatis.</p>
+            <button onClick={startReviewSession} className="dashboard-primary-cta mt-6"><RotateCcw size={17} /> Cek Review Lagi</button>
+          </div>
+        </div>
+      );
+    }
+
+    if (reviewQueue.length === 0 || reviewIndex >= reviewQueue.length) {
+      return (
+        <div className="learning-session-wrap">
+          <div className="learning-start-card">
+            <span className="learning-start-icon"><CalendarClock size={28} /></span>
+            <p className="panel-kicker">SPACED REPETITION</p>
+            <h2 className="text-2xl sm:text-3xl font-black app-heading mt-2">{dueNow.length ? `${dueNow.length} kata siap direview` : 'Semua review sudah beres'}</h2>
+            <p className="app-muted mt-2">LingoSpace menjadwalkan ulang setiap kosakata berdasarkan tingkat kesulitan yang kamu pilih.</p>
+            {dueNow.length > 0 && <button onClick={startReviewSession} className="dashboard-primary-cta mt-6"><CalendarClock size={18} /> Mulai Review</button>}
+          </div>
+        </div>
+      );
+    }
+
+    const item = reviewQueue[reviewIndex];
+    return (
+      <div className="learning-session-wrap animate-fade-in">
+        <div className="session-meta-row mb-3"><span>Review {reviewIndex + 1}/{reviewQueue.length}</span><strong>{reviewQueue.length - reviewIndex - 1} tersisa</strong></div>
+        <div className="review-card-v3">
+          <p className="panel-kicker">BAHASA INDONESIA</p>
+          <h2 className="text-3xl sm:text-5xl font-black app-heading mt-4">{item.id_lang}</h2>
+          {!reviewRevealed ? (
+            <button onClick={() => setReviewRevealed(true)} className="dashboard-primary-cta mt-8"><Sparkles size={17} /> Tampilkan Jawaban</button>
+          ) : (
+            <div className="animate-fade-in">
+              <div className="review-answer-grid mt-8">
+                <div><span>English</span><strong>{item.en}</strong></div>
+                <div><span>العربية</span><strong dir="rtl" className="arabic-text">{item.ar}</strong></div>
+              </div>
+              <div className="flex justify-center gap-2 mt-5">
+                <button onClick={() => playAudio(item.en, 'en')} className="dashboard-secondary-cta"><Volume2 size={16} /> English</button>
+                <button onClick={() => playAudio(item.ar, 'ar')} className="dashboard-secondary-cta"><Volume2 size={16} /> العربية</button>
+              </div>
+            </div>
+          )}
+        </div>
+        {reviewRevealed && (
+          <div className="srs-rating-grid mt-4 animate-fade-in">
+            {Object.entries(SRS_GRADES).map(([grade, meta]) => (
+              <button key={grade} onClick={() => rateReviewCard(grade)} className={`srs-grade-button grade-${meta.tone}`}><span>{meta.label}</span><small>{meta.hint}</small></button>
+            ))}
+          </div>
+        )}
+      </div>
+    );
+  };
+
+  const renderMistakes = () => {
+    const openMistakes = getOpenMistakes(allData, readMistakes());
+    const practiceWord = (item) => {
+      setSearchInput(item.id_lang);
+      window.dispatchEvent(new CustomEvent('changeMode', { detail: 'flashcard' }));
+    };
+    return (
+      <div className="animate-fade-in dashboard-v2">
+        <div className="panel-heading-row mb-5">
+          <div><p className="panel-kicker">MISTAKE BOOK</p><h2 className="text-2xl sm:text-3xl font-black app-heading mt-1">Kosakata yang perlu diperkuat</h2><p className="app-muted text-sm mt-2">Jawaban salah dari Flashcard, Quiz, Review, dan Listening dikumpulkan otomatis di sini.</p></div>
+          <span className="panel-icon"><AlertTriangle size={20} /></span>
+        </div>
+        {openMistakes.length === 0 ? (
+          <div className="learning-start-card"><span className="learning-start-icon"><CheckCircle2 size={28} /></span><h3 className="text-xl font-bold app-heading mt-3">Tidak ada kesalahan aktif</h3><p className="app-muted mt-2">Bagus. Kata yang sudah kamu pahami akan keluar dari daftar ini.</p></div>
+        ) : (
+          <div className="mistake-grid">
+            {openMistakes.map(({ item, meta }) => (
+              <article key={item.id} className="mistake-card">
+                <div className="flex items-start justify-between gap-3">
+                  <div><p className="text-xs app-muted">Salah {meta.count}×</p><h3 className="text-xl font-black app-heading mt-1">{item.id_lang}</h3></div>
+                  <button onClick={() => playAudio(item.en, 'en')} className="icon-button"><Volume2 size={17} /></button>
+                </div>
+                <p className="text-sm app-muted mt-3">{item.en}</p><p className="arabic-text text-xl app-heading mt-1" dir="rtl">{item.ar}</p>
+                <div className="flex gap-2 mt-5">
+                  <button onClick={() => practiceWord(item)} className="dashboard-primary-cta flex-1">Latih</button>
+                  <button onClick={() => { resolveMistake(item.id); setLearningVersion((v) => v + 1); }} className="dashboard-secondary-cta">Dipahami</button>
+                </div>
+              </article>
+            ))}
+          </div>
+        )}
+      </div>
+    );
+  };
+
 
   const renderBookmarks = () => {
     const bookmarkedData = allData.filter(item => bookmarks.includes(item.id));
@@ -1246,7 +1501,7 @@ export default function LingoSpacePro() {
             <div key={idx} className="glass-modern rounded-xl sm:rounded-2xl p-4 sm:p-6 hover-lift cursor-pointer" onClick={() => setNahwuModal(lesson)}>
               <div className="flex justify-between items-start mb-3 md:mb-4">
                 <span className="px-2 sm:px-3 py-1 rounded-full bg-purple-500/20 text-purple-300 text-[10px] sm:text-xs font-semibold">{lesson.category}</span>
-                <span className="text-xl sm:text-2xl"></span>
+                <span className={`lesson-list-status ${lessonProgress.nahwu?.[lesson.id]?.completed ? 'done' : 'pending'}`}>{lessonProgress.nahwu?.[lesson.id]?.completed ? '✓ Selesai' : `Lv ${lesson.level}`}</span>
               </div>
               <h3 className="text-base sm:text-lg md:text-xl font-bold mb-2">{lesson.title}</h3>
               <p className="text-gray-400 text-xs sm:text-sm mb-3 md:mb-4">{lesson.content_id}</p>
@@ -1295,6 +1550,7 @@ export default function LingoSpacePro() {
                     )}
                   </div>
                 </div>
+                <LessonPractice type="nahwu" lesson={nahwuModal} allLessons={nahwuLessons} progress={lessonProgress} onProgressChange={setLessonProgress} />
                 <div className="flex justify-between mt-6 md:mt-8 pt-4 md:pt-6 border-t border-white/10">
                   <button onClick={() => navigateNahwu('prev')} disabled={filteredLessons.findIndex(l => l.id === nahwuModal.id) === 0} className="px-4 sm:px-5 md:px-6 py-2 md:py-3 rounded-full bg-white/5 border border-white/10 hover:bg-white/10 hover:border-violet-400/50 transition-all btn-press disabled:opacity-50 disabled:cursor-not-allowed text-xs sm:text-sm">← Sebelumnya</button>
                   <button onClick={() => navigateNahwu('next')} disabled={filteredLessons.findIndex(l => l.id === nahwuModal.id) === filteredLessons.length - 1} className="px-4 sm:px-5 md:px-6 py-2 md:py-3 rounded-full bg-white/5 border border-white/10 hover:bg-white/10 hover:border-violet-400/50 transition-all btn-press disabled:opacity-50 disabled:cursor-not-allowed text-xs sm:text-sm">Selanjutnya →</button>
@@ -1359,7 +1615,7 @@ export default function LingoSpacePro() {
             <div key={idx} className="glass-modern rounded-xl sm:rounded-2xl p-4 sm:p-6 hover-lift cursor-pointer" onClick={() => setEnglishModal(lesson)}>
               <div className="flex justify-between items-start mb-3 md:mb-4">
                 <span className="px-2 sm:px-3 py-1 rounded-full bg-purple-500/20 text-purple-300 text-[10px] sm:text-xs font-semibold">{lesson.category}</span>
-                <span className="text-xl sm:text-2xl">📘</span>
+                <span className={`lesson-list-status ${lessonProgress.english?.[lesson.id]?.completed ? 'done' : 'pending'}`}>{lessonProgress.english?.[lesson.id]?.completed ? '✓ Selesai' : `Lv ${lesson.level}`}</span>
               </div>
               <h3 className="text-base sm:text-lg md:text-xl font-bold mb-2">{lesson.title}</h3>
               <p className="text-gray-400 text-xs sm:text-sm mb-3 md:mb-4">{lesson.content_id}</p>
@@ -1404,6 +1660,7 @@ export default function LingoSpacePro() {
                     )}
                   </div>
                 </div>
+                <LessonPractice type="english" lesson={englishModal} allLessons={englishLessons} progress={lessonProgress} onProgressChange={setLessonProgress} />
                 <div className="flex justify-between mt-6 md:mt-8 pt-4 md:pt-6 border-t border-white/10">
                   <button onClick={() => navigateEnglish('prev')} disabled={filteredLessons.findIndex(l => l.id === englishModal.id) === 0} className="px-4 sm:px-5 md:px-6 py-2 md:py-3 rounded-full bg-white/5 border border-white/10 hover:bg-white/10 hover:border-violet-400/50 transition-all btn-press disabled:opacity-50 disabled:cursor-not-allowed text-xs sm:text-sm">← Sebelumnya</button>
                   <button onClick={() => navigateEnglish('next')} disabled={filteredLessons.findIndex(l => l.id === englishModal.id) === filteredLessons.length - 1} className="px-4 sm:px-5 md:px-6 py-2 md:py-3 rounded-full bg-white/5 border border-white/10 hover:bg-white/10 hover:border-violet-400/50 transition-all btn-press disabled:opacity-50 disabled:cursor-not-allowed text-xs sm:text-sm">Selanjutnya →</button>
@@ -1474,6 +1731,8 @@ export default function LingoSpacePro() {
 
       {/* Search & Filter - Only for flashcard/quiz/listen */}
       {currentMode !== 'dashboard' &&
+       currentMode !== 'review' &&
+       currentMode !== 'mistakes' &&
        currentMode !== 'bookmarks' &&
        currentMode !== 'roadmap' &&
        currentMode !== 'nahwu' &&
@@ -1500,6 +1759,8 @@ export default function LingoSpacePro() {
         {currentMode === 'flashcard' && renderFlashcard()}
         {currentMode === 'quiz' && renderQuiz()}
         {currentMode === 'listen' && renderListen()}
+        {currentMode === 'review' && renderReview()}
+        {currentMode === 'mistakes' && renderMistakes()}
         {currentMode === 'bookmarks' && renderBookmarks()}
         {currentMode === 'roadmap' && renderRoadmap()}
         {currentMode === 'nahwu' && renderNahwu()}

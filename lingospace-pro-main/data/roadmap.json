@@ -1,0 +1,119 @@
+[
+ {
+   "id": "EN1",
+   "language": "English",
+   "level": 1,
+   "title": "Pemula (Beginner)",
+   "description": "Kuasai 100 kata dasar, alphabet, angka, dan salam sederhana",
+   "requiredWords": 100,
+   "category": "Dasar"
+ },
+ {
+   "id": "EN2",
+   "language": "English",
+   "level": 2,
+   "title": "Elementer",
+   "description": "Pelajari Parts of Speech, Present Tense, dan kalimat sederhana S-V-O",
+   "requiredWords": 250,
+   "category": "Grammar"
+ },
+ {
+   "id": "EN3",
+   "language": "English",
+   "level": 3,
+   "title": "Menengah (Intermediate)",
+   "description": "Kuasai 12 Tenses, Modal Verbs, Prepositions, dan percakapan sehari-hari",
+   "requiredWords": 500,
+   "category": "Grammar"
+ },
+ {
+   "id": "EN4",
+   "language": "English",
+   "level": 4,
+   "title": "Lanjut (Advanced)",
+   "description": "Pelajari Idioms, Phrasal Verbs, Conditional Sentences, dan Passive Voice",
+   "requiredWords": 1000,
+   "category": "Advanced"
+ },
+ {
+   "id": "EN5",
+   "language": "English",
+   "level": 5,
+   "title": "Mahir (Proficient)",
+   "description": "Kuasai Reported Speech, Academic Writing, dan Business English",
+   "requiredWords": 2000,
+   "category": "Expert"
+ },
+ {
+   "id": "EN6",
+   "language": "English",
+   "level": 6,
+   "title": "Native-Like",
+   "description": "Slang, Cultural Context, Literature, dan Public Speaking",
+   "requiredWords": 5000,
+   "category": "Expert"
+ },
+ {
+   "id": "AR1",
+   "language": "Arabic",
+   "level": 1,
+   "title": "Pemula - Hijaiyah & Mufrodat",
+   "description": "Kuasai huruf Hijaiyah, harakat, dan 100 kosakata dasar (Mufrodat)",
+   "requiredWords": 100,
+   "category": "Dasar"
+ },
+ {
+   "id": "AR2",
+   "language": "Arabic",
+   "level": 2,
+   "title": "Elementer - Mufrodat Lanjutan",
+   "description": "Pelajari 250 kosakata: keluarga, waktu, tempat, anggota badan, dan ungkapan dasar",
+   "requiredWords": 250,
+   "category": "Mufrodat"
+ },
+ {
+   "id": "AR3",
+   "language": "Arabic",
+   "level": 3,
+   "title": "SHOROF Dasar (Morfologi)",
+   "description": "Pelajari akar kata (Jidzr), Wazan (pola kata), dan Tasrif dasar (konjugasi)",
+   "requiredWords": 500,
+   "category": "Shorof"
+ },
+ {
+   "id": "AR4",
+   "language": "Arabic",
+   "level": 4,
+   "title": "NAHWU Dasar (Tata Bahasa)",
+   "description": "Kuasai Jumlah Ismiyyah, Jumlah Fi'liyyah, dan I'rab dasar (Rafa', Nashab, Jarr)",
+   "requiredWords": 750,
+   "category": "Nahwu"
+ },
+ {
+   "id": "AR5",
+   "language": "Arabic",
+   "level": 5,
+   "title": "SHOROF & NAHWU Lanjut",
+   "description": "Pelajari Tasrif lengkap, Amil-amil, Isim Isyarah, Isim Maushul, dan Adad",
+   "requiredWords": 1000,
+   "category": "Advanced"
+ },
+ {
+   "id": "AR6",
+   "language": "Arabic",
+   "level": 6,
+   "title": "BALAGHAH (Retorika)",
+   "description": "Kuasai Ilmu Ma'ani, Bayan, Badi' untuk memahami Al-Quran dan sastra Arab",
+   "requiredWords": 2000,
+   "category": "Expert"
+ },
+ {
+   "id": "AR7",
+   "language": "Arabic",
+   "level": 7,
+   "title": "Mahir - Fusha & Dialek",
+   "description": "Bahasa Arab Fusha (standar) + dialek regional (Mesir, Levantine, Gulf)",
+   "requiredWords": 5000,
+   "category": "Expert"
+ }
+]

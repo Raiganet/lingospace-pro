@@ -1,1 +1,59 @@
-{"name":"","short_name":"","icons":[{"src":"/android-chrome-192x192.png","sizes":"192x192","type":"image/png"},{"src":"/android-chrome-512x512.png","sizes":"512x512","type":"image/png"}],"theme_color":"#ffffff","background_color":"#ffffff","display":"standalone"}
+{
+  "id": "/",
+  "name": "LingoSpace Pro - Premium Language Learning",
+  "short_name": "LingoSpace",
+  "description": "Belajar bahasa Arab dan Inggris dengan SRS, latihan speaking, quiz, listening, mini games, dan AI tutor.",
+  "lang": "id",
+  "dir": "ltr",
+  "start_url": "/?source=pwa",
+  "scope": "/",
+  "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone", "minimal-ui"],
+  "background_color": "#09090b",
+  "theme_color": "#8b5cf6",
+  "orientation": "any",
+  "categories": ["education", "productivity"],
+  "icons": [
+    {
+      "src": "/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Review Hari Ini",
+      "short_name": "Review",
+      "description": "Buka antrean review SRS",
+      "url": "/?mode=review",
+      "icons": [{ "src": "/android-chrome-192x192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Flashcard",
+      "short_name": "Flashcard",
+      "description": "Mulai latihan kosakata",
+      "url": "/?mode=flashcard",
+      "icons": [{ "src": "/android-chrome-192x192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "LingoSpace AI",
+      "short_name": "AI Tutor",
+      "description": "Buka AI tutor bahasa",
+      "url": "/?mode=smarttranslator",
+      "icons": [{ "src": "/android-chrome-192x192.png", "sizes": "192x192" }]
+    }
+  ]
+}
