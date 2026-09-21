@@ -26,7 +26,6 @@ function csvToJson(csvPath, jsonPath) {
 // Convert semua file
 const files = [
   { csv: 'data.csv', json: '../data/vocabulary.json' },
-  { csv: 'categories.csv', json: '../data/categories.json' },
   { csv: 'english_lessons.csv', json: '../data/english-lessons.json' },
   { csv: 'nahwu_lessons.csv', json: '../data/nahwu-lessons.json' },
   { csv: 'roadmap.csv', json: '../data/roadmap.json' }

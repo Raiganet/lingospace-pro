@@ -1,6 +1,6 @@
 import { Inter } from 'next/font/google';
 import './globals.css';
-
+import BrowserCheck from '@/components/BrowserCheck';
 const inter = Inter({ subsets: ['latin'] });
 
 // ✅ HANYA 1 METADATA - GABUNGAN SEMUA
@@ -11,16 +11,10 @@ export const metadata = {
   authors: [{ name: 'LingoSpace Pro' }],
   creator: 'LingoSpace Pro',
   manifest: '/manifest.json',
-  themeColor: '#8b5cf6',
   appleWebApp: {
     capable: true,
     statusBarStyle: 'black-translucent',
     title: 'LingoSpace Pro',
-  },
-  viewport: {
-    width: 'device-width',
-    initialScale: 1,
-    maximumScale: 1,
   },
   icons: {
     icon: [
@@ -35,6 +29,13 @@ export const metadata = {
     description: 'Premium Language Learning Platform for Arabic and English',
     images: ['/logo.png'],
   },
+};
+
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  viewportFit: 'cover',
+  themeColor: '#8b5cf6',
 };
 
 export default function RootLayout({ children }) {

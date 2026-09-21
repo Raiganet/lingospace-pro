@@ -6,7 +6,9 @@
     "id_lang": "Rumah Sakit",
     "example_en": "The hospital is open twenty-four hours a day.",
     "example_ar": "الْمُسْتَشْفَى مَفْتُوحٌ أَرْبَعًا وَعِشْرِينَ سَاعَةً فِي الْيَوْمِ.",
-    "category": "Kesehatan"
+    "category": "Kesehatan",
+    "pronunciation": "Mustashfan",
+    "example_id": "Dokter bekerja di rumah sakit"
   },
   {
     "id": 2,
@@ -15,7 +17,9 @@
     "id_lang": "Dokter",
     "example_en": "The doctor examined the patient carefully.",
     "example_ar": "فَحَصَ الطَّبِيبُ الْمَرِيضَ بِعِنَايَةٍ.",
-    "category": "Profesi"
+    "category": "Profesi",
+    "pronunciation": "Tabibun",
+    "example_id": "Dokter memeriksa pasien"
   },
   {
     "id": 3,
@@ -96,7 +100,9 @@
     "id_lang": "Mata",
     "example_en": "His left eye is red.",
     "example_ar": "عَيْنُهُ الْيُسْرَى حَمْرَاءُ.",
-    "category": "Tubuh"
+    "category": "Tubuh",
+    "pronunciation": "Aynun",
+    "example_id": "Mata saya biru"
   },
   {
     "id": 12,
@@ -105,7 +111,9 @@
     "id_lang": "Telinga",
     "example_en": "The baby's ears are very small.",
     "example_ar": "أُذُنَا الطِّفْلِ صَغِيرَتَانِ جِدًّا.",
-    "category": "Tubuh"
+    "category": "Tubuh",
+    "pronunciation": "Udzunun",
+    "example_id": "Telinga saya tajam"
   },
   {
     "id": 13,
@@ -114,7 +122,9 @@
     "id_lang": "Hidung",
     "example_en": "My nose feels itchy.",
     "example_ar": "أَنْفِي يُسَبِّبُ لِي الْحِكَّةَ.",
-    "category": "Tubuh"
+    "category": "Tubuh",
+    "pronunciation": "Anfun",
+    "example_id": "Hidung saya mancung"
   },
   {
     "id": 14,
@@ -123,7 +133,9 @@
     "id_lang": "Mulut",
     "example_en": "Please close your mouth while chewing.",
     "example_ar": "أَغْلِقْ فَمَكَ أَثْنَاءَ الْمَضْغِ مِنْ فَضْلِكَ.",
-    "category": "Tubuh"
+    "category": "Tubuh",
+    "pronunciation": "Famun",
+    "example_id": "Mulut saya kecil"
   },
   {
     "id": 15,
@@ -132,7 +144,9 @@
     "id_lang": "Tangan",
     "example_en": "Wash your hands before eating.",
     "example_ar": "اِغْسِلْ يَدَيْكَ قَبْلَ الْأَكْلِ.",
-    "category": "Tubuh"
+    "category": "Tubuh",
+    "pronunciation": "Yadun",
+    "example_id": "Tangan saya bersih"
   },
   {
     "id": 16,
@@ -159,7 +173,9 @@
     "id_lang": "Rambut",
     "example_en": "His hair grows very quickly.",
     "example_ar": "يَنْمُو شَعْرُهُ بِسُرْعَةٍ كَبِيرَةٍ.",
-    "category": "Tubuh"
+    "category": "Tubuh",
+    "pronunciation": "Syarun",
+    "example_id": "Rambut saya hitam"
   },
   {
     "id": 19,
@@ -195,7 +211,9 @@
     "id_lang": "Punggung",
     "example_en": "My back hurts after lifting boxes.",
     "example_ar": "يُؤْلِمُنِي ظَهْرِي بَعْدَ حَمْلِ الصَّنَادِيقِ.",
-    "category": "Tubuh"
+    "category": "Tubuh",
+    "pronunciation": "Zahrun",
+    "example_id": "Punggung saya pegal"
   },
   {
     "id": 23,
@@ -204,7 +222,9 @@
     "id_lang": "Leher",
     "example_en": "She wore a scarf around her neck.",
     "example_ar": "لَبِسَتْ وِشَاحًا حَوْلَ رَقَبَتِهَا.",
-    "category": "Tubuh"
+    "category": "Tubuh",
+    "pronunciation": "Raqabatun",
+    "example_id": "Leher saya sakit"
   },
   {
     "id": 24,
@@ -240,7 +260,9 @@
     "id_lang": "Telur",
     "example_en": "She cooked an egg for breakfast.",
     "example_ar": "طَبَخَتْ بَيْضَةً لِوَجْبَةِ الْإِفْطَارِ.",
-    "category": "Makanan"
+    "category": "Makanan",
+    "pronunciation": "Baydhatun",
+    "example_id": "Saya makan telur"
   },
   {
     "id": 28,
@@ -249,7 +271,9 @@
     "id_lang": "Ikan",
     "example_en": "Fresh fish tastes delicious.",
     "example_ar": "يَكُونُ السَّمَكُ الطَّازَجُ لَذِيذًا.",
-    "category": "Makanan"
+    "category": "Makanan",
+    "pronunciation": "Samakatun",
+    "example_id": "Ikan berenang di air"
   },
   {
     "id": 29,
@@ -258,7 +282,9 @@
     "id_lang": "Ayam",
     "example_en": "We grilled chicken for dinner.",
     "example_ar": "شَوَيْنَا الدَّجَاجَ لِلْعَشَاءِ.",
-    "category": "Makanan"
+    "category": "Makanan",
+    "pronunciation": "Dajajatun",
+    "example_id": "Ayam bertelur"
   },
   {
     "id": 30,
@@ -276,7 +302,9 @@
     "id_lang": "Susu",
     "example_en": "My little brother drinks milk every morning.",
     "example_ar": "يَشْرَبُ أَخِي الصَّغِيرُ الْحَلِيبَ كُلَّ صَبَاحٍ.",
-    "category": "Minuman"
+    "category": "Minuman",
+    "pronunciation": "Halibun",
+    "example_id": "Anak minum susu"
   },
   {
     "id": 32,
@@ -285,7 +313,9 @@
     "id_lang": "Teh",
     "example_en": "She enjoys hot tea before bedtime.",
     "example_ar": "تُحِبُّ شُرْبَ الشَّايِ السَّاخِنِ قَبْلَ النَّوْمِ.",
-    "category": "Minuman"
+    "category": "Minuman",
+    "pronunciation": "Shayun",
+    "example_id": "Ibu minum teh"
   },
   {
     "id": 33,
@@ -294,7 +324,9 @@
     "id_lang": "Kopi",
     "example_en": "My father drinks black coffee every morning.",
     "example_ar": "يَشْرَبُ وَالِدِي الْقَهْوَةَ السَّوْدَاءَ كُلَّ صَبَاحٍ.",
-    "category": "Minuman"
+    "category": "Minuman",
+    "pronunciation": "Qahwatun",
+    "example_id": "Ayah minum kopi"
   },
   {
     "id": 34,
@@ -303,7 +335,9 @@
     "id_lang": "Jus",
     "example_en": "Fresh orange juice tastes refreshing.",
     "example_ar": "يَكُونُ عَصِيرُ الْبُرْتُقَالِ الطَّازَجُ مُنْعِشًا.",
-    "category": "Minuman"
+    "category": "Minuman",
+    "pronunciation": "Asirun",
+    "example_id": "Jus jeruk segar"
   },
   {
     "id": 35,
@@ -312,7 +346,9 @@
     "id_lang": "Gula",
     "example_en": "Please add less sugar to my coffee.",
     "example_ar": "مِنْ فَضْلِكَ أَضِفْ سُكَّرًا أَقَلَّ إِلَى قَهْوَتِي.",
-    "category": "Makanan"
+    "category": "Makanan",
+    "pronunciation": "Sukkarun",
+    "example_id": "Teh manis dengan gula"
   },
   {
     "id": 36,
@@ -321,7 +357,9 @@
     "id_lang": "Garam",
     "example_en": "This soup needs more salt.",
     "example_ar": "يَحْتَاجُ هَذَا الْحَسَاءُ إِلَى مِلْحٍ أَكْثَرَ.",
-    "category": "Makanan"
+    "category": "Makanan",
+    "pronunciation": "Milhun",
+    "example_id": "Tambahkan garam"
   },
   {
     "id": 37,
@@ -330,7 +368,9 @@
     "id_lang": "Apel",
     "example_en": "She eats an apple every afternoon.",
     "example_ar": "تَأْكُلُ تُفَّاحَةً كُلَّ بَعْدَ الظُّهْرِ.",
-    "category": "Buah"
+    "category": "Buah",
+    "pronunciation": "Tuffahatun",
+    "example_id": "Apel merah manis"
   },
   {
     "id": 38,
@@ -339,7 +379,9 @@
     "id_lang": "Pisang",
     "example_en": "The banana is sweet and ripe.",
     "example_ar": "الْمَوْزُ حُلْوٌ وَنَاضِجٌ.",
-    "category": "Buah"
+    "category": "Buah",
+    "pronunciation": "Mawzatun",
+    "example_id": "Pisang kuning"
   },
   {
     "id": 39,
@@ -348,7 +390,9 @@
     "id_lang": "Jeruk",
     "example_en": "He peeled an orange for his daughter.",
     "example_ar": "قَشَّرَ بُرْتُقَالَةً لِابْنَتِهِ.",
-    "category": "Buah"
+    "category": "Buah",
+    "pronunciation": "Burtuqalun",
+    "example_id": "Jeruk segar"
   },
   {
     "id": 40,
@@ -357,7 +401,9 @@
     "id_lang": "Mangga",
     "example_en": "This mango is incredibly sweet.",
     "example_ar": "هَذِهِ الْمَانْجَا حُلْوَةٌ جِدًّا.",
-    "category": "Buah"
+    "category": "Buah",
+    "pronunciation": "Manju",
+    "example_id": "Mangga manis"
   },
   {
     "id": 41,
@@ -375,7 +421,9 @@
     "id_lang": "Semangka",
     "example_en": "We shared a large watermelon together.",
     "example_ar": "تَقَاسَمْنَا بِطِّيخَةً كَبِيرَةً مَعًا.",
-    "category": "Buah"
+    "category": "Buah",
+    "pronunciation": "Bittikhun",
+    "example_id": "Semangka merah"
   },
   {
     "id": 43,
@@ -384,7 +432,9 @@
     "id_lang": "Pepaya",
     "example_en": "Papaya is good for digestion.",
     "example_ar": "الْبَابَايَا مُفِيدَةٌ لِلْهَضْمِ.",
-    "category": "Buah"
+    "category": "Buah",
+    "pronunciation": "Babāyā",
+    "example_id": "Pepaya bagus untuk pencernaan"
   },
   {
     "id": 44,
@@ -393,7 +443,9 @@
     "id_lang": "Nanas",
     "example_en": "The pineapple smells wonderful.",
     "example_ar": "تَفُوحُ مِنَ الْأَنَانَاسِ رَائِحَةٌ رَائِعَةٌ.",
-    "category": "Buah"
+    "category": "Buah",
+    "pronunciation": "Ananasun",
+    "example_id": "Nanas asam manis"
   },
   {
     "id": 45,
@@ -411,7 +463,9 @@
     "id_lang": "Kelapa",
     "example_en": "We drank fresh coconut water on the beach.",
     "example_ar": "شَرِبْنَا مَاءَ جَوْزِ الْهِنْدِ الطَّازَجَ عَلَى الشَّاطِئِ.",
-    "category": "Buah"
+    "category": "Buah",
+    "pronunciation": "Jawzul Hindi",
+    "example_id": "Air kelapa segar"
   },
   {
     "id": 47,
@@ -420,7 +474,9 @@
     "id_lang": "Durian",
     "example_en": "Many people love the rich flavor of durian.",
     "example_ar": "يُحِبُّ كَثِيرٌ مِنَ النَّاسِ النَّكْهَةَ الْغَنِيَّةَ لِلدُّورِيَانِ.",
-    "category": "Buah"
+    "category": "Buah",
+    "pronunciation": "Duriyānun",
+    "example_id": "Durian enak"
   },
   {
     "id": 48,
@@ -591,7 +647,9 @@
     "id_lang": "Kucing",
     "example_en": "The cat is sleeping on the sofa.",
     "example_ar": "الْقِطُّ نَائِمٌ عَلَى الْأَرِيكَةِ.",
-    "category": "Hewan"
+    "category": "Hewan",
+    "pronunciation": "Qittatun",
+    "example_id": "Kucing itu lucu"
   },
   {
     "id": 67,
@@ -600,7 +658,9 @@
     "id_lang": "Anjing",
     "example_en": "The dog barked all night.",
     "example_ar": "نَبَحَ الْكَلْبُ طُولَ اللَّيْلِ.",
-    "category": "Hewan"
+    "category": "Hewan",
+    "pronunciation": "Kalbun",
+    "example_id": "Anjing itu besar"
   },
   {
     "id": 68,
@@ -609,7 +669,9 @@
     "id_lang": "Burung",
     "example_en": "A bird landed on the tree.",
     "example_ar": "حَطَّ طَائِرٌ عَلَى الشَّجَرَةِ.",
-    "category": "Hewan"
+    "category": "Hewan",
+    "pronunciation": "Ta-irun",
+    "example_id": "Burung terbang di langit"
   },
   {
     "id": 69,
@@ -618,7 +680,9 @@
     "id_lang": "Sapi",
     "example_en": "The cow grazed in the field.",
     "example_ar": "رَعَتِ الْبَقَرَةُ فِي الْحَقْلِ.",
-    "category": "Hewan"
+    "category": "Hewan",
+    "pronunciation": "Baqaratun",
+    "example_id": "Sapi makan rumput"
   },
   {
     "id": 70,
@@ -627,7 +691,9 @@
     "id_lang": "Kambing",
     "example_en": "The goat climbed the rocky hill.",
     "example_ar": "تَسَلَّقَ الْمَاعِزُ التَّلَّ الصَّخْرِيَّ.",
-    "category": "Hewan"
+    "category": "Hewan",
+    "pronunciation": "Ma-izun",
+    "example_id": "Kambing bersuara embek"
   },
   {
     "id": 71,
@@ -636,7 +702,9 @@
     "id_lang": "Kuda",
     "example_en": "The horse ran across the field.",
     "example_ar": "رَكَضَ الْحِصَانُ عَبْرَ الْحَقْلِ.",
-    "category": "Hewan"
+    "category": "Hewan",
+    "pronunciation": "Hisanun",
+    "example_id": "Kuda berlari cepat"
   },
   {
     "id": 72,
@@ -663,7 +731,9 @@
     "id_lang": "Gajah",
     "example_en": "The elephant drank water from the river.",
     "example_ar": "شَرِبَ الْفِيلُ الْمَاءَ مِنَ النَّهْرِ.",
-    "category": "Hewan"
+    "category": "Hewan",
+    "pronunciation": "Filun",
+    "example_id": "Gajah besar dan kuat"
   },
   {
     "id": 75,
@@ -672,7 +742,9 @@
     "id_lang": "Singa",
     "example_en": "The lion rested under a large tree.",
     "example_ar": "اِسْتَرَاحَ الْأَسَدُ تَحْتَ شَجَرَةٍ كَبِيرَةٍ.",
-    "category": "Hewan"
+    "category": "Hewan",
+    "pronunciation": "Asadun",
+    "example_id": "Singa raja hutan"
   },
   {
     "id": 76,
@@ -1032,7 +1104,9 @@
     "id_lang": "Merah",
     "example_en": "She bought a red dress yesterday.",
     "example_ar": "اِشْتَرَتْ فُسْتَانًا أَحْمَرَ بِالْأَمْسِ.",
-    "category": "Warna"
+    "category": "Warna",
+    "pronunciation": "Ahmaru",
+    "example_id": "Bunga ini berwarna merah"
   },
   {
     "id": 116,
@@ -1041,7 +1115,9 @@
     "id_lang": "Biru",
     "example_en": "The sky looks blue today.",
     "example_ar": "تَبْدُو السَّمَاءُ زَرْقَاءَ الْيَوْمَ.",
-    "category": "Warna"
+    "category": "Warna",
+    "pronunciation": "Azraqu",
+    "example_id": "Langit berwarna biru"
   },
   {
     "id": 117,
@@ -1050,7 +1126,9 @@
     "id_lang": "Hijau",
     "example_en": "The garden is full of green plants.",
     "example_ar": "الْحَدِيقَةُ مَلِيئَةٌ بِالنَّبَاتَاتِ الْخَضْرَاءِ.",
-    "category": "Warna"
+    "category": "Warna",
+    "pronunciation": "Akhdaru",
+    "example_id": "Daun berwarna hijau"
   },
   {
     "id": 118,
@@ -1059,7 +1137,9 @@
     "id_lang": "Kuning",
     "example_en": "The yellow flowers bloom beautifully.",
     "example_ar": "تَتَفَتَّحُ الْأَزْهَارُ الصَّفْرَاءُ بِجَمَالٍ.",
-    "category": "Warna"
+    "category": "Warna",
+    "pronunciation": "Asfaru",
+    "example_id": "Pisang berwarna kuning"
   },
   {
     "id": 119,
@@ -1068,7 +1148,9 @@
     "id_lang": "Hitam",
     "example_en": "He wears a black jacket every winter.",
     "example_ar": "يَلْبَسُ سُتْرَةً سَوْدَاءَ كُلَّ شِتَاءٍ.",
-    "category": "Warna"
+    "category": "Warna",
+    "pronunciation": "Aswadu",
+    "example_id": "Malam berwarna hitam"
   },
   {
     "id": 120,
@@ -1077,7 +1159,9 @@
     "id_lang": "Putih",
     "example_en": "She wore a white shirt to school.",
     "example_ar": "اِرْتَدَتْ قَمِيصًا أَبْيَضَ إِلَى الْمَدْرَسَةِ.",
-    "category": "Warna"
+    "category": "Warna",
+    "pronunciation": "Abyadu",
+    "example_id": "Salju berwarna putih"
   },
   {
     "id": 121,
@@ -1113,7 +1197,9 @@
     "id_lang": "Ungu",
     "example_en": "The purple flowers smell wonderful.",
     "example_ar": "تَفُوحُ رَائِحَةُ الْأَزْهَارِ الْبَنَفْسَجِيَّةِ بِرَائِعَةٍ.",
-    "category": "Warna"
+    "category": "Warna",
+    "pronunciation": "Banafsajiyyun",
+    "example_id": "Anggur berwarna ungu"
   },
   {
     "id": 125,
@@ -1122,7 +1208,9 @@
     "id_lang": "Oranye",
     "example_en": "The sunset painted the sky orange.",
     "example_ar": "لَوَّنَتِ الشَّمْسُ الْغَارِبَةُ السَّمَاءَ بِاللَّوْنِ الْبُرْتُقَالِيِّ.",
-    "category": "Warna"
+    "category": "Warna",
+    "pronunciation": "Burtuqaliyyun",
+    "example_id": "Jeruk berwarna oranye"
   },
   {
     "id": 126,
@@ -1446,7 +1534,9 @@
     "id_lang": "Hujan",
     "example_en": "The weather is rainy today.",
     "example_ar": "الطَّقْسُ مُمْطِرٌ الْيَوْمَ.",
-    "category": "Cuaca"
+    "category": "Cuaca",
+    "pronunciation": "Matarun",
+    "example_id": "Hujan turun dengan deras"
   },
   {
     "id": 162,
@@ -1482,7 +1572,9 @@
     "id_lang": "Panas",
     "example_en": "The weather is hot today.",
     "example_ar": "الطَّقْسُ حَارٌّ الْيَوْمَ.",
-    "category": "Cuaca"
+    "category": "Cuaca",
+    "pronunciation": "Harrun",
+    "example_id": "Cuaca hari ini panas"
   },
   {
     "id": 166,
@@ -1491,7 +1583,9 @@
     "id_lang": "Dingin",
     "example_en": "The water feels very cold.",
     "example_ar": "الْمَاءُ بَارِدٌ جِدًّا.",
-    "category": "Cuaca"
+    "category": "Cuaca",
+    "pronunciation": "Baridun",
+    "example_id": "Minuman itu dingin"
   },
   {
     "id": 167,
@@ -1950,7 +2044,9 @@
     "id_lang": "Insinyur",
     "example_en": "The engineer inspected the bridge carefully.",
     "example_ar": "فَحَصَ الْمُهَنْدِسُ الْجِسْرَ بِعِنَايَةٍ.",
-    "category": "Profesi"
+    "category": "Profesi",
+    "pronunciation": "Muhandisun",
+    "example_id": "Insinyur membangun jembatan"
   },
   {
     "id": 218,
@@ -1959,7 +2055,9 @@
     "id_lang": "Petani",
     "example_en": "The farmer harvested fresh vegetables.",
     "example_ar": "حَصَدَ الْمُزَارِعُ خُضْرَوَاتٍ طَازَجَةً.",
-    "category": "Profesi"
+    "category": "Profesi",
+    "pronunciation": "Muzariun",
+    "example_id": "Petani menanam padi"
   },
   {
     "id": 219,
@@ -1968,7 +2066,9 @@
     "id_lang": "Nelayan",
     "example_en": "The fisherman returned before sunrise.",
     "example_ar": "عَادَ الصَّيَّادُ قَبْلَ شُرُوقِ الشَّمْسِ.",
-    "category": "Profesi"
+    "category": "Profesi",
+    "pronunciation": "Sayyadun",
+    "example_id": "Nelayan menangkap ikan"
   },
   {
     "id": 220,
@@ -1986,7 +2086,9 @@
     "id_lang": "Polisi",
     "example_en": "The police officer directed the traffic.",
     "example_ar": "نَظَّمَ الشُّرْطِيُّ حَرَكَةَ الْمُرُورِ.",
-    "category": "Profesi"
+    "category": "Profesi",
+    "pronunciation": "Shurtiyyun",
+    "example_id": "Polisi menjaga keamanan"
   },
   {
     "id": 222,
@@ -2013,7 +2115,9 @@
     "id_lang": "Koki",
     "example_en": "The chef prepared a delicious meal.",
     "example_ar": "أَعَدَّ الطَّبَّاخُ وَجْبَةً لَذِيذَةً.",
-    "category": "Profesi"
+    "category": "Profesi",
+    "pronunciation": "Tabbakhun",
+    "example_id": "Koki memasak makanan"
   },
   {
     "id": 225,
@@ -2157,7 +2261,9 @@
     "id_lang": "Kantor",
     "example_en": "The office opens at eight every morning.",
     "example_ar": "يَفْتَحُ الْمَكْتَبُ أَبْوَابَهُ فِي السَّاعَةِ الثَّامِنَةِ كُلَّ صَبَاحٍ.",
-    "category": "Bisnis"
+    "category": "Bisnis",
+    "pronunciation": "Maktabun",
+    "example_id": "Ayah bekerja di kantor"
   },
   {
     "id": 241,
@@ -2193,7 +2299,9 @@
     "id_lang": "Pasar",
     "example_en": "The market becomes crowded every weekend.",
     "example_ar": "يَصْبَحُ السُّوقُ مُزْدَحِمًا كُلَّ عُطْلَةِ أُسْبُوعٍ.",
-    "category": "Bisnis"
+    "category": "Bisnis",
+    "pronunciation": "Suqun",
+    "example_id": "Ibu belanja di pasar"
   },
   {
     "id": 245,
@@ -2508,7 +2616,9 @@
     "id_lang": "Perpustakaan",
     "example_en": "The library closes at six every evening.",
     "example_ar": "تُغْلَقُ الْمَكْتَبَةُ فِي السَّاعَةِ السَّادِسَةِ مَسَاءً.",
-    "category": "Pendidikan"
+    "category": "Pendidikan",
+    "pronunciation": "Maktabatun",
+    "example_id": "Saya membaca di perpustakaan"
   },
   {
     "id": 280,
@@ -2526,7 +2636,9 @@
     "id_lang": "Masjid",
     "example_en": "The mosque welcomes everyone respectfully.",
     "example_ar": "يَسْتَقْبِلُ الْمَسْجِدُ الْجَمِيعَ بِاحْتِرَامٍ.",
-    "category": "Agama"
+    "category": "Agama",
+    "pronunciation": "Masjidun",
+    "example_id": "Saya sholat di masjid"
   },
   {
     "id": 282,
@@ -2904,7 +3016,9 @@
     "id_lang": "Gunung",
     "example_en": "The mountain is covered with trees.",
     "example_ar": "الْجَبَلُ مُغَطًّى بِالْأَشْجَارِ.",
-    "category": "Alam"
+    "category": "Alam",
+    "pronunciation": "Jabalun",
+    "example_id": "Gunung itu sangat tinggi"
   },
   {
     "id": 324,
@@ -2931,7 +3045,9 @@
     "id_lang": "Sungai",
     "example_en": "The river flows toward the sea.",
     "example_ar": "يَجْرِي النَّهْرُ نَحْوَ الْبَحْرِ.",
-    "category": "Alam"
+    "category": "Alam",
+    "pronunciation": "Nahrun",
+    "example_id": "Sungai mengalir ke laut"
   },
   {
     "id": 327,
@@ -2958,7 +3074,9 @@
     "id_lang": "Laut",
     "example_en": "The sea looks calm this morning.",
     "example_ar": "يَبْدُو الْبَحْرُ هَادِئًا هَذَا الصَّبَاحِ.",
-    "category": "Alam"
+    "category": "Alam",
+    "pronunciation": "Bahrun",
+    "example_id": "Laut itu luas dan dalam"
   },
   {
     "id": 330,
@@ -3021,7 +3139,9 @@
     "id_lang": "Pohon",
     "example_en": "The tree provides cool shade.",
     "example_ar": "تُوَفِّرُ الشَّجَرَةُ ظِلًّا بَارِدًا.",
-    "category": "Alam"
+    "category": "Alam",
+    "pronunciation": "Syajaratun",
+    "example_id": "Pohon itu rindang dan hijau"
   },
   {
     "id": 337,
@@ -3030,7 +3150,9 @@
     "id_lang": "Bunga",
     "example_en": "Every flower blooms beautifully in spring.",
     "example_ar": "تَتَفَتَّحُ كُلُّ زَهْرَةٍ بِجَمَالٍ فِي الرَّبِيعِ.",
-    "category": "Alam"
+    "category": "Alam",
+    "pronunciation": "Zahratun",
+    "example_id": "Bunga itu harum dan indah"
   },
   {
     "id": 338,
@@ -3039,7 +3161,9 @@
     "id_lang": "Daun",
     "example_en": "A leaf fell onto the ground.",
     "example_ar": "سَقَطَتْ وَرَقَةٌ عَلَى الْأَرْضِ.",
-    "category": "Alam"
+    "category": "Alam",
+    "pronunciation": "Waraqatun",
+    "example_id": "Daun gugur di musim semi"
   },
   {
     "id": 339,
@@ -3048,7 +3172,9 @@
     "id_lang": "Rumput",
     "example_en": "The grass looks fresh after the rain.",
     "example_ar": "يَبْدُو الْعُشْبُ نَضِرًا بَعْدَ الْمَطَرِ.",
-    "category": "Alam"
+    "category": "Alam",
+    "pronunciation": "Usyibun",
+    "example_id": "Rumput hijau tumbuh di halaman"
   },
   {
     "id": 340,
@@ -3075,7 +3201,9 @@
     "id_lang": "Langit",
     "example_en": "The sky is clear after the storm.",
     "example_ar": "السَّمَاءُ صَافِيَةٌ بَعْدَ الْعَاصِفَةِ.",
-    "category": "Alam"
+    "category": "Alam",
+    "pronunciation": "Sama-un",
+    "example_id": "Langit berwarna biru cerah"
   },
   {
     "id": 343,
@@ -3084,7 +3212,9 @@
     "id_lang": "Awan",
     "example_en": "A white cloud floated across the sky.",
     "example_ar": "طَافَتْ سَحَابَةٌ بَيْضَاءُ فِي السَّمَاءِ.",
-    "category": "Alam"
+    "category": "Alam",
+    "pronunciation": "Sahabatun",
+    "example_id": "Awan putih melayang di langit"
   },
   {
     "id": 344,
@@ -3093,7 +3223,9 @@
     "id_lang": "Matahari",
     "example_en": "The sun rises in the east.",
     "example_ar": "تَشْرُقُ الشَّمْسُ مِنَ الْمَشْرِقِ.",
-    "category": "Alam"
+    "category": "Alam",
+    "pronunciation": "Syamsun",
+    "example_id": "Matahari terbit di timur"
   },
   {
     "id": 345,
@@ -3102,7 +3234,9 @@
     "id_lang": "Bulan",
     "example_en": "The moon looked bright tonight.",
     "example_ar": "بَدَا الْقَمَرُ مُضِيئًا هَذِهِ اللَّيْلَةَ.",
-    "category": "Alam"
+    "category": "Alam",
+    "pronunciation": "Qamarun",
+    "example_id": "Bulan bersinar terang di malam hari"
   },
   {
     "id": 346,
@@ -3111,7 +3245,9 @@
     "id_lang": "Bintang",
     "example_en": "Every star sparkled in the night sky.",
     "example_ar": "تَلَأْلَأَ كُلُّ نَجْمٍ فِي سَمَاءِ اللَّيْلِ.",
-    "category": "Alam"
+    "category": "Alam",
+    "pronunciation": "Najmun",
+    "example_id": "Bintang berkelap-kelip di langit"
   },
   {
     "id": 347,
@@ -3210,7 +3346,9 @@
     "id_lang": "Memasak",
     "example_en": "My mother cooks delicious meals.",
     "example_ar": "تَطْبُخُ وَالِدَتِي وَجَبَاتٍ لَذِيذَةً.",
-    "category": "Kata Kerja"
+    "category": "Kata Kerja",
+    "pronunciation": "Yatbukhu",
+    "example_id": "Ibu memasak nasi"
   },
   {
     "id": 358,
@@ -3363,7 +3501,9 @@
     "id_lang": "Menulis",
     "example_en": "He writes reports every Friday.",
     "example_ar": "يَكْتُبُ تَقَارِيرَ كُلَّ يَوْمِ الْجُمُعَةِ.",
-    "category": "Kata Kerja"
+    "category": "Kata Kerja",
+    "pronunciation": "Yaktubu",
+    "example_id": "Saya menulis surat"
   },
   {
     "id": 375,
@@ -3372,7 +3512,9 @@
     "id_lang": "Membaca",
     "example_en": "She reads a novel before bed.",
     "example_ar": "تَقْرَأُ رِوَايَةً قَبْلَ النَّوْمِ.",
-    "category": "Kata Kerja"
+    "category": "Kata Kerja",
+    "pronunciation": "Yaqrau",
+    "example_id": "Saya membaca buku"
   },
   {
     "id": 376,
@@ -3804,7 +3946,9 @@
     "id_lang": "Jendela",
     "example_en": "Close the active window.",
     "example_ar": "أَغْلِقِ النَّافِذَةَ النَّشِطَةَ.",
-    "category": "Komputer"
+    "category": "Komputer",
+    "pronunciation": "Nafidzatun",
+    "example_id": "Buka jendela agar udara segar masuk"
   },
   {
     "id": 424,
@@ -4209,7 +4353,9 @@
     "id_lang": "Bangun",
     "example_en": "I awake at 6 a.m. every day.",
     "example_ar": "أَسْتَيْقِظُ فِي السَّاعَةِ السَّادِسَةِ صَبَاحًا كُلَّ يَوْمٍ.",
-    "category": "Kata Kerja"
+    "category": "Kata Kerja",
+    "pronunciation": "Yastayqizu",
+    "example_id": "Saya bangun pagi-pagi"
   },
   {
     "id": 469,
@@ -4218,7 +4364,9 @@
     "id_lang": "Bekerja",
     "example_en": "He works at a software company.",
     "example_ar": "هُوَ يَعْمَلُ فِي شَرِكَةِ بَرْمَجِيَّاتٍ.",
-    "category": "Kata Kerja"
+    "category": "Kata Kerja",
+    "pronunciation": "Yamalu",
+    "example_id": "Ayah bekerja keras"
   },
   {
     "id": 470,
@@ -4227,7 +4375,9 @@
     "id_lang": "Belajar",
     "example_en": "They study English together every weekend.",
     "example_ar": "هُمْ يَدْرُسُونَ اللُّغَةَ الْإِنْجِلِيزِيَّةَ مَعًا كُلَّ عُطْلَةِ نِهَايَةِ الْأُسْبُوعِ.",
-    "category": "Kata Kerja"
+    "category": "Kata Kerja",
+    "pronunciation": "Yadrusu",
+    "example_id": "Saya belajar bahasa Arab"
   },
   {
     "id": 471,
@@ -4254,7 +4404,9 @@
     "id_lang": "Berbicara",
     "example_en": "Please talk to your teacher about the project.",
     "example_ar": "تَكَلَّمْ مَعَ مُعَلِّمِكَ عَنِ الْمَشْرُوعِ مِنْ فَضْلِكَ.",
-    "category": "Kata Kerja"
+    "category": "Kata Kerja",
+    "pronunciation": "Yatakallamu",
+    "example_id": "Dia berbicara dengan jelas"
   },
   {
     "id": 474,
@@ -4344,7 +4496,9 @@
     "id_lang": "Berjalan",
     "example_en": "We prefer to walk to school every morning.",
     "example_ar": "نَحْنُ نُفَضِّلُ أَنْ نَمْشِيَ إِلَى الْمَدْرَسَةِ كُلَّ صَبَاحٍ.",
-    "category": "Kata Kerja"
+    "category": "Kata Kerja",
+    "pronunciation": "Yamshi",
+    "example_id": "Saya berjalan ke sekolah"
   },
   {
     "id": 484,
@@ -4452,7 +4606,9 @@
     "id_lang": "Datang",
     "example_en": "The guests will come to our house tomorrow morning.",
     "example_ar": "سَيَجِيءُ الضُّيُوفُ إِلَى بَيْتِنَا غَدًا صَبَاحًا.",
-    "category": "Kata Kerja"
+    "category": "Kata Kerja",
+    "pronunciation": "Yati",
+    "example_id": "Dia datang ke rumah"
   },
   {
     "id": 496,
@@ -4542,7 +4698,9 @@
     "id_lang": "Makan",
     "example_en": "We usually eat dinner together at seven o'clock.",
     "example_ar": "عَادَةً مَا نَأْكُلُ الْعَشَاءَ مَعًا فِي السَّاعَةِ السَّابِعَةِ.",
-    "category": "Kata Kerja"
+    "category": "Kata Kerja",
+    "pronunciation": "Yakulu",
+    "example_id": "Saya makan nasi setiap hari"
   },
   {
     "id": 506,
@@ -4596,7 +4754,9 @@
     "id_lang": "Melihat",
     "example_en": "I can see the mountains clearly from my bedroom window.",
     "example_ar": "أَسْتَطِيعُ أَنْ أَرَى الْجِبَالَ بِوُضُوحٍ مِنْ نَافِذَةِ غُرْفَةِ نَوْمِي.",
-    "category": "Kata Kerja"
+    "category": "Kata Kerja",
+    "pronunciation": "Yara",
+    "example_id": "Saya melihat burung"
   },
   {
     "id": 512,
@@ -4731,7 +4891,9 @@
     "id_lang": "Membeli",
     "example_en": "I want to buy some fresh fruits from the traditional market.",
     "example_ar": "أُرِيدُ أَنْ أَشْتَرِيَ بَعْضَ الْفَوَاكِهِ الطَّازَجَةِ مِنَ السُّوقِ التَّقْلِيدِيِّ.",
-    "category": "Kata Kerja"
+    "category": "Kata Kerja",
+    "pronunciation": "Yashtari",
+    "example_id": "Saya membeli buku"
   },
   {
     "id": 527,
@@ -4758,7 +4920,9 @@
     "id_lang": "Membersihkan",
     "example_en": "We usually clean our house together on Sunday morning.",
     "example_ar": "عَادَةً مَا نُنَظِّفُ بَيْتَنَا مَعًا صَبَاحَ يَوْمِ الْأَحَدِ.",
-    "category": "Kata Kerja"
+    "category": "Kata Kerja",
+    "pronunciation": "Yunazzifu",
+    "example_id": "Saya membersihkan kamar"
   },
   {
     "id": 530,
@@ -4767,7 +4931,9 @@
     "id_lang": "Membuat",
     "example_en": "My mother loves to make delicious cakes for the family.",
     "example_ar": "تُحِبُّ أُمِّي أَنْ تَصْنَعَ كَعْكًا لَذِيذًا لِلْعَائِلَةِ.",
-    "category": "Kata Kerja"
+    "category": "Kata Kerja",
+    "pronunciation": "Yasna u",
+    "example_id": "Ibu membuat kue"
   },
   {
     "id": 531,
@@ -4949,7 +5115,7 @@
     "example_ar": "يُحِبُّ الْجَدُّ أَنْ يَقُصَّ قِصَصًا تَارِيخِيَّةً عَلَى أَحْفَادِهِ.",
     "category": "Kata Kerja"
   },
-    {
+  {
     "id": 551,
     "en": "Kiss",
     "ar": "قَبَّلَ - يُقَبِّلُ",
@@ -5219,7 +5385,7 @@
     "example_ar": "مِنْ فَضْلِكَ ذَكِّرْنِي أَنْ أَتَّصِلَ بِأَبِي اللَّيْلَةَ.",
     "category": "Kata Kerja"
   },
-    {
+  {
     "id": 581,
     "en": "Guess",
     "ar": "ظَنَّ - يَظُنُّ",
@@ -5325,7 +5491,9 @@
     "id_lang": "Menjual",
     "example_en": "They sell fresh vegetables and fruits every morning at the market.",
     "example_ar": "هُمْ يَبِيعُونَ الْخَضْرَاوَاتِ وَالْفَوَاكِهَ الطَّازَجَةَ كُلَّ صَبَاحٍ فِي السَّوقِ.",
-    "category": "Kata Kerja"
+    "category": "Kata Kerja",
+    "pronunciation": "Yabiu",
+    "example_id": "Pedagang menjual barang"
   },
   {
     "id": 593,
@@ -5460,7 +5628,9 @@
     "id_lang": "Ayah",
     "example_en": "My father works hard every day to provide for our family.",
     "example_ar": "يَعْمَلُ أَبِي بِجِدٍّ كُلَّ يَوْمٍ لِيُعِيلَ أُسْرَتَنَا.",
-    "category": "Keluarga"
+    "category": "Keluarga",
+    "pronunciation": "Abun",
+    "example_id": "Ayah saya seorang guru"
   },
   {
     "id": 608,
@@ -5487,7 +5657,9 @@
     "id_lang": "Ibu",
     "example_en": "My mother makes the most delicious chicken soup in the world.",
     "example_ar": "تَصْنَعُ أُمِّي حِسَاءَ الدَّجَاجِ الْأَكْثَرَ لَذَّةً فِي الْعَالَمِ.",
-    "category": "Keluarga"
+    "category": "Keluarga",
+    "pronunciation": "Ummun",
+    "example_id": "Ibu memasak di dapur"
   },
   {
     "id": 611,
@@ -5514,7 +5686,9 @@
     "id_lang": "Kakek",
     "example_en": "My grandfather loves to read the morning newspaper while drinking tea.",
     "example_ar": "يُحِبُّ جَدِّي أَنْ يَقْرَأَ صَحِيفَةَ الصَّبَاحِ وَهُوَ يَشْرَبُ الشَّايَ.",
-    "category": "Keluarga"
+    "category": "Keluarga",
+    "pronunciation": "Jaddun",
+    "example_id": "Kakek baik hati"
   },
   {
     "id": 614,
@@ -5523,7 +5697,9 @@
     "id_lang": "Nenek",
     "example_en": "My grandmother knits a warm sweater for me every winter.",
     "example_ar": "تَحِيكُ جَدَّتِي سُتْرَةً دَافِئَةً لِي كُلَّ شِتَاءٍ.",
-    "category": "Keluarga"
+    "category": "Keluarga",
+    "pronunciation": "Jaddatun",
+    "example_id": "Nenek memasak enak"
   },
   {
     "id": 615,
@@ -5604,7 +5780,9 @@
     "id_lang": "Roti",
     "example_en": "He usually buys fresh bread from the bakery down the street.",
     "example_ar": "عَادَةً مَا يَشْتَرِي خُبْزًا طَازَجًا مِنَ الْمَخْبَزِ فِي أَسْفَلِ الشَّارِعِ.",
-    "category": "Makanan"
+    "category": "Makanan",
+    "pronunciation": "Khubzun",
+    "example_id": "Roti ini enak"
   },
   {
     "id": 624,
@@ -5694,7 +5872,9 @@
     "id_lang": "Sopir",
     "example_en": "The bus driver safely navigated through the heavy rain.",
     "example_ar": "قَادَ سَائِقُ الْحَافِلَةِ بِأَمَانٍ خِلَالَ الْأَمْطَارِ الْغَزِيرَةِ.",
-    "category": "Profesi"
+    "category": "Profesi",
+    "pronunciation": "Sa-iquun",
+    "example_id": "Sopir mengemudi mobil"
   },
   {
     "id": 634,
@@ -5793,7 +5973,9 @@
     "id_lang": "Anak",
     "example_en": "The young child was happily playing with a colorful toy train in the living room.",
     "example_ar": "كَانَ الطِّفْلُ الصَّغِيرُ يَلْعَبُ سَعِيدًا بِقِطَارِ لُعْبَةٍ مُلَوَّنٍ فِي غُرْفَةِ الْمَعِيشَةِ.",
-    "category": "Keluarga"
+    "category": "Keluarga",
+    "pronunciation": "Tiflun",
+    "example_id": "Anak itu bermain"
   },
   {
     "id": 645,
@@ -5829,7 +6011,9 @@
     "id_lang": "Madu",
     "example_en": "She likes to add a small spoonful of organic honey to her green tea.",
     "example_ar": "تُحِبُّ أَنْ تُضِيفَ مِلْعَقَةً صَغِيرَةً مِنْ عَسَلٍ عُضْوِيٍّ إِلَى شَايِهَا الْأَخْضَرِ.",
-    "category": "Makanan"
+    "category": "Makanan",
+    "pronunciation": "Asalun",
+    "example_id": "Madu sehat dan manis"
   },
   {
     "id": 649,
@@ -5865,7 +6049,9 @@
     "id_lang": "Bibi",
     "example_en": "My paternal aunt brought me a beautiful souvenir from her trip to Egypt.",
     "example_ar": "أَحْضَرَتْ لِي عَمَّتِي هَدِيَّةً تِذْكَارِيَّةً جَمِيلَةً مِنْ رِحْلَتِهَا إِلَى مِصْرَ.",
-    "category": "Keluarga"
+    "category": "Keluarga",
+    "pronunciation": "Ammatun",
+    "example_id": "Bibi baik"
   },
   {
     "id": 653,
@@ -5910,7 +6096,9 @@
     "id_lang": "Jantung",
     "example_en": "Regular exercise is very beneficial for maintaining a healthy heart.",
     "example_ar": "الْمُمَارَسَةُ الْمُنْتَظَمَةُ لِلرِّيَاضَةِ مُفِيدَةٌ جِدًّا لِلْحِفَاظِ عَلَى صِحَّةِ الْقَلْبِ.",
-    "category": "Anggota Badan"
+    "category": "Anggota Badan",
+    "pronunciation": "Qalbun",
+    "example_id": "Jantung berdetak cepat"
   },
   {
     "id": 658,
@@ -5919,7 +6107,9 @@
     "id_lang": "Penulis",
     "example_en": "The famous writer spent three years completing his latest historical novel.",
     "example_ar": "قَضَى الْكَاتِبُ الْمَشْهُورُ ثَلَاثَ سَنَوَاتٍ فِي إِكْمَالِ رِوَايَتِهِ التَّارِيخِيَّةِ الْأَخِيرَةِ.",
-    "category": "Profesi"
+    "category": "Profesi",
+    "pronunciation": "Katibun",
+    "example_id": "Penulis menulis buku"
   },
   {
     "id": 659,
@@ -5973,7 +6163,9 @@
     "id_lang": "Air",
     "example_en": "Please bring me a glass of cold water from the kitchen.",
     "example_ar": "مِنْ فَضْلِكَ أَحْضِرْ لِي كُوبًا مِنَ الْمَاءِ الْبَارِدِ مِنَ الْمَطْبَخِ.",
-    "category": "Alam"
+    "category": "Alam",
+    "pronunciation": "Ma-un",
+    "example_id": "Saya minum air putih"
   },
   {
     "id": 665,
@@ -6018,7 +6210,9 @@
     "id_lang": "Guru",
     "example_en": "The teacher patiently answered all the questions from the students.",
     "example_ar": "أَجَابَ الْمُدَرِّسُ بِصَبْرٍ عَنْ جَمِيعِ أَسْئِلَةِ الطُّلَّابِ.",
-    "category": "Profesi"
+    "category": "Profesi",
+    "pronunciation": "Muallimun",
+    "example_id": "Guru mengajar di sekolah"
   },
   {
     "id": 670,
@@ -6045,7 +6239,9 @@
     "id_lang": "Lampu",
     "example_en": "He turned on the desk lamp to read his book before sleeping.",
     "example_ar": "أَشْعَلَ مِصْبَاحَ الْمَكْتَبِ لِقِرَاءَةِ كِتَابِهِ قَبْلَ النَّوْمِ.",
-    "category": "Benda"
+    "category": "Benda",
+    "pronunciation": "Misbahun",
+    "example_id": "Nyalakan lampu saat malam"
   },
   {
     "id": 673,
@@ -6054,7 +6250,9 @@
     "id_lang": "Bandara",
     "example_en": "The airport was very crowded with passengers during the holiday season.",
     "example_ar": "كَانَ الْمَطَارُ مُزْدَحِمًا جِدًّا بِالْمُسَافِرِينَ خِلَالَ مَوْسِمِ الْعُطْلَاتِ.",
-    "category": "Tempat"
+    "category": "Tempat",
+    "pronunciation": "Matarun",
+    "example_id": "Pesawat di bandara"
   },
   {
     "id": 674,
@@ -6063,7 +6261,9 @@
     "id_lang": "Meja",
     "example_en": "He placed his new laptop on the wooden table in his study room.",
     "example_ar": "وَضَعَ حَاسُوبَهُ الْمَحْمُولَ الْجَدِيدَ عَلَى الْمَكْتَبِ الْخَشَبِيِّ فِي غُرْفَةِ الدِّرَاسَةِ.",
-    "category": "Benda"
+    "category": "Benda",
+    "pronunciation": "Tawilatun",
+    "example_id": "Buku ada di atas meja"
   },
   {
     "id": 675,
@@ -7440,7 +7640,9 @@
     "id_lang": "Kepala",
     "example_en": "You should wear a helmet to protect your head while riding a motorcycle.",
     "example_ar": "يَجِبُ أَنْ تَرْتَدِيَ خُوذَةً لِحِمَايَةِ رَأْسِكَ أَثْنَاءَ رُكُوبِ الدَّرَّاجَةِ النَّارِيَّةِ.",
-    "category": "Anggota Badan"
+    "category": "Anggota Badan",
+    "pronunciation": "Rasun",
+    "example_id": "Kepala saya sakit"
   },
   {
     "id": 828,
@@ -7467,7 +7669,9 @@
     "id_lang": "Gigi",
     "example_en": "You need to brush your teeth at least twice a day to keep them healthy.",
     "example_ar": "تَحْتَاجُ إِلَى تَنْظِيفِ سِنِّكَ مَرَّتَيْنِ فِي الْيَوْمِ عَلَى الْأَقَلِّ لِلْحِفَاظِ عَلَيْهِ صِحِّيًّا.",
-    "category": "Anggota Badan"
+    "category": "Anggota Badan",
+    "pronunciation": "Sinnun",
+    "example_id": "Gigi mengunyah makanan"
   },
   {
     "id": 831,
@@ -7476,7 +7680,9 @@
     "id_lang": "Lidah",
     "example_en": "Be careful not to burn your tongue when drinking this hot tea.",
     "example_ar": "احْذَرْ مِنْ أَنْ تَحْرِقَ لِسَانَكَ عِنْدَ شُرْبِ هَذَا الشَّايِ السَّاخِنِ.",
-    "category": "Anggota Badan"
+    "category": "Anggota Badan",
+    "pronunciation": "Lisanun",
+    "example_id": "Lidah merasakan rasa makanan"
   },
   {
     "id": 832,
@@ -7503,7 +7709,9 @@
     "id_lang": "Perut",
     "example_en": "I feel a slight pain in my stomach after eating that spicy food.",
     "example_ar": "أَشْعُرُ بِأَلَمٍ خَفِيفٍ فِي بَطْنِي بَعْدَ أَكْلِ ذَلِكَ الطَّعَامِ الْحَارِّ.",
-    "category": "Anggota Badan"
+    "category": "Anggota Badan",
+    "pronunciation": "Batnun",
+    "example_id": "Perut saya kenyang"
   },
   {
     "id": 835,
@@ -7521,7 +7729,9 @@
     "id_lang": "Dada",
     "example_en": "The doctor listened carefully to the patient's chest during the checkup.",
     "example_ar": "اسْتَمَعَ الطَّبِيبُ بِعِنَايَةٍ إِلَى صَدْرِ الْمَرِيضِ خِلَالَ الْفَحْصِ.",
-    "category": "Anggota Badan"
+    "category": "Anggota Badan",
+    "pronunciation": "Sadrun",
+    "example_id": "Dada saya sesak"
   },
   {
     "id": 837,
@@ -7530,7 +7740,9 @@
     "id_lang": "Kaki",
     "example_en": "His leg was injured during the intense football match yesterday.",
     "example_ar": "أُصِيبَتْ رِجْلُهُ خِلَالَ مُبَارَاةِ كُرَةِ الْقَدَمِ الْقَوِيَّةِ أَمْسِ.",
-    "category": "Anggota Badan"
+    "category": "Anggota Badan",
+    "pronunciation": "Qadamun",
+    "example_id": "Kaki saya lelah"
   },
   {
     "id": 838,
@@ -7539,7 +7751,9 @@
     "id_lang": "Suami",
     "example_en": "Her husband works as an electrical engineer at a multinational company.",
     "example_ar": "يَعْمَلُ زَوْجُهَا كَمُهَنْدِسٍ كَهْرَبَائِيٍّ فِي شَرِكَةٍ مُتَعَدِّدَةِ الْجِنْسِيَّاتِ.",
-    "category": "Keluarga"
+    "category": "Keluarga",
+    "pronunciation": "Zawjun",
+    "example_id": "Suami istri bahagia"
   },
   {
     "id": 839,
@@ -8160,7 +8374,9 @@
     "id_lang": "Coklat",
     "example_en": "She wears a beautiful brown leather jacket during the winter season.",
     "example_ar": "تَرْتَدِي سُتْرَةً جِلْدِيَّةً بُنِّيَّةً جَمِيلَةً خِلَالَ فَصْلِ الشِّتَاءِ.",
-    "category": "Warna"
+    "category": "Warna",
+    "pronunciation": "Bunniyyun",
+    "example_id": "Tanah berwarna coklat"
   },
   {
     "id": 908,
@@ -8178,7 +8394,9 @@
     "id_lang": "Abu-abu",
     "example_en": "The sky turned gray just before the heavy rain started to fall.",
     "example_ar": "تَحَوَّلَتِ السَّمَاءُ إِلَى اللَّوْنِ الرَّمَادِيِّ قَبْلَ أَنْ يَبْدَأَ الْمَطَرُ الْغَزِيرُ فِي النُّزُولِ.",
-    "category": "Warna"
+    "category": "Warna",
+    "pronunciation": "Ramadiyyun",
+    "example_id": "Awan berwarna abu-abu"
   },
   {
     "id": 910,
@@ -8241,7 +8459,9 @@
     "id_lang": "Basah",
     "example_en": "Please do not sit on that bench because it is still wet from the rain.",
     "example_ar": "رَجَاءً لَا تَجْلِسْ عَلَى تِلْكَ الْمِقْعَدِ لِأَنَّهُ مَا زَالُ مَبْلُولًا مِنَ الْمَطَرِ.",
-    "category": "Rasa"
+    "category": "Rasa",
+    "pronunciation": "Mablulun",
+    "example_id": "Baju itu basah"
   },
   {
     "id": 917,
@@ -8250,7 +8470,9 @@
     "id_lang": "Kering",
     "example_en": "The soil became very dry and cracked during the long summer season.",
     "example_ar": "أَصْبَحَتِ التُّرْبَةُ جَافَّةً جِدًّا وَمُتَشَقِّقَةً خِلَالَ فَصْلِ الصَّيْفِ الطَّوِيلِ.",
-    "category": "Rasa"
+    "category": "Rasa",
+    "pronunciation": "Jaffun",
+    "example_id": "Tanah itu kering"
   },
   {
     "id": 918,
@@ -8403,7 +8625,9 @@
     "id_lang": "Anggur",
     "example_en": "My little brother loves eating sweet purple grapes from the local farm.",
     "example_ar": "يُحِبُّ أَخِي الصَّغِيرُ أَكْلَ الْعِنَبِ الْبَنَفْسَجِيِّ الْحُلْوِ مِنَ الْمَزْرَعَةِ الْمَحَلِّيَّةِ.",
-    "category": "Buah"
+    "category": "Buah",
+    "pronunciation": "Inabun",
+    "example_id": "Anggur ungu"
   },
   {
     "id": 935,
@@ -8574,7 +8798,9 @@
     "id_lang": "Hotel",
     "example_en": "We booked a five-star hotel that offers amazing sea views from the balcony.",
     "example_ar": "حَجَزْنَا فُنْدُقًا خَمْسَ نُجُومٍ يُوَفِّرُ إِطْلَالَاتٍ بَحْرِيَّةً مُذْهِلَةً مِنَ الشُّرْفَةِ.",
-    "category": "Tempat"
+    "category": "Tempat",
+    "pronunciation": "Funduqun",
+    "example_id": "Kami menginap di hotel"
   },
   {
     "id": 954,
@@ -8637,7 +8863,9 @@
     "id_lang": "Restoran",
     "example_en": "This traditional restaurant is famous for serving organic Middle Eastern dishes.",
     "example_ar": "هَذَا الْمَطْعَمُ التَّقْلِيدِيُّ مَشْهُورٌ بِتَقْدِيمِ الْأَطْبَاقِ الشَّرْقِ أَوْسَطِيَّةِ الْعُضْوِيَّةِ.",
-    "category": "Tempat"
+    "category": "Tempat",
+    "pronunciation": "Matamun",
+    "example_id": "Kami makan di restoran"
   },
   {
     "id": 961,
@@ -8646,7 +8874,9 @@
     "id_lang": "Taman",
     "example_en": "Many people go to the public park in the morning for jogging and cycling.",
     "example_ar": "يَذْهَبُ كَثِيرٌ مِنَ النَّاسِ إِلَى الْحَدِيقَةِ الْعَامَّةِ فِي الصَّبَاحِ لِلْجَرْيِ وَرُكُوبِ الدَّرَّاجَاتِ.",
-    "category": "Tempat"
+    "category": "Tempat",
+    "pronunciation": "Hadiqatun",
+    "example_id": "Anak bermain di taman"
   },
   {
     "id": 962,
@@ -8727,7 +8957,9 @@
     "id_lang": "Sekolah",
     "example_en": "The children walk together to school every morning with happy faces.",
     "example_ar": "يَمْشِي الْأَطْفَالُ مَعًا إِلَى الْمَدْرَسَةِ كُلَّ صَبَاحٍ بِوُجُوهٍ سَعِيدَةٍ.",
-    "category": "Tempat"
+    "category": "Tempat",
+    "pronunciation": "Madrasatun",
+    "example_id": "Saya belajar di sekolah"
   },
   {
     "id": 971,
@@ -9051,7 +9283,9 @@
     "id_lang": "Mendengar",
     "example_en": "They listen to the morning news on the radio.",
     "example_ar": "هُمْ يَسْمَعُونَ أَخْبَارَ الصَّبَاحِ عَلَى الرَّادْيُو.",
-    "category": "Kata Kerja"
+    "category": "Kata Kerja",
+    "pronunciation": "Yasmau",
+    "example_id": "Saya mendengar suara"
   },
   {
     "id": 1007,
@@ -9070,5 +9304,423 @@
     "example_en": "The flowers in the garden are very beautiful.",
     "example_ar": "الْأَزْهَارُ فِي الْحَدِيقَةِ جَمِيلَةٌ جِدًّا.",
     "category": "Sifat"
+  },
+  {
+    "id": 1009,
+    "en": "Drink",
+    "ar": "يَشْرَبُ",
+    "id_lang": "Minum",
+    "example_en": "I drink water",
+    "example_ar": "أَشْرَبُ المَاءَ",
+    "category": "Kata Kerja",
+    "pronunciation": "Yashrabu",
+    "example_id": "Saya minum air putih"
+  },
+  {
+    "id": 1010,
+    "en": "Sleep",
+    "ar": "يَنَامُ",
+    "id_lang": "Tidur",
+    "example_en": "I sleep tonight",
+    "example_ar": "أَنَامُ اللَّيْلَةَ",
+    "category": "Kata Kerja",
+    "pronunciation": "Yanamu",
+    "example_id": "Saya tidur malam ini"
+  },
+  {
+    "id": 1011,
+    "en": "Run",
+    "ar": "يَجْرِي",
+    "id_lang": "Berlari",
+    "example_en": "The child runs fast",
+    "example_ar": "الطِّفْلُ يَجْرِي سَرِيعًا",
+    "category": "Kata Kerja",
+    "pronunciation": "Yajri",
+    "example_id": "Anak itu berlari cepat"
+  },
+  {
+    "id": 1012,
+    "en": "Go",
+    "ar": "يَذْهَبُ",
+    "id_lang": "Pergi",
+    "example_en": "I go to the market",
+    "example_ar": "أَذْهَبُ إِلَى السُّوقِ",
+    "category": "Kata Kerja",
+    "pronunciation": "Yazhabu",
+    "example_id": "Saya pergi ke pasar"
+  },
+  {
+    "id": 1013,
+    "en": "Big",
+    "ar": "كَبِيرٌ",
+    "id_lang": "Besar",
+    "example_en": "The house is very big",
+    "example_ar": "البَيْتُ كَبِيرٌ جِدًّا",
+    "category": "Kata Sifat",
+    "pronunciation": "Kabirun",
+    "example_id": "Rumah itu sangat besar"
+  },
+  {
+    "id": 1014,
+    "en": "Small",
+    "ar": "صَغِيرٌ",
+    "id_lang": "Kecil",
+    "example_en": "The kitten is small",
+    "example_ar": "الهِرُّ صَغِيرٌ",
+    "category": "Kata Sifat",
+    "pronunciation": "Saghirun",
+    "example_id": "Anak kucing itu kecil"
+  },
+  {
+    "id": 1015,
+    "en": "Tall",
+    "ar": "طَوِيلٌ",
+    "id_lang": "Tinggi",
+    "example_en": "The tree is very tall",
+    "example_ar": "الشَّجَرَةُ طَوِيلَةٌ جِدًّا",
+    "category": "Kata Sifat",
+    "pronunciation": "Tawilun",
+    "example_id": "Pohon itu sangat tinggi"
+  },
+  {
+    "id": 1016,
+    "en": "Short",
+    "ar": "قَصِيرٌ",
+    "id_lang": "Pendek",
+    "example_en": "His hair is short",
+    "example_ar": "شَعْرُهُ قَصِيرٌ",
+    "category": "Kata Sifat",
+    "pronunciation": "Qasirun",
+    "example_id": "Rambutnya pendek"
+  },
+  {
+    "id": 1017,
+    "en": "Long",
+    "ar": "طَوِيلٌ",
+    "id_lang": "Panjang",
+    "example_en": "The road is long",
+    "example_ar": "الطَّرِيقُ طَوِيلٌ",
+    "category": "Kata Sifat",
+    "pronunciation": "Tawilun",
+    "example_id": "Jalan itu panjang"
+  },
+  {
+    "id": 1018,
+    "en": "Wide",
+    "ar": "وَاسِعٌ",
+    "id_lang": "Lebar",
+    "example_en": "The river is wide",
+    "example_ar": "النَّهْرُ وَاسِعٌ",
+    "category": "Kata Sifat",
+    "pronunciation": "Wasiun",
+    "example_id": "Sungai itu lebar"
+  },
+  {
+    "id": 1019,
+    "en": "Narrow",
+    "ar": "ضَيِّقٌ",
+    "id_lang": "Sempit",
+    "example_en": "The road is narrow",
+    "example_ar": "الطَّرِيقُ ضَيِّقٌ",
+    "category": "Kata Sifat",
+    "pronunciation": "Dayyiqun",
+    "example_id": "Jalan itu sempit"
+  },
+  {
+    "id": 1020,
+    "en": "Heavy",
+    "ar": "ثَقِيلٌ",
+    "id_lang": "Berat",
+    "example_en": "The suitcase is heavy",
+    "example_ar": "الحَقِيبَةُ ثَقِيلَةٌ",
+    "category": "Kata Sifat",
+    "pronunciation": "Tsaqilun",
+    "example_id": "Koper itu berat"
+  },
+  {
+    "id": 1021,
+    "en": "Light",
+    "ar": "خَفِيفٌ",
+    "id_lang": "Ringan",
+    "example_en": "This bag is light",
+    "example_ar": "الحَقِيبَةُ خَفِيفَةٌ",
+    "category": "Kata Sifat",
+    "pronunciation": "Khafifun",
+    "example_id": "Tas ini ringan"
+  },
+  {
+    "id": 1022,
+    "en": "Hard",
+    "ar": "صَلْبٌ",
+    "id_lang": "Keras",
+    "example_en": "The stone is hard",
+    "example_ar": "الحَجَرُ صَلْبٌ",
+    "category": "Kata Sifat",
+    "pronunciation": "Salbun",
+    "example_id": "Batu itu keras"
+  },
+  {
+    "id": 1023,
+    "en": "Soft",
+    "ar": "نَاعِمٌ",
+    "id_lang": "Lunak",
+    "example_en": "The fabric is soft",
+    "example_ar": "القُمَاشُ نَاعِمٌ",
+    "category": "Kata Sifat",
+    "pronunciation": "Naimun",
+    "example_id": "Kain itu lunak"
+  },
+  {
+    "id": 1024,
+    "en": "New",
+    "ar": "جَدِيدٌ",
+    "id_lang": "Baru",
+    "example_en": "The car is new",
+    "example_ar": "السَّيَّارَةُ جَدِيدَةٌ",
+    "category": "Kata Sifat",
+    "pronunciation": "Jadidun",
+    "example_id": "Mobil itu baru"
+  },
+  {
+    "id": 1025,
+    "en": "Old",
+    "ar": "قَدِيمٌ",
+    "id_lang": "Lama",
+    "example_en": "The building is old",
+    "example_ar": "المَبْنَى قَدِيمٌ",
+    "category": "Kata Sifat",
+    "pronunciation": "Qadimun",
+    "example_id": "Bangunan itu lama"
+  },
+  {
+    "id": 1026,
+    "en": "Good",
+    "ar": "جَيِّدٌ",
+    "id_lang": "Bagus",
+    "example_en": "The movie is good",
+    "example_ar": "الفِلْمُ جَيِّدٌ",
+    "category": "Kata Sifat",
+    "pronunciation": "Jayyidun",
+    "example_id": "Film itu bagus"
+  },
+  {
+    "id": 1027,
+    "en": "Bad",
+    "ar": "سَيِّئٌ",
+    "id_lang": "Buruk",
+    "example_en": "The behavior is bad",
+    "example_ar": "السُّلُوكُ سَيِّئٌ",
+    "category": "Kata Sifat",
+    "pronunciation": "Sayyiun",
+    "example_id": "Perilaku itu buruk"
+  },
+  {
+    "id": 1028,
+    "en": "Beautiful",
+    "ar": "جَمِيلٌ",
+    "id_lang": "Indah",
+    "example_en": "The view is beautiful",
+    "example_ar": "المَنْظَرُ جَمِيلٌ",
+    "category": "Kata Sifat",
+    "pronunciation": "Jamilun",
+    "example_id": "Pemandangan itu indah"
+  },
+  {
+    "id": 1029,
+    "en": "House",
+    "ar": "بَيْتٌ",
+    "id_lang": "Rumah",
+    "example_en": "My house is big and comfortable",
+    "example_ar": "بَيْتِي كَبِيرٌ وَمُرِيحٌ",
+    "category": "Kata Benda",
+    "pronunciation": "Baytun",
+    "example_id": "Rumah saya besar dan nyaman"
+  },
+  {
+    "id": 1030,
+    "en": "Door",
+    "ar": "بَابٌ",
+    "id_lang": "Pintu",
+    "example_en": "Please close the door",
+    "example_ar": "أَغْلِقِ البَابَ رَجَاءً",
+    "category": "Kata Benda",
+    "pronunciation": "Babun",
+    "example_id": "Tolong tutup pintu"
+  },
+  {
+    "id": 1031,
+    "en": "Chair",
+    "ar": "كُرْسِيٌّ",
+    "id_lang": "Kursi",
+    "example_en": "Sit on this chair",
+    "example_ar": "اجْلِسْ عَلَى هَذَا الكُرْسِيِّ",
+    "category": "Kata Benda",
+    "pronunciation": "Kursiyyun",
+    "example_id": "Duduklah di kursi ini"
+  },
+  {
+    "id": 1032,
+    "en": "Plate",
+    "ar": "صَحْنٌ",
+    "id_lang": "Piring",
+    "example_en": "Put the food on the plate",
+    "example_ar": "ضَعِ الطَّعَامَ عَلَى الصَّحْنِ",
+    "category": "Kata Benda",
+    "pronunciation": "Sahnun",
+    "example_id": "Letakkan makanan di piring"
+  },
+  {
+    "id": 1033,
+    "en": "Glass",
+    "ar": "كَأْسٌ",
+    "id_lang": "Gelas",
+    "example_en": "Drink water from the glass",
+    "example_ar": "اشْرَبِ المَاءَ مِنَ الكَأْسِ",
+    "category": "Kata Benda",
+    "pronunciation": "Ka-sun",
+    "example_id": "Minum air dari gelas"
+  },
+  {
+    "id": 1034,
+    "en": "Spoon",
+    "ar": "مِلْعَقَةٌ",
+    "id_lang": "Sendok",
+    "example_en": "Eat soup with a spoon",
+    "example_ar": "كُلِ الحَسَاءَ بِالْمِلْعَقَةِ",
+    "category": "Kata Benda",
+    "pronunciation": "Mil-aqatun",
+    "example_id": "Makan sup dengan sendok"
+  },
+  {
+    "id": 1035,
+    "en": "Knife",
+    "ar": "سِكِّينٌ",
+    "id_lang": "Pisau",
+    "example_en": "The knife is very sharp",
+    "example_ar": "السِّكِّينُ حَادٌّ جِدًّا",
+    "category": "Kata Benda",
+    "pronunciation": "Sikkinun",
+    "example_id": "Pisau itu sangat tajam"
+  },
+  {
+    "id": 1036,
+    "en": "Rice",
+    "ar": "أَرُزٌّ",
+    "id_lang": "Nasi",
+    "example_en": "I eat rice every day",
+    "example_ar": "آكُلُ الأَرُزَّ كُلَّ يَوْمٍ",
+    "category": "Makanan",
+    "pronunciation": "Aruzzun",
+    "example_id": "Saya makan nasi setiap hari"
+  },
+  {
+    "id": 1037,
+    "en": "Meat",
+    "ar": "لَحْمٌ",
+    "id_lang": "Daging",
+    "example_en": "This meat is delicious",
+    "example_ar": "هَذَا اللَّحْمُ لَذِيذٌ",
+    "category": "Makanan",
+    "pronunciation": "Lahmun",
+    "example_id": "Daging ini enak"
+  },
+  {
+    "id": 1038,
+    "en": "Vegetable",
+    "ar": "خُضَارٌ",
+    "id_lang": "Sayur",
+    "example_en": "Vegetables are healthy",
+    "example_ar": "الخُضَارُ صِحِّيٌّ",
+    "category": "Makanan",
+    "pronunciation": "Khudarun",
+    "example_id": "Sayur sehat untuk tubuh"
+  },
+  {
+    "id": 1039,
+    "en": "Fruit",
+    "ar": "فَاكِهَةٌ",
+    "id_lang": "Buah",
+    "example_en": "Fresh fruits",
+    "example_ar": "فَوَاكِهُ طَازِجَةٌ",
+    "category": "Makanan",
+    "pronunciation": "Fakihatun",
+    "example_id": "Buah-buahan segar"
+  },
+  {
+    "id": 1040,
+    "en": "Oil",
+    "ar": "زَيْتٌ",
+    "id_lang": "Minyak",
+    "example_en": "Cooking oil",
+    "example_ar": "زَيْتُ الطَّبْخِ",
+    "category": "Makanan",
+    "pronunciation": "Zaytun",
+    "example_id": "Minyak goreng"
+  },
+  {
+    "id": 1041,
+    "en": "Older Sibling",
+    "ar": "أَخٌ كَبِيرٌ",
+    "id_lang": "Kakak",
+    "example_en": "My older sibling is studying",
+    "example_ar": "أَخِي الكَبِيرُ يَدْرُسُ",
+    "category": "Keluarga",
+    "pronunciation": "Akhu Kabirun",
+    "example_id": "Kakak saya belajar"
+  },
+  {
+    "id": 1042,
+    "en": "Younger Sibling",
+    "ar": "أَخٌ صَغِيرٌ",
+    "id_lang": "Adik",
+    "example_en": "My younger sibling is still young",
+    "example_ar": "أَخِي الصَّغِيرُ صَغِيرٌ",
+    "category": "Keluarga",
+    "pronunciation": "Akhu Saghirun",
+    "example_id": "Adik saya masih kecil"
+  },
+  {
+    "id": 1043,
+    "en": "Uncle",
+    "ar": "عَمٌّ",
+    "id_lang": "Paman",
+    "example_en": "Uncle came to visit",
+    "example_ar": "العَمُّ زَارَنَا",
+    "category": "Keluarga",
+    "pronunciation": "Ammun",
+    "example_id": "Paman datang berkunjung"
+  },
+  {
+    "id": 1044,
+    "en": "Merchant",
+    "ar": "تَاجِرٌ",
+    "id_lang": "Pedagang",
+    "example_en": "The merchant sells goods",
+    "example_ar": "التَّاجِرُ يَبِيعُ البَضَائِعَ",
+    "category": "Profesi",
+    "pronunciation": "Tajirun",
+    "example_id": "Pedagang menjual barang"
+  },
+  {
+    "id": 1045,
+    "en": "Wind",
+    "ar": "رِيحٌ",
+    "id_lang": "Angin",
+    "example_en": "The wind blows gently",
+    "example_ar": "تَهُبُّ الرِّيحُ لَطِيفَةً",
+    "category": "Alam",
+    "pronunciation": "Rihun",
+    "example_id": "Angin bertiup sepoi-sepoi"
+  },
+  {
+    "id": 1046,
+    "en": "Soil",
+    "ar": "تُرْبَةٌ",
+    "id_lang": "Tanah",
+    "example_en": "The soil is fertile and loose",
+    "example_ar": "التُّرْبَةُ خَصِبَةٌ وَهَشَّةٌ",
+    "category": "Alam",
+    "pronunciation": "Turbatun",
+    "example_id": "Tanah itu subur dan gembur"
   }
 ]

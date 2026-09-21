@@ -1,28 +1,63 @@
 import { NextResponse } from 'next/server';
-import { GoogleGenerativeAI } from "@google/generative-ai"; // Gunakan Gemini API
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+// Trik 1: Paksa Vercel untuk menunggu hingga 60 detik (batas maksimal akun gratis)
+export const maxDuration = 60;
+export const dynamic = 'force-dynamic';
 
 export async function POST(req) {
-  const { text, targetLang, mode } = await req.json();
-  
-  const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-
-  const prompt = `
-    Anda adalah asisten penerjemah profesional "Lingua AI".
-    Mode: ${mode === 'translate' ? 'Terjemahan Natural' : 'AI Assistant'}
-    Tujuan Bahasa: ${targetLang}
-    Input: "${text}"
+  try {
+    const body = await req.json();
     
-    Tugas:
-    1. Deteksi bahasa asal secara otomatis.
-    2. Terjemahkan dengan menjaga konteks, idiom, dan nuansa (bukan literal).
-    3. Jika mode translate, berikan hasil terjemahan, IPA (cara baca), dan penjelasan singkat (vocabulary/grammar).
-    4. Format output dalam JSON: { "detectedLang": "...", "translation": "...", "ipa": "...", "explanation": "..." }
-  `;
+    // Ambil teks pesan dan target bahasa yang dikirim dari Frontend
+    const userText = body.text || body.message || body.input;
+    // Default ke bahasa Inggris jika frontend tidak mengirimkan target bahasa
+    const targetLanguage = body.targetLang || body.target || "Inggris"; 
 
-  const result = await model.generateContent(prompt);
-  const response = await result.response.text();
-  
-  return NextResponse.json(JSON.parse(response));
+    if (!userText) {
+      return NextResponse.json({ error: "Pesan tidak boleh kosong" }, { status: 400 });
+    }
+
+    const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+    const model = genAI.getGenerativeModel({ 
+      model: "gemini-3.5-flash",
+      generationConfig: {
+        temperature: 0.2, // Turunkan sedikit lagi agar respon lebih cepat & presisi
+        maxOutputTokens: 800, 
+      }
+    });
+
+    // Trik 2: Prompt dinamis mengikuti tombol bahasa di UI Anda
+   const prompt = `
+You are a professional translator.
+Rules:
+- Detect the input language automatically.
+- Translate naturally.
+- Translate like a native speaker.
+- Keep punctuation.
+- Keep emojis.
+- Keep names.
+- Keep numbers.
+- Never explain.
+- Never answer questions.
+- Never add notes.
+- Never add quotation marks.
+- Output ONLY the translated text.
+Target Language: ${targetLanguage}
+Text:
+${userText}"`;
+
+    const result = await model.generateContent(prompt);
+    const responseText = await result.response.text();
+
+    return NextResponse.json({ 
+      reply: responseText, 
+      translation: responseText,
+      text: responseText
+    });
+
+  } catch (error) {
+    console.error("Lingua AI Server Error:", error);
+    return NextResponse.json({ error: "Gagal memproses data di server AI." }, { status: 500 });
+  }
 }
