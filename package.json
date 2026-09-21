@@ -1,6 +1,6 @@
 {
   "name": "lingospace-pro",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -10,7 +10,9 @@
     "validate:data": "node scripts/validate-data.mjs",
     "validate:learning": "node scripts/validate-learning-engine.mjs",
     "validate:premium": "node scripts/validate-premium-learning.mjs",
-    "validate:production": "node scripts/validate-production.mjs"
+    "validate:production": "node scripts/validate-production.mjs",
+    "validate:release": "node scripts/validate-release.mjs",
+    "release:check": "npm run validate:data && npm run validate:learning && npm run validate:premium && npm run validate:production && npm run validate:release"
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
@@ -24,5 +26,9 @@
     "eslint": "^9",
     "eslint-config-next": "16.2.10",
     "tailwindcss": "^4"
+  },
+  "type": "module",
+  "engines": {
+    "node": ">=20.9.0"
   }
 }

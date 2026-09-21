@@ -1,36 +1,41 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# LingoSpace Pro
 
-## Getting Started
+LingoSpace Pro adalah PWA pembelajaran Bahasa Indonesia–English–Arabic dengan vocabulary, Flashcard SRS, Review Hari Ini, Quiz, Listening, Speaking Practice, English/Nahwu lesson, mini games, Mistake Book, XP/level, analytics belajar, LingoSpace AI, offline cache, backup/restore, serta login dan cloud sync Firebase opsional.
 
-First, run the development server:
+## Requirements
+- Node.js >= 20.9
+- npm
+- Gemini API key untuk fitur AI/fallback translator
+- Firebase Web project jika login/cloud sync diperlukan
 
+## Local development
 ```bash
+cp .env.example .env.local
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Buka `http://localhost:3000`.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## Validasi release
+```bash
+npm run release:check
+npm run lint
+npm run build
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+`release:check` menjalankan validator data, Learning Engine, Premium Learning, cloud-sync production, dan baseline release/security.
 
-## Learn More
+## Environment
+Gunakan `.env.example` sebagai daftar environment variable. Jangan commit `.env.local` atau credential Firebase Admin/service-account.
 
-To learn more about Next.js, take a look at the following resources:
+## Production
+Baca:
+- `PRODUCTION_SETUP.md`
+- `RELEASE_CHECKLIST.md`
+- `firestore.rules`
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Mode tamu tetap berjalan secara lokal tanpa Firebase. Fitur AI memerlukan konfigurasi server-side.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Version
+Target paket ini: **LingoSpace Pro v1.0.0 — Stage 6 Final QA / Production Launch**.
