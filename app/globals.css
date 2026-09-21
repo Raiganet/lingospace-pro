@@ -458,10 +458,10 @@ button { cursor: pointer; }
 .app-heading { color: var(--app-text); }
 .app-muted { color: var(--app-muted); }
 .app-content-column { min-width: 0; }
-.app-main { min-height: calc(100vh - 72px); padding: 1rem .75rem 6.75rem; }
+.app-main { min-height: calc(100vh - 72px); padding: 1rem .75rem 5.75rem; }
 
 @media (min-width: 640px) {
-  .app-main { padding: 1.5rem 1.5rem 7rem; }
+  .app-main { padding: 1.5rem 1.5rem 6rem; }
 }
 
 @media (min-width: 1024px) {
@@ -535,12 +535,24 @@ button { cursor: pointer; }
 .top-search-button kbd { margin-left:auto; padding:.12rem .38rem; border-radius:6px; border:1px solid var(--app-border); background:var(--app-surface-3); font-size:.64rem; color:var(--app-subtle); }
 
 .mobile-bottom-nav {
-  position:fixed; z-index:55; left:.6rem; right:.6rem; bottom:max(.6rem, env(safe-area-inset-bottom));
-  min-height:4.25rem; display:grid; grid-template-columns:repeat(5,1fr); align-items:center; padding:.35rem;
-  border:1px solid var(--app-border); border-radius:20px; background:var(--app-surface-2); background:color-mix(in srgb, var(--app-surface-2) 90%, transparent); backdrop-filter:blur(22px) saturate(150%); box-shadow:var(--app-shadow);
+  position:fixed; z-index:55; left:.5rem; right:.5rem; bottom:max(.45rem, env(safe-area-inset-bottom));
+  min-height:3.75rem; display:grid; grid-template-columns:repeat(5,1fr); align-items:center; padding:.25rem;
+  border:1px solid var(--app-border); border-radius:18px; background:var(--app-surface-2); background:color-mix(in srgb, var(--app-surface-2) 90%, transparent); backdrop-filter:blur(22px) saturate(150%); box-shadow:var(--app-shadow);
 }
-.mobile-nav-item { min-width:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:.2rem; height:3.4rem; border-radius:15px; color:var(--app-muted); font-size:.62rem; font-weight:700; }
+.mobile-nav-item { min-width:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:.12rem; height:3rem; border-radius:13px; color:var(--app-muted); font-size:.58rem; font-weight:700; }
+.mobile-nav-item svg { width:18px; height:18px; }
 .mobile-nav-item.is-active { color:#8b5cf6; background:rgba(139,92,246,.10); }
+
+/* Bottom navigation adalah navigasi khusus mobile/tablet kecil.
+   Saat sidebar desktop aktif, sembunyikan navbar bawah secara eksplisit.
+   Rule ini sengaja tidak hanya mengandalkan utility `lg:hidden` agar tetap aman
+   jika utility CSS belum ter-generate/ter-cache dengan benar saat deploy. */
+@media (min-width:1024px) {
+  .mobile-bottom-nav,
+  .mobile-sheet-backdrop {
+    display:none !important;
+  }
+}
 .mobile-sheet-backdrop { position:fixed; inset:0; z-index:80; display:flex; align-items:flex-end; background:rgba(3,3,7,.54); backdrop-filter:blur(4px); }
 .mobile-sheet { width:100%; max-height:88vh; overflow-y:auto; padding:.55rem 1rem max(1.15rem,env(safe-area-inset-bottom)); border-radius:28px 28px 0 0; background:var(--app-surface-2); border:1px solid var(--app-border); box-shadow:0 -22px 60px rgba(0,0,0,.24); }
 .mobile-sheet-handle { width:2.6rem; height:.28rem; margin:.1rem auto 1rem; border-radius:999px; background:var(--app-border-strong); }
@@ -648,7 +660,7 @@ html[data-theme="light"] .glass-panel .text-white { color:var(--app-text); }
 .achievement-state.is-unlocked { color:#10b981; background:rgba(16,185,129,.10); }
 
 /* Footer now follows the app shell */
-.app-content-column footer { margin-top:0; margin-bottom:5.25rem; border-color:var(--app-border); background:transparent; }
+.app-content-column footer { margin-top:0; margin-bottom:4.65rem; border-color:var(--app-border); background:transparent; }
 @media(min-width:1024px){ .app-content-column footer { margin-bottom:0; } }
 .app-content-column footer .text-gray-400 { color:var(--app-muted); }
 

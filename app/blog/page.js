@@ -335,19 +335,22 @@ export default function Blog() {
 
             {/* Info */}
             <div>
-              <h3 className="font-bold text-lg mb-4 text-purple-300">Info</h3>
+              <h3 className="font-bold text-lg mb-4 text-purple-300">Kastriva</h3>
               <p className="text-gray-400 text-sm">
-                LingoSpace Pro adalah platform pembelajaran bahasa premium untuk Bahasa Arab dan Inggris.
+                LingoSpace Pro adalah produk pembelajaran Bahasa Arab dan Inggris yang dikembangkan oleh Kastriva.
               </p>
               <p className="text-gray-400 text-sm mt-2">
-                contact@raiganet.my.id
+                admin@kastriva.web.id
+              </p>
+              <p className="text-gray-400 text-sm mt-2">
+                <a href="https://www.kastriva.web.id/" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">www.kastriva.web.id</a>
               </p>
             </div>
           </div>
 
           <div className="text-center pt-6 border-t border-white/10">
             <p className="text-gray-400 text-sm">
-              © {new Date().getFullYear()} LingoSpace Pro. All rights reserved.
+              © {new Date().getFullYear()} Kastriva. All rights reserved.
             </p>
           </div>
         </div>

@@ -38,4 +38,4 @@ Baca:
 Mode tamu tetap berjalan secara lokal tanpa Firebase. Fitur AI memerlukan konfigurasi server-side.
 
 ## Version
-Target paket ini: **LingoSpace Pro v1.0.0 — Stage 6 Final QA / Production Launch**.
+Target paket ini: **LingoSpace Pro v1.0.2 — Kastriva contact & footer branding patch setelah Stage 6**.

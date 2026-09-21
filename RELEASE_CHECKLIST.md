@@ -30,7 +30,7 @@
 - [ ] `/sw.js` merespons JavaScript, bukan HTML.
 - [ ] Install dari Android/desktop berhasil.
 - [ ] Buka Flashcard/lesson saat online, lalu ulangi saat offline.
-- [ ] Deploy versi baru dan pastikan cache lama berganti ke `lingospace-v1.0.0-20260921`.
+- [ ] Deploy versi baru dan pastikan cache lama berganti ke `lingospace-v1.0.1-20260921-navbar-fix`.
 
 ## E. QA perangkat nyata
 - [ ] Android Chrome — portrait.

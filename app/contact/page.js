@@ -3,8 +3,8 @@
 import Link from 'next/link';
 import { useState } from 'react';
 
-const CONTACT_EMAIL = process.env.NEXT_PUBLIC_CONTACT_EMAIL || 'diky.hermansyah91@gmail.com';
-const MAIN_WEBSITE = process.env.NEXT_PUBLIC_MAIN_WEBSITE || 'https://www.raiganet.my.id';
+const CONTACT_EMAIL = process.env.NEXT_PUBLIC_CONTACT_EMAIL || 'admin@kastriva.web.id';
+const MAIN_WEBSITE = process.env.NEXT_PUBLIC_MAIN_WEBSITE || 'https://www.kastriva.web.id/';
 
 export default function Contact() {
   const [formData, setFormData] = useState({ name: '', email: '', subject: '', message: '' });
