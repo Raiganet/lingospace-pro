@@ -13,7 +13,7 @@ export async function GET() {
   };
 
   const worker = `
-const CACHE_VERSION = 'lingospace-v1.0.2-20260921-kastriva-branding';
+const CACHE_VERSION = 'lingospace-v1.0.3-20260921-build-fix';
 const STATIC_CACHE = CACHE_VERSION + '-static';
 const RUNTIME_CACHE = CACHE_VERSION + '-runtime';
 const DATA_CACHE = CACHE_VERSION + '-data';

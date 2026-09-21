@@ -8,7 +8,6 @@ import {
   CloudOff,
   Download,
   HardDriveDownload,
-  Install,
   KeyRound,
   LogIn,
   LogOut,
@@ -322,14 +321,14 @@ export default function AccountCenter() {
         </section>
 
         <section className="premium-panel account-card">
-          <div className="account-card-head"><div><p className="panel-kicker">PWA</p><h3 className="panel-title">Install & Offline</h3></div><span className="premium-round-icon"><Install size={20} /></span></div>
+          <div className="account-card-head"><div><p className="panel-kicker">PWA</p><h3 className="panel-title">Install & Offline</h3></div><span className="premium-round-icon"><Download size={20} /></span></div>
           <p className="app-muted text-sm">Service worker menyimpan shell aplikasi, data vocabulary/lesson, dan aset yang sudah pernah digunakan agar pengalaman offline lebih baik.</p>
           <div className="production-status-list">
             <span><CheckCircle2 size={16} /> Service worker otomatis diregistrasikan</span>
             <span><CheckCircle2 size={16} /> Halaman offline fallback</span>
             <span><CheckCircle2 size={16} /> Cache vocabulary & lesson API</span>
           </div>
-          {!installed && <button className="premium-button primary mt-4" onClick={installPwa}><Install size={17} /> {installAvailable ? 'Install LingoSpace' : 'Cara install aplikasi'}</button>}
+          {!installed && <button className="premium-button primary mt-4" onClick={installPwa}><Download size={17} /> {installAvailable ? 'Install LingoSpace' : 'Cara install aplikasi'}</button>}
           {installed && <div className="installed-badge"><CheckCircle2 size={16} /> Sudah berjalan sebagai aplikasi</div>}
         </section>
 
