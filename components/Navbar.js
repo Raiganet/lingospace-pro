@@ -36,41 +36,41 @@ const navigationGroups = [
     label: 'Utama',
     items: [
       { mode: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, description: 'Ringkasan progres belajar', tone: '#8b5cf6' },
-      { mode: 'review', label: 'Review Hari Ini', icon: CalendarClock, description: 'SRS kosakata yang jatuh tempo', tone: '#06b6d4' },
-      { mode: 'mistakes', label: 'Mistake Book', icon: AlertTriangle, description: 'Kata yang masih sering salah', tone: '#f59e0b' },
-      { mode: 'bookmarks', label: 'Favorit', icon: Heart, description: 'Kosakata yang disimpan', tone: '#ec4899' },
+      { mode: 'review', label: 'Review Hari Ini', icon: CalendarClock, description: 'SRS kosakata yang jatuh tempo', tone: '#8b5cf6' },
+      { mode: 'mistakes', label: 'Mistake Book', icon: AlertTriangle, description: 'Kata yang masih sering salah', tone: '#8b5cf6' },
+      { mode: 'bookmarks', label: 'Favorit', icon: Heart, description: 'Kosakata yang disimpan', tone: '#8b5cf6' },
     ],
   },
   {
     label: 'Belajar',
     items: [
       { mode: 'flashcard', label: 'Flashcard', icon: BookOpen, description: 'Latihan kosakata cepat', tone: '#3b82f6' },
-      { mode: 'quiz', label: 'Quiz', icon: Brain, description: 'Uji pemahaman kosakata', tone: '#a855f7' },
-      { mode: 'listen', label: 'Listening', icon: Headphones, description: 'Latihan pemahaman audio', tone: '#14b8a6' },
-      { mode: 'roadmap', label: 'Roadmap', icon: Map, description: 'Jalur belajar terarah', tone: '#10b981' },
+      { mode: 'quiz', label: 'Quiz', icon: Brain, description: 'Uji pemahaman kosakata', tone: '#3b82f6' },
+      { mode: 'listen', label: 'Listening', icon: Headphones, description: 'Latihan pemahaman audio', tone: '#3b82f6' },
+      { mode: 'roadmap', label: 'Roadmap', icon: Map, description: 'Jalur belajar terarah', tone: '#3b82f6' },
     ],
   },
   {
     label: 'Bahasa',
     items: [
       { mode: 'dictionary', label: 'Kamus', icon: Library, description: 'Kamus tematik 3 bahasa', tone: '#f43f5e' },
-      { mode: 'english', label: 'English', icon: GraduationCap, description: 'Materi Bahasa Inggris', tone: '#6366f1' },
-      { mode: 'nahwu', label: 'Nahwu', icon: BookMarked, description: 'Dasar tata bahasa Arab', tone: '#d946ef' },
+      { mode: 'english', label: 'English', icon: GraduationCap, description: 'Materi Bahasa Inggris', tone: '#f43f5e' },
+      { mode: 'nahwu', label: 'Nahwu', icon: BookMarked, description: 'Dasar tata bahasa Arab', tone: '#f43f5e' },
     ],
   },
   {
     label: 'Premium Learning',
     items: [
-      { mode: 'speaking', label: 'Speaking', icon: Mic, description: 'Latihan pronunciation dengan mikrofon', tone: '#ef4444' },
+      { mode: 'speaking', label: 'Speaking', icon: Mic, description: 'Latihan pronunciation dengan mikrofon', tone: '#f97316' },
       { mode: 'games', label: 'Mini Games', icon: Gamepad2, description: 'Match, susun kata & speed challenge', tone: '#f97316' },
-      { mode: 'analytics', label: 'Analytics', icon: BarChart3, description: 'XP, level & pola belajar', tone: '#0ea5e9' },
+      { mode: 'analytics', label: 'Analytics', icon: BarChart3, description: 'XP, level & pola belajar', tone: '#f97316' },
     ],
   },
   {
     label: 'Tools',
     items: [
       { mode: 'smarttranslator', label: 'LingoSpace AI', icon: Sparkles, description: 'Translator & tutor bahasa', tone: '#22c55e' },
-      { mode: 'prayers', label: 'Doa Harian', icon: Languages, description: 'Kumpulan doa sehari-hari', tone: '#0d9488' },
+      { mode: 'prayers', label: 'Doa Harian', icon: Languages, description: 'Kumpulan doa sehari-hari', tone: '#22c55e' },
     ],
   },
   {
