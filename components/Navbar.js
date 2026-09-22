@@ -35,48 +35,48 @@ const navigationGroups = [
   {
     label: 'Utama',
     items: [
-      { mode: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, description: 'Ringkasan progres belajar' },
-      { mode: 'review', label: 'Review Hari Ini', icon: CalendarClock, description: 'SRS kosakata yang jatuh tempo' },
-      { mode: 'mistakes', label: 'Mistake Book', icon: AlertTriangle, description: 'Kata yang masih sering salah' },
-      { mode: 'bookmarks', label: 'Favorit', icon: Heart, description: 'Kosakata yang disimpan' },
+      { mode: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, description: 'Ringkasan progres belajar', tone: '#8b5cf6' },
+      { mode: 'review', label: 'Review Hari Ini', icon: CalendarClock, description: 'SRS kosakata yang jatuh tempo', tone: '#06b6d4' },
+      { mode: 'mistakes', label: 'Mistake Book', icon: AlertTriangle, description: 'Kata yang masih sering salah', tone: '#f59e0b' },
+      { mode: 'bookmarks', label: 'Favorit', icon: Heart, description: 'Kosakata yang disimpan', tone: '#ec4899' },
     ],
   },
   {
     label: 'Belajar',
     items: [
-      { mode: 'flashcard', label: 'Flashcard', icon: BookOpen, description: 'Latihan kosakata cepat' },
-      { mode: 'quiz', label: 'Quiz', icon: Brain, description: 'Uji pemahaman kosakata' },
-      { mode: 'listen', label: 'Listening', icon: Headphones, description: 'Latihan pemahaman audio' },
-      { mode: 'roadmap', label: 'Roadmap', icon: Map, description: 'Jalur belajar terarah' },
+      { mode: 'flashcard', label: 'Flashcard', icon: BookOpen, description: 'Latihan kosakata cepat', tone: '#3b82f6' },
+      { mode: 'quiz', label: 'Quiz', icon: Brain, description: 'Uji pemahaman kosakata', tone: '#a855f7' },
+      { mode: 'listen', label: 'Listening', icon: Headphones, description: 'Latihan pemahaman audio', tone: '#14b8a6' },
+      { mode: 'roadmap', label: 'Roadmap', icon: Map, description: 'Jalur belajar terarah', tone: '#10b981' },
     ],
   },
   {
     label: 'Bahasa',
     items: [
-      { mode: 'dictionary', label: 'Kamus', icon: Library, description: 'Kamus tematik 3 bahasa' },
-      { mode: 'english', label: 'English', icon: GraduationCap, description: 'Materi Bahasa Inggris' },
-      { mode: 'nahwu', label: 'Nahwu', icon: BookMarked, description: 'Dasar tata bahasa Arab' },
+      { mode: 'dictionary', label: 'Kamus', icon: Library, description: 'Kamus tematik 3 bahasa', tone: '#f43f5e' },
+      { mode: 'english', label: 'English', icon: GraduationCap, description: 'Materi Bahasa Inggris', tone: '#6366f1' },
+      { mode: 'nahwu', label: 'Nahwu', icon: BookMarked, description: 'Dasar tata bahasa Arab', tone: '#d946ef' },
     ],
   },
   {
     label: 'Premium Learning',
     items: [
-      { mode: 'speaking', label: 'Speaking', icon: Mic, description: 'Latihan pronunciation dengan mikrofon' },
-      { mode: 'games', label: 'Mini Games', icon: Gamepad2, description: 'Match, susun kata & speed challenge' },
-      { mode: 'analytics', label: 'Analytics', icon: BarChart3, description: 'XP, level & pola belajar' },
+      { mode: 'speaking', label: 'Speaking', icon: Mic, description: 'Latihan pronunciation dengan mikrofon', tone: '#ef4444' },
+      { mode: 'games', label: 'Mini Games', icon: Gamepad2, description: 'Match, susun kata & speed challenge', tone: '#f97316' },
+      { mode: 'analytics', label: 'Analytics', icon: BarChart3, description: 'XP, level & pola belajar', tone: '#0ea5e9' },
     ],
   },
   {
     label: 'Tools',
     items: [
-      { mode: 'smarttranslator', label: 'LingoSpace AI', icon: Sparkles, description: 'Translator & tutor bahasa' },
-      { mode: 'prayers', label: 'Doa Harian', icon: Languages, description: 'Kumpulan doa sehari-hari' },
+      { mode: 'smarttranslator', label: 'LingoSpace AI', icon: Sparkles, description: 'Translator & tutor bahasa', tone: '#22c55e' },
+      { mode: 'prayers', label: 'Doa Harian', icon: Languages, description: 'Kumpulan doa sehari-hari', tone: '#0d9488' },
     ],
   },
   {
     label: 'Akun & Data',
     items: [
-      { mode: 'account', label: 'Akun & Sinkronisasi', icon: UserRound, description: 'Cloud sync, backup, PWA & reminder' },
+      { mode: 'account', label: 'Akun & Sinkronisasi', icon: UserRound, description: 'Cloud sync, backup, PWA & reminder', tone: '#64748b' },
     ],
   },
 ];
@@ -84,10 +84,10 @@ const navigationGroups = [
 const allItems = navigationGroups.flatMap((group) => group.items);
 
 const mobilePrimary = [
-  { mode: 'dashboard', label: 'Home', icon: Home },
-  { mode: 'flashcard', label: 'Belajar', icon: BookOpen },
-  { mode: 'dictionary', label: 'Kamus', icon: Library },
-  { mode: 'smarttranslator', label: 'AI', icon: Sparkles },
+  { mode: 'dashboard', label: 'Home', icon: Home, tone: '#8b5cf6' },
+  { mode: 'flashcard', label: 'Belajar', icon: BookOpen, tone: '#3b82f6' },
+  { mode: 'dictionary', label: 'Kamus', icon: Library, tone: '#f43f5e' },
+  { mode: 'smarttranslator', label: 'AI', icon: Sparkles, tone: '#22c55e' },
 ];
 
 export default function Navbar({ activeMode = 'dashboard', onModeChange }) {
@@ -165,7 +165,12 @@ export default function Navbar({ activeMode = 'dashboard', onModeChange }) {
                       className={`sidebar-item ${active ? 'is-active' : ''}`}
                       aria-current={active ? 'page' : undefined}
                     >
-                      <span className="sidebar-icon"><Icon size={18} strokeWidth={2} /></span>
+                      <span
+                        className="sidebar-icon"
+                        style={{ color: item.tone, background: `color-mix(in srgb, ${item.tone} 16%, transparent)` }}
+                      >
+                        <Icon size={18} strokeWidth={2} />
+                      </span>
                       <span className="min-w-0 flex-1 text-left">
                         <span className="block text-sm font-semibold">{item.label}</span>
                         <span className="block text-[11px] app-muted truncate">{item.description}</span>
@@ -231,6 +236,7 @@ export default function Navbar({ activeMode = 'dashboard', onModeChange }) {
               key={item.mode}
               onClick={() => selectMode(item.mode)}
               className={`mobile-nav-item ${active ? 'is-active' : ''}`}
+              style={{ color: item.tone }}
             >
               <Icon size={20} strokeWidth={active ? 2.5 : 2} />
               <span>{item.label}</span>
@@ -268,7 +274,12 @@ export default function Navbar({ activeMode = 'dashboard', onModeChange }) {
                     onClick={() => selectMode(item.mode)}
                     className={`mobile-feature-card ${active ? 'is-active' : ''}`}
                   >
-                    <span className="mobile-feature-icon"><Icon size={20} /></span>
+                    <span
+                      className="mobile-feature-icon"
+                      style={{ color: item.tone, background: `color-mix(in srgb, ${item.tone} 16%, transparent)` }}
+                    >
+                      <Icon size={20} />
+                    </span>
                     <span className="text-left min-w-0">
                       <span className="block text-sm font-bold app-heading">{item.label}</span>
                       <span className="block text-[11px] app-muted mt-0.5 line-clamp-2">{item.description}</span>
