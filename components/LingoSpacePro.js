@@ -31,10 +31,10 @@ const normalizeBookmarkIds = (storedBookmarks, vocabulary) => {
 
 const readAndMigrateSrs = (vocabulary) => readSrsState(vocabulary);
 
-export default function LingoSpacePro() {
+export default function LingoSpacePro({ mode: initialMode = 'dashboard' }) {
   // State Management
   const [mounted, setMounted] = useState(false);
-  const [currentMode, setCurrentMode] = useState('dashboard');
+  const [currentMode, setCurrentMode] = useState(initialMode);
   const [allData, setAllData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -134,6 +134,12 @@ export default function LingoSpacePro() {
       window.removeEventListener('changeMode', handleModeChange);
     };
   }, []);
+
+  // Keep the active view in sync when the parent passes a new mode
+  // (covers deep-links where the lazy component mounts after the event).
+  useEffect(() => {
+    if (initialMode) setCurrentMode(initialMode);
+  }, [initialMode]);
 
 
   useEffect(() => {

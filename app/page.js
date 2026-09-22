@@ -113,5 +113,7 @@ function LingoSpaceProWrapper({ mode }) {
     window.dispatchEvent(new CustomEvent('changeMode', { detail: mode }));
   }, [mode]);
 
-  return <LingoSpacePro />;
+  // Pass mode as a prop too: the lazy-loaded component may mount AFTER the
+  // event above fires, so the prop guarantees it starts on the right view.
+  return <LingoSpacePro mode={mode} />;
 }
