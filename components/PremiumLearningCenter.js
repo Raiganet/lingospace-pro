@@ -236,6 +236,8 @@ function MatchGame({ vocabulary }) {
   const [matched, setMatched] = useState([]);
   const [mistakes, setMistakes] = useState(0);
 
+  // `round` intentionally re-triggers a fresh shuffle each new round.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const words = useMemo(() => shuffle(vocabulary.filter((item) => item.en && item.id_lang)).slice(0, 6), [vocabulary, round]);
   const cards = useMemo(() => shuffle(words.flatMap((item) => [
     { key: `en-${item.id}`, id: item.id, side: 'en', text: item.en },
@@ -283,7 +285,7 @@ function ScrambleGame({ vocabulary }) {
     let mixed = shuffle(item.en.toUpperCase().split('')).join('');
     if (mixed === item.en.toUpperCase()) mixed = mixed.slice(1) + mixed[0];
     return mixed;
-  }, [item, seed]);
+  }, [item]);
 
   const check = () => {
     const correct = answer.trim().toLowerCase() === item?.en?.toLowerCase();
@@ -317,7 +319,7 @@ function SpeedGame({ vocabulary }) {
     if (!current) return [];
     const distractors = shuffle(pool.filter((item) => item.id !== current.id && item.id_lang !== current.id_lang)).slice(0, 3);
     return shuffle([current, ...distractors]);
-  }, [current, pool, round]);
+  }, [current, pool]);
 
   useEffect(() => {
     if (!running) return undefined;

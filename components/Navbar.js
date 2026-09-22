@@ -139,6 +139,8 @@ export default function Navbar({ activeMode = 'dashboard', onModeChange }) {
       <aside className="app-sidebar hidden lg:flex">
         <button type="button" onClick={() => selectMode('dashboard')} className="brand-lockup" aria-label="Buka Dashboard">
           <span className="brand-logo-wrap">
+            {/* Small local brand asset sized via CSS; next/image adds no value here. */}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/logo.png" alt="LingoSpace Pro" className="brand-logo" />
           </span>
           <span className="min-w-0 text-left">
@@ -195,6 +197,7 @@ export default function Navbar({ activeMode = 'dashboard', onModeChange }) {
             <Menu size={21} />
           </button>
           <button type="button" onClick={() => selectMode('dashboard')} className="brand-logo-mobile lg:hidden" aria-label="Dashboard">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/logo.png" alt="" />
           </button>
           <div className="min-w-0">

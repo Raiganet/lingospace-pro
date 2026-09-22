@@ -26,7 +26,7 @@ export default function LessonPractice({ type, lesson, allLessons = [], progress
       .map((item) => isEnglish ? (item.example_en || item.content_en) : (item.example_ar || item.content_ar))
       .filter(Boolean);
     return shuffle([correctText, ...shuffle(candidates).slice(0, 3)]);
-  }, [lesson?.id, correctText, allLessons, isEnglish]);
+  }, [lesson, correctText, allLessons, isEnglish]);
 
   if (!lesson) return null;
 

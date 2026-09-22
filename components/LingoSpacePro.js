@@ -160,6 +160,19 @@ export default function LingoSpacePro() {
     }
   };
 
+  const loadBookmarks = (vocabulary) => {
+    try {
+      const saved = JSON.parse(localStorage.getItem('lingospace_bookmarks') || '[]');
+      const normalized = normalizeBookmarkIds(saved, vocabulary);
+      setBookmarks(normalized);
+      localStorage.setItem('lingospace_bookmarks', JSON.stringify(normalized));
+      markSyncDirty('bookmarks-migration');
+    } catch (e) {
+      console.error('Error loading bookmarks:', e);
+      setBookmarks([]);
+    }
+  };
+
   // Load Data
   useEffect(() => {
     if (!mounted) return;
@@ -393,19 +406,6 @@ export default function LingoSpacePro() {
     window.addEventListener('lingospace:local-data-restored', handleRestoredData);
     return () => window.removeEventListener('lingospace:local-data-restored', handleRestoredData);
   }, [mounted, allData, englishLessons.length, nahwuLessons.length]);
-
-  const loadBookmarks = (vocabulary) => {
-    try {
-      const saved = JSON.parse(localStorage.getItem('lingospace_bookmarks') || '[]');
-      const normalized = normalizeBookmarkIds(saved, vocabulary);
-      setBookmarks(normalized);
-      localStorage.setItem('lingospace_bookmarks', JSON.stringify(normalized));
-      markSyncDirty('bookmarks-migration');
-    } catch (e) {
-      console.error('Error loading bookmarks:', e);
-      setBookmarks([]);
-    }
-  };
 
   const flipCard = () => setIsFlipped(!isFlipped);
   
